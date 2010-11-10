@@ -1,0 +1,82 @@
+<forecast seriesName="Polio">
+  <vaccine vaccineName="IPV" vaccineIds="147, 114, 115, 153, 116, 142"/>
+  <vaccine vaccineName="OPV" vaccineIds="148"/>
+  <vaccine vaccineName="Any" vaccineIds="147, 114, 115, 153, 148, 116, 142"/>
+  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
+    <valid age="6 weeks" interval="" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="2 months" interval="" grace=""/>
+    <overdue age="3 months" interval="" grace=""/>
+    <finished age="18 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="IPV" schedule="P2" age="" reason=""/>
+    <indicate vaccineName="OPV" schedule="R2" age="" reason="Oral vaccine given, switching to OPV only schedule."/>
+  </schedule>
+  <schedule scheduleName="P3" dose="3" indication="" label="6-18 months">
+    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="6 months" interval="" grace=""/>
+    <overdue age="19 months" interval="" grace=""/>
+    <finished age="18 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="IPV" schedule="P4" age="4 years" reason=""/>
+    <indicate vaccineName="IPV" schedule="COMPLETE" age="" reason="Vaccine given after 4 years of age completes the series, if 6 or more months have passed since previous dose."/>
+    <indicate vaccineName="OPV" schedule="P4" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="P2" dose="2" indication="" label="4 months">
+    <valid age="10 weeks" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="4 months" interval="" grace=""/>
+    <overdue age="5 months" interval="" grace=""/>
+    <finished age="18 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="IPV" schedule="P3" age="" reason=""/>
+    <indicate vaccineName="OPV" schedule="M3" age="" reason="Oral vaccine given, switching to mixed IPV/OPV schedule."/>
+  </schedule>
+  <schedule scheduleName="P4" dose="4" indication="" label="4-6 years">
+    <valid age="4 years" interval="6 months" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="4 years" interval="" grace=""/>
+    <overdue age="7 years" interval="" grace=""/>
+    <finished age="18 years" interval="" grace=""/>
+    <after-invalid interval="6 months" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Any" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="M3" dose="3" indication="" label="6-18 months OPV or IPV">
+    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="6 months" interval="" grace=""/>
+    <overdue age="19 months" interval="" grace=""/>
+    <finished age="18 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Any" schedule="P4" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="R3" dose="3" indication="" label="6-18 months OPV">
+    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="6 months" interval="" grace=""/>
+    <overdue age="19 months" interval="" grace=""/>
+    <finished age="18 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="OPV" schedule="P4" age="4 years" reason=""/>
+    <indicate vaccineName="OPV" schedule="COMPLETE" age="" reason="Vaccine given after 4 years of age completes the series."/>
+    <indicate vaccineName="IPV" schedule="P4" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="R2" dose="2" indication="" label="4 months OPV">
+    <valid age="10 weeks" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="4 months" interval="" grace=""/>
+    <overdue age="5 months" interval="" grace=""/>
+    <finished age="18 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="OPV" schedule="R3" age="" reason=""/>
+    <indicate vaccineName="IPV" schedule="M3" age="" reason="Inactivate polio dose given, switching to mixed IPV/OPV schedule."/>
+  </schedule>
+</forecast>

@@ -1,0 +1,58 @@
+<forecast seriesName="HepA">
+  <vaccine vaccineName="Child" vaccineIds="145, 1180, 1190, 1200"/>
+  <vaccine vaccineName="Adult" vaccineIds="1170"/>
+  <vaccine vaccineName="Twinrix" vaccineIds="146"/>
+  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1st">
+    <valid age="12 months" interval="" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="12 months" interval="" grace=""/>
+    <overdue age="24 months" interval="" grace=""/>
+    <finished age="150 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Child" schedule="P2" age="19 years" reason=""/>
+    <indicate vaccineName="Child" schedule="INVALID" age="" reason=""/>
+    <indicate vaccineName="Twinrix" schedule="INVALID" age="18 years" reason=""/>
+    <indicate vaccineName="Twinrix" schedule="A2" age="" reason="Switching to Twinrix 3 dose schedule."/>
+    <indicate vaccineName="Adult" schedule="INVALID" age="18 years" reason=""/>
+    <indicate vaccineName="Adult" schedule="P2" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="P2" dose="2" indication="" label="booster">
+    <valid age="18 months" interval="6 months" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="18 months" interval="" grace=""/>
+    <overdue age="42 months" interval="" grace=""/>
+    <finished age="150 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Child" schedule="COMPLETE" age="19 years" reason=""/>
+    <indicate vaccineName="Child" schedule="INVALID" age="" reason=""/>
+    <indicate vaccineName="Twinrix" schedule="INVALID" age="18 years" reason=""/>
+    <indicate vaccineName="Twinrix" schedule="A3" age="" reason="Switching to Twinrix 3 dose schedule."/>
+    <indicate vaccineName="Adult" schedule="INVALID" age="18 years" reason=""/>
+    <indicate vaccineName="Adult" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="A2" dose="2" indication="" label="2nd adult">
+    <valid age="" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="1 month" grace=""/>
+    <overdue age="" interval="2 months" grace=""/>
+    <finished age="150 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Child" schedule="INVALID" age="" reason=""/>
+    <indicate vaccineName="Twinrix" schedule="A3" age="" reason=""/>
+    <indicate vaccineName="Adult" schedule="A3" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="A3" dose="3" indication="" label="3rd adult">
+    <valid age="" interval="5 months" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="6 months" grace=""/>
+    <overdue age="" interval="7 months" grace=""/>
+    <finished age="150 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Twinrix" schedule="COMPLETE" age="" reason=""/>
+    <indicate vaccineName="Adult" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
+</forecast>

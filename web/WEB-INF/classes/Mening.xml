@@ -1,0 +1,26 @@
+<forecast seriesName="Mening">
+  <vaccine vaccineName="MCV4" vaccineIds="183, 184"/>
+  <vaccine vaccineName="MPSV4" vaccineIds="182"/>
+  <schedule scheduleName="A1" dose="1" indication="BIRTH" label="1st">
+    <valid age="11 years" interval="" grace="9 years"/>
+    <early age="" interval="" grace=""/>
+    <due age="11 years" interval="" grace=""/>
+    <overdue age="13 years" interval="" grace=""/>
+    <finished age="55 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="MPSV4" schedule="B1" age="" reason=""/>
+    <indicate vaccineName="MCV4" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="B1" dose="2" indication="" label="2nd">
+    <valid age="" interval="5 years" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="11 years" interval="" grace=""/>
+    <overdue age="13 years" interval="" grace=""/>
+    <finished age="55 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="MCV4" schedule="COMPLETE" age="" reason=""/>
+    <indicate vaccineName="MPSV4" schedule="INVALID" age="" reason=""/>
+  </schedule>
+</forecast>

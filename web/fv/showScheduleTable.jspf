@@ -1,0 +1,127 @@
+          
+          <table border="0" bgcolor="#EEEEEE">
+          <tr>
+          <td>
+          <table border="1" cellspacing="0" width="60%">
+            <tr>
+              <th>Schedule</th>
+              <td><%= schedule.getScheduleName() %></td>
+              <th>Dose</th>
+              <td><%= schedule.getDose() %></td>
+              <th>Indication</th>
+              <td><%= schedule.getIndication() %>&nbsp;</td>
+            </tr>
+          </table>
+          </td></tr>
+          <tr><td>
+          <table border="1" cellspacing="0">
+            <caption>Determine if dose is valid or when next is due</caption>
+            <tr>
+              <th></th>
+              <th>Age</th>
+              <th>Interval</th>
+              <th>Grace</th>
+              <% if (trace != null) {  %>
+                <th>Date</th>
+              <% } %>
+            </tr>
+            <tr>
+              <th>Valid</th>
+              <td <% if (trace != null && trace.getValidBecause().equals("AGE")) { %>bgcolor="#FFFF99"<% } %>><table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td><%= schedule.getValidAge() %>&nbsp;</td><td align="right"><font color="#0000FF"><%= schedule.getValidAge().isEmpty() ? "" : schedule.getValidAge().getDateTimeFrom(patient.getDob()).toString("M/D/Y") %></font></td></tr></table></td>
+              <td <% if (trace != null && trace.getValidBecause().equals("INTERVAL")) { %>bgcolor="#FFFF99"<% } %>><%= schedule.getValidInterval() %>&nbsp;</td>
+              <td><%= schedule.getValidGrace() %>&nbsp;</td>
+              <% if (trace != null) {  %>
+                <td><font color="#0000FF"><%= trace.getValidDate().toString("M/D/Y") %></font>&nbsp;</td>
+              <% } %>
+            </tr>
+            <tr>
+              <th>Due</th>
+              <td><table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td><%= schedule.getDueAge() %>&nbsp;</td><td align="right"><font color="#0000FF"><%= schedule.getDueAge().isEmpty() ? "" : schedule.getDueAge().getDateTimeFrom(patient.getDob()).toString("M/D/Y") %></font></td></tr></table></td>
+              <td><%= schedule.getDueInterval() %>&nbsp;</td>
+              <td>&nbsp;</td>
+              <% if (trace != null) {  %>
+                <td><font color="#0000FF"><%= trace.getDueDate().toString("M/D/Y") %></font>&nbsp;</td>
+              <% } %>
+            </tr>
+            <tr>
+              <th>Overdue</th>
+              <td><table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td><%= schedule.getOverdueAge() %>&nbsp;</td><td align="right"><font color="#0000FF"><%= schedule.getOverdueAge().isEmpty() ? "" : schedule.getOverdueAge().getDateTimeFrom(patient.getDob()).toString("M/D/Y") %></font></td></tr></table></td>
+              <td><%= schedule.getOverdueInterval() %>&nbsp;</td>
+              <td>&nbsp;</td>
+              <% if (trace != null) {  %>
+                <td><font color="#0000FF"><%= trace.getOverdueDate().toString("M/D/Y") %></font>&nbsp;</td>
+              <% } %>
+            </tr>
+            <tr>
+              <th>Finished</th>
+              <td><table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td><%= schedule.getFinishedAge() %>&nbsp;</td><td align="right"><font color="#0000FF"><%= schedule.getFinishedAge().isEmpty() ? "" : schedule.getFinishedAge().getDateTimeFrom(patient.getDob()).toString("M/D/Y") %></font></td></tr></table></td>
+              <td><%= schedule.getFinishedInterval() %>&nbsp;</td>
+              <td>&nbsp;</td>
+              <% if (trace != null) {  %>
+                <td><font color="#0000FF"><%= trace.getFinishedDate().toString("M/D/Y") %></font>&nbsp;</td>
+              <% } %>
+            </tr>
+            <tr>
+              <th colspan="2">After invalid dose</th>
+              <td <% if (trace != null && trace.getValidBecause().equals("INVALID")) { %>bgcolor="#FFFF99"<% } %>><%= schedule.getAfterInvalidInterval() %>&nbsp;</td>
+              <td><%= schedule.getAfterInvalidGrace() %>&nbsp;</td>
+              <% if (trace != null) {  %>
+                <td>&nbsp;</td>
+              <% } %>
+            </tr>
+            <tr>
+              <th colspan="2">After contra dose</th>
+              <td <% if (trace != null && trace.getValidBecause().equals("CONTRA")) { %>bgcolor="#FFFF99"<% } %>><%= schedule.getAfterContraInterval() %>&nbsp;</td>
+              <td><%= schedule.getAfterContraGrace() %>&nbsp;</td>
+              <% if (trace != null) {  %>
+                <td>&nbsp;</td>
+              <% } %>
+            </tr>
+            <tr>
+              <th colspan="2">Dose before previous</th>
+              <td <% if (trace != null && trace.getValidBecause().equals("BEFORE")) { %>bgcolor="#FFFF99"<% } %>><%= schedule.getBeforePreviousInterval() %>&nbsp;</td>
+              <td><%= schedule.getBeforePreviousGrace() %>&nbsp;</td>
+              <% if (trace != null) {  %>
+                <td>&nbsp;</td>
+              <% } %>
+            </tr>
+          </table>
+          </td></tr>
+          <% if (trace != null) {  %>
+            <tr>
+              <td>
+                <font color="#0000FF"><%= trace.getValidReason() %></font>
+              </td>
+            </tr>
+          <% } %>
+          <tr><td>
+          <table border="1" cellspacing="0">
+            <caption>If valid, pick the next schedule to use</caption>
+            <tr>
+              <th>Vaccine</th>
+              <th>Schedule</th>
+              <th>Before Age</th>
+              <th>Min Int</th>
+              <th>Max Int</th>
+              <th>Reason</th>
+            </tr>
+            <% schedule.getIndicates();
+            for (int ind = 0; ind < schedule.getIndicates().length; ind++)
+            {
+            %>
+              <tr>
+                <td><%= schedule.getIndicates()[ind].getVaccineName() %>&nbsp;</td>
+                <% if (schedule.getIndicates()[ind].getScheduleName().equals("COMPLETE") || schedule.getIndicates()[ind].getScheduleName().equals("INVALID")|| schedule.getIndicates()[ind].getScheduleName().equals("CONTRA")) {  %>
+                  <td><%= schedule.getIndicates()[ind].getScheduleName() %>&nbsp;</td>
+                <% } else {  %>
+                  <td><a href="#<%= schedule.getVaccineForecast().getForecastCode() %>.<%= schedule.getIndicates()[ind].getScheduleName() %>"><%= schedule.getIndicates()[ind].getScheduleName() %></a>&nbsp;</td>
+                <% } %>
+                <td><table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td><%= schedule.getIndicates()[ind].getAge() %>&nbsp;</td><td align="right"><font color="#0000FF"><%= schedule.getIndicates()[ind].getAge().isEmpty() ? "" : schedule.getIndicates()[ind].getAge().getDateTimeFrom(patient.getDob()).toString("M/D/Y") %></font></td></tr></table></td>
+                <td><%= schedule.getIndicates()[ind].getMinInterval() %>&nbsp;</td>
+                <td><%= schedule.getIndicates()[ind].getMaxInterval() %>&nbsp;</td>
+                <td><%= schedule.getIndicates()[ind].getReason() %>&nbsp;</td>
+              </tr>
+            <% 
+            } %>
+          </table>
+          </td></tr></table>
