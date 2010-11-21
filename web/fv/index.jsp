@@ -68,7 +68,7 @@
     }
     %>
     <h3>Login</h3>
-    <form>
+    <form action="login.jsp">
     Your Name
     <input type="text" name="userName" value="<%= userName %>"/>
     <input type="submit" name="action" value="Login"/>
