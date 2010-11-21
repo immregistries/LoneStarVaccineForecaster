@@ -189,3 +189,8 @@ INSERT INTO forecast_antigen (forecast_code, forecast_label, sort_order) VALUES
 ('Mening', 'MCV4', 13),
 ('HepA', 'HepA', 14),
 ('HPV', 'HPV', 15);
+
+
+create table test_user (
+user_name VARCHAR(40)
+);
