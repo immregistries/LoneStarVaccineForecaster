@@ -3,7 +3,9 @@
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
 
-<%@page import="java.net.URLEncoder"%><html>
+<%@page import="java.net.URLEncoder"%>
+
+<html>
   <head>
   <title>Forecaster Validator</title>
   </head>
@@ -14,12 +16,14 @@
     PreparedStatement pstmt = null;
     try { 
     
-      String userName = request.getParameter("userName");
-      if (userName == null)
+      String userName = (String)session.getAttribute("userName");
+      if (userName == null || userName.equals(""))
       {
-        userName = "";
-      }
-      if (!userName.equals("")) 
+		System.out.println("being redirected..");
+		RequestDispatcher dispatcher =request.getRequestDispatcher("login.jsp");
+		dispatcher.forward(request, response);
+		/*response.sendRedirect("login.jsp");*/
+      }else if (!"".equals(userName)) 
       {
         %>
           <p><strong><font color="#CC3333" size="+1">Welcome <%= userName %></font></strong></p>
