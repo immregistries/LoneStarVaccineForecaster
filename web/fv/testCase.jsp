@@ -26,7 +26,7 @@ if (action == null)
 {
   action = "";
 }
-
+String url;
 Connection conn = DatabasePool.getConnection();
 PreparedStatement pstmt = null;
 try {
@@ -149,7 +149,13 @@ try {
       pstmt.setString(2, caseId);
       pstmt.executeUpdate();
       pstmt.close();
-    }
+    }else if (action.equals("CT_EXPECTED")||
+					action.equals("TCH_EXPECTED") ||
+					action.equals("TCH_ACTUAL") ||
+					action.equals("MCIR_ACTUAL")
+		){
+		org.tch.forecast.core.ForecastComparisonSaver.saveForecast(request);
+	}
     if (noteText != null && !noteText.equals("")) 
     {
       sql = "INSERT INTO test_note (case_id, entity_id, user_name, note_text, note_date) VALUES (?, 2, ?, ?, NOW())";
@@ -278,6 +284,7 @@ while (rset.next()) {
           <th>Valid</th>
           <th>Due</th>
           <th>Overdue</th>
+		  <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
         </tr>
         <%
         String doseNumberActual = "COMP";
@@ -285,9 +292,10 @@ while (rset.next()) {
         String dueDateActual = "";
         String overdueDateActual = "";
         DateTime today = new DateTime("today");
+		ImmunizationForecastDataBean forecast = null;
         for (Iterator it = resultList.iterator(); it.hasNext(); )
         {  
-          ImmunizationForecastDataBean forecast = (ImmunizationForecastDataBean) it.next();
+          forecast = (ImmunizationForecastDataBean) it.next();
           String forecastLabel = forecast.getForecastLabel();
           if (forecastLabel.equals("DTaP/Tdap"))
           {
@@ -367,6 +375,22 @@ while (rset.next()) {
           <td bgcolor="<%= validDateCompare.equals(validDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= validDateCompare %>&nbsp;</td>
           <td bgcolor="<%= dueDateCompare.equals(dueDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= dueDateCompare %>&nbsp;</td>
           <td bgcolor="<%= overdueDateCompare.equals(overdueDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= overdueDateCompare %>&nbsp;</td>
+		  <td>
+				<%  url = new String("editActuals.jsp?");
+		
+				url = url + "action=CT_EXPECTED";
+				url = url + "&caseId=" + caseId;
+				url = url + "&dose=" + doseNumberCompare;
+				url = url + "&valid_date=" + validDateCompare;
+				url = url + "&due_date=" + dueDateCompare;
+				url = url + "&overdue_date=" + overdueDateCompare;
+				url = url + "&userName=" + URLEncoder.encode(userName, "UTF-8");
+				url = url + "&header=" + URLEncoder.encode(rset2.getString(2) + " Expected", "UTF-8");
+				url = url + "&line_code=" + URLEncoder.encode(lineCode, "UTF-8");
+
+				%>
+			  <a href="<%= url %>" title="Edit" target="_blank" >Edit</a>
+		  </td>
         </tr>
         <% } %>
         <tr>
@@ -375,6 +399,22 @@ while (rset.next()) {
           <td bgcolor="<%= validDateExpected.equals(validDateActual) ? "#FFFF99" : "#FF9933" %>"><%= validDateExpected %>&nbsp;</td>
           <td bgcolor="<%= dueDateExpected.equals(dueDateActual) ? "#FFFF99" : "#FF9933" %>"><%= dueDateExpected %>&nbsp;</td>
           <td bgcolor="<%= overdueDateExpected.equals(overdueDateActual) ? "#FFFF99" : "#FF9933" %>"><%= overdueDateExpected %>&nbsp;</td>
+		   <td>
+				<%  url = new String("editActuals.jsp?");
+		
+				url = url + "action=TCH_EXPECTED";
+				url = url + "&caseId=" + caseId;
+				url = url + "&dose=" + doseNumberExpected;
+				url = url + "&valid_date=" + validDateExpected;
+				url = url + "&due_date=" + dueDateExpected;
+				url = url + "&overdue_date=" + overdueDateExpected;
+				url = url + "&userName=" + URLEncoder.encode(userName, "UTF-8");
+				url = url + "&header=" + URLEncoder.encode("TCH Expected", "UTF-8");
+				url = url + "&line_code=" + URLEncoder.encode(lineCode, "UTF-8");
+
+				%>
+			  <a href="<%= url %>" title="Edit" target="_blank" >Edit</a>
+		  </td>
         </tr>
         <tr>
           <td bgcolor="#FFFF99">TCH Actual&nbsp;</td>
@@ -382,6 +422,27 @@ while (rset.next()) {
           <td bgcolor="#FFFF99"><%= validDateActual %>&nbsp;</td>
           <td bgcolor="#FFFF99"><%= dueDateActual %>&nbsp;</td>
           <td bgcolor="#FFFF99"><%= overdueDateActual %>&nbsp;</td>
+		<!--  <td>
+				<%  url = new String("editActuals.jsp?");
+			  validDateActual = new DateTime(forecast.getValid()).toString("M/D/Y");
+              dueDateActual = new DateTime(forecast.getDue()).toString("M/D/Y");
+              overdueDateActual = new DateTime(forecast.getOverdue()).toString("M/D/Y");
+              doseNumberActual = forecast.getDose();
+
+				url = url + "action=TCH_ACTUAL";
+				url = url + "&caseId=" + caseId;
+				url = url + "&dose=" + doseNumberActual;
+				url = url + "&valid_date=" + validDateActual;
+				url = url + "&due_date=" + dueDateActual;
+				url = url + "&overdue_date=" + overdueDateActual;
+				url = url + "&userName=" + URLEncoder.encode(userName, "UTF-8");
+				url = url + "&header=" + URLEncoder.encode("TCH Actual", "UTF-8");
+				url = url + "&line_code=" + URLEncoder.encode(lineCode, "UTF-8");
+
+
+				%>
+			  <a href="<%= url %>" title="Edit" target="_blank" >Edit</a>
+		  </td> -->
         </tr>
         <%
         rset2.close();
@@ -419,11 +480,26 @@ while (rset.next()) {
           <td bgcolor="<%= validDateCompare.equals(validDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= validDateCompare %>&nbsp;</td>
           <td bgcolor="<%= dueDateCompare.equals(dueDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= dueDateCompare %>&nbsp;</td>
           <td bgcolor="<%= overdueDateCompare.equals(overdueDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= overdueDateCompare %>&nbsp;</td>
+		  	  <td>
+				<%  url = new String("editActuals.jsp?");
+				url = url + "action=MCIR_ACTUAL";
+				url = url + "&caseId=" + caseId;
+				url = url + "&dose=" + doseNumberCompare;
+				url = url + "&valid_date=" + validDateCompare;
+				url = url + "&due_date=" + dueDateCompare;
+				url = url + "&overdue_date=" + overdueDateCompare;
+				url = url + "&userName=" + URLEncoder.encode(userName, "UTF-8");
+				url = url + "&header=" + URLEncoder.encode(rset2.getString(2) + "Actual", "UTF-8");
+				url = url + "&line_code=" + URLEncoder.encode(lineCode, "UTF-8");
+
+				%>
+			  <a href="<%= url %>" title="Edit" target="_blank" >Edit</a>
+		  </td>
         </tr>
         <% } %>
         
       </table>
-      
+      <!--
       <form>
         <table>
         <tr>
@@ -445,7 +521,7 @@ while (rset.next()) {
           </tr>
         </table>
         <input type="submit" name="action" value="Change Expected">
-      </form>
+      </form> -->
 
       
     <% } %>
