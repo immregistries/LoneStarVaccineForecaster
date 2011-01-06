@@ -389,7 +389,7 @@ while (rset.next()) {
 				url = url + "&line_code=" + URLEncoder.encode(lineCode, "UTF-8");
 
 				%>
-			  <a href="<%= url %>" title="Edit" target="_blank" >Edit</a>
+			  <a href="<%= url %>" title="Edit" >Edit</a>
 		  </td>
         </tr>
         <% } %>
@@ -413,7 +413,7 @@ while (rset.next()) {
 				url = url + "&line_code=" + URLEncoder.encode(lineCode, "UTF-8");
 
 				%>
-			  <a href="<%= url %>" title="Edit" target="_blank" >Edit</a>
+			  <a href="<%= url %>" title="Edit" >Edit</a>
 		  </td>
         </tr>
         <tr>
@@ -493,7 +493,7 @@ while (rset.next()) {
 				url = url + "&line_code=" + URLEncoder.encode(lineCode, "UTF-8");
 
 				%>
-			  <a href="<%= url %>" title="Edit" target="_blank" >Edit</a>
+			  <a href="<%= url %>" title="Edit" >Edit</a>
 		  </td>
         </tr>
         <% } %>
