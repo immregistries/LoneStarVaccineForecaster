@@ -91,7 +91,7 @@
     <indicate vaccineName="Td" schedule="R4" age="6 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Td" schedule="A3" age="7 years" reason=""/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
-    <indicate vaccineName="Adult" schedule="A3" age="" reason="Changing to adult vaccine schedule."/>
+    <indicate vaccineName="Adult" schedule="B6" age="" reason="Changing to adult vaccine schedule."/>
   </schedule>
   <schedule scheduleName="B5" dose="5" indication="" label="booster (5th)">
     <valid age="4 years" interval="6 months" grace=""/>
