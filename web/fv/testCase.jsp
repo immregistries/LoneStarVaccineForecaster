@@ -154,7 +154,7 @@ try {
 					action.equals("TCH_ACTUAL") ||
 					action.equals("MCIR_ACTUAL")
 		){
-		org.tch.forecast.core.ForecastComparisonSaver.saveForecast(request);
+		org.tch.forecast.validator.ForecastComparisonSaver.saveForecast(request);
 	}
     if (noteText != null && !noteText.equals("")) 
     {
