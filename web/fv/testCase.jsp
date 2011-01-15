@@ -284,7 +284,7 @@ while (rset.next()) {
           <th>Valid</th>
           <th>Due</th>
           <th>Overdue</th>
-		  <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+		  <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
         </tr>
         <%
         String doseNumberActual = "COMP";
