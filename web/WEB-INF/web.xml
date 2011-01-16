@@ -11,7 +11,17 @@
   <!-- // -->
   
   <!-- Standard Action Servlet Configuration (with debugging) -->
-  
+	
+	<servlet>
+        <servlet-name>action</servlet-name>
+        <servlet-class>org.tch.forecast.action.ActionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>action</servlet-name>
+        <url-pattern>*.action</url-pattern>
+    </servlet-mapping>	 
+
+
   <session-config>
       <session-timeout>20</session-timeout>    
     </session-config>
