@@ -194,7 +194,15 @@ try {
   </tr>
   <tr>
     <th align="left">Patient&nbsp;</th>
-    <td><%= rset.getString(6) %>, <%= rset.getString(5) %> (<%= rset.getString(8) %>) dob <%= rset.getString(7) %></td>
+    <td><%= rset.getString(6) == null ? "" : rset.getString(6) %>, <%= rset.getString(5) == null ? "" : rset.getString(5) %>
+	(<%= rset.getString(8) == null ? "" : rset.getString(8) %>) dob <%= rset.getString(7) == null ? "":rset.getString(7) %>
+	&nbsp;
+	<%  String editurl = new String("editTestCase.jsp?");
+				editurl = editurl + "case_id=" + caseId;
+				editurl = editurl + "&userName=" + URLEncoder.encode(userName, "UTF-8");
+	%>
+	<a href="<%= editurl %>" title="Edit" >Edit</a>
+	</td>
   </tr>
   <tr>
     <th align="left">Status&nbsp;</th>
