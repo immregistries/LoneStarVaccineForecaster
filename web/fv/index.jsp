@@ -2,7 +2,6 @@
 <%@page import="org.tch.forecast.validator.db.DatabasePool"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
-
 <%@page import="java.net.URLEncoder"%>
 
 <html>
@@ -11,6 +10,7 @@
   </head>
   <body>
     <h1>Forecaster Validator</h1>
+
     <% 
     Connection conn = DatabasePool.getConnection();
     PreparedStatement pstmt = null;
@@ -25,9 +25,17 @@
 		/*response.sendRedirect("login.jsp");*/
       }else if (!"".equals(userName)) 
       {
-        %>
-          <p><strong><font color="#CC3333" size="+1">Welcome <%= userName %></font></strong></p>
+
+	   %>
+		<%
+		String  addURL = new String("addTestCase.jsp?");
+		addURL = addURL + "userName=" + URLEncoder.encode(userName, "UTF-8");
+		%>
+			  
+		 <p><strong><font color="#CC3333" size="+1">Welcome <%= userName %></font></strong></p>
+		  <a href="<%= addURL %>" title="Add Test Case">Add Test Case</a>
         <%
+	  String editurl = null;	
       String sql = "select tg.group_label, tc.case_id, tc.case_label, tc.case_description, ts.status_label \n" + 
         "from test_case tc, test_group tg, test_status ts \n" + 
         "where tc.group_code = tg.group_code \n" +
@@ -49,6 +57,7 @@
                <th>Test Case</th>
                <th>Test Status</th>
                <th>Description</th>
+			   <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
              </tr>
           <%
           lastGroupLabel = rset.getString(1);
@@ -58,6 +67,14 @@
           <td><a href="testCase.jsp?caseId=<%= rset.getString(2) %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>"><%= rset.getString(3) %></a></td>
           <td bgcolor="<%= rset.getString(5).equals("Fail") ? "#CC3333" : ((rset.getString(5).equals("Pass") || rset.getString(5).equals("Accept")) ? "#99FF99" : (rset.getString(5).equals("Fixed") ? "#FF9933" : "#FFFFFF")) %>"><%= rset.getString(5) %></td>
           <td><%= rset.getString(4) %></td>
+		  <td>
+		  <%   editurl = new String("deleteTestCase.action?");
+			   editurl = editurl + "action=" + URLEncoder.encode("Delete Test Case", "UTF-8");
+			   editurl = editurl + "&case_id=" + rset.getString(2);
+			   editurl = editurl + "&userName=" + URLEncoder.encode(userName, "UTF-8");
+		   %>
+		   <a href="<%= editurl %>" title="Delete" >Delete</a>
+		  </td>
         </tr>
         <%
       }
