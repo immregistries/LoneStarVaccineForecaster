@@ -28,7 +28,7 @@
 
 	   %>
 		<%
-		String  addURL = new String("addTestCase.jsp?");
+		String  addURL = new String("editTestCase.jsp?");
 		addURL = addURL + "userName=" + URLEncoder.encode(userName, "UTF-8");
 		%>
 			  
@@ -66,7 +66,7 @@
           <td><a href="testCase.jsp?caseId=<%= rset.getString(2) %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>"><%= rset.getString(3) %></a></td>
           <td bgcolor="<%= rset.getString(5).equals("Fail") ? "#CC3333" : ((rset.getString(5).equals("Pass") || rset.getString(5).equals("Accept")) ? "#99FF99" : (rset.getString(5).equals("Fixed") ? "#FF9933" : "#FFFFFF")) %>"><%= rset.getString(5) %></td>
           <td><%= rset.getString(4) %></td>
-		</tr>
+	    </tr>
         <%
       }
     %>

@@ -196,12 +196,6 @@ try {
     <th align="left">Patient&nbsp;</th>
     <td><%= rset.getString(6) == null ? "" : rset.getString(6) %>, <%= rset.getString(5) == null ? "" : rset.getString(5) %>
 	(<%= rset.getString(8) == null ? "" : rset.getString(8) %>) dob <%= rset.getString(7) == null ? "":rset.getString(7) %>
-	&nbsp;
-	<%  String editurl = new String("editTestCase.jsp?");
-				editurl = editurl + "case_id=" + caseId;
-				editurl = editurl + "&userName=" + URLEncoder.encode(userName, "UTF-8");
-	%>
-	<a href="<%= editurl %>" title="Edit" >Edit</a>
 	</td>
   </tr>
   <tr>
@@ -213,10 +207,14 @@ try {
 			   deleteurl = deleteurl + "action=" + URLEncoder.encode("Delete Test Case", "UTF-8");
 			   deleteurl = deleteurl + "&case_id=" + caseId;
 			   deleteurl = deleteurl + "&userName=" + URLEncoder.encode(userName, "UTF-8");
+	String editTesturl = new String("editTestCase.jsp?");
+				editTesturl = editTesturl + "case_id=" + caseId;
+				editTesturl = editTesturl + "&userName=" + URLEncoder.encode(userName, "UTF-8");
 %>
 <p>
 [<a href="index.jsp?userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Back to Home</a>] 
 [<a href="showSchedule.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Forecast Trace</a>]
+[<a href=" <%= editTesturl %>">Edit Test Case</a>]
 [<a href=" <%= deleteurl %>">Delete Test Case</a>]
 </p>
   <%

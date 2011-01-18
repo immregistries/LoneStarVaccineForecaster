@@ -1,17 +1,24 @@
 <%@page import="java.sql.Connection"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="org.tch.forecast.validator.db.DatabasePool"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.net.URLEncoder"%>
 
 
+<% 
+boolean isEdit = request.getParameter("case_id") != null && !"".equals(request.getParameter("case_id"));
+%>
 <html>
 <head>
-<title>Edit Actuals</title>
+<title>
+	<%=isEdit ? "Edit Test Case" : "Add Test Case" %>
+</title>
 </head>
 <body>
+<h1><%=isEdit ? "Edit Test Case" : "Add Test Case" %></h1>
 
-<h1><%= "Edit Test Case"%></h1>
 <%
 String errorMsg = (String)request.getAttribute("error_message");
 if(errorMsg != null && !"".equals(errorMsg)){
@@ -20,20 +27,27 @@ if(errorMsg != null && !"".equals(errorMsg)){
 <%}%>
 
 <%
-	String lastName = "", firstName = "", sex = "", dob = "";
+	Connection conn = DatabasePool.getConnection();
+	PreparedStatement pstmt = null;
+	ResultSet rset = null;
+	String lastName = "", firstName = "", sex = "", dob = "", name = "", descr="" , groupCode="";
 	if(errorMsg != null && !"".equals(errorMsg)){
+		name	= request.getParameter("case_label");
+		descr	= request.getParameter("case_description");
+		groupCode	= request.getParameter("group_code");
 		lastName	= request.getParameter("patient_last");
 		firstName	= request.getParameter("patient_first");
 		sex			= request.getParameter("patient_sex");
 		dob			= request.getParameter("patient_dob");	
-	}else{
-		Connection conn = DatabasePool.getConnection();
-		PreparedStatement pstmt = null;
-		pstmt = conn.prepareStatement("select patient_first,patient_last,patient_sex,date_format(patient_dob, '%m/%d/%Y') as patient_dob " 
-		+ "from test_case where case_id = ? ");
+	}else if(isEdit){
+		pstmt = conn.prepareStatement("select case_label,case_description, group_code,patient_first,patient_last,patient_sex,"
+		+ "date_format(patient_dob, '%m/%d/%Y') as patient_dob  from test_case where case_id = ? ");
 		pstmt.setInt(1,new Integer(request.getParameter("case_id")).intValue());
-		ResultSet rset = pstmt.executeQuery();
+		rset = pstmt.executeQuery();
 		if(rset.next()){
+			name		= rset.getString("case_label");
+			descr		= rset.getString("case_description");
+			groupCode	= rset.getString("group_code");
 			lastName	= rset.getString("patient_last");
 			firstName	= rset.getString("patient_first");
 			sex			= rset.getString("patient_sex");
@@ -41,6 +55,26 @@ if(errorMsg != null && !"".equals(errorMsg)){
 		}
 		rset.close();
 		pstmt.close();
+	}
+	
+	pstmt = conn.prepareStatement("select group_code,group_label from test_group");
+	rset = pstmt.executeQuery();
+	HashMap groupCodeMap = new HashMap();
+	while(rset.next()){
+		groupCodeMap.put(rset.getString("group_code"),rset.getString("group_label"));
+	}
+	rset.close();
+	pstmt.close();
+	conn.close();
+
+	if(name == null){
+		name = "";
+	}
+	if(descr == null){
+		descr = "";
+	}
+	if(groupCode == null){
+		groupCode = "";
 	}
 	if(lastName == null){
 		lastName = "";
@@ -58,11 +92,44 @@ if(errorMsg != null && !"".equals(errorMsg)){
 
 <form method="post" action="editTest.action">
 <table>
-		<input type="hidden" name="action" value="<%="Edit Test Case" %>"/>		
+		<input type="hidden" name="action" value="<%=isEdit ? "Edit Test Case" : "Add Test Case" %>"/>		
 		<input type="hidden" name="userName" value="<%=request.getParameter("userName")==null ? "" : request.getParameter("userName") %>"/>
+		<% if(isEdit){ %>
 		<input type="hidden" name="case_id" value="<%=request.getParameter("case_id")==null ? "" : request.getParameter("case_id") %>"/>
 		<input type="hidden" name="caseId" value="<%=request.getParameter("case_id")==null ? "" : request.getParameter("case_id") %>"/>
+		<% } %>
 
+		<tr>
+			<td align="right">Name:</td>
+			<td align="left">
+				<input type="text" name="case_label" id="case_label" size="100" maxlength="100" 
+				value="<%=name%>"/>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">Description:</td>
+			<td align="left">
+				<textarea name="case_description" id="case_description" rows=5 cols="100" size="4000" maxlength="4000" ><%=descr.trim() %></textarea>
+			</td>
+		</tr> 
+		<tr>
+			<td align="right">Category:</td>
+			<td align="left">
+			 <select name="group_code">
+					<%
+					boolean isValueSet = false;
+					for(Object testGroupCode : groupCodeMap.keySet()){ 
+						if(testGroupCode.equals(groupCode)){
+							
+					%>
+							<option value="<%=testGroupCode%>" selected="selected" ><%= groupCodeMap.get(testGroupCode) %></option>
+						<%}else{%>
+							<option value="<%=testGroupCode%>"><%=groupCodeMap.get(testGroupCode) %></option>
+						<%}
+					}%>
+			</select>
+			</td>
+		</tr>
 		<tr>
 			<td align="right">Last Name:</td>
 			<td align="left">
