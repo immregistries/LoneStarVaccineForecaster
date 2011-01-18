@@ -209,7 +209,16 @@ try {
     <td><%= rset.getString(10) %> ... change status to: <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=PASS">pass</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=ACC">accept</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=RES">research</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=FAIL">fail</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=FIX">fixed</a></td>
   </tr>
 </table>
-<p>[<a href="index.jsp?userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Back to Home</a>] [<a href="showSchedule.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Forecast Trace</a>]</p>
+<%   String deleteurl = new String("deleteTestCase.action?");
+			   deleteurl = deleteurl + "action=" + URLEncoder.encode("Delete Test Case", "UTF-8");
+			   deleteurl = deleteurl + "&case_id=" + caseId;
+			   deleteurl = deleteurl + "&userName=" + URLEncoder.encode(userName, "UTF-8");
+%>
+<p>
+[<a href="index.jsp?userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Back to Home</a>] 
+[<a href="showSchedule.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Forecast Trace</a>]
+[<a href=" <%= deleteurl %>">Delete Test Case</a>]
+</p>
   <%
   sql = "SELECT tv.cvx_code, cvx.cvx_label, date_format(admin_date, '%m/%d/%Y'), mvx_code, cvx.vaccine_id \n" + 
     "FROM test_vaccine tv, vaccine_cvx cvx \n" +

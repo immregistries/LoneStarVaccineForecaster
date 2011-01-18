@@ -57,7 +57,6 @@
                <th>Test Case</th>
                <th>Test Status</th>
                <th>Description</th>
-			   <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
              </tr>
           <%
           lastGroupLabel = rset.getString(1);
@@ -67,15 +66,7 @@
           <td><a href="testCase.jsp?caseId=<%= rset.getString(2) %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>"><%= rset.getString(3) %></a></td>
           <td bgcolor="<%= rset.getString(5).equals("Fail") ? "#CC3333" : ((rset.getString(5).equals("Pass") || rset.getString(5).equals("Accept")) ? "#99FF99" : (rset.getString(5).equals("Fixed") ? "#FF9933" : "#FFFFFF")) %>"><%= rset.getString(5) %></td>
           <td><%= rset.getString(4) %></td>
-		  <td>
-		  <%   editurl = new String("deleteTestCase.action?");
-			   editurl = editurl + "action=" + URLEncoder.encode("Delete Test Case", "UTF-8");
-			   editurl = editurl + "&case_id=" + rset.getString(2);
-			   editurl = editurl + "&userName=" + URLEncoder.encode(userName, "UTF-8");
-		   %>
-		   <a href="<%= editurl %>" title="Delete" >Delete</a>
-		  </td>
-        </tr>
+		</tr>
         <%
       }
     %>
