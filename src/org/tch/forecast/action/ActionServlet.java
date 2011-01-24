@@ -21,14 +21,28 @@ public class ActionServlet extends HttpServlet
       java.io.IOException
   {
     String action = req.getParameter("action");
-    if("Edit Test Case".equals(action) ||
-        "Add Test Case".equals(action)){
+    if ("Edit Test Case".equals(action) || "Add Test Case".equals(action))
+    {
       TestCaseUpdateAction testUpdateAction = new TestCaseUpdateAction();
-      testUpdateAction.update(req,res);
-    }else if("Delete Test Case".equals(action)){
+      testUpdateAction.update(req, res);
+    } else if ("Delete Test Case".equals(action))
+    {
       TestCaseDeleteAction testCaseDeleteAction = new TestCaseDeleteAction();
-      testCaseDeleteAction.delete(req,res);
+      testCaseDeleteAction.delete(req, res);
+    } else if ("Add Vaccine".equals(action))
+    {
+      VaccineAddAction vaccineAddAction = new VaccineAddAction();
+      vaccineAddAction.add(req, res);
+    } else if ("Add VaccineTest".equals(action) || "Edit VaccineTest".equals(action))
+    {
+      VaccineCaseActionModel vaccineCaseAddAction = new VaccineCaseActionModel();
+      vaccineCaseAddAction.add(req, res);
+    } else if ("Delete VaccineTest".equals(action))
+    {
+      VaccineCaseActionModel vaccineCaseAddAction = new VaccineCaseActionModel();
+      vaccineCaseAddAction.delete(req, res);
     }
+
   }
 
 }
