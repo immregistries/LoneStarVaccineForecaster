@@ -82,7 +82,7 @@ public class VaccineAddAction
       }
       pstmt = StmtHelper.genInsert(conn, "vaccine_cvx", model, null);
       pstmt.execute();
-      RequestDispatcher dispatcher = req.getRequestDispatcher("testCase.jsp?caseId=" + req.getParameter("case_id"));
+      RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
       dispatcher.forward(req, resp);
     } catch (Exception ex)
     {

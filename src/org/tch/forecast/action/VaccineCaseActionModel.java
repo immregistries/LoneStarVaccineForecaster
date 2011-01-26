@@ -249,4 +249,31 @@ public class VaccineCaseActionModel
     }
     return new java.sql.Date(cal.getTimeInMillis());
   }
+
+  public static Integer getVaccineID(Connection conn, String cvxCode) throws Exception
+  {
+    Integer vaccineId = null;
+    PreparedStatement pstmt = null;
+    ResultSet rset = null;
+    try
+    {
+      pstmt = null;
+      pstmt = conn.prepareStatement("select cvx_code,  cvx_label,  vaccine_id from vaccine_cvx where cvx_code = ? and vaccine_id <> null");
+      rset = pstmt.executeQuery();
+      pstmt.setString(1, cvxCode);
+      if (rset.next())
+      {
+        vaccineId = new Integer(rset.getInt("vaccine_id"));
+      }
+    } finally
+    {
+      if (rset != null)
+        rset.close();
+      if (pstmt != null)
+        pstmt.close();
+
+    }
+    return vaccineId;
+
+  }
 }
