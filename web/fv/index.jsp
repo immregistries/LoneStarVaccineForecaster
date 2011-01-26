@@ -33,7 +33,11 @@
 		%>
 			  
 		 <p><strong><font color="#CC3333" size="+1">Welcome <%= userName %></font></strong></p>
-		  <a href="<%= addURL %>" title="Add Test Case">Add Test Case</a>
+		 [<a href="<%= addURL %>" title="Add Test Case">Add Test Case</a>]
+		 <%  String addvaccine = new String("addVaccine.jsp?");
+					addvaccine = addvaccine + "&userName=" + URLEncoder.encode(userName, "UTF-8");
+		 %>
+		[<a href="<%= addvaccine %>" title="Add Vaccine" >Add Vaccine</a>]
         <%
 	  String editurl = null;	
       String sql = "select tg.group_label, tc.case_id, tc.case_label, tc.case_description, ts.status_label \n" + 

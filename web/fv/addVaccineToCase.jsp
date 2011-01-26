@@ -36,22 +36,6 @@
 
 <script type="text/JavaScript">
 
-function setVaccineID(cvxCode, vaccineId){
-			<%
-			Set valueSet = codeMap.keySet();
-			Object[] value = null;
-			Iterator itr = valueSet.iterator();
-			while(itr.hasNext()){
-				value = (Object[]) codeMap.get(itr.next());
-			%>
-				if(cvxCode.value == '<%=value[0]%>'){
-					vaccineId.value = '<%=value[2]%>';
-					vaccineId.focus();
-				}
-
-			<%}
-			%>
-}
 </script>
 
 
@@ -79,7 +63,7 @@ if(errorMsg != null && !"".equals(errorMsg)){
 		<tr>
 			<td align="right">CVX:</td>
 			<td align="left">
-			 <select name="cvx_code" onchange="setVaccineID(document.forms[0].cvx_code,document.forms[0].vaccine_id)">
+			 <select name="cvx_code">
 					<%
 					boolean isValueSet = false;
 					for(Object testGroupCode : codeMap.keySet()){ 
@@ -94,13 +78,13 @@ if(errorMsg != null && !"".equals(errorMsg)){
 			</select>
 			</td>
 		</tr>
-		<tr>
+		<!--<tr>
 			<td align="right">TCH:</td>
 			<td align="left">
 				<input type="text" name="vaccine_id" id="vaccine_id" size="11" maxlength="11" 
 				value="<%=request.getParameter("vaccine_id")==null ? "" : request.getParameter("vaccine_id") %>" readonly/>
 			</td>
-		</tr> 
+		</tr> -->
 		<tr>
 			<td align="right">MVX:</td>
 			<td align="left">
@@ -109,7 +93,7 @@ if(errorMsg != null && !"".equals(errorMsg)){
 			</td>
 		</tr>
 		<tr>
-			<td align="right">Admission Date<font size="-2">(mm/dd/yyyy)</font>:</td>
+			<td align="right">Admin Date<font size="-2">(mm/dd/yyyy)</font>:</td>
 			<td align="left">
 				<input type="text" name="admin_date" id="admin_date" size="10" maxlength="10" value="<%=request.getParameter("admin_date")==null ? "" : request.getParameter("admin_date") %>"/>
 			</td>

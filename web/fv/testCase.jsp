@@ -203,11 +203,7 @@ try {
     <td><%= rset.getString(10) %> ... change status to: <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=PASS">pass</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=ACC">accept</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=RES">research</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=FAIL">fail</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=FIX">fixed</a></td>
   </tr>
 </table>
-<%   String deleteurl = new String("deleteTestCase.action?");
-			   deleteurl = deleteurl + "action=" + URLEncoder.encode("Delete Test Case", "UTF-8");
-			   deleteurl = deleteurl + "&case_id=" + caseId;
-			   deleteurl = deleteurl + "&userName=" + URLEncoder.encode(userName, "UTF-8");
-	String editTesturl = new String("editTestCase.jsp?");
+<% String editTesturl = new String("editTestCase.jsp?");
 				editTesturl = editTesturl + "case_id=" + caseId;
 				editTesturl = editTesturl + "&userName=" + URLEncoder.encode(userName, "UTF-8");
 %>
@@ -215,7 +211,6 @@ try {
 [<a href="index.jsp?userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Back to Home</a>] 
 [<a href="showSchedule.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Forecast Trace</a>]
 [<a href=" <%= editTesturl %>">Edit Test Case</a>]
-[<a href=" <%= deleteurl %>">Delete Test Case</a>]
 </p>
   <%
   sql = "SELECT tv.cvx_code, cvx.cvx_label, date_format(admin_date, '%m/%d/%Y'), mvx_code, cvx.vaccine_id \n" + 
@@ -287,11 +282,6 @@ try {
 	addcasevaccine = addcasevaccine + "&userName=" + URLEncoder.encode(userName, "UTF-8");
 %>
 [<a href="<%= addcasevaccine %>" title="Add Vaccine to Case" >Add Vaccine to Case</a>]
-<%  String addvaccine = new String("addVaccine.jsp?");
-	addvaccine = addvaccine + "&case_id=" + caseId;
-	addvaccine = addvaccine + "&userName=" + URLEncoder.encode(userName, "UTF-8");
-%>
-[<a href="<%= addvaccine %>" title="Add Vaccine" >Add Vaccine</a>]
 
 <h2>Forecast Comparison</h2>
 <% 

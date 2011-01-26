@@ -166,5 +166,14 @@ if(errorMsg != null && !"".equals(errorMsg)){
 			</td>
 		</tr>
 </table>
+<br>
+<% if(isEdit){ 
+	  String deleteurl = new String("deleteTestCase.action?");
+		   deleteurl = deleteurl + "action=" + ( URLEncoder.encode("Delete Test Case", "UTF-8") );
+		   deleteurl = deleteurl + "&case_id=" + ( request.getParameter("case_id")==null ? "" : request.getParameter("case_id") );
+		   deleteurl = deleteurl + "&userName=" + ( request.getParameter("userName")==null ? "" : request.getParameter("userName") ); %>
+	[<a href=" <%= deleteurl %>" onclick="return confirm('Are you sure you want to delete this Test Case?');">Delete Test Case</a>]
+<% } %>
+</form>
 </body>
 </html>
