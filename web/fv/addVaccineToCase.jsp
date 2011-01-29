@@ -9,12 +9,6 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Iterator"%>
 
-<html>
-<head>
-<title>Add Vaccine</title>
-</head>
-<body>
-
 <%
 	boolean isEdit = request.getParameter("edit") != null && "y".equals(request.getParameter("edit"));
 	Connection conn = DatabasePool.getConnection();
@@ -33,13 +27,19 @@
 	pstmt.close();
 	conn.close();
 %>
-
+<html>
+<head>
+<title>
+<%= isEdit ? "Edit Vaccine" : "Add Vaccine" %>
+</title>
+</head>
+<body>
 <script type="text/JavaScript">
 
 </script>
 
 
-<h1>Add Vaccine</h1>
+<h1><%= isEdit ? "Edit Vaccine" : "Add Vaccine" %></h1>
 <%
 String errorMsg = (String)request.getAttribute("error_message");
 if(errorMsg != null && !"".equals(errorMsg)){
@@ -107,5 +107,15 @@ if(errorMsg != null && !"".equals(errorMsg)){
 			</td>
 		</tr>
 </table>
+<%  String deleteVaccineUrl = new String("deleteTestVaccine.action?");
+	deleteVaccineUrl = deleteVaccineUrl + "action=" +  URLEncoder.encode("Delete VaccineTest", "UTF-8");
+	deleteVaccineUrl = deleteVaccineUrl + "&userName=" + (request.getParameter("userName")==null ? "" : request.getParameter("userName"));
+	deleteVaccineUrl = deleteVaccineUrl + "&case_id=" + (request.getParameter("case_id")==null ? "" : request.getParameter("case_id"));
+	deleteVaccineUrl = deleteVaccineUrl + "&cvx_code=" +  request.getParameter("cvx_code");
+	deleteVaccineUrl = deleteVaccineUrl + "&admin_date="  +  URLEncoder.encode(
+	(request.getParameter("admin_date")==null ? "" : request.getParameter("admin_date")), "UTF-8");
+%>
+<a href="<%= deleteVaccineUrl %>" title=">Delete Vaccine" onclick="return confirm('Are you sure you want to delete this Vaccine?');" >Delete Vaccine</a>
+
 </body>
 </html>

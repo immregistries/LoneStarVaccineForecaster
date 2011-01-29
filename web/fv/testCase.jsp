@@ -256,15 +256,7 @@ try {
 				editVaccineUrl = editVaccineUrl + "&edit=y";
 				%>
 			   <a href="<%= editVaccineUrl %>" title="Edit" >Edit</a>&nbsp;
-				<%  String deleteVaccineUrl = new String("deleteTestVaccine.action?");
-				deleteVaccineUrl = deleteVaccineUrl + "action=" +  URLEncoder.encode("Delete VaccineTest", "UTF-8");
-				deleteVaccineUrl = deleteVaccineUrl + "&userName=" + URLEncoder.encode(userName, "UTF-8");
-				deleteVaccineUrl = deleteVaccineUrl + "&case_id=" + caseId;
-				deleteVaccineUrl = deleteVaccineUrl + "&cvx_code=" +  rset.getString(1);
-				deleteVaccineUrl = deleteVaccineUrl + "&admin_date="  +  URLEncoder.encode(rset.getString(3), "UTF-8");
-				%>
-			   <a href="<%= deleteVaccineUrl %>" title="Delete" >Delete</a>
-		  </td>
+			</td>
         </tr>
         <% }
         rset.close();
