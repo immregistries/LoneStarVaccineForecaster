@@ -1,5 +1,7 @@
 package org.tch.forecast.support;
 
+import java.util.Date;
+
 import org.tch.forecast.core.PatientForecastRecordDataBean;
 import org.tch.hl7.core.util.DateTime;
 
@@ -33,6 +35,12 @@ public class PatientRecordDataBean implements PatientForecastRecordDataBean
   public DateTime getDobDateTime()
   {
     return dob;
+  }
+  
+  /* The redundancy is made to avoid refactoring of all referances in file showScheduleTable.jspf*/
+  public Date getDob()
+  {
+    return dob == null ? null : dob.getDate();
   }
 
   public void setDob(DateTime dob)

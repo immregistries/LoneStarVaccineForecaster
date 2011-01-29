@@ -194,7 +194,7 @@ try {
   String[] indicationTypes = {"BIRTH",  "NO-VAR-HIS", "FEMALE"};
   for (int i = 0; i < indicationTypes.length; i++) 
   { 
-    List indications = VaccineForecastManager.getIndications(indicationTypes[i]);
+    List indications = new VaccineForecastManager().getIndications(indicationTypes[i]);
     for (Iterator it = indications.iterator(); it.hasNext();)
     {
       VaccineForecastDataBean.Schedule schedule = (VaccineForecastDataBean.Schedule) it.next();
