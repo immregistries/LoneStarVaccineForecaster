@@ -451,28 +451,7 @@ while (rset.next()) {
           <td bgcolor="#FFFF99"><%= validDateActual %>&nbsp;</td>
           <td bgcolor="#FFFF99"><%= dueDateActual %>&nbsp;</td>
           <td bgcolor="#FFFF99"><%= overdueDateActual %>&nbsp;</td>
-		<!--  <td>
-				<%  url = new String("editActuals.jsp?");
-			  validDateActual = new DateTime(forecast.getValid()).toString("M/D/Y");
-              dueDateActual = new DateTime(forecast.getDue()).toString("M/D/Y");
-              overdueDateActual = new DateTime(forecast.getOverdue()).toString("M/D/Y");
-              doseNumberActual = forecast.getDose();
-
-				url = url + "action=TCH_ACTUAL";
-				url = url + "&caseId=" + caseId;
-				url = url + "&dose=" + doseNumberActual;
-				url = url + "&valid_date=" + validDateActual;
-				url = url + "&due_date=" + dueDateActual;
-				url = url + "&overdue_date=" + overdueDateActual;
-				url = url + "&userName=" + URLEncoder.encode(userName, "UTF-8");
-				url = url + "&header=" + URLEncoder.encode("TCH Actual", "UTF-8");
-				url = url + "&line_code=" + URLEncoder.encode(lineCode, "UTF-8");
-
-
-				%>
-			  <a href="<%= url %>" title="Edit" target="_blank" >Edit</a>
-		  </td> -->
-        </tr>
+		</tr>
         <%
         rset2.close();
         pstmt2.close();
