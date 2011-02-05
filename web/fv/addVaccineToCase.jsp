@@ -107,6 +107,7 @@ if(errorMsg != null && !"".equals(errorMsg)){
 			</td>
 		</tr>
 </table>
+<%if(isEdit){%>
 <%  String deleteVaccineUrl = new String("deleteTestVaccine.action?");
 	deleteVaccineUrl = deleteVaccineUrl + "action=" +  URLEncoder.encode("Delete VaccineTest", "UTF-8");
 	deleteVaccineUrl = deleteVaccineUrl + "&userName=" + (request.getParameter("userName")==null ? "" : request.getParameter("userName"));
@@ -116,6 +117,6 @@ if(errorMsg != null && !"".equals(errorMsg)){
 	(request.getParameter("admin_date")==null ? "" : request.getParameter("admin_date")), "UTF-8");
 %>
 <a href="<%= deleteVaccineUrl %>" title=">Delete Vaccine" onclick="return confirm('Are you sure you want to delete this Vaccine?');" >Delete Vaccine</a>
-
+<%}%>
 </body>
 </html>

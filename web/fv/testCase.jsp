@@ -244,13 +244,13 @@ try {
           <td><%= rset.getString(3) %>&nbsp;</td>
           <td><%= rset.getString(4) %>&nbsp;</td>
           <td><%= rset.getString(1) %>&nbsp;</td>
-          <td><%= rset.getString(5) %>&nbsp;</td>
+          <td><%= rset.getString(5) == null ? "" : rset.getString(5) %>&nbsp;</td>
 		   <td>
 				<%  String editVaccineUrl = new String("addVaccineToCase.jsp?");
 				editVaccineUrl = editVaccineUrl + "userName=" + URLEncoder.encode(userName, "UTF-8");
 				editVaccineUrl = editVaccineUrl + "&case_id=" + caseId;
 				editVaccineUrl = editVaccineUrl + "&cvx_code=" +  URLEncoder.encode(rset.getString(1), "UTF-8");
-				editVaccineUrl = editVaccineUrl + "&vaccine_id=" +  URLEncoder.encode(rset.getString(5), "UTF-8");
+				//editVaccineUrl = editVaccineUrl + "&vaccine_id=" +  URLEncoder.encode(rset.getString(5), "UTF-8");
 				editVaccineUrl = editVaccineUrl + "&mvx_code=" +  URLEncoder.encode(rset.getString(4), "UTF-8");
 				editVaccineUrl = editVaccineUrl + "&admin_date=" +  URLEncoder.encode(rset.getString(3), "UTF-8");
 				editVaccineUrl = editVaccineUrl + "&edit=y";
