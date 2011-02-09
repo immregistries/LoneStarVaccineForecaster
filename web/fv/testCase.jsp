@@ -451,6 +451,7 @@ while (rset.next()) {
           <td bgcolor="#FFFF99"><%= validDateActual %>&nbsp;</td>
           <td bgcolor="#FFFF99"><%= dueDateActual %>&nbsp;</td>
           <td bgcolor="#FFFF99"><%= overdueDateActual %>&nbsp;</td>
+          <td>&nbsp;</td>
 		</tr>
         <%
         rset2.close();
@@ -507,30 +508,6 @@ while (rset.next()) {
         <% } %>
         
       </table>
-      <!--
-      <form>
-        <table>
-        <tr>
-          <th>Change</th>
-          <th>Dose</th>
-          <th>Valid</th>
-          <th>Due</th>
-          <th>Overdue</th>
-        </tr>
-        <tr>
-          <td>TCH Expected</td>
-          <td><input type="text" size="1" name="doseNumberExpected" value="<%= doseNumberExpected %>"></td>
-          <td><input type="text" size="8" name="validDateExpected" value="<%= validDateExpected %>"></td>
-          <td><input type="text" size="8" name="dueDateExpected" value="<%= dueDateExpected %>"></td>
-          <td><input type="text" size="8" name="overdueDateExpected" value="<%= overdueDateExpected %>"></td>
-          <input type="hidden" name="caseId" value="<%= caseId %>">
-          <input type="hidden" name="lineCode" value="<%= lineCode %>">
-          <input type="hidden" name="userName" value="<%= userName %>">
-          </tr>
-        </table>
-        <input type="submit" name="action" value="Change Expected">
-      </form> -->
-
       
     <% } %>
 <h2>Notes</h2>
