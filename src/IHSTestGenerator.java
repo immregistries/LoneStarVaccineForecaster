@@ -28,9 +28,10 @@ public class IHSTestGenerator
     forecastCode.put("Polio", "OORIPV");
     forecastCode.put("Meni", "MENING");
     forecastCode.put("MMR", "MMR");
-    forecastCode.put("Pneu", "PNEUMO");
-    forecastCode.put("Rota", "ROTAVIRUS");
+    forecastCode.put("Pneu", "SPn");
+    forecastCode.put("Rota", "Rv");
     forecastCode.put("HPV", "HPV");
+    forecastCode.put("Flu", "Influenza");
   }
   private static SimpleDateFormat sdfOut = new SimpleDateFormat("MM/dd/yyyy");
 
