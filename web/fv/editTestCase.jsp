@@ -1,3 +1,5 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
@@ -30,7 +32,9 @@ if(errorMsg != null && !"".equals(errorMsg)){
 	Connection conn = DatabasePool.getConnection();
 	PreparedStatement pstmt = null;
 	ResultSet rset = null;
-	String lastName = "", firstName = "", sex = "", dob = "", name = "", descr="" , groupCode="";
+	String lastName = "", firstName = "", sex = "", dob = "", forecastDate = "", name = "", descr="" , groupCode="";
+	forecastDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
+	
 	if(errorMsg != null && !"".equals(errorMsg)){
 		name	= request.getParameter("case_label");
 		descr	= request.getParameter("case_description");
@@ -39,9 +43,10 @@ if(errorMsg != null && !"".equals(errorMsg)){
 		firstName	= request.getParameter("patient_first");
 		sex			= request.getParameter("patient_sex");
 		dob			= request.getParameter("patient_dob");	
+		forecastDate= request.getParameter("forecast_date");
 	}else if(isEdit){
 		pstmt = conn.prepareStatement("select case_label,case_description, group_code,patient_first,patient_last,patient_sex,"
-		+ "date_format(patient_dob, '%m/%d/%Y') as patient_dob  from test_case where case_id = ? ");
+		+ "date_format(patient_dob, '%m/%d/%Y') as patient_dob, date_format(forecast_date, '%m/%d/%Y') as forecast_date  from test_case where case_id = ? ");
 		pstmt.setInt(1,new Integer(request.getParameter("case_id")).intValue());
 		rset = pstmt.executeQuery();
 		if(rset.next()){
@@ -52,6 +57,7 @@ if(errorMsg != null && !"".equals(errorMsg)){
 			firstName	= rset.getString("patient_first");
 			sex			= rset.getString("patient_sex");
 			dob			= rset.getString("patient_dob");
+			forecastDate= rset.getString("forecast_date");
 		}
 		rset.close();
 		pstmt.close();
@@ -87,6 +93,9 @@ if(errorMsg != null && !"".equals(errorMsg)){
 	}
 	if(dob == null){
 		dob = "";
+	}
+	if(forecastDate == null){
+		forecastDate = "";
 	}
 %>
 
@@ -157,6 +166,12 @@ if(errorMsg != null && !"".equals(errorMsg)){
 			</select>
 			</td>
 		</tr>
+		<tr>
+			<td align="right">Forecast Date<font size="-2">(mm/dd/yyyy)</font>:</td>
+			<td align="left">
+				<input type="text" name="forecast_date" id="forecast_date" size="10" maxlength="10" value="<%=forecastDate%>"/>
+			</td>
+		</tr> 
 		<tr>
 			<td align="right">													 			
 				<input type="submit" name="submit" id="submit" value="Save"/>

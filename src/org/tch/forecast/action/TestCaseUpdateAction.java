@@ -35,46 +35,34 @@ public class TestCaseUpdateAction
     model.patient_first = req.getParameter("patient_first");
     model.patient_last = req.getParameter("patient_last");
     model.patient_sex = req.getParameter("patient_sex");
+
     String dobEntered = req.getParameter("patient_dob");
-    StringTokenizer tokenizer = new StringTokenizer(dobEntered, "/");
-    boolean validDateEntered = true;
-    Calendar cal = Calendar.getInstance();
-    try
+    
+    Calendar cal1 = Calendar.getInstance();
+    boolean validDateEntered1 = validateDate(dobEntered, cal1);
+    if (!validDateEntered1)
     {
-      String month = tokenizer.nextToken();
-      String day = tokenizer.nextToken();
-      String year = tokenizer.nextToken();
-      if (month == null || month.length() != 2)
-      {
-        validDateEntered = false;
-      }
-      if (day == null || day.length() != 2)
-      {
-        validDateEntered = false;
-      }
-      if (year == null || year.length() != 4)
-      {
-        validDateEntered = false;
-      }
-      cal.set(Calendar.YEAR, new Integer(year).intValue());
-      cal.set(Calendar.MONTH, new Integer(month).intValue() - 1);
-      cal.set(Calendar.DAY_OF_MONTH, new Integer(day).intValue());
-    } catch (NoSuchElementException ex)
-    {
-      validDateEntered = false;
-    } catch (NumberFormatException nex)
-    {
-      validDateEntered = false;
-    }
-    if (!validDateEntered)
-    {
-      req.setAttribute("error_message", "Invalid Date");
+      req.setAttribute("error_message", "DOB is invalid");
       RequestDispatcher dispatcher = req.getRequestDispatcher("editTestCase.jsp");
       dispatcher.forward(req, resp);
       return;
     }
 
-    model.patient_dob = new java.sql.Date(cal.getTimeInMillis());
+    model.patient_dob = new java.sql.Date(cal1.getTimeInMillis());
+
+    String forecastDateEntered = req.getParameter("forecast_date");
+    
+    Calendar cal2 = Calendar.getInstance();
+    boolean validDateEntered2 = validateDate(forecastDateEntered, cal2);
+    if (!validDateEntered2)
+    {
+      req.setAttribute("error_message", "Forecaset date is invalid");
+      RequestDispatcher dispatcher = req.getRequestDispatcher("editTestCase.jsp");
+      dispatcher.forward(req, resp);
+      return;
+    }
+    
+    model.forecast_date = new java.sql.Date(cal2.getTimeInMillis());
 
     Connection conn = null;
     PreparedStatement pstmt = null, pstmt2 = null, pstmt3 = null;
@@ -166,5 +154,40 @@ public class TestCaseUpdateAction
       }
     }
 
+  }
+
+  private boolean validateDate(String dateInput, Calendar cal) {
+    
+    StringTokenizer tokenizer = new StringTokenizer(dateInput, "/");
+
+    boolean validDateEntered = true; 
+    try
+    {
+      String month = tokenizer.nextToken();
+      String day = tokenizer.nextToken();
+      String year = tokenizer.nextToken();
+      if (month == null || month.length() != 2)
+      {
+        validDateEntered = false;
+      }
+      if (day == null || day.length() != 2)
+      {
+        validDateEntered = false;
+      }
+      if (year == null || year.length() != 4)
+      {
+        validDateEntered = false;
+      }
+      cal.set(Calendar.YEAR, new Integer(year).intValue());
+      cal.set(Calendar.MONTH, new Integer(month).intValue() - 1);
+      cal.set(Calendar.DAY_OF_MONTH, new Integer(day).intValue());
+    } catch (NoSuchElementException ex)
+    {
+      validDateEntered = false;
+    } catch (NumberFormatException nex)
+    {
+      validDateEntered = false;
+    }
+    return validDateEntered;
   }
 }

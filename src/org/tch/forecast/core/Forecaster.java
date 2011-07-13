@@ -40,7 +40,7 @@ public class Forecaster
   private String dueReason = "";
   private DateTime overdue = null;
   private DateTime finished = null;
-  private DateTime today = null;
+  private DateTime today = null; 
   private List resultList = null;
   private List doseList = null;
   private Event event = null;
@@ -49,6 +49,7 @@ public class Forecaster
   private Trace trace = null;
   private TraceList traceList = null;
   private Map traces = null;
+  private Date forecastDate = new Date();
   private StringBuffer traceBuffer = null;
   boolean hasHistoryOfVaricella = false;
 
@@ -64,7 +65,7 @@ public class Forecaster
     this.doseList = doseList;
     this.traceBuffer = traceBuffer;
     this.traces = traces;
-    this.today = new DateTime("today");
+    this.today = new DateTime(forecastDate);
     forecastForAllIndications("BIRTH");
     if (patient.getSex() == null || !patient.getSex().equals("M"))
     {
@@ -825,6 +826,15 @@ public class Forecaster
       }
       event.immList.add(imm);
     }
+  }
+
+  public Date getForecastDate() {
+    return forecastDate;
+  }
+
+  public void setForecastDate(Date forecastDate) 
+  {
+    this.forecastDate = forecastDate;
   }
 
   private class Event

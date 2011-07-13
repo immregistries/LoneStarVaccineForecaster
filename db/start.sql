@@ -60,6 +60,7 @@ CREATE TABLE test_case (
   patient_first    VARCHAR(30),
   patient_dob      DATE,
   patient_sex      VARCHAR(30),
+  forecast_date    DATE DEFAULT '2011-07-12',
   status_code  VARCHAR(4) DEFAULT 'UNKN'
 );
 
@@ -76,7 +77,7 @@ VALUES
 CREATE TABLE test_note (
   case_id         INT NOT NULL,
   entity_id       INT NOT NULL,
-  user_name       VARHCHAR(40) NOT NULL DEFAULT 'Not Known',
+  user_name       VARCHAR(40) NOT NULL DEFAULT 'Not Known',
   note_text       VARCHAR(4000) NOT NULL,
   note_date       DATETIME NOT NULL
 );

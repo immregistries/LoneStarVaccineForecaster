@@ -11,5 +11,6 @@ public String group_code;
 public String patient_last;  
 public String patient_first;   
 public Date patient_dob;  
+public Date forecast_date;  
 public String patient_sex;
 }

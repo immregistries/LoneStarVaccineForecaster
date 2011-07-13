@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="org.tch.forecast.validator.db.DatabasePool"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -11,6 +12,7 @@
 <%@page import="org.tch.forecast.support.Immunization"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="org.tch.forecast.core.ImmunizationForecastDataBean"%>
 <%@page import="org.tch.forecast.core.VaccineForecastManagerInterface"%>
@@ -172,9 +174,11 @@ try {
   List resultList = new ArrayList();
   List doseList = new ArrayList();
   PatientRecordDataBean patient = new PatientRecordDataBean();
+  Date forecastDate = null;
   List imms = new ArrayList();
   sql = "SELECT tc.case_label, tc.case_description, tc.case_source, tc.group_code, tc.patient_first, \n" + 
-    "tc.patient_last, date_format(tc.patient_dob, '%m/%d/%Y'), tc.patient_sex, tc.status_code, ts.status_label\n" +
+    "tc.patient_last, date_format(tc.patient_dob, '%m/%d/%Y'), tc.patient_sex, tc.status_code, ts.status_label, \n" +
+    "tc.forecast_date "+
     "FROM test_case tc, test_status ts\n" +
     "WHERE tc.case_id =" + caseId + " \n" +
     "  AND tc.status_code = ts.status_code\n";
@@ -184,6 +188,7 @@ try {
   {
     patient.setSex(rset.getString(8));
     patient.setDob(new DateTime(rset.getString(7)));
+    forecastDate = rset.getDate(11);
   
 %>
 <h1><%= rset.getString(1) %></h1>
@@ -196,6 +201,11 @@ try {
     <th align="left">Patient&nbsp;</th>
     <td><%= rset.getString(6) == null ? "" : rset.getString(6) %>, <%= rset.getString(5) == null ? "" : rset.getString(5) %>
 	(<%= rset.getString(8) == null ? "" : rset.getString(8) %>) dob <%= rset.getString(7) == null ? "":rset.getString(7) %>
+	</td>
+  </tr>
+  <tr>
+    <th align="left">Evaluation&nbsp;Date&nbsp;</th>
+    <td><%= new SimpleDateFormat("MM/dd/yyyy").format(forecastDate) %>
 	</td>
   </tr>
   <tr>
@@ -261,14 +271,16 @@ try {
         <% }
         rset.close();
         pstmt.close();
+        // actually does the forecasting
         forecaster.setPatient(patient);
         forecaster.setVaccinations(imms);
+        forecaster.setForecastDate(forecastDate);
         forecaster.forecast(resultList, doseList, traceBuffer, null);
-        
         
         %>
       </table>
 <br>
+
 <%  String addcasevaccine = new String("addVaccineToCase.jsp?");
 	addcasevaccine = addcasevaccine + "&case_id=" + caseId;
 	addcasevaccine = addcasevaccine + "&userName=" + URLEncoder.encode(userName, "UTF-8");
@@ -320,7 +332,7 @@ while (rset.next()) {
         String validDateActual = "";
         String dueDateActual = "";
         String overdueDateActual = "";
-        DateTime today = new DateTime("today");
+        DateTime today = new DateTime(forecastDate);
 		ImmunizationForecastDataBean forecast = null;
         for (Iterator it = resultList.iterator(); it.hasNext(); )
         {  
