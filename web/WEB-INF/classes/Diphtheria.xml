@@ -13,8 +13,8 @@
     <indicate vaccineName="Child" schedule="P2" age="12 months" reason=""/>
     <indicate vaccineName="Child" schedule="R2" age="7 years" reason="Series started late, moving to accelerated schedule."/>
     <indicate vaccineName="Child" schedule="A2" age="" reason="Child vaccine should not be given after 7 years of age."/>
-    <indicate vaccineName="Td" schedule="P2" age="12 months" reason="Td should not be given before 7 years of age."/>
-    <indicate vaccineName="Td" schedule="R2" age="7 years" reason="Td should not be given before 7 years of age. Series started late, moving to accelerated schedule."/>
+    <indicate vaccineName="Td" schedule="INVALID" age="12 months" reason="Td should not be given before 7 years of age."/>
+    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="A2" age="" reason="Starting adult series without indication of childhood vaccination."/>
   </schedule>
@@ -28,7 +28,7 @@
     <before-previous interval=""/>
     <indicate vaccineName="Child" schedule="P3" age="7 years" reason=""/>
     <indicate vaccineName="Child" schedule="A2" age="" reason="Child vaccine should not be given after 7 years of age."/>
-    <indicate vaccineName="Td" schedule="P3" age="7 years" reason="Td should not be given before 7 years of age."/>
+    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="A2" age="" reason="Changing to adult vaccine schedule."/>
   </schedule>
@@ -42,7 +42,7 @@
     <before-previous interval=""/>
     <indicate vaccineName="Child" schedule="P4" age="7 years" reason=""/>
     <indicate vaccineName="Child" schedule="A3" age="" reason="Child vaccine should not be given after 7 years of age."/>
-    <indicate vaccineName="Td" schedule="P4" age="7 years" reason="Td should not be given before 7 years of age."/>
+    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="A3" age="" reason="Changing to adult vaccine schedule."/>
   </schedule>
@@ -73,7 +73,7 @@
     <before-previous interval=""/>
     <indicate vaccineName="Child" schedule="R3" age="7 years" reason=""/>
     <indicate vaccineName="Child" schedule="A3" age="" reason="Child vaccine should not be given after 7 years of age."/>
-    <indicate vaccineName="Td" schedule="R3" age="7 years" reason="Td should not be given before 7 years of age."/>
+    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="A3" age="" reason="Changing to adult vaccine schedule."/>
   </schedule>
@@ -88,8 +88,8 @@
     <indicate vaccineName="Child" schedule="R4" age="6 years" reason=""/>
     <indicate vaccineName="Child" schedule="A3" age="7 years" reason="Too late to complete childhood series, switching to adult schedule."/>
     <indicate vaccineName="Child" schedule="A3" age="" reason="Child vaccine should not be given after 7 years of age."/>
-    <indicate vaccineName="Td" schedule="R4" age="6 years" reason="Td should not be given before 7 years of age."/>
-    <indicate vaccineName="Td" schedule="A3" age="7 years" reason=""/>
+    <indicate vaccineName="Td" schedule="INVALID" age="6 years" reason="Td should not be given before 7 years of age."/>
+    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason=""/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="B6" age="" reason="Changing to adult vaccine schedule."/>
   </schedule>
@@ -129,7 +129,7 @@
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Child" schedule="A3" age="" reason="Child vaccine should not be given after 7 years of age."/>
-    <indicate vaccineName="Td" schedule="A3" age="7 years" reason="Td should not be given before 7 years of age."/>
+    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="A3" age="" reason=""/>
   </schedule>
@@ -157,7 +157,7 @@
     <after-invalid interval="6 months" grace="2 months"/>
     <before-previous interval=""/>
     <indicate vaccineName="Child" schedule="B10" age="" reason="Child vaccine should not be given after 7 years of age."/>
-    <indicate vaccineName="Td" schedule="B10" age="7 years" reason="Td should not be given before 7 years of age."/>
+    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="B10" age="" reason=""/>
   </schedule>

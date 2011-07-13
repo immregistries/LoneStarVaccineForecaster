@@ -41,7 +41,7 @@
     <indicate vaccineName="Series" schedule="COMPLETE" age="" reason=""/>
   </schedule>
   <schedule scheduleName="T2" dose="2" indication="" label="4 months Recombivax">
-    <valid age="" interval="4 weeks" grace="4 days"/>
+    <valid age="" interval="4 months" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="4 months" grace=""/>
     <overdue age="" interval="7 months" grace=""/>
