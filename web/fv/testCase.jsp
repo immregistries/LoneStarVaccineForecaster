@@ -38,6 +38,7 @@ try {
   {
     userName = "";
   }
+  boolean viewOnly = userName.equals("View Only");
   if (!userName.equals("")) {
     String noteText = request.getParameter("noteText");
     if (action.equals("changeStatus"))
@@ -210,7 +211,7 @@ try {
   </tr>
   <tr>
     <th align="left">Status&nbsp;</th>
-    <td><%= rset.getString(10) %> ... change status to: <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=PASS">pass</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=ACC">accept</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=RES">research</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=FAIL">fail</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=FIX">fixed</a></td>
+    <td><%= rset.getString(10) %> <% if (!viewOnly) { %>... change status to: <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=PASS">pass</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=ACC">accept</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=RES">research</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=FAIL">fail</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=FIX">fixed</a><% } %></td>
   </tr>
 </table>
 <% String editTesturl = new String("editTestCase.jsp?");
@@ -220,7 +221,9 @@ try {
 <p>
 [<a href="index.jsp?userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Back to Home</a>] 
 [<a href="showSchedule.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Forecast Trace</a>]
+<% if (!viewOnly) { %>
 [<a href=" <%= editTesturl %>">Edit Test Case</a>]
+<% } %>
 </p>
   <%
   sql = "SELECT tv.cvx_code, cvx.cvx_label, date_format(admin_date, '%m/%d/%Y'), mvx_code, cvx.vaccine_id \n" + 
@@ -241,7 +244,9 @@ try {
           <th>MVX</th>
           <th>CVX</th>
           <th>TCH</th>
+          <% if (!viewOnly) { %>
 		  <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+		  <% } %>
          </tr>
         <% while (rset.next()) { 
           Immunization imm = new Immunization();
@@ -255,6 +260,7 @@ try {
           <td><%= rset.getString(4) %>&nbsp;</td>
           <td><%= rset.getString(1) %>&nbsp;</td>
           <td><%= rset.getString(5) == null ? "" : rset.getString(5) %>&nbsp;</td>
+				<% if (!viewOnly) { %>
 		   <td>
 				<%  String editVaccineUrl = new String("addVaccineToCase.jsp?");
 				editVaccineUrl = editVaccineUrl + "userName=" + URLEncoder.encode(userName, "UTF-8");
@@ -267,6 +273,7 @@ try {
 				%>
 			   <a href="<%= editVaccineUrl %>" title="Edit" >Edit</a>&nbsp;
 			</td>
+			   <% } %>
         </tr>
         <% }
         rset.close();
@@ -285,7 +292,9 @@ try {
 	addcasevaccine = addcasevaccine + "&case_id=" + caseId;
 	addcasevaccine = addcasevaccine + "&userName=" + URLEncoder.encode(userName, "UTF-8");
 %>
+<% if (!viewOnly) { %>
 [<a href="<%= addcasevaccine %>" title="Add Vaccine to Case" >Add Vaccine to Case</a>]
+<% } %>
 
 <h2>Forecast Comparison</h2>
 <% 
@@ -325,7 +334,9 @@ while (rset.next()) {
           <th>Valid</th>
           <th>Due</th>
           <th>Overdue</th>
+          <% if (!viewOnly) { %>
 		  <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+		  <% } %>
         </tr>
         <%
         String doseNumberActual = "COMP";
@@ -416,6 +427,7 @@ while (rset.next()) {
           <td bgcolor="<%= validDateCompare.equals(validDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= validDateCompare %>&nbsp;</td>
           <td bgcolor="<%= dueDateCompare.equals(dueDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= dueDateCompare %>&nbsp;</td>
           <td bgcolor="<%= overdueDateCompare.equals(overdueDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= overdueDateCompare %>&nbsp;</td>
+				<% if (!viewOnly) { %>
 		  <td>
 				<%  url = new String("editActuals.jsp?");
 		
@@ -432,6 +444,7 @@ while (rset.next()) {
 				%>
 			  <a href="<%= url %>" title="Edit" >Edit</a>
 		  </td>
+			  <% } %>
         </tr>
         <% } %>
         <tr>
@@ -440,6 +453,7 @@ while (rset.next()) {
           <td bgcolor="<%= validDateExpected.equals(validDateActual) ? "#FFFF99" : "#FF9933" %>"><%= validDateExpected %>&nbsp;</td>
           <td bgcolor="<%= dueDateExpected.equals(dueDateActual) ? "#FFFF99" : "#FF9933" %>"><%= dueDateExpected %>&nbsp;</td>
           <td bgcolor="<%= overdueDateExpected.equals(overdueDateActual) ? "#FFFF99" : "#FF9933" %>"><%= overdueDateExpected %>&nbsp;</td>
+           <% if (!viewOnly) { %>
 		   <td>
 				<%  url = new String("editActuals.jsp?");
 		
@@ -456,6 +470,7 @@ while (rset.next()) {
 				%>
 			  <a href="<%= url %>" title="Edit" >Edit</a>
 		  </td>
+		  <% } %>
         </tr>
         <tr>
           <td bgcolor="#FFFF99">TCH Actual&nbsp;</td>
@@ -463,7 +478,9 @@ while (rset.next()) {
           <td bgcolor="#FFFF99"><%= validDateActual %>&nbsp;</td>
           <td bgcolor="#FFFF99"><%= dueDateActual %>&nbsp;</td>
           <td bgcolor="#FFFF99"><%= overdueDateActual %>&nbsp;</td>
+          <% if (!viewOnly) { %>
           <td>&nbsp;</td>
+          <% } %>
 		</tr>
         <%
         rset2.close();
@@ -501,6 +518,7 @@ while (rset.next()) {
           <td bgcolor="<%= validDateCompare.equals(validDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= validDateCompare %>&nbsp;</td>
           <td bgcolor="<%= dueDateCompare.equals(dueDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= dueDateCompare %>&nbsp;</td>
           <td bgcolor="<%= overdueDateCompare.equals(overdueDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= overdueDateCompare %>&nbsp;</td>
+          <% if (!viewOnly) { %>
 		  	  <td>
 				<%  url = new String("editActuals.jsp?");
 				url = url + "action=MCIR_ACTUAL";
@@ -516,6 +534,7 @@ while (rset.next()) {
 				%>
 			  <a href="<%= url %>" title="Edit" >Edit</a>
 		  </td>
+		  <% } %>
         </tr>
         <% } %>
         
@@ -541,7 +560,8 @@ while (rset.next()) {
 %>
   <p><b>Explanation note from <%= entityLabel %> <%= noteDate %></b>
   <br><font color="#CC3333"><%= noteUserName %></font>: <%= noteText %></p>
-    <% } %> 
+    <% } %>
+    <% if (!viewOnly) { %> 
     <form>
       <table>
         <tr> 
@@ -562,6 +582,7 @@ while (rset.next()) {
         </tr>
       </table>
     </form>
+    <% } %>
     <%} %>
     <h2>TCH Forecast - Complete Results</h2>
     
@@ -619,6 +640,7 @@ while (rset.next()) {
           %>
         </table>
     <font size="-1"><%= traceBuffer %></font>
+    <% if (!viewOnly) { %>
     <h2>Age Test Case</h2>
     <p>Warning! This will change the test case dob and all of the expected and actual values. This
     is for moving a test case forward to a new date where the forecast will perform as expected. The
@@ -638,6 +660,7 @@ while (rset.next()) {
           months. <input type="checkbox" name="confirm" value="true"> confirm.
           <input type="submit" name="action" value="Age Test in Months">
     </form>
+    <% } %>
     <% } else { %>
     <p>[<a href="index.jsp">Back to Home</a>]</p>
     <% }} finally {DatabasePool.close(conn); } %>

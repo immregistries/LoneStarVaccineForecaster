@@ -14,7 +14,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-
 public class VaccineForecastDataBean
 {
   private static Map indications = new HashMap();
@@ -24,9 +23,9 @@ public class VaccineForecastDataBean
   private int sortOrder = 0;
   private Map vaccines = new HashMap();
   private Map schedules = new HashMap();
+  private Seasonal seasonal = null;
 
-  public VaccineForecastDataBean(String source) throws Exception
-  {
+  public VaccineForecastDataBean(String source) throws Exception {
     try
     {
       DocumentBuilderFactory factory;
@@ -38,8 +37,7 @@ public class VaccineForecastDataBean
       builder = factory.newDocumentBuilder();
       InputStream is = this.getClass().getClassLoader().getResourceAsStream(source);
       processDocument(builder.parse(new InputSource(is)));
-    }
-    catch (Exception exception)
+    } catch (Exception exception)
     {
       throw new Exception("Unable to read XML definition " + source, exception);
     }
@@ -102,8 +100,7 @@ public class VaccineForecastDataBean
         }
         schedule.convertIndicateFromListToArray();
         schedule.checkForConsistency();
-      }
-      else if (name.equals("vaccine"))
+      } else if (name.equals("vaccine"))
       {
         String vaccineName = DomUtils.getAttributeValue(n, "vaccineName");
         if (vaccineName == null || vaccineName.equals(""))
@@ -116,6 +113,15 @@ public class VaccineForecastDataBean
           throw new Exception("vaccineIds attribute is missing on vaccine tag");
         }
         vaccines.put(vaccineName.toUpperCase(), vaccineIds);
+      } else if (name.equals("seasonal"))
+      {
+        seasonal = new Seasonal();
+        String seasonalStart = DomUtils.getAttributeValue(n, "start");
+        String seasonalDue = DomUtils.getAttributeValue(n, "due");
+        String seasonalOverdue = DomUtils.getAttributeValue(n, "overdue");
+        seasonal.setStart(new TimePeriod(seasonalStart));
+        seasonal.setDue(new TimePeriod(seasonalDue));
+        seasonal.setOverdue(new TimePeriod(seasonalOverdue));
       }
     }
   }
@@ -143,43 +149,35 @@ public class VaccineForecastDataBean
         schedule.setValidAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         schedule.setValidInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
         schedule.setValidGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
-      }
-      else if (name.equals("early"))
+      } else if (name.equals("early"))
       {
         schedule.setEarlyAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         schedule.setEarlyInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
-      }
-      else if (name.equals("due"))
+      } else if (name.equals("due"))
       {
         schedule.setDueAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         schedule.setDueInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
-      }
-      else if (name.equals("overdue"))
+      } else if (name.equals("overdue"))
       {
         schedule.setOverdueAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         schedule.setOverdueInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
-      }
-      else if (name.equals("finished"))
+      } else if (name.equals("finished"))
       {
         schedule.setFinishedAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         schedule.setFinishedInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
-      }
-      else if (name.equals("after-invalid"))
+      } else if (name.equals("after-invalid"))
       {
         schedule.setAfterInvalidInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
         schedule.setAfterInvalidGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
-      }
-      else if (name.equals("after-contra"))
+      } else if (name.equals("after-contra"))
       {
         schedule.setAfterContraInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
         schedule.setAfterContraGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
-      }
-      else if (name.equals("before-previous"))
+      } else if (name.equals("before-previous"))
       {
         schedule.setBeforePreviousInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
         schedule.setBeforePreviousGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
-      }
-      else if (name.equals("indicate"))
+      } else if (name.equals("indicate"))
       {
         Indicate indicate = new Indicate();
         String vaccineName = DomUtils.getAttributeValue(n, "vaccineName");
@@ -190,6 +188,7 @@ public class VaccineForecastDataBean
         indicate.setMinInterval(new TimePeriod(DomUtils.getAttributeValue(n, "minInterval")));
         indicate.setMaxInterval(new TimePeriod(DomUtils.getAttributeValue(n, "maxInterval")));
         indicate.setReason(DomUtils.getAttributeValue(n, "reason"));
+        indicate.setSeasonCompleted("Yes".equalsIgnoreCase(DomUtils.getAttributeValue(n, "seasonCompleted")));
         schedule.getIndicateList().add(indicate);
       }
     }
@@ -210,8 +209,7 @@ public class VaccineForecastDataBean
       try
       {
         vaccineIds[i] = Integer.parseInt(vaccName);
-      }
-      catch (NumberFormatException nfe)
+      } catch (NumberFormatException nfe)
       {
         vaccineIds[i] = 0;
       }
@@ -523,6 +521,7 @@ public class VaccineForecastDataBean
     private TimePeriod maxInterval = null;
     private String vaccineName = "";
     private String reason = "";
+    private boolean seasonCompleted = false;
 
     public String SCHEDULE_INVALID = "INVALID";
     public String SCHEDULE_CONTRA = "CONTRA";
@@ -541,7 +540,7 @@ public class VaccineForecastDataBean
     {
       return scheduleName != null && scheduleName.equalsIgnoreCase(SCHEDULE_INVALID);
     }
-    
+
     public boolean isContra()
     {
       return scheduleName != null && scheduleName.equalsIgnoreCase(SCHEDULE_CONTRA);
@@ -576,7 +575,7 @@ public class VaccineForecastDataBean
     {
       this.age = age;
     }
-    
+
     public TimePeriod getMinInterval()
     {
       return minInterval;
@@ -607,6 +606,16 @@ public class VaccineForecastDataBean
       this.vaccineName = vaccineName;
     }
 
+    public boolean isSeasonCompleted()
+    {
+      return seasonCompleted;
+    }
+
+    public void setSeasonCompleted(boolean seasonCompleted)
+    {
+      this.seasonCompleted = seasonCompleted;
+    }
+
   }
 
   public String getForecastCode()
@@ -627,6 +636,11 @@ public class VaccineForecastDataBean
   public void setSchedules(Map schedules)
   {
     this.schedules = schedules;
+  }
+  
+  public Seasonal getSeasonal()
+  {
+    return seasonal;
   }
 
   public String getForecastLabel()
@@ -653,9 +667,43 @@ public class VaccineForecastDataBean
   {
     this.sortOrder = sortOrder;
   }
-  
+
   public Map getVaccines()
   {
     return vaccines;
   }
+
+  public class Seasonal
+  {
+    private TimePeriod start = null;
+    private TimePeriod due = null;
+    private TimePeriod overdue = null;
+    
+    public TimePeriod getStart()
+    {
+      return start;
+    }
+    public void setStart(TimePeriod start)
+    {
+      this.start = start;
+    }
+    public TimePeriod getDue()
+    {
+      return due;
+    }
+    public void setDue(TimePeriod due)
+    {
+      this.due = due;
+    }
+    public TimePeriod getOverdue()
+    {
+      return overdue;
+    }
+    public void setOverdue(TimePeriod overdue)
+    {
+      this.overdue = overdue;
+    }
+    
+  }
+
 }

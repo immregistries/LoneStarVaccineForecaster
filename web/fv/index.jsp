@@ -14,6 +14,7 @@
     <% 
     Connection conn = DatabasePool.getConnection();
     PreparedStatement pstmt = null;
+    boolean viewOnly = true;
     try { 
     
       String userName = (String)session.getAttribute("userName");
@@ -25,6 +26,7 @@
 		/*response.sendRedirect("login.jsp");*/
       }else if (!"".equals(userName)) 
       {
+        viewOnly = userName.equals("View Only");
 
 	   %>
 		<p><strong><font color="#CC3333" size="+1">Welcome <%= userName %></font></strong></p>
@@ -70,11 +72,13 @@
 	String  addURL = new String("editTestCase.jsp?");
 		addURL = addURL + "userName=" + URLEncoder.encode(userName, "UTF-8");
 	%>
+	<% if (!viewOnly) { %>
 	[<a href="<%= addURL %>" title="Add Test Case">Add Test Case</a>]
 	<%  String addvaccine = new String("addVaccine.jsp?");
 		addvaccine = addvaccine + "&userName=" + URLEncoder.encode(userName, "UTF-8");
 	%>
 	[<a href="<%= addvaccine %>" title="Add Vaccine" >Add Vaccine</a>]
+	<% } %>
 	<% 
     }
     %>

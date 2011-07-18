@@ -1,8 +1,10 @@
 package org.tch.forecast.core;
 
+import java.awt.PageAttributes.OriginType;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -10,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.tch.forecast.core.VaccineForecastDataBean.Seasonal;
 import org.tch.hl7.core.util.DateTime;
 
 public class Forecaster
@@ -25,6 +28,7 @@ public class Forecaster
 
   private PatientForecastRecordDataBean patient = null;
   private List eventList = null;
+  private List originalEventList = null;
   private DateTime previousEventDate;
   private DateTime previousEventDateValid;
   private boolean previousEventWasContra = false;
@@ -40,7 +44,7 @@ public class Forecaster
   private String dueReason = "";
   private DateTime overdue = null;
   private DateTime finished = null;
-  private DateTime today = null; 
+  private DateTime today = null;
   private List resultList = null;
   private List doseList = null;
   private Event event = null;
@@ -52,6 +56,9 @@ public class Forecaster
   private Date forecastDate = new Date();
   private StringBuffer traceBuffer = null;
   boolean hasHistoryOfVaricella = false;
+  private Seasonal seasonal = null;
+  private boolean seasonCompleted = false;
+  private DateTime seasonStart = null;
 
   private VaccineForecastManagerInterface forecastManager = null;
 
@@ -96,6 +103,8 @@ public class Forecaster
         previousEventDateValid = previousEventDate;
         beforePreviousEventDate = null;
         validDoseCount = 0;
+
+        setupSeasonal();
         if (traceBuffer != null)
         {
           traceBuffer.append("<p><b>" + forecast.getForecastCode() + "</b></p><ul><li>");
@@ -124,7 +133,64 @@ public class Forecaster
         {
           traceList.append("</li></ul>");
         }
+        finishSeasonal();
       }
+    }
+  }
+
+  private void finishSeasonal()
+  {
+    if (seasonal != null)
+    {
+      eventList = originalEventList;
+      originalEventList = null;
+      seasonal = null;
+      seasonStart = null;
+    }
+  }
+
+  private void setupSeasonal()
+  {
+    seasonal = forecast.getSeasonal();
+    if (seasonal != null)
+    {
+      seasonCompleted = false;
+      originalEventList = eventList;
+      DateTime seasonEnd = new DateTime(forecastDate);
+      seasonEnd.setMonth(1);
+      seasonEnd.setDay(1);
+      seasonEnd = seasonal.getStart().getDateTimeFrom(seasonEnd);
+      if (seasonEnd.isGreaterThanOrEquals(new DateTime(forecastDate)))
+      {
+        seasonEnd.addYears(-1);
+      }
+
+      int count = 0;
+      while (seasonEnd.isGreaterThanOrEquals(patient.getDobDateTime()) && count < 10)
+      {
+        SeasonEnd se = new SeasonEnd(seasonEnd.getDate());
+        event = new Event();
+        event.eventDate = se.getDateOfShot();
+        event.immList.add(se);
+        eventList.add(event);
+        count++;
+        seasonEnd.addYears(-1);
+      }
+      if (count == 0)
+      {
+        // If no seasonal events were added then put in a season start for 
+        // this year so that first forecast is good
+        seasonStart = new DateTime(seasonEnd);
+      }
+
+      Collections.sort(eventList, new Comparator() {
+        public int compare(Object o1, Object o2)
+        {
+          Event event1 = (Event) o1;
+          Event event2 = (Event) o2;
+          return event1.eventDate.compareTo(event2.eventDate);
+        }
+      });
     }
   }
 
@@ -147,7 +213,7 @@ public class Forecaster
             {
               if (nextAction.equalsIgnoreCase(COMPLETE))
               {
-                traceBuffer.append("</li><li>Vaccination series complete, patient vaccinated.");
+                traceBuffer.append("</li><li>#1 Vaccination series complete, patient vaccinated.");
               }
             }
           }
@@ -265,7 +331,34 @@ public class Forecaster
         {
           return KEEP_LOOKING;
         }
-        if (checkInvalid(vaccDate))
+        if (checkSeasonEnd(event))
+        {
+          if (seasonCompleted) 
+          {
+            traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + ". ");
+          }
+          else if (event.eventDate.before(valid.getDate())) 
+          {
+            traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + " before next dose was valid to give. ");
+          }
+          else
+          {
+            traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + " without valid dose given. ");
+          }
+          seasonCompleted = false;
+          if (traceBuffer != null && !indicate.getReason().equals(""))
+          {
+            traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
+          }
+          if (trace != null && !indicate.getReason().equals(""))
+          {
+            trace.setReason(indicate.getReason());
+            traceList.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
+          }
+          seasonStart = new DateTime(event.eventDate);
+          nextEvent();
+          return indicate.getScheduleName();
+        } else if (checkInvalid(vaccDate))
         {
           addInvalidDose(vaccineIds, "before valid date");
           previousEventDate = vaccDate;
@@ -328,6 +421,14 @@ public class Forecaster
           previousEventDateValid = vaccDate;
           previousEventWasContra = true;
           previousEventDate = vaccDate;
+          if (seasonal != null && indicate.isSeasonCompleted())
+          {
+            seasonCompleted = true;
+            if (traceBuffer != null)
+            {
+              traceBuffer.append("Season completed. ");
+            }
+          }
           nextEvent();
           return indicate.getScheduleName();
         }
@@ -412,8 +513,7 @@ public class Forecaster
             dose.setStatusCode(VaccinationDoseDataBean.STATUS_INVALID);
             dose.setVaccineId(imm.getVaccineId());
             dose.setReason((forecastManager.getVaccineName(imm.getVaccineId()) + (" given " + dateFormat.format(imm
-                .getDateOfShot())))
-                + " is invalid " + invalidReason + "");
+                .getDateOfShot()))) + " is invalid " + invalidReason + "");
             doseList.add(dose);
             if (traceBuffer != null)
             {
@@ -546,8 +646,31 @@ public class Forecaster
     }
   }
 
+  private boolean checkSeasonEnd(Event event)
+  {
+    if (seasonal != null)
+    {
+      for (Iterator it = event.immList.iterator(); it.hasNext();)
+      {
+        ImmunizationInterface imm = (ImmunizationInterface) it.next();
+        if (imm instanceof SeasonEnd)
+        {
+          seasonCompleted = false;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   private void addForecastRecommendations()
   {
+    if (seasonStart != null && seasonCompleted)
+    {
+      seasonStart = new DateTime(seasonStart);
+      seasonStart.addYears(1);
+      determineRanges();
+    }
     ImmunizationForecastDataBean forecastBean = new ImmunizationForecastDataBean();
     forecastBean.setValid(valid.getDate());
     forecastBean.setEarly(early.getDate());
@@ -706,6 +829,21 @@ public class Forecaster
         }
       }
     }
+    if (seasonStart != null)
+    {
+      if (seasonStart.isGreaterThan(valid))
+      {
+        valid = new DateTime(seasonStart);
+        validReason = "at start of next season";
+        validBecause = "SEASON";
+      }
+      DateTime seasonDue = seasonal.getDue().getDateTimeFrom(seasonStart);
+      if (seasonDue.isLessThan(due))
+      {
+        due = seasonDue;
+        dueReason = seasonal.getDue() + " after season start";
+      }
+    }
     if (schedule.getOverdueAge().isEmpty())
     {
       overdue = schedule.getOverdueInterval().getDateTimeFrom(previousEventDate);
@@ -720,6 +858,14 @@ public class Forecaster
         {
           overdue = overdueInterval;
         }
+      }
+    }
+    if (seasonStart != null)
+    {
+      DateTime seasonOverdue = seasonal.getOverdue().getDateTimeFrom(seasonStart);
+      if (seasonOverdue.isLessThan(overdue))
+      {
+        overdue = seasonOverdue;
       }
     }
     if (!schedule.getEarlyAge().isEmpty())
@@ -828,11 +974,32 @@ public class Forecaster
     }
   }
 
-  public Date getForecastDate() {
+  private class SeasonEnd implements ImmunizationInterface
+  {
+    private Date date = null;
+
+    public SeasonEnd(Date date) {
+      this.date = date;
+    }
+
+    public Date getDateOfShot()
+    {
+      return date;
+    }
+
+    public int getVaccineId()
+    {
+      return -504;
+    }
+
+  }
+
+  public Date getForecastDate()
+  {
     return forecastDate;
   }
 
-  public void setForecastDate(Date forecastDate) 
+  public void setForecastDate(Date forecastDate)
   {
     this.forecastDate = forecastDate;
   }
