@@ -55,7 +55,7 @@
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" seasonCompleted=""/>
-    <indicate vaccineName="Flu" schedule="P4" age="9 years" reason="" seasonCompleted="Yes"/>
+    <indicate vaccineName="Flu" schedule="P4" age="9 years" reason="" seasonCompleted=""/>
     <indicate vaccineName="Live" schedule="CONTRA" age="" reason="" seasonCompleted=""/>
     <indicate vaccineName="Season End" schedule="P3" age="9 years" reason="" seasonCompleted=""/>
     <indicate vaccineName="Season End" schedule="S1" age="" reason="" seasonCompleted=""/>
