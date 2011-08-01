@@ -59,8 +59,10 @@ public class Forecaster
   private Seasonal seasonal = null;
   private boolean seasonCompleted = false;
   private DateTime seasonStart = null;
+  private DateTime seasonEnd = null;
 
   private VaccineForecastManagerInterface forecastManager = null;
+
 
   public Forecaster(VaccineForecastManagerInterface forecastManager) {
     this.forecastManager = forecastManager;
@@ -146,6 +148,7 @@ public class Forecaster
       originalEventList = null;
       seasonal = null;
       seasonStart = null;
+      seasonEnd = null;
     }
   }
 

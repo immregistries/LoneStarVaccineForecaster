@@ -119,9 +119,11 @@ public class VaccineForecastDataBean
         String seasonalStart = DomUtils.getAttributeValue(n, "start");
         String seasonalDue = DomUtils.getAttributeValue(n, "due");
         String seasonalOverdue = DomUtils.getAttributeValue(n, "overdue");
+        String seasonalEnd = DomUtils.getAttributeValue(n, "end");
         seasonal.setStart(new TimePeriod(seasonalStart));
         seasonal.setDue(new TimePeriod(seasonalDue));
         seasonal.setOverdue(new TimePeriod(seasonalOverdue));
+        seasonal.setEnd(new TimePeriod(seasonalEnd));
       }
     }
   }
@@ -678,6 +680,7 @@ public class VaccineForecastDataBean
     private TimePeriod start = null;
     private TimePeriod due = null;
     private TimePeriod overdue = null;
+    private TimePeriod end = null;
     
     public TimePeriod getStart()
     {
@@ -702,6 +705,12 @@ public class VaccineForecastDataBean
     public void setOverdue(TimePeriod overdue)
     {
       this.overdue = overdue;
+    }
+    public TimePeriod getEnd() {
+      return end;
+    }
+    public void setEnd(TimePeriod end) {
+      this.end = end;
     }
     
   }
