@@ -162,7 +162,7 @@ public class Forecaster
       DateTime seasonEnd = new DateTime(forecastDate);
       seasonEnd.setMonth(1);
       seasonEnd.setDay(1);
-      seasonEnd = seasonal.getStart().getDateTimeFrom(seasonEnd);
+      seasonEnd = seasonal.getEnd().getDateTimeFrom(seasonEnd);
       if (seasonEnd.isGreaterThanOrEquals(new DateTime(forecastDate)))
       {
         seasonEnd.addYears(-1);
@@ -171,7 +171,7 @@ public class Forecaster
       int count = 0;
       while (seasonEnd.isGreaterThanOrEquals(patient.getDobDateTime()) && count < 10)
       {
-        SeasonEnd se = new SeasonEnd(seasonEnd.getDate());
+        SeasonEndEvent se = new SeasonEndEvent(seasonEnd.getDate());
         event = new Event();
         event.eventDate = se.getDateOfShot();
         event.immList.add(se);
@@ -183,7 +183,7 @@ public class Forecaster
       {
         // If no seasonal events were added then put in a season start for 
         // this year so that first forecast is good
-        seasonStart = new DateTime(seasonEnd);
+        seasonStart = seasonal.getStart().getDateTimeFrom(seasonEnd);
       }
 
       Collections.sort(eventList, new Comparator() {
@@ -358,7 +358,7 @@ public class Forecaster
             trace.setReason(indicate.getReason());
             traceList.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
           }
-          seasonStart = new DateTime(event.eventDate);
+          seasonStart = seasonal.getStart().getDateTimeFrom(new DateTime(event.eventDate));
           nextEvent();
           return indicate.getScheduleName();
         } else if (checkInvalid(vaccDate))
@@ -656,7 +656,7 @@ public class Forecaster
       for (Iterator it = event.immList.iterator(); it.hasNext();)
       {
         ImmunizationInterface imm = (ImmunizationInterface) it.next();
-        if (imm instanceof SeasonEnd)
+        if (imm instanceof SeasonEndEvent)
         {
           seasonCompleted = false;
           return true;
@@ -672,6 +672,8 @@ public class Forecaster
     {
       seasonStart = new DateTime(seasonStart);
       seasonStart.addYears(1);
+      seasonEnd = new DateTime(seasonEnd);
+      seasonEnd.addYears(1);
       determineRanges();
     }
     ImmunizationForecastDataBean forecastBean = new ImmunizationForecastDataBean();
@@ -841,7 +843,7 @@ public class Forecaster
         validBecause = "SEASON";
       }
       DateTime seasonDue = seasonal.getDue().getDateTimeFrom(seasonStart);
-      if (seasonDue.isLessThan(due))
+      if (seasonDue.isGreaterThan(due))
       {
         due = seasonDue;
         dueReason = seasonal.getDue() + " after season start";
@@ -977,11 +979,11 @@ public class Forecaster
     }
   }
 
-  private class SeasonEnd implements ImmunizationInterface
+  private class SeasonEndEvent implements ImmunizationInterface
   {
     private Date date = null;
 
-    public SeasonEnd(Date date) {
+    public SeasonEndEvent(Date date) {
       this.date = date;
     }
 
