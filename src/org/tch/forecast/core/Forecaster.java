@@ -338,15 +338,27 @@ public class Forecaster
         {
           if (seasonCompleted) 
           {
-            traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + ". ");
+            if (traceBuffer != null) {
+              traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + ". ");
+            }
           }
           else if (event.eventDate.before(valid.getDate())) 
           {
-            traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + " before next dose was valid to give. ");
+            if (traceBuffer != null) {
+              traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + " before next dose was valid to give. ");
+            }
+            if (trace != null) {
+              traceList.append("Season ended " + dateFormat.format(event.eventDate) + " before next dose was valid to give. ");
+            }
           }
           else
           {
-            traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + " without valid dose given. ");
+            if (traceBuffer != null) {
+              traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + " without valid dose given. ");
+            }
+            if (trace != null) {
+              traceList.append("Season ended " + dateFormat.format(event.eventDate) + " without valid dose given. ");
+            }
           }
           seasonCompleted = false;
           if (traceBuffer != null && !indicate.getReason().equals(""))
