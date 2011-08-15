@@ -639,9 +639,9 @@ public class Forecaster
               traceList.append(" <font color=\"#0000FF\">");
               traceList.append(forecastManager.getVaccineName(imm.getVaccineId()) + " given "
                   + dateFormat.format(imm.getDateOfShot()));
-              traceBuffer.append(" is valid (dose #");
-              traceBuffer.append(validDoseCount);
-              traceBuffer.append(").</font> ");
+              traceList.append(" is valid (dose #");
+              traceList.append(String.valueOf(validDoseCount));
+              traceList.append(").</font> ");
             }
           }
         }
