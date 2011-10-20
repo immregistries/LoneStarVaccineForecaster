@@ -3,10 +3,13 @@
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.net.URLEncoder"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 
 <html>
   <head>
   <title>Forecaster Validator</title>
+  <link rel="stylesheet" type="text/css" href="index.css" />
   </head>
   <body>
     <h1>Forecaster Validator</h1>
@@ -31,14 +34,23 @@
 	   %>
 		<p><strong><font color="#CC3333" size="+1">Welcome <%= userName %></font></strong></p>
 		<%
-	  String editurl = null;	
-      String sql = "select tg.group_label, tc.case_id, tc.case_label, tc.case_description, ts.status_label \n" + 
+	  String editurl = null;
+	  String sql = "SELECT software_id, software_label FROM forecasting_software ORDER BY software_id";
+	  pstmt = conn.prepareStatement(sql);
+	  ResultSet rset = pstmt.executeQuery();
+	  List<String> softwareLabels = new ArrayList<String>();
+	  while (rset.next())
+	  {
+	    softwareLabels.add(rset.getString(2));
+	  }
+	  pstmt.close();
+      sql = "select tg.group_label, tc.case_id, tc.case_label, tc.case_description, ts.status_label \n" + 
         "from test_case tc, test_group tg, test_status ts \n" + 
         "where tc.group_code = tg.group_code \n" +
         "  and tc.status_code = ts.status_code \n" +
         "order by tg.group_code, tc.case_id";
       pstmt = conn.prepareStatement(sql);
-      ResultSet rset = pstmt.executeQuery();
+      rset = pstmt.executeQuery();
       String lastGroupLabel = "";
       while (rset.next()) {
         if (!lastGroupLabel.equals(rset.getString(1))) {
@@ -52,7 +64,9 @@
              <tr>
                <th>Test Case</th>
                <th>Test Status</th>
-               <th>Description</th>
+               <% for (String softwareLabel : softwareLabels) { if (false) {%>
+               <th><%= softwareLabel%></th>
+               <% } } %>
              </tr>
           <%
           lastGroupLabel = rset.getString(1);
@@ -79,6 +93,7 @@
 	%>
 	[<a href="<%= addvaccine %>" title="Add Vaccine" >Add Vaccine</a>]
 	<% } %>
+	[<a href="batchEvaluate.jsp" title="Batch Evaluate" >Batch Evaluate</a>]
 	<% 
     }
     %>

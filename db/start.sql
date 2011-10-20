@@ -195,3 +195,6 @@ INSERT INTO forecast_antigen (forecast_code, forecast_label, sort_order) VALUES
 create table test_user (
 user_name VARCHAR(40)
 );
+
+ALTER TABLE test_user ADD COLUMN (entity_id INT DEFAULT 0);
+ALTER TABLE test_user ADD COLUMN (software_id INT DEFAULT 0);

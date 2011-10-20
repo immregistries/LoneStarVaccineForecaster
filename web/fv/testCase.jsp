@@ -38,6 +38,15 @@ try {
   {
     userName = "";
   }
+  int entityId = 2; // default to TCH
+  sql = "SELECT entity_id FROM test_user WHERE user_name = ?";
+  pstmt = conn.prepareStatement(sql);
+  pstmt.setString(1, userName);
+  ResultSet rset = pstmt.executeQuery();
+  if (rset.next())
+  {
+    entityId = rset.getInt(1);
+  }
   boolean viewOnly = userName.equals("View Only");
   if (!userName.equals("")) {
     String noteText = request.getParameter("noteText");
@@ -51,9 +60,20 @@ try {
       pstmt.close();
       noteText = "Changed test status to " + request.getParameter("statusCode");
     }
+    else if (action.equals("changeActualResultStatus"))
+    {
+      sql = "REPLACE INTO actual_result_status (actual_result_id, entity_id, status_code) VALUES(?, ?, ?) ";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setInt(1, Integer.parseInt(request.getParameter("actualResultId")));
+      pstmt.setInt(2, entityId);
+      pstmt.setString(3, request.getParameter("statusCode"));
+      pstmt.executeUpdate();
+      pstmt.close();
+      noteText = "Changed test status to " + request.getParameter("statusCode");
+    }
     else if (action.equals("Change Expected"))
     {
-      sql = "UPDATE expected_result SET dose_number = ?, valid_date = str_to_date(?, '%m/%d/%Y'), due_date = str_to_date(?, '%m/%d/%Y'), overdue_date = str_to_date(?, '%m/%d/%Y') WHERE case_id = ? AND entity_id = 2 AND line_code = ?";
+      sql = "UPDATE expected_result SET dose_number = ?, valid_date = str_to_date(?, '%m/%d/%Y'), due_date = str_to_date(?, '%m/%d/%Y'), overdue_date = str_to_date(?, '%m/%d/%Y') WHERE case_id = ? AND entity_id = ? AND line_code = ?";
     
       pstmt = conn.prepareStatement(sql);
       pstmt.setString(1, request.getParameter("doseNumberExpected"));
@@ -61,7 +81,8 @@ try {
       pstmt.setString(3, request.getParameter("dueDateExpected"));
       pstmt.setString(4, request.getParameter("overdueDateExpected"));
       pstmt.setString(5, caseId);
-      pstmt.setString(6, request.getParameter("lineCode"));
+      pstmt.setInt(6, entityId);
+      pstmt.setString(7, request.getParameter("lineCode"));
       pstmt.executeUpdate();
       pstmt.close();
       noteText = "Changed expected result. Dose number = " +  request.getParameter("doseNumberExpected") + 
@@ -152,20 +173,30 @@ try {
       pstmt.setString(2, caseId);
       pstmt.executeUpdate();
       pstmt.close();
-    }else if (action.equals("CT_EXPECTED")||
-					action.equals("TCH_EXPECTED") ||
-					action.equals("TCH_ACTUAL") ||
-					action.equals("MCIR_ACTUAL")
-		){
-		org.tch.forecast.validator.ForecastComparisonSaver.saveForecast(request);
+    }
+    else if (action.equals("saveActualExpected"))
+    {
+	  org.tch.forecast.validator.ForecastComparisonSaver.saveForecast(request);
+	} else if (action.equals("addForecastComparison")) 
+	{
+	  String lineCode = request.getParameter("lineCode");
+	  sql = "INSERT INTO expected_result (case_id, entity_id, line_code, dose_number) \n" + 
+	        "VALUES (?, ?, ?, 1) ";
+	  pstmt = conn.prepareStatement(sql);
+	  pstmt.setString(1, caseId);
+	  pstmt.setInt(2, entityId);
+	  pstmt.setString(3, lineCode);
+      pstmt.executeUpdate();
+	  pstmt.close();
 	}
     if (noteText != null && !noteText.equals("")) 
     {
-      sql = "INSERT INTO test_note (case_id, entity_id, user_name, note_text, note_date) VALUES (?, 2, ?, ?, NOW())";
+      sql = "INSERT INTO test_note (case_id, entity_id, user_name, note_text, note_date) VALUES (?, ?, ?, ?, NOW())";
       pstmt = conn.prepareStatement(sql);
       pstmt.setString(1, caseId);
-      pstmt.setString(2, userName);
-      pstmt.setString(3, noteText);
+      pstmt.setInt(2, entityId);
+      pstmt.setString(3, userName);
+      pstmt.setString(4, noteText);
       pstmt.executeUpdate();
       pstmt.close();
     }
@@ -184,7 +215,7 @@ try {
     "WHERE tc.case_id =" + caseId + " \n" +
     "  AND tc.status_code = ts.status_code\n";
   pstmt = conn.prepareStatement(sql);
-  ResultSet rset = pstmt.executeQuery();
+  rset = pstmt.executeQuery();
   if (rset.next())
   {
     patient.setSex(rset.getString(8));
@@ -211,7 +242,7 @@ try {
   </tr>
   <tr>
     <th align="left">Status&nbsp;</th>
-    <td><%= rset.getString(10) %> <% if (!viewOnly) { %>... change status to: <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=PASS">pass</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=ACC">accept</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=RES">research</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=FAIL">fail</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=FIX">fixed</a><% } %></td>
+    <td><%= rset.getString(10) %> <% if (!viewOnly && entityId == 2) { %>... change status to: <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=PASS">pass</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=ACC">accept</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=RES">research</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=FAIL">fail</a> <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=changeStatus&statusCode=FIX">fixed</a><% } %></td>
   </tr>
 </table>
 <% String editTesturl = new String("editTestCase.jsp?");
@@ -298,11 +329,12 @@ try {
 
 <h2>Forecast Comparison</h2>
 <% 
-sql = "SELECT er.line_code, fl.line_label, er.dose_number, date_format(er.valid_date, '%m/%d/%Y'), date_format(er.due_date, '%m/%d/%Y'), date_format(er.overdue_date, '%m/%d/%Y') \n" +
-"FROM expected_result er, forecast_line fl \n" +
+sql = "SELECT er.line_code, fl.line_label, er.dose_number, date_format(er.valid_date, '%m/%d/%Y'), date_format(er.due_date, '%m/%d/%Y'), date_format(er.overdue_date, '%m/%d/%Y'), ee.entity_label \n" +
+"FROM expected_result er, forecast_line fl, expecting_entity ee \n" +
 "WHERE case_id = " + caseId + " \n" +
-"  AND entity_id = 2 \n" +
-"  AND er.line_code = fl.line_code \n";
+"  AND er.entity_id = " + entityId + " \n" +
+"  AND er.line_code = fl.line_code \n" +
+"  AND er.entity_id = ee.entity_id \n";
 pstmt = conn.prepareStatement(sql);
 rset = pstmt.executeQuery();
 while (rset.next()) {
@@ -324,6 +356,7 @@ while (rset.next()) {
   {
     overdueDateExpected = "";
   }
+  String entityLabel = rset.getString(7);
   
 %>
 <h3><%= lineLabel %></h3>
@@ -335,7 +368,8 @@ while (rset.next()) {
           <th>Due</th>
           <th>Overdue</th>
           <% if (!viewOnly) { %>
-		  <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+		  <th>&nbsp;</th>
+		  <th>&nbsp;</th>
 		  <% } %>
         </tr>
         <%
@@ -397,7 +431,7 @@ while (rset.next()) {
         String sql2 = "SELECT er.entity_id, ee.entity_label, er.dose_number, date_format(er.valid_date, '%m/%d/%Y'), date_format(er.due_date, '%m/%d/%Y'), date_format(er.overdue_date, '%m/%d/%Y') \n" +
         "FROM expected_result er, expecting_entity ee \n" +
         "WHERE case_id = " + caseId + " \n" +
-        "  AND er.entity_id <> 2 \n" +
+        "  AND er.entity_id <> " + entityId + " \n" +
         "  AND er.entity_id = ee.entity_id \n" + 
         "  AND er.line_code = '" + lineCode + "' \n";
         PreparedStatement pstmt2 = conn.prepareStatement(sql2);
@@ -431,7 +465,8 @@ while (rset.next()) {
 		  <td>
 				<%  url = new String("editActuals.jsp?");
 		
-				url = url + "action=CT_EXPECTED";
+				url = url + "action=saveActualExpected";
+				url = url + "&entity_id=" + rset2.getString(1);
 				url = url + "&caseId=" + caseId;
 				url = url + "&dose=" + doseNumberCompare;
 				url = url + "&valid_date=" + validDateCompare;
@@ -444,11 +479,14 @@ while (rset.next()) {
 				%>
 			  <a href="<%= url %>" title="Edit" >Edit</a>
 		  </td>
+		  <td>
+		    &nbsp;
+		  </td>
 			  <% } %>
         </tr>
         <% } %>
         <tr>
-          <td bgcolor="#FFFF99">TCH Expected&nbsp;</td>
+          <td bgcolor="#FFFF99"><%= entityLabel %> Expected&nbsp;</td>
           <td bgcolor="<%= doseNumberExpected.equals(doseNumberActual) ? "#FFFF99" : "#FF9933" %>"><%= doseNumberExpected %>&nbsp;</td>
           <td bgcolor="<%= validDateExpected.equals(validDateActual) ? "#FFFF99" : "#FF9933" %>"><%= validDateExpected %>&nbsp;</td>
           <td bgcolor="<%= dueDateExpected.equals(dueDateActual) ? "#FFFF99" : "#FF9933" %>"><%= dueDateExpected %>&nbsp;</td>
@@ -457,7 +495,8 @@ while (rset.next()) {
 		   <td>
 				<%  url = new String("editActuals.jsp?");
 		
-				url = url + "action=TCH_EXPECTED";
+				url = url + "action=saveActualExpected";
+				url = url + "&entity_id=" + entityId;
 				url = url + "&caseId=" + caseId;
 				url = url + "&dose=" + doseNumberExpected;
 				url = url + "&valid_date=" + validDateExpected;
@@ -469,6 +508,9 @@ while (rset.next()) {
 
 				%>
 			  <a href="<%= url %>" title="Edit" >Edit</a>
+		  </td>
+		  <td>
+		    &nbsp;
 		  </td>
 		  <% } %>
         </tr>
@@ -485,8 +527,14 @@ while (rset.next()) {
         <%
         rset2.close();
         pstmt2.close();
-        sql2 = "SELECT ar.software_id, fs.software_label, ar.dose_number, date_format(ar.valid_date, '%m/%d/%Y'), date_format(ar.due_date, '%m/%d/%Y'), date_format(ar.overdue_date, '%m/%d/%Y') \n" +
-        "FROM actual_result ar, forecasting_software fs \n" +
+        sql2 = "SELECT ar.software_id, fs.software_label, ar.dose_number, " + 
+          "date_format(ar.valid_date, '%m/%d/%Y'), date_format(ar.due_date, '%m/%d/%Y'), " + 
+          "date_format(ar.overdue_date, '%m/%d/%Y'), ar.actual_result_id, ts.status_label  \n" +
+        "FROM actual_result AS ar  \n" +
+             "LEFT JOIN actual_result_status AS ars ON \n" +
+             "  (ars.actual_result_id = ar.actual_result_id) \n" +
+             "LEFT JOIN test_status AS ts ON (ars.status_code = ts.status_code) \n" +
+             ", forecasting_software AS fs \n" +
         "WHERE ar.case_id = " + caseId + " \n" +
         "  AND ar.software_id <> 1 \n" + 
         "  AND ar.software_id = fs.software_id \n" + 
@@ -511,17 +559,24 @@ while (rset.next()) {
           {
             overdueDateCompare = "";
           }
+          int actualResultId = rset2.getInt(7);
+          String statusCode = rset2.getString(8);
+          if (statusCode == null)
+          {
+            statusCode = "";
+          }
         %>
         <tr>
           <td><%= rset2.getString(2) %> Actual&nbsp;</td>
-          <td bgcolor="<%= doseNumberCompare.equals(doseNumberActual) ? "#FFFFFF" : "#FF9933" %>"><%= doseNumberCompare %>&nbsp;</td>
-          <td bgcolor="<%= validDateCompare.equals(validDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= validDateCompare %>&nbsp;</td>
-          <td bgcolor="<%= dueDateCompare.equals(dueDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= dueDateCompare %>&nbsp;</td>
-          <td bgcolor="<%= overdueDateCompare.equals(overdueDateActual) ? "#FFFFFF" : "#FF9933" %>"><%= overdueDateCompare %>&nbsp;</td>
+          <td bgcolor="<%= doseNumberCompare.equals(doseNumberExpected) ? "#FFFFFF" : "#FF9933" %>"><%= doseNumberCompare %>&nbsp;</td>
+          <td bgcolor="<%= validDateCompare.equals(validDateExpected) ? "#FFFFFF" : "#FF9933" %>"><%= validDateCompare %>&nbsp;</td>
+          <td bgcolor="<%= dueDateCompare.equals(dueDateExpected) ? "#FFFFFF" : "#FF9933" %>"><%= dueDateCompare %>&nbsp;</td>
+          <td bgcolor="<%= overdueDateCompare.equals(overdueDateExpected) ? "#FFFFFF" : "#FF9933" %>"><%= overdueDateCompare %>&nbsp;</td>
           <% if (!viewOnly) { %>
 		  	  <td>
 				<%  url = new String("editActuals.jsp?");
-				url = url + "action=MCIR_ACTUAL";
+				url = url + "action=saveActualExpected";
+				url = url + "&forecast_id=" + rset2.getString(1);
 				url = url + "&caseId=" + caseId;
 				url = url + "&dose=" + doseNumberCompare;
 				url = url + "&valid_date=" + validDateCompare;
@@ -534,6 +589,15 @@ while (rset.next()) {
 				%>
 			  <a href="<%= url %>" title="Edit" >Edit</a>
 		  </td>
+		  <td>
+		    <%= statusCode %>
+		    <% String link = "testCase.jsp?caseId=" + caseId + "&userName=" + URLEncoder.encode(userName, "UTF-8") + "&action=changeActualResultStatus&actualResultId=" + actualResultId + "&statusCode=";%>
+		    <a href="<%= link%>A">Great</a> 
+		    <a href="<%= link%>B">Good</a> 
+		    <a href="<%= link%>C">Okay</a> 
+		    <a href="<%= link%>D">Poor</a> 
+		    <a href="<%= link%>E">Problem</a> 
+		  </td>
 		  <% } %>
         </tr>
         <% } %>
@@ -541,6 +605,21 @@ while (rset.next()) {
       </table>
       
     <% } %>
+    
+    
+    <% if (!viewOnly) { %>
+<p>[Add Forecast Comparison: 
+<% 
+    sql = "SELECT line_code, line_label FROM forecast_line";
+    pstmt = conn.prepareStatement(sql);
+    rset = pstmt.executeQuery();
+    while (rset.next()) {  %>
+      <a href="testCase.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>&action=addForecastComparison&lineCode=<%= rset.getString(1) %>"><%= rset.getString(2)%></a>
+<% }
+    rset.close();
+    pstmt.close(); %>]</p>
+<% } %>
+    
 <h2>Notes</h2>
 <%
 pstmt.close();

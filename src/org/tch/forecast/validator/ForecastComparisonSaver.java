@@ -22,28 +22,28 @@ public class ForecastComparisonSaver
     String userName = request.getParameter("userName");
     String action = request.getParameter("action");
     String lineCode = request.getParameter("line_code");
+    String softwareId = request.getParameter("software_id");
+    String entityId = request.getParameter("entity_id");
     String tableName = "";
     String whereClause = "";
-    String updateClms = " SET dose_number = ?, " + "valid_date = str_to_date(?, '%m/%d/%Y'), "
-        + "due_date = str_to_date(?, '%m/%d/%Y'), " + "overdue_date = str_to_date(?, '%m/%d/%Y') ";
-    if ("CT_EXPECTED".equalsIgnoreCase(action))
-    {
-      tableName = " expected_result ";
-      whereClause = " where case_id = ? and  entity_id <> 2 and line_code = ? ";
-    } else if ("TCH_EXPECTED".equalsIgnoreCase(action))
-    {
-      tableName = " expected_result ";
-      whereClause = " where case_id = ? and  entity_id = 2 and line_code = ? ";
-    } else if ("TCH_ACTUAL".equalsIgnoreCase(action))
-    {
-      // not supported
-    } else if ("MCIR_ACTUAL".equalsIgnoreCase(action))
+    String updateClms = " SET dose_number = ?, " 
+        + "valid_date = str_to_date(?, '%m/%d/%Y'), "
+        + "due_date = str_to_date(?, '%m/%d/%Y'), " 
+        + "overdue_date = str_to_date(?, '%m/%d/%Y') ";
+    
+    if (softwareId != null)
     {
       tableName = " actual_result ";
-      whereClause = " where case_id = ? and  software_id <> 1  and line_code = ? ";
-    } else
+      whereClause = " where case_id = ? and software_id = ? and line_code = ? ";
+    }
+    else if (entityId != null)
     {
-      return;
+      tableName = " expected_result ";
+      whereClause = " where case_id = ? and entity_id = ? and line_code = ? ";
+    }
+    else
+    {
+      throw new IllegalArgumentException("Software Id or Entity Id must be defined");
     }
     Connection conn = null;
     PreparedStatement pstmt = null;
@@ -57,7 +57,8 @@ public class ForecastComparisonSaver
       pstmt.setString(3, dueDate);
       pstmt.setString(4, overdueDate);
       pstmt.setString(5, caseID);
-      pstmt.setString(6, lineCode);
+      pstmt.setString(6, softwareId == null ? entityId : softwareId);
+      pstmt.setString(7, lineCode);
       pstmt.executeUpdate();
     } finally
     {

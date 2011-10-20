@@ -53,7 +53,13 @@ String caseId = request.getParameter("case_id");
 		<input type="hidden" name="caseId" value="<%=request.getParameter("caseId")==null ? "" : request.getParameter("caseId") %>"/>
 		<input type="hidden" name="line_code" value="<%=request.getParameter("line_code")==null ? "" : request.getParameter("line_code") %>"/>
 		<input type="hidden" name="userName" value="<%=request.getParameter("userName")==null ? "" : request.getParameter("userName") %>"/>		
-		<input type="hidden" name="action" value="<%=request.getParameter("action")==null ? "" : request.getParameter("action") %>"/>		
+		<input type="hidden" name="action" value="<%=request.getParameter("action")==null ? "" : request.getParameter("action") %>"/>
+		<% if (request.getParameter("entity_id") != null) { %>
+		  <input type="hidden" name="entity_id" value="<%=request.getParameter("entity_id") %>"/>
+		<% } %>
+		<% if (request.getParameter("software_id") != null) { %>
+		  <input type="hidden" name="software_id" value="<%=request.getParameter("software_id") %>"/>
+		<% } %>
 		<tr>
 			<td>Dose</td>
 			<td>
