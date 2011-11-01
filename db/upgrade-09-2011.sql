@@ -37,3 +37,5 @@ VALUES
 ('C', 'Okay'),
 ('D', 'Poor'),
 ('E', 'Problem');
+
+ALTER TABLE test_user ADD COLUMN entity_id INT DEFAULT 2;

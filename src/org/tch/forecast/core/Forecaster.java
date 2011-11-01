@@ -1,10 +1,8 @@
 package org.tch.forecast.core;
 
-import java.awt.PageAttributes.OriginType;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -63,7 +61,6 @@ public class Forecaster
 
   private VaccineForecastManagerInterface forecastManager = null;
 
-
   public Forecaster(VaccineForecastManagerInterface forecastManager) {
     this.forecastManager = forecastManager;
   }
@@ -100,42 +97,50 @@ public class Forecaster
       for (Iterator fit = vaccineForecastList.iterator(); fit.hasNext();)
       {
         schedule = (VaccineForecastDataBean.Schedule) fit.next();
-        forecast = schedule.getVaccineForecast();
-        previousEventDate = new DateTime(patient.getDobDateTime());
-        previousEventDateValid = previousEventDate;
-        beforePreviousEventDate = null;
-        validDoseCount = 0;
+        try
+        {
+          forecast = schedule.getVaccineForecast();
+          previousEventDate = new DateTime(patient.getDobDateTime());
+          previousEventDateValid = previousEventDate;
+          beforePreviousEventDate = null;
+          validDoseCount = 0;
 
-        setupSeasonal();
-        if (traceBuffer != null)
-        {
-          traceBuffer.append("<p><b>" + forecast.getForecastCode() + "</b></p><ul><li>");
-        }
-        if (traces != null)
-        {
-          trace = new Trace();
-          trace.setSchedule(schedule);
-          traceList = new TraceList();
-          traceList.add(trace);
-          traceList.setForecastName(forecast.getForecastCode());
-          traceList.setForecastLabel(forecast.getForecastLabel());
-          traces.put(forecast.getForecastCode(), traceList);
-          traceList.append("<ul><li>");
-        }
-        eventPosition = 0;
-        previousAfterInvalidInterval = null;
-        nextEvent();
+          setupSeasonal();
+          if (traceBuffer != null)
+          {
+            traceBuffer.append("<p><b>" + forecast.getForecastCode() + "</b></p><ul><li>");
+          }
+          if (traces != null)
+          {
+            trace = new Trace();
+            trace.setSchedule(schedule);
+            traceList = new TraceList();
+            traceList.add(trace);
+            traceList.setForecastName(forecast.getForecastCode());
+            traceList.setForecastLabel(forecast.getForecastLabel());
+            traces.put(forecast.getForecastCode(), traceList);
+            traceList.append("<ul><li>");
+          }
+          eventPosition = 0;
+          previousAfterInvalidInterval = null;
+          nextEvent();
 
-        traverseSchedules();
-        if (traceBuffer != null)
+          traverseSchedules();
+          if (traceBuffer != null)
+          {
+            traceBuffer.append("</li></ul>");
+          }
+          if (traces != null)
+          {
+            traceList.append("</li></ul>");
+          }
+        } catch (Exception e)
         {
-          traceBuffer.append("</li></ul>");
-        }
-        if (traces != null)
+          throw new Exception("Unable to forecast for schedule " + schedule.getScheduleName() + " because " + e.getMessage(), e);
+        } finally
         {
-          traceList.append("</li></ul>");
+          finishSeasonal();
         }
-        finishSeasonal();
       }
     }
   }
@@ -159,14 +164,7 @@ public class Forecaster
     {
       seasonCompleted = false;
       originalEventList = eventList;
-      DateTime seasonEnd = new DateTime(forecastDate);
-      seasonEnd.setMonth(1);
-      seasonEnd.setDay(1);
-      seasonEnd = seasonal.getEnd().getDateTimeFrom(seasonEnd);
-      if (seasonEnd.isGreaterThanOrEquals(new DateTime(forecastDate)))
-      {
-        seasonEnd.addYears(-1);
-      }
+      seasonEnd = setupSeasonEnd();
 
       int count = 0;
       while (seasonEnd.isGreaterThanOrEquals(patient.getDobDateTime()) && count < 10)
@@ -181,7 +179,7 @@ public class Forecaster
       }
       if (count == 0)
       {
-        // If no seasonal events were added then put in a season start for 
+        // If no seasonal events were added then put in a season start for
         // this year so that first forecast is good
         seasonStart = seasonal.getStart().getDateTimeFrom(seasonEnd);
       }
@@ -195,6 +193,19 @@ public class Forecaster
         }
       });
     }
+  }
+
+  private DateTime setupSeasonEnd()
+  {
+    DateTime seasonEnd = new DateTime(forecastDate);
+    seasonEnd.setMonth(1);
+    seasonEnd.setDay(1);
+    seasonEnd = seasonal.getEnd().getDateTimeFrom(seasonEnd);
+    if (seasonEnd.isGreaterThanOrEquals(new DateTime(forecastDate)))
+    {
+      seasonEnd.addYears(-1);
+    }
+    return seasonEnd;
   }
 
   private void traverseSchedules() throws Exception
@@ -336,27 +347,32 @@ public class Forecaster
         }
         if (checkSeasonEnd(event))
         {
-          if (seasonCompleted) 
+          if (seasonCompleted)
           {
-            if (traceBuffer != null) {
+            if (traceBuffer != null)
+            {
               traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + ". ");
             }
-          }
-          else if (event.eventDate.before(valid.getDate())) 
+          } else if (event.eventDate.before(valid.getDate()))
           {
-            if (traceBuffer != null) {
-              traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + " before next dose was valid to give. ");
+            if (traceBuffer != null)
+            {
+              traceBuffer.append("Season ended " + dateFormat.format(event.eventDate)
+                  + " before next dose was valid to give. ");
             }
-            if (trace != null) {
-              traceList.append("Season ended " + dateFormat.format(event.eventDate) + " before next dose was valid to give. ");
+            if (trace != null)
+            {
+              traceList.append("Season ended " + dateFormat.format(event.eventDate)
+                  + " before next dose was valid to give. ");
             }
-          }
-          else
+          } else
           {
-            if (traceBuffer != null) {
+            if (traceBuffer != null)
+            {
               traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + " without valid dose given. ");
             }
-            if (trace != null) {
+            if (trace != null)
+            {
               traceList.append("Season ended " + dateFormat.format(event.eventDate) + " without valid dose given. ");
             }
           }
@@ -371,6 +387,10 @@ public class Forecaster
             traceList.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
           }
           seasonStart = seasonal.getStart().getDateTimeFrom(new DateTime(event.eventDate));
+          if (seasonEnd == null)
+          {
+            seasonEnd = setupSeasonEnd();
+          }
           nextEvent();
           return indicate.getScheduleName();
         } else if (checkInvalid(vaccDate))
@@ -683,6 +703,8 @@ public class Forecaster
     if (seasonStart != null && seasonCompleted)
     {
       seasonStart = new DateTime(seasonStart);
+      System.out.println("seasonStart = " + seasonStart);
+      System.out.println("seasonEnd = " + seasonEnd);
       seasonStart.addYears(1);
       seasonEnd = new DateTime(seasonEnd);
       seasonEnd.addYears(1);

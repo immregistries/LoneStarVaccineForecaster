@@ -313,7 +313,16 @@ try {
         forecaster.setPatient(patient);
         forecaster.setVaccinations(imms);
         forecaster.setForecastDate(forecastDate);
-        forecaster.forecast(resultList, doseList, traceBuffer, null);
+        try 
+        {
+          forecaster.forecast(resultList, doseList, traceBuffer, null);
+        }
+        catch (Exception e)
+        {
+          out.println("<pre>Vaccination Forecast Failed: " + e.getMessage());
+          e.printStackTrace();
+          out.println("</pre>");
+        }
         
         %>
       </table>
