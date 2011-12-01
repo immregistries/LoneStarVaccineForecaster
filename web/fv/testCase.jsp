@@ -19,6 +19,7 @@
 <%@page import="org.tch.forecast.support.VaccineForecastManager"%><html>
 <head>
 <title>Forecaster Validator</title>
+  <link rel="stylesheet" type="text/css" href="index.css" />
 </head>
 <body>
 <% 
@@ -377,8 +378,8 @@ while (rset.next()) {
           <th>Due</th>
           <th>Overdue</th>
           <% if (!viewOnly) { %>
-		  <th>&nbsp;</th>
-		  <th>&nbsp;</th>
+		  <th>Edit</th>
+		  <th>Grade</th>
 		  <% } %>
         </tr>
         <%
@@ -530,6 +531,7 @@ while (rset.next()) {
           <td bgcolor="#FFFF99"><%= dueDateActual %>&nbsp;</td>
           <td bgcolor="#FFFF99"><%= overdueDateActual %>&nbsp;</td>
           <% if (!viewOnly) { %>
+          <td>&nbsp;</td>
           <td>&nbsp;</td>
           <% } %>
 		</tr>

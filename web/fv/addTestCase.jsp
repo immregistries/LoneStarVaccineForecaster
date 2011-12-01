@@ -11,6 +11,7 @@
 <html>
 <head>
 <title>Add Test Case</title>
+  <link rel="stylesheet" type="text/css" href="index.css" />
 </head>
 <body>
 

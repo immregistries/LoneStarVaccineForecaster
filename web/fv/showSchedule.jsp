@@ -23,6 +23,7 @@
 <%@page import="org.tch.forecast.core.TimePeriod"%><html>
 <head>
 <title>Forecast Schedule</title>
+  <link rel="stylesheet" type="text/css" href="index.css" />
 </head>
 <body>
 <% 

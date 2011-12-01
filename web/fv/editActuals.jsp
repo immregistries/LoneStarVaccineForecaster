@@ -19,6 +19,7 @@
 <html>
 <head>
 <title>Edit Actuals</title>
+  <link rel="stylesheet" type="text/css" href="index.css" />
 </head>
 <body>
 

@@ -63,7 +63,8 @@
            <table border="1" cellspacing="0">
              <tr>
                <th>Test Case</th>
-               <th>Test Status</th>
+               <th>Status</th>
+               <th>Description</th>
                <% for (String softwareLabel : softwareLabels) { if (false) {%>
                <th><%= softwareLabel%></th>
                <% } } %>

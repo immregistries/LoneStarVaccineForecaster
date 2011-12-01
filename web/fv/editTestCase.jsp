@@ -17,6 +17,7 @@ boolean isEdit = request.getParameter("case_id") != null && !"".equals(request.g
 <title>
 	<%=isEdit ? "Edit Test Case" : "Add Test Case" %>
 </title>
+  <link rel="stylesheet" type="text/css" href="index.css" />
 </head>
 <body>
 <h1><%=isEdit ? "Edit Test Case" : "Add Test Case" %></h1>
