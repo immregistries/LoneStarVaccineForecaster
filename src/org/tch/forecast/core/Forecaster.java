@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.tch.forecast.core.VaccineForecastDataBean.Seasonal;
+import org.tch.forecast.core.logic.ActionStep;
+import org.tch.forecast.core.logic.ActionStepFactory;
+import org.tch.forecast.core.logic.DataStore;
+import org.tch.forecast.core.logic.EndStep;
+import org.tch.forecast.core.logic.StartStep;
+import org.tch.forecast.support.VaccineForecastManager;
 import org.tch.hl7.core.util.DateTime;
 
 public class Forecaster
@@ -24,6 +30,7 @@ public class Forecaster
 
   public static final int VARICELLA_HISTORY = 378;
 
+  private List vaccinations;
   private PatientForecastRecordDataBean patient = null;
   private List eventList = null;
   private List originalEventList = null;
@@ -59,31 +66,81 @@ public class Forecaster
   private DateTime seasonStart = null;
   private DateTime seasonEnd = null;
 
+  private DataStore dataStore = null;
+
+  public Map getTraces()
+  {
+    return traces;
+  }
+
+  public StringBuffer getTraceBuffer()
+  {
+    return traceBuffer;
+  }
+
+  public PatientForecastRecordDataBean getPatient()
+  {
+    return patient;
+  }
+
   private VaccineForecastManagerInterface forecastManager = null;
 
   public Forecaster(VaccineForecastManagerInterface forecastManager) {
     this.forecastManager = forecastManager;
   }
 
+  private static final boolean RUN_NEW = true;
+
   public List forecast(List resultList, List doseList, StringBuffer traceBuffer, Map traces) throws Exception
+  {
+    if (RUN_NEW)
+    {
+      dataStore = new DataStore(new VaccineForecastManager());
+      dataStore.setResultList(resultList);
+      dataStore.setDoseList(doseList);
+      dataStore.setTraceBuffer(traceBuffer);
+      dataStore.setTraces(traces);
+      dataStore.setForecastDate(forecastDate);
+      dataStore.setPatient(patient);
+      dataStore.setVaccinations(vaccinations);
+      String nextActionName = StartStep.NAME;
+      ActionStep actionStep = ActionStepFactory.get(nextActionName);
+      while (!actionStep.getName().equals(EndStep.NAME))
+      {
+        nextActionName = actionStep.doAction(dataStore);
+        actionStep = ActionStepFactory.get(nextActionName);
+      }
+      return dataStore.getResultList();
+    } else
+    {
+      setup(resultList, doseList, traceBuffer, traces);
+      forecastForAllIndications("BIRTH");
+      if (patient.getSex() == null || !patient.getSex().equals("M"))
+      {
+        forecastForAllIndications("FEMALE");
+      }
+      if (!hasHistoryOfVaricella)
+      {
+        forecastForAllIndications("NO-VAR-HIS");
+      }
+      finish();
+      return resultList;
+    }
+  }
+
+  public void finish()
+  {
+    this.traceBuffer = null;
+    this.traces = null;
+  }
+
+  public void setup(List resultList, List doseList, StringBuffer traceBuffer, Map traces)
   {
     this.resultList = resultList;
     this.doseList = doseList;
     this.traceBuffer = traceBuffer;
     this.traces = traces;
     this.today = new DateTime(forecastDate);
-    forecastForAllIndications("BIRTH");
-    if (patient.getSex() == null || !patient.getSex().equals("M"))
-    {
-      forecastForAllIndications("FEMALE");
-    }
-    if (!hasHistoryOfVaricella)
-    {
-      forecastForAllIndications("NO-VAR-HIS");
-    }
-    this.traceBuffer = null;
-    this.traces = null;
-    return resultList;
   }
 
   private void forecastForAllIndications(String indication) throws Exception, Exception
@@ -97,51 +154,57 @@ public class Forecaster
       for (Iterator fit = vaccineForecastList.iterator(); fit.hasNext();)
       {
         schedule = (VaccineForecastDataBean.Schedule) fit.next();
-        try
-        {
-          forecast = schedule.getVaccineForecast();
-          previousEventDate = new DateTime(patient.getDobDateTime());
-          previousEventDateValid = previousEventDate;
-          beforePreviousEventDate = null;
-          validDoseCount = 0;
-
-          setupSeasonal();
-          if (traceBuffer != null)
-          {
-            traceBuffer.append("<p><b>" + forecast.getForecastCode() + "</b></p><ul><li>");
-          }
-          if (traces != null)
-          {
-            trace = new Trace();
-            trace.setSchedule(schedule);
-            traceList = new TraceList();
-            traceList.add(trace);
-            traceList.setForecastName(forecast.getForecastCode());
-            traceList.setForecastLabel(forecast.getForecastLabel());
-            traces.put(forecast.getForecastCode(), traceList);
-            traceList.append("<ul><li>");
-          }
-          eventPosition = 0;
-          previousAfterInvalidInterval = null;
-          nextEvent();
-
-          traverseSchedules();
-          if (traceBuffer != null)
-          {
-            traceBuffer.append("</li></ul>");
-          }
-          if (traces != null)
-          {
-            traceList.append("</li></ul>");
-          }
-        } catch (Exception e)
-        {
-          throw new Exception("Unable to forecast for schedule " + schedule.getScheduleName() + " because " + e.getMessage(), e);
-        } finally
-        {
-          finishSeasonal();
-        }
+        forecastSchedule();
       }
+    }
+  }
+
+  public void forecastSchedule() throws Exception
+  {
+    try
+    {
+      forecast = schedule.getVaccineForecast();
+      previousEventDate = new DateTime(patient.getDobDateTime());
+      previousEventDateValid = previousEventDate;
+      beforePreviousEventDate = null;
+      validDoseCount = 0;
+
+      setupSeasonal();
+      if (traceBuffer != null)
+      {
+        traceBuffer.append("<p><b>" + forecast.getForecastCode() + "</b></p><ul><li>");
+      }
+      if (traces != null)
+      {
+        trace = new Trace();
+        trace.setSchedule(schedule);
+        traceList = new TraceList();
+        traceList.add(trace);
+        traceList.setForecastName(forecast.getForecastCode());
+        traceList.setForecastLabel(forecast.getForecastLabel());
+        traces.put(forecast.getForecastCode(), traceList);
+        traceList.append("<ul><li>");
+      }
+      eventPosition = 0;
+      previousAfterInvalidInterval = null;
+      nextEvent();
+
+      traverseSchedules();
+      if (traceBuffer != null)
+      {
+        traceBuffer.append("</li></ul>");
+      }
+      if (traces != null)
+      {
+        traceList.append("</li></ul>");
+      }
+    } catch (Exception e)
+    {
+      throw new Exception("Unable to forecast for schedule " + schedule.getScheduleName() + " because "
+          + e.getMessage(), e);
+    } finally
+    {
+      finishSeasonal();
     }
   }
 
@@ -982,10 +1045,16 @@ public class Forecaster
     this.patient = patient;
   }
 
-  public void setVaccinations(List vaccinations)
+  public List getVaccinations()
   {
-    vaccinations = new ArrayList(vaccinations);
-    Collections.sort(vaccinations, new Comparator() {
+    return vaccinations;
+  }
+
+  public void setVaccinations(List vaccList)
+  {
+    this.vaccinations = new ArrayList(vaccList);
+    vaccList = new ArrayList(vaccList);
+    Collections.sort(vaccList, new Comparator() {
       public int compare(Object o1, Object o2)
       {
         ImmunizationInterface imm1 = (ImmunizationInterface) o1;
@@ -996,7 +1065,7 @@ public class Forecaster
     eventList = new ArrayList();
     Event event = null;
     hasHistoryOfVaricella = false;
-    for (Iterator it = vaccinations.iterator(); it.hasNext();)
+    for (Iterator it = vaccList.iterator(); it.hasNext();)
     {
       ImmunizationInterface imm = (ImmunizationInterface) it.next();
       if (event == null || !event.eventDate.equals(imm.getDateOfShot()))

@@ -2,7 +2,7 @@ package org.tch.forecast.core;
 
 import java.util.ArrayList;
 
-public class TraceList extends ArrayList
+public class TraceList extends ArrayList<Trace>
 {
   private StringBuffer explanation = new StringBuffer();
   private String statusDescription = "";

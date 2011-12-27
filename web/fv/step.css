@@ -1,0 +1,27 @@
+body {font-family: Tahoma, Geneva, sans-serif; background:#D5E1DD; font-size: small;}
+p {width:650px; color:#2B3E42;}
+.menu {width:720px; padding:5px; background-color:#F7F3E8; margin: 0px; border-color: #2B3E42; border-width: 1px; border-style: solid}
+a:link.menuLink {color:#2B3E42; text-decoration:none}
+a:visited.menuLink {color:#2B3E42; text-decoration:none}
+a:hover.menuLink {color:#2B3E42; text-decoration:none}
+a:active.menuLink {color:#2B3E42; text-decoration:none}
+.submenu {padding:5px; background-color:#F7F3E8; margin: 0px; border-color: #2B3E42; border-width: 1px; border-style: solid}
+.stepimg {background:#FFFFFF; border-width: 2px; border-style:solid; padding:5px;}
+input {border-color: #747E80; background-color: #F7F3E8}
+textarea {border-color: #747E80; background-color: #F7F3E8}
+select {border-color: #747E80; background-color: #F7F3E8}
+pre {background:#F7F3E8; padding:4px; margin: 2px; }
+.scrollbox {width: 700px; overflow:auto;}
+.pass {background:#77BED2;}
+.fail {background:#F2583E;}
+.help {width:700px; padding: 10px;}
+table {border-width: 1px; border-color:#2B3E42; border-collapse: collapse; border-style: solid; margin-bottom: 3px;}
+td {border-width: 1px; border-color:#2B3E42; border-style: solid; padding: 2px; font-size: small;}
+th {border-width: 1px; border-color:#2B3E42; border-style: solid; padding: 2px; text-align: left; background:#2B3E42; color:#D5E1DD; font-size: x-small;}
+.layout {border-style:none; margin: 5px;}
+.insideValue {border-width: 1px; border-color:#2B3E42; border-style: solid; padding: 2px; text-align: left; background:#F7F3E8; font-size: small; }
+.smallHeader {border-width: 1px; border-color:#2B3E42; border-style: solid; padding: 2px; text-align: left; background:#D5E1DD; color:#000000; font-size: x-small;}
+.bigHeader {border-width: 1px; border-color:#2B3E42; border-style: solid; padding: 2px; text-align: left; background:#2B3E42; color:#D5E1DD; font-size: small;}
+.insideValueCentered {border-width: 1px; border-color:#2B3E42; border-style: solid; padding: 2px; text-align: center; background:#F7F3E8; font-size: small; }
+.smallHeaderCentered {border-width: 1px; border-color:#2B3E42; border-style: solid; padding: 2px; text-align: center; background:#D5E1DD; color:#000000; font-size: x-small;}
+.bigHeaderCentered {border-width: 1px; border-color:#2B3E42; border-style: solid; padding: 2px; text-align: center; background:#2B3E42; color:#D5E1DD; font-size: small;}

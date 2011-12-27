@@ -16,13 +16,13 @@ import org.xml.sax.InputSource;
 
 public class VaccineForecastDataBean
 {
-  private static Map indications = new HashMap();
+  private static Map<String, List<Schedule>> indications = new HashMap<String, List<Schedule>>();
 
   private String forecastCode = "";
   private String forecastLabel = "";
   private int sortOrder = 0;
-  private Map vaccines = new HashMap();
-  private Map schedules = new HashMap();
+  private Map<String, String> vaccines = new HashMap<String, String>();
+  private Map<String, Schedule> schedules = new HashMap<String, Schedule>();
   private Seasonal seasonal = null;
 
   public VaccineForecastDataBean(String source) throws Exception {
@@ -70,17 +70,18 @@ public class VaccineForecastDataBean
     {
       n = l.item(i);
       name = n.getNodeName();
-      processScheduleOrVaccine(n, name);
+      processScheduleOrVaccine(n, name, forecastCode);
     }
   }
 
-  private void processScheduleOrVaccine(Node n, String name) throws Exception
+  private void processScheduleOrVaccine(Node n, String name, String forecastCode) throws Exception
   {
     if (name != null)
     {
       if (name.equals("schedule"))
       {
         Schedule schedule = new Schedule();
+        schedule.setForecastCode(forecastCode);
         schedule.setScheduleName(DomUtils.getAttributeValue(n, "scheduleName"));
         schedule.setLabel(DomUtils.getAttributeValue(n, "label"));
         schedule.setDose(DomUtils.getAttributeValue(n, "dose"));
@@ -132,10 +133,10 @@ public class VaccineForecastDataBean
   {
     if (schedule.getIndication() != null && !schedule.getIndication().equals(""))
     {
-      List indicationList = (List) indications.get(schedule.getIndication());
+      List<Schedule> indicationList = indications.get(schedule.getIndication());
       if (indicationList == null)
       {
-        indicationList = new ArrayList();
+        indicationList = new ArrayList<Schedule>();
         indications.put(schedule.getIndication(), indicationList);
       }
       indicationList.add(schedule);
@@ -179,6 +180,10 @@ public class VaccineForecastDataBean
       {
         schedule.setBeforePreviousInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
         schedule.setBeforePreviousGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
+      } else if (name.equals("pos"))
+      {
+        schedule.setPosColumn(DomUtils.getAttributeValueInt(n, "column"));
+        schedule.setPosRow(DomUtils.getAttributeValueInt(n, "row"));
       } else if (name.equals("indicate"))
       {
         Indicate indicate = new Indicate();
@@ -198,7 +203,7 @@ public class VaccineForecastDataBean
 
   private int[] convertToVaccineIds(String vaccineName) throws Exception
   {
-    String vaccineString = (String) vaccines.get(vaccineName.toUpperCase());
+    String vaccineString = vaccines.get(vaccineName.toUpperCase());
     if (vaccineString == null)
     {
       throw new Exception("Unrecognized vaccine name '" + vaccineName + "'");
@@ -225,7 +230,7 @@ public class VaccineForecastDataBean
 
   public class Schedule
   {
-
+    private String forecastCode = "";
     private String scheduleName = "";
     private String label = "";
     private TimePeriod validAge = null;
@@ -246,9 +251,31 @@ public class VaccineForecastDataBean
     private TimePeriod beforePreviousInterval = null;
     private TimePeriod beforePreviousGrace = null;
     private Indicate[] indicates = new Indicate[0];
-    private List indicateList = new ArrayList();
+    private List<Indicate> indicateList = new ArrayList<Indicate>();
     private String dose = "";
     private String indication = "";
+    private int posColumn = 0;
+    private int posRow = 0;
+
+    public int getPosColumn()
+    {
+      return posColumn;
+    }
+
+    public void setPosColumn(int posColumn)
+    {
+      this.posColumn = posColumn;
+    }
+
+    public int getPosRow()
+    {
+      return posRow;
+    }
+
+    public void setPosRow(int posRow)
+    {
+      this.posRow = posRow;
+    }
 
     private void checkForConsistency() throws Exception
     {
@@ -264,6 +291,16 @@ public class VaccineForecastDataBean
       {
         throw new Exception("Overdue age or overdue interval must be defined");
       }
+    }
+    
+    public String getForecastCode()
+    {
+      return forecastCode;
+    }
+
+    public void setForecastCode(String forecastCode)
+    {
+      this.forecastCode = forecastCode;
     }
 
     public VaccineForecastDataBean getVaccineForecast()
@@ -401,14 +438,14 @@ public class VaccineForecastDataBean
       this.indicates = indicates;
     }
 
-    private List getIndicateList()
+    private List<Indicate> getIndicateList()
     {
       return indicateList;
     }
 
     private void convertIndicateFromListToArray()
     {
-      indicates = (Indicate[]) indicateList.toArray(new Indicate[0]);
+      indicates = indicateList.toArray(new Indicate[0]);
       indicateList = null;
     }
 
@@ -502,12 +539,12 @@ public class VaccineForecastDataBean
       this.beforePreviousGrace = beforePreviousGrace;
     }
 
-    public void setIndicateList(List indicateList)
+    public void setIndicateList(List<Indicate> indicateList)
     {
       this.indicateList = indicateList;
     }
 
-    public Map getVaccines()
+    public Map<String, String> getVaccines()
     {
       return vaccines;
     }
@@ -527,6 +564,7 @@ public class VaccineForecastDataBean
 
     public String SCHEDULE_INVALID = "INVALID";
     public String SCHEDULE_CONTRA = "CONTRA";
+    public String SCHEDULE_COMPLETE = "COMPLETE";
 
     public String getReason()
     {
@@ -546,6 +584,11 @@ public class VaccineForecastDataBean
     public boolean isContra()
     {
       return scheduleName != null && scheduleName.equalsIgnoreCase(SCHEDULE_CONTRA);
+    }
+    
+    public boolean isComplete()
+    {
+      return scheduleName != null && scheduleName.equalsIgnoreCase(SCHEDULE_COMPLETE);
     }
 
     public int[] getVaccines()
@@ -630,12 +673,12 @@ public class VaccineForecastDataBean
     this.forecastCode = forecastCode;
   }
 
-  public Map getSchedules()
+  public Map<String, Schedule> getSchedules()
   {
     return schedules;
   }
 
-  public void setSchedules(Map schedules)
+  public void setSchedules(Map<String, Schedule> schedules)
   {
     this.schedules = schedules;
   }
@@ -655,7 +698,7 @@ public class VaccineForecastDataBean
     this.forecastLabel = forecastLabel;
   }
 
-  public static Map getIndications()
+  public static Map<String, List<Schedule>> getIndications()
   {
     return indications;
   }
@@ -670,7 +713,7 @@ public class VaccineForecastDataBean
     this.sortOrder = sortOrder;
   }
 
-  public Map getVaccines()
+  public Map<String, String> getVaccines()
   {
     return vaccines;
   }
@@ -714,5 +757,7 @@ public class VaccineForecastDataBean
     }
     
   }
+
+
 
 }

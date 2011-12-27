@@ -16,9 +16,17 @@
         <servlet-name>actionFV</servlet-name>
         <servlet-class>org.tch.forecast.action.ActionServlet</servlet-class>
     </servlet>
+	<servlet>
+        <servlet-name>step</servlet-name>
+        <servlet-class>org.tch.forecast.StepServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>actionFV</servlet-name>
         <url-pattern>*.action</url-pattern>
+    </servlet-mapping>	 
+    <servlet-mapping>
+        <servlet-name>step</servlet-name>
+        <url-pattern>fv/step</url-pattern>
     </servlet-mapping>	 
 
 

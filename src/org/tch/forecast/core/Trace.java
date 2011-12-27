@@ -14,7 +14,7 @@ public class Trace
   private boolean invalid = false;
   private Schedule schedule = null;
   private String reason = "";
-  private List doses = new ArrayList();
+  private List<VaccinationDoseDataBean> doses = new ArrayList<VaccinationDoseDataBean>();
   private DateTime dueDate = null;
   private DateTime finishedDate = null;
   private DateTime overdueDate = null;
@@ -32,12 +32,12 @@ public class Trace
     this.validBecause = validBecause;
   }
 
-  public List getDoses()
+  public List<VaccinationDoseDataBean> getDoses()
   {
     return doses;
   }
 
-  public void setDoses(List doses)
+  public void setDoses(List<VaccinationDoseDataBean> doses)
   {
     this.doses = doses;
   }

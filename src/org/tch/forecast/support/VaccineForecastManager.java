@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.tch.forecast.core.VaccineForecastDataBean;
+import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
 import org.tch.forecast.validator.DataSourceException;
 import org.tch.forecast.validator.DataSourceUnavailableException;
@@ -12,12 +13,12 @@ import org.tch.forecast.validator.db.DatabasePool;
 
 public class VaccineForecastManager implements VaccineForecastManagerInterface
 {
-  private static Map indications = null;
+  private static Map<String, List<Schedule>> indications = null;
   
-  public List getIndications(String indication) throws DataSourceException, DataSourceUnavailableException
+  public List<Schedule> getIndications(String indication) throws DataSourceException, DataSourceUnavailableException
   {
     init();
-    return (List) indications.get(indication);
+    return indications.get(indication);
   }
   
   public String getVaccineName(int id)
@@ -49,7 +50,7 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
     }
   }
 
-  private static List getVaccineForecasts() throws DataSourceException, DataSourceUnavailableException
+  private static List<VaccineForecastDataBean> getVaccineForecasts() throws DataSourceException, DataSourceUnavailableException
   {
     Connection conn = DatabasePool.getConnection();
     try

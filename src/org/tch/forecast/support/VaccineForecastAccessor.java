@@ -15,9 +15,9 @@ public class VaccineForecastAccessor
   private static final String GET_VACCINE_FORECASTS = "SELECT forecast_code, forecast_label, sort_order \n"
       + "FROM forecast_antigen ";
 
-  public static List getVaccineForecasts(Connection conn) throws DataSourceException
+  public static List<VaccineForecastDataBean> getVaccineForecasts(Connection conn) throws DataSourceException
   {
-    List list = new ArrayList();
+    List<VaccineForecastDataBean> list = new ArrayList<VaccineForecastDataBean>();
     PreparedStatement pstmt = null;
     ResultSet rset = null;
     String sql = GET_VACCINE_FORECASTS;

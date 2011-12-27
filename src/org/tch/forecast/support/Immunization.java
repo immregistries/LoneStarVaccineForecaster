@@ -8,6 +8,39 @@ public class Immunization implements ImmunizationInterface
 {
   private int vaccineId = 0;
   private Date dateOfShot = null;
+  private String label = "";
+  private String cvx = "";
+  private String mvx = "";
+
+  public String getLabel()
+  {
+    return label;
+  }
+
+  public void setLabel(String label)
+  {
+    this.label = label;
+  }
+
+  public String getCvx()
+  {
+    return cvx;
+  }
+
+  public void setCvx(String cvx)
+  {
+    this.cvx = cvx;
+  }
+
+  public String getMvx()
+  {
+    return mvx;
+  }
+
+  public void setMvx(String mvx)
+  {
+    this.mvx = mvx;
+  }
 
   public Date getDateOfShot()
   {
