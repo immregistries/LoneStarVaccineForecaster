@@ -118,7 +118,7 @@
   -->
   
   <target name="compile" depends="prepare">
-    <javac srcdir="${src.home}" destdir="${object.home}" debug="yes" target="1.4" source="1.4">
+    <javac srcdir="${src.home}" destdir="${object.home}" debug="yes">
       <classpath refid="compile.classpath"/>
     </javac>
   </target>
