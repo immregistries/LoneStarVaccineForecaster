@@ -3,33 +3,34 @@
   <vaccine vaccineName="Mumps" vaccineIds="158, 159, 1560, 162, 175"/>
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Live" vaccineIds="158, 159, 1560, 160, 161, 162, 171, 175, 178, 180, 2020, 1990, 148"/>
+  <vaccine vaccineName="Live" vaccineIds="178, 180, 2020, 1990, 148"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
+    <pos row="1" column="1"/>
     <valid age="1 year" interval="" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="12 months" interval="" grace=""/>
     <overdue age="16 months" interval="" grace=""/>
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
-    <after-contra interval="4 weeks" grace="0 days"/>
     <before-previous interval=""/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
     <indicate vaccineName="MMRV" schedule="P2" age="13 years" reason=""/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older."/>
-    <indicate vaccineName="Measles" schedule="P2" age="" reason=""/>
-    <indicate vaccineName="Live" schedule="CONTRA" age="" reason=""/>
+    <indicate vaccineName="Rubella" schedule="P2" age="" reason=""/>
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="4-6 years">
+    <pos row="1" column="2"/>
     <valid age="" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="4 years" interval="" grace=""/>
     <overdue age="7 years" interval="" grace=""/>
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
-    <after-contra interval="4 weeks" grace="0 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason=""/>
-    <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older."/>
-    <indicate vaccineName="Measles" schedule="COMPLETE" age="" reason=""/>
-    <indicate vaccineName="Live" schedule="CONTRA" age="" reason=""/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="MMRV" minInterval="12 weeks"/>
+    <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV must be administered no sooner than 12 weeks after previous MMRV." previousVaccineName="MMRV" minInterval=""/>
+    <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older." previousVaccineName="" minInterval=""/>
+    <indicate vaccineName="Rubella" schedule="COMPLETE" age="" reason="" previousVaccineName="" minInterval=""/>
   </schedule>
 </forecast>

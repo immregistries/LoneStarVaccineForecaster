@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
@@ -42,6 +44,9 @@ public class DataStore
   }
 
   protected DateTime beforePreviousEventDate;
+  protected List<DateTime[]> blackOutDates = null;
+  protected List<String> blackOutReasons = null;
+  protected StringBuffer detailLog = null;
   protected List<VaccinationDoseDataBean> doseList = null;
   protected DateTime due = null;
   protected String dueReason = "";
@@ -57,6 +62,7 @@ public class DataStore
   protected boolean hasHistoryOfVaricella = false;
   protected VaccineForecastDataBean.Indicate[] indicates = null;
   protected int indicatesPos = -1;
+  protected String nextAction = null;
   protected List<Event> originalEventList = null;
   protected DateTime overdue = null;
   protected PatientForecastRecordDataBean patient = null;
@@ -64,6 +70,8 @@ public class DataStore
   protected DateTime previousEventDate;
   protected DateTime previousEventDateValid;
   protected boolean previousEventWasContra = false;
+  protected Set<Integer> previousVaccineIdHistory = new HashSet<Integer>();
+  protected List<Integer> previousVaccineIdList = null;
   protected List<ImmunizationForecastDataBean> resultList = null;
   protected VaccineForecastDataBean.Schedule schedule;
   protected List<Schedule> scheduleList;
@@ -81,17 +89,6 @@ public class DataStore
   protected DateTime valid = null;
   protected int validDoseCount = 0;
   protected TimePeriod validGrace = null;
-  protected String nextAction = null;
-
-  public String getNextAction()
-  {
-    return nextAction;
-  }
-
-  public void setNextAction(String nextAction)
-  {
-    this.nextAction = nextAction;
-  }
 
   public DataStore(VaccineForecastManagerInterface forecastManager) {
     this.forecastManager = forecastManager;
@@ -100,6 +97,21 @@ public class DataStore
   public DateTime getBeforePreviousEventDate()
   {
     return beforePreviousEventDate;
+  }
+
+  public List<DateTime[]> getBlackOutDates()
+  {
+    return blackOutDates;
+  }
+
+  public List<String> getBlackOutReasons()
+  {
+    return blackOutReasons;
+  }
+
+  public StringBuffer getDetailLog()
+  {
+    return detailLog;
   }
 
   public List<VaccinationDoseDataBean> getDoseList()
@@ -172,6 +184,11 @@ public class DataStore
     return indicatesPos;
   }
 
+  public String getNextAction()
+  {
+    return nextAction;
+  }
+
   public List<Event> getOriginalEventList()
   {
     return originalEventList;
@@ -200,6 +217,16 @@ public class DataStore
   public DateTime getPreviousEventDateValid()
   {
     return previousEventDateValid;
+  }
+
+  public Set<Integer> getPreviousVaccineIdHistory()
+  {
+    return previousVaccineIdHistory;
+  }
+
+  public List<Integer> getPreviousVaccineIdList()
+  {
+    return previousVaccineIdList;
   }
 
   public List<ImmunizationForecastDataBean> getResultList()
@@ -297,9 +324,33 @@ public class DataStore
     return seasonCompleted;
   }
 
+  public void log(String s)
+  {
+    if (s != null && detailLog != null)
+    {
+      detailLog.append(s);
+      detailLog.append("\n");
+    }
+  }
+
   public void setBeforePreviousEventDate(DateTime beforePreviousEventDate)
   {
     this.beforePreviousEventDate = beforePreviousEventDate;
+  }
+
+  public void setBlackOutDates(List<DateTime[]> blackOutDates)
+  {
+    this.blackOutDates = blackOutDates;
+  }
+
+  public void setBlackOutReasons(List<String> blackOutReasons)
+  {
+    this.blackOutReasons = blackOutReasons;
+  }
+
+  public void setDetailLog(StringBuffer detailLog)
+  {
+    this.detailLog = detailLog;
   }
 
   public void setDoseList(List<VaccinationDoseDataBean> doseList)
@@ -377,6 +428,11 @@ public class DataStore
     this.indicatesPos = indicatesPos;
   }
 
+  public void setNextAction(String nextAction)
+  {
+    this.nextAction = nextAction;
+  }
+
   public void setOriginalEventList(List<Event> originalEventList)
   {
     this.originalEventList = originalEventList;
@@ -410,6 +466,16 @@ public class DataStore
   public void setPreviousEventWasContra(boolean previousEventWasContra)
   {
     this.previousEventWasContra = previousEventWasContra;
+  }
+
+  public void setPreviousVaccineIdHistory(Set<Integer> previousVaccineIdHistory)
+  {
+    this.previousVaccineIdHistory = previousVaccineIdHistory;
+  }
+
+  public void setPreviousVaccineIdList(List<Integer> previousVaccineIdList)
+  {
+    this.previousVaccineIdList = previousVaccineIdList;
   }
 
   public void setResultList(List<ImmunizationForecastDataBean> resultList)

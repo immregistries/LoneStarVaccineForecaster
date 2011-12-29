@@ -23,13 +23,65 @@ public class MakeForecastStep extends ActionStep
 
   private void addForecastRecommendations(DataStore ds)
   {
+    ds.log("Making recommendations");
     if (ds.seasonStart != null && ds.seasonCompleted)
     {
+      ds.log("Adjusting for season start");
       ds.seasonStart = new DateTime(ds.seasonStart);
       ds.seasonStart.addYears(1);
       ds.seasonEnd = new DateTime(ds.seasonEnd);
       ds.seasonEnd.addYears(1);
       DetermineRangesStep.determineRanges(ds);
+    }
+    if (ds.traceBuffer != null)
+    {
+      ds.traceBuffer.append("</li><li>");
+    }
+    // Adjust around black out dates
+    if (ds.blackOutDates != null && ds.blackOutDates.size() > 0)
+    {
+      ds.log("Adjusting forecast for black out dates");
+      int i = -1;
+      String validReason = null;
+      for (DateTime[] blackOut : ds.blackOutDates)
+      {
+        i++;
+        if (ds.valid.isLessThanOrEquals(blackOut[0]) && ds.overdue.isGreaterThan(blackOut[1]))
+        {
+          ds.log("Recommendation is valid to give but a black out period starts before vaccination is overdue");
+          ds.log("Moving valid date back to after black out date " + blackOut[1]);
+          ds.valid = blackOut[1];
+          validReason = ds.blackOutReasons.get(i);
+          if (ds.early.isLessThan(ds.valid))
+          {
+            ds.early = new DateTime(ds.valid);
+          }
+          if (ds.due.isLessThan(ds.early))
+          {
+            ds.due = new DateTime(ds.early);
+          }
+          if (ds.overdue.isLessThan(ds.valid))
+          {
+            ds.overdue = new DateTime(ds.due);
+          }
+          if (ds.finished.isLessThan(ds.valid))
+          {
+            ds.valid = new DateTime(ds.finished);
+            validReason = "because it is too late to administer vaccination";
+          }
+        }
+      }
+      if (validReason != null)
+      {
+        if (ds.traceBuffer != null)
+        {
+          ds.traceBuffer.append(" <font color=\"#FF0000\">Adjusted future forecast " + validReason + ".</font>");
+        }
+        if (ds.trace != null)
+        {
+          ds.traceList.append(" <font color=\"#FF0000\">Adjusted future forecast " + validReason + ".</font>");
+        }
+      }
     }
     ImmunizationForecastDataBean forecastBean = new ImmunizationForecastDataBean();
     forecastBean.setValid(ds.valid.getDate());
@@ -48,12 +100,12 @@ public class MakeForecastStep extends ActionStep
     ds.resultList.add(forecastBean);
     if (ds.traceBuffer != null)
     {
-      ds.traceBuffer.append("</li><li>Forecasting for dose " + DetermineRangesStep.getNextValidDose(ds, ds.schedule) + " due at " + ds.dueReason + ", "
+      ds.traceBuffer.append("Forecasting for dose " + DetermineRangesStep.getNextValidDose(ds, ds.schedule) + " due at " + ds.dueReason + ", "
           + ds.due.toString("M/D/Y") + ".");
     }
     if (ds.trace != null)
     {
-      ds.traceList.append("</li><li>Forecasting for dose " + DetermineRangesStep.getNextValidDose(ds, ds.schedule) + " due at " + ds.dueReason + ", "
+      ds.traceList.append("Forecasting for dose " + DetermineRangesStep.getNextValidDose(ds, ds.schedule) + " due at " + ds.dueReason + ", "
           + ds.due.toString("M/D/Y") + ".");
     }
   }

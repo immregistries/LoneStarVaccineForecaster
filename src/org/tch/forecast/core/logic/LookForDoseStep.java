@@ -1,6 +1,8 @@
 package org.tch.forecast.core.logic;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.Trace;
@@ -27,7 +29,9 @@ public class LookForDoseStep extends ActionStep
   public String doAction(DataStore ds) throws Exception
   {
     VaccineForecastDataBean.Indicate indicate = ds.indicates[ds.indicatesPos];
+    ds.log("Looking for next dose");
     ds.nextAction = lookForDose(ds, indicate);
+    ds.log("Next action = " + ds.nextAction);
     if (ds.nextAction == null || ds.nextAction.equalsIgnoreCase(COMPLETE)
         || (ds.nextAction.equalsIgnoreCase(KEEP_LOOKING) && (ds.indicatesPos + 1) == ds.indicates.length))
     {
@@ -54,19 +58,18 @@ public class LookForDoseStep extends ActionStep
       }
       if (ds.nextAction == null || ds.nextAction.equalsIgnoreCase(KEEP_LOOKING))
       {
-        // Evaluation finished without COMPLETING so generate forecast
-        // recommendations
+        ds.log("Time to make forcast recommendations");
         return MakeForecastStep.NAME;
       }
+      ds.log("Schedule is finished, no more recommendations.");
       return FinishScheduleStep.NAME;
     } else if (ds.nextAction.equalsIgnoreCase(KEEP_LOOKING))
     {
-      // Dose found was past cutoff for this indicator, need to look at next
-      // one
+      ds.log("Dose found was past cutoff for this indicator, need to look at the next indicator");
       return ChooseIndicatorStep.NAME;
     } else if (ds.nextAction.equalsIgnoreCase(CONTRA))
     {
-      // Schedule was contraindicated, same schedule is kept
+      ds.log("Schedule was contraindicated, same schedule is kept.");
       if (ds.traceBuffer != null)
       {
         ds.traceBuffer.append("</li><li>");
@@ -81,7 +84,7 @@ public class LookForDoseStep extends ActionStep
       return TraverseScheduleStep.NAME;
     } else if (ds.nextAction.equalsIgnoreCase(INVALID))
     {
-      // Dose was invalid for schedule, same schedule to be kept
+      ds.log("Dose was invalid for schedule, same schedule to be kept.");
       if (ds.traceBuffer != null)
       {
         ds.traceBuffer.append("</li><li>");
@@ -96,6 +99,7 @@ public class LookForDoseStep extends ActionStep
       return TraverseScheduleStep.NAME;
     } else
     {
+      ds.log("Moving to schedule " + ds.nextAction);
       return TransitionScheduleStep.NAME;
     }
   }
@@ -142,26 +146,26 @@ public class LookForDoseStep extends ActionStep
     {
       if (ds.event.hasEvent)
       {
-        DateTime cutoff = figureCutoff(ds, indicate);
         DateTime vaccDate = new DateTime(ds.event.eventDate);
-        if (!indicatedEvent(ds, vaccineIds))
+        if (!indicatedEvent(ds, indicate, vaccineIds))
         {
+          ds.log("Not indicated event, must keep looking.");
           return KEEP_LOOKING;
         }
-        if (cutoff != null && !vaccDate.isLessThan(cutoff))
-        {
-          return KEEP_LOOKING;
-        }
+        String invalidReason = null;
         if (checkSeasonEnd(ds, ds.event))
         {
+          ds.log("Season end reached");
           if (ds.seasonCompleted)
           {
+            ds.log("Season completed.");
             if (ds.traceBuffer != null)
             {
               ds.traceBuffer.append("Season ended " + DataStore.dateFormat.format(ds.event.eventDate) + ". ");
             }
           } else if (ds.event.eventDate.before(ds.valid.getDate()))
           {
+            ds.log("Season ended before dose could be administered");
             if (ds.traceBuffer != null)
             {
               ds.traceBuffer.append("Season ended " + DataStore.dateFormat.format(ds.event.eventDate)
@@ -174,6 +178,7 @@ public class LookForDoseStep extends ActionStep
             }
           } else
           {
+            ds.log("Season ended before expected dose received.");
             if (ds.traceBuffer != null)
             {
               ds.traceBuffer.append("Season ended " + DataStore.dateFormat.format(ds.event.eventDate)
@@ -202,9 +207,11 @@ public class LookForDoseStep extends ActionStep
           }
           nextEvent(ds);
           return indicate.getScheduleName();
-        } else if (checkInvalid(ds, vaccDate))
+        } else if ((invalidReason = checkInvalid(ds, vaccDate)) != null)
         {
-          addInvalidDose(ds, vaccineIds, "before valid date");
+          ds.log("Dose is invalid.");
+          addInvalidDose(ds, vaccineIds, invalidReason);
+          addPreviousDose(ds, vaccineIds);
           ds.previousEventDate = vaccDate;
           ds.previousEventWasContra = false;
           DetermineRangesStep.determineRanges(ds);
@@ -213,8 +220,10 @@ public class LookForDoseStep extends ActionStep
           return INVALID;
         } else if (indicate.isInvalid())
         {
+          ds.log("Indicator says dose is invalid");
           addInvalidDose(ds, vaccineIds, indicate.getVaccineName() + " dose "
               + (indicate.getAge().isEmpty() ? "" : indicate.getAge().toString()));
+          addPreviousDose(ds, vaccineIds);
           if (ds.traceBuffer != null && !indicate.getReason().equals(""))
           {
             ds.traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
@@ -232,8 +241,10 @@ public class LookForDoseStep extends ActionStep
           return INVALID;
         } else if (indicate.isContra())
         {
+          ds.log("Dose is contraindication.");
           addContra(ds, vaccineIds, indicate.getVaccineName() + " dose"
               + (indicate.getAge().isEmpty() ? "" : " given before " + indicate.getAge().toString()));
+          addPreviousDose(ds, vaccineIds);
           if (ds.traceBuffer != null && !indicate.getReason().equals(""))
           {
             ds.traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
@@ -250,8 +261,10 @@ public class LookForDoseStep extends ActionStep
           return CONTRA;
         } else
         {
+          ds.log("Valid dose.");
           ds.validDoseCount++;
           addValidDose(ds, vaccineIds);
+          addPreviousDose(ds, vaccineIds);
           if (ds.traceBuffer != null && !indicate.getReason().equals(""))
           {
             ds.traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
@@ -282,7 +295,111 @@ public class LookForDoseStep extends ActionStep
     return null;
   }
 
-  private DateTime figureCutoff(DataStore ds, VaccineForecastDataBean.Indicate indicate)
+  protected boolean indicatedEvent(DataStore ds, VaccineForecastDataBean.Indicate indicate, int[] vaccineIds)
+  {
+    return indicatedEventVaccine(ds, vaccineIds) && indicatedEventAfterPrevious(ds, indicate)
+        && indicatedHasHistory(ds, indicate) && indicatedEventWithinDateRange(ds, indicate);
+  }
+
+  protected boolean indicatedEventWithinDateRange(DataStore ds, VaccineForecastDataBean.Indicate indicate)
+  {
+    DateTime vaccDate = new DateTime(new DateTime(ds.event.eventDate).toString("M/D/Y"));
+    DateTime minDate = figureMinDate(ds, indicate);
+    DateTime maxDate = figureMaxDate(ds, indicate);
+    if (minDate == null && maxDate == null)
+    {
+      return true;
+    }
+    ds.log(" + Vacc date = " + vaccDate);
+    if (minDate != null)
+    {
+      minDate = new DateTime(new DateTime(minDate.toString("M/D/Y")));
+      ds.log(" + Indicated minimum date = " + minDate);
+      if (vaccDate.isLessThan(minDate))
+      {
+        ds.log(" + Vaccination given too early for indicated event");
+        return false;
+      }
+    }
+    if (maxDate != null)
+    {
+      ds.log(" + Indicated maximum date = " + maxDate);
+      if (vaccDate.isGreaterThanOrEquals(maxDate))
+      {
+        ds.log(" + Vaccination given too late for indicated event");
+        return false;
+      }
+    }
+    ds.log(" + Vaccination within indicated range");
+    return true;
+  }
+
+  protected boolean indicatedEventAfterPrevious(DataStore ds, VaccineForecastDataBean.Indicate indicate)
+  {
+    boolean foundPreviousMatch = true;
+    if (indicate.getPreviousVaccines() != null && indicate.getPreviousVaccines().length > 0)
+    {
+      foundPreviousMatch = false;
+      if (ds.getPreviousVaccineIdList() != null)
+      {
+        for (int previousVaccineId : ds.getPreviousVaccineIdList())
+        {
+          for (int indicatedVaccineId : indicate.getPreviousVaccines())
+          {
+            if (previousVaccineId == indicatedVaccineId)
+            {
+              foundPreviousMatch = true;
+              break;
+            }
+          }
+        }
+      }
+      if (foundPreviousMatch)
+      {
+        ds.log(" + Indicated event after previous event of " + indicate.getPreviousVaccineName());
+      } else
+      {
+        ds.log(" + Indicated event NOT after previous event of " + indicate.getPreviousVaccineName());
+      }
+    }
+    return foundPreviousMatch;
+  }
+
+  private boolean indicatedHasHistory(DataStore ds, VaccineForecastDataBean.Indicate indicate)
+  {
+    boolean foundHistory = true;
+    if (indicate.getHistoryOfVaccineName() != null && indicate.getHistoryOfVaccineName().length() > 0)
+    {
+      foundHistory = false;
+      for (int indicatedVaccineId : indicate.getPreviousVaccines())
+      {
+        if (ds.getPreviousVaccineIdHistory().contains(indicatedVaccineId))
+        {
+          foundHistory = true;
+          break;
+        }
+      }
+      if (foundHistory)
+      {
+        ds.log("Indicated event has history of " + indicate.getHistoryOfVaccineName());
+      } else
+      {
+        ds.log("Indicated event does NOT have history of " + indicate.getHistoryOfVaccineName());
+      }
+    }
+    return foundHistory;
+  }
+
+  private DateTime figureMinDate(DataStore ds, VaccineForecastDataBean.Indicate indicate)
+  {
+    if (!indicate.getMinInterval().isEmpty())
+    {
+      return indicate.getMinInterval().getDateTimeFrom(ds.previousEventDate);
+    }
+    return null;
+  }
+
+  private DateTime figureMaxDate(DataStore ds, VaccineForecastDataBean.Indicate indicate)
   {
     DateTime cutoff = null;
     if (!indicate.getAge().isEmpty())
@@ -290,16 +407,16 @@ public class LookForDoseStep extends ActionStep
       cutoff = indicate.getAge().getDateTimeFrom(ds.patient.getDobDateTime());
     }
     DateTime cutoffInterval = null;
-    if (!indicate.getMinInterval().isEmpty())
+    if (!indicate.getMaxInterval().isEmpty())
     {
-      cutoffInterval = indicate.getMinInterval().getDateTimeFrom(ds.previousEventDate);
+      cutoffInterval = indicate.getMaxInterval().getDateTimeFrom(ds.previousEventDate);
     }
     if (cutoff == null)
     {
       cutoff = cutoffInterval;
     } else if (cutoffInterval != null)
     {
-      if (cutoffInterval.isGreaterThan(cutoff))
+      if (cutoffInterval.isLessThan(cutoff))
       {
         cutoff = cutoffInterval;
       }
@@ -307,10 +424,24 @@ public class LookForDoseStep extends ActionStep
     return cutoff;
   }
 
-  private boolean indicatedEvent(DataStore ds, int[] vaccineIds)
+  protected static boolean indicatedEventVaccine(DataStore ds, int[] vaccineIds)
+  {
+    Event event = ds.event;
+    boolean iev = indicatedEventVaccine(vaccineIds, event);
+    if (iev)
+    {
+      ds.log(" + Indicated vaccine event");
+    } else
+    {
+      ds.log(" + Not indicated vaccine event");
+    }
+    return iev;
+  }
+
+  protected static boolean indicatedEventVaccine(int[] vaccineIds, Event event)
   {
     boolean indicatedEvent = false;
-    for (Iterator<ImmunizationInterface> it = ds.event.immList.iterator(); it.hasNext();)
+    for (Iterator<ImmunizationInterface> it = event.immList.iterator(); it.hasNext();)
     {
       ImmunizationInterface imm = it.next();
       for (int i = 0; i < vaccineIds.length; i++)
@@ -341,15 +472,54 @@ public class LookForDoseStep extends ActionStep
     return false;
   }
 
-  private boolean checkInvalid(DataStore ds, DateTime vaccDate)
+  private String checkInvalid(DataStore ds, DateTime vaccDate)
   {
     if (ds.validGrace.isEmpty())
     {
-      return vaccDate.isLessThan(ds.valid);
+      if (vaccDate.isLessThan(ds.valid))
+      {
+        return "before valid date";
+      }
     } else
     {
       DateTime dt = ds.schedule.getValidGrace().getDateTimeFrom(vaccDate);
-      return dt.isLessThan(ds.valid);
+      if (dt.isLessThan(ds.valid))
+      {
+        return "before valid date";
+      }
+    }
+    // Adjust around black out dates
+    if (ds.blackOutDates != null && ds.blackOutDates.size() > 0)
+    {
+      ds.log("Checking validity against black out dates");
+      int i = -1;
+      for (DateTime[] blackOut : ds.blackOutDates)
+      {
+        i++;
+        if (vaccDate.isGreaterThan(blackOut[0]) && vaccDate.isLessThan(blackOut[1]))
+        {
+          return ds.blackOutReasons.get(i);
+        }
+      }
+    }
+    return null;
+  }
+
+  private void addPreviousDose(DataStore ds, int[] vaccineIds)
+  {
+    List<Integer> previousVaccineIdList = new ArrayList<Integer>();
+    ds.setPreviousVaccineIdList(previousVaccineIdList);
+    for (Iterator<ImmunizationInterface> it = ds.event.immList.iterator(); it.hasNext();)
+    {
+      ImmunizationInterface imm = it.next();
+      for (int i = 0; i < vaccineIds.length; i++)
+      {
+        if (imm.getVaccineId() == vaccineIds[i])
+        {
+          previousVaccineIdList.add(imm.getVaccineId());
+          ds.getPreviousVaccineIdHistory().add(imm.getVaccineId());
+        }
+      }
     }
   }
 

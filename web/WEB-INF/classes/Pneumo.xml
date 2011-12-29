@@ -1,131 +1,91 @@
-<forecast seriesName="Pneumo">
-  <vaccine vaccineName="PCV7" vaccineIds="154, 156"/>
-  <vaccine vaccineName="PCV13" vaccineIds="3143"/>
-  <vaccine vaccineName="PCV" vaccineIds="154, 156, 3143"/>
-  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
-    <valid age="6 weeks" interval="" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="2 months" interval="" grace=""/>
-    <overdue age="3 months" interval="" grace=""/>
-    <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="PCV7" schedule="S2" age="12 m -4 w" reason=""/>
-    <indicate vaccineName="PCV13" schedule="P2" age="12 m -4 w" reason=""/>
-    <indicate vaccineName="PCV7" schedule="T2" age="24 months" reason="Only 3 doses needed because first dose was received after 1 year of age."/>
-    <indicate vaccineName="PCV13" schedule="R2" age="24 months" reason="Only 3 doses needed because first dose was received after 1 year of age."/>
-    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, one more dose of PCV13 recommended"/>
-    <indicate vaccineName="PCV7" schedule="COMPLETE" age="" reason="Series finished, patient is too old for further doses"/>
-    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="Only 1 dose needed because first dose given after 2 years of age."/>
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="Series finished, patient is too old for further doses"/>
-  </schedule>
-  <schedule scheduleName="P2" dose="2" indication="" label="4 months">
-    <valid age="10 weeks" interval="4 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="4 months" interval="" grace=""/>
-    <overdue age="5 months" interval="" grace=""/>
-    <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="PCV" schedule="P3" age="12 m -4 w" reason=""/>
-    <indicate vaccineName="PCV" schedule="P4" age="24 months" reason=""/>
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-  <schedule scheduleName="P3" dose="3" indication="" label="6 months">
-    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="6 months" interval="" grace=""/>
-    <overdue age="7 months" interval="" grace=""/>
-    <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="PCV" schedule="P4" age="12 months" reason=""/>
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="PCV7 completes series if administered after 1 year of age."/>
-  </schedule>
-  <schedule scheduleName="P4" dose="B" indication="" label="booster">
-    <valid age="12 months" interval="8 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="12 months" interval="" grace=""/>
-    <overdue age="16 months" interval="" grace=""/>
-    <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="8 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-  <schedule scheduleName="R2" dose="2" indication="" label="12 month catchup">
-    <valid age="14 months" interval="8 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="14 months" interval="" grace=""/>
-    <overdue age="" interval="3 months" grace=""/>
-    <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="8 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="PCV" schedule="P4" age="24 months" reason=""/>
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="PCV7 completes series if administered after 2 years of age."/>
-  </schedule>
-  <schedule scheduleName="S2" dose="2" indication="" label="4 months PCV7">
-    <valid age="10 weeks" interval="4 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="4 months" interval="" grace=""/>
-    <overdue age="5 months" interval="" grace=""/>
-    <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="PCV7" schedule="S3" age="12 m -4 w" reason=""/>
-    <indicate vaccineName="PCV13" schedule="P3" age="12 m -4 w" reason=""/>
-    <indicate vaccineName="PCV7" schedule="S4" age="24 months" reason=""/>
-    <indicate vaccineName="PCV13" schedule="P4" age="24 months" reason=""/>
-    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, supplemental dose of PCV13 needed."/>
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-  <schedule scheduleName="S3" dose="3" indication="" label="6 months PCV7">
-    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="6 months" interval="" grace=""/>
-    <overdue age="7 months" interval="" grace=""/>
-    <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="PCV7" schedule="S4" age="12 months" reason=""/>
-    <indicate vaccineName="PCV13" schedule="P4" age="12 months" reason=""/>
-    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, supplemental dose of PCV13 needed."/>
-    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="PCV13 completes series if administered after 1 year of age."/>
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-  <schedule scheduleName="S4" dose="B" indication="" label="12-15 months PCV7">
-    <valid age="12 months" interval="8 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="12 months" interval="" grace=""/>
-    <overdue age="16 months" interval="" grace=""/>
-    <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="8 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, supplemental dose of PCV13 needed."/>
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-  <schedule scheduleName="T2" dose="2" indication="" label="12 month catchup PCV7">
-    <valid age="14 months" interval="8 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="14 months" interval="" grace=""/>
-    <overdue age="" interval="3 months" grace=""/>
-    <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="8 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="PCV7" schedule="S4" age="24 months" reason=""/>
-    <indicate vaccineName="PCV13" schedule="P4" age="24 months" reason=""/>
-    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, supplemental dose of PCV13 needed."/>
-    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="PCV13 completes series if administered after 2 years of age."/>
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-  <schedule scheduleName="P5" dose="S" indication="" label="supplemental PCV13">
-    <valid age="" interval="8 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="" interval="8 weeks" grace=""/>
-    <overdue age="" interval="8 weeks" grace=""/>
-    <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="8 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="PCV7" schedule="P5" age="" reason="PCV7 series is complete, supplemental dose of PCV13 needed."/>
-    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-</forecast>
+<forecast seriesName="Pneumo">	
+  <vaccine vaccineName="PCV7" vaccineIds="154, 156"/>	
+  <vaccine vaccineName="PCV13" vaccineIds="3143"/>	
+  <vaccine vaccineName="PCV" vaccineIds="154, 156, 3143"/>	
+  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">	
+    <pos row="1" column="1"/>	
+    <valid age="6 weeks" interval="" grace="4 days"/>	
+    <early age="" interval="" grace=""/>	
+    <due age="2 months" interval="" grace=""/>	
+    <overdue age="3 months" interval="" grace=""/>	
+    <finished age="5 years" interval="" grace=""/>	
+    <after-invalid interval="4 weeks" grace="4 days"/>	
+    <before-previous interval=""/>	
+    <indicate vaccineName="PCV" schedule="P2" age="12 m -4 w" reason="" historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV" schedule="R2" age="24 months" reason="Only 3 doses needed because first dose was received after 1 year of age." historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, one more dose of PCV13 recommended" historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="Series finished, patient is too old for further doses" historyOfVaccineName=""/>	
+  </schedule>	
+  <schedule scheduleName="P2" dose="2" indication="" label="4 months">	
+    <pos row="1" column="2"/>	
+    <valid age="10 weeks" interval="4 weeks" grace="4 days"/>	
+    <early age="" interval="" grace=""/>	
+    <due age="4 months" interval="" grace=""/>	
+    <overdue age="5 months" interval="" grace=""/>	
+    <finished age="5 years" interval="" grace=""/>	
+    <after-invalid interval="4 weeks" grace="4 days"/>	
+    <before-previous interval=""/>	
+    <indicate vaccineName="PCV" schedule="P3" age="12 m -4 w" reason="" historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV" schedule="P4" age="24 months" reason="" historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="" historyOfVaccineName="PCV13"/>	
+    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, supplemental dose of PCV13 needed." historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV7" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
+  </schedule>	
+  <schedule scheduleName="P3" dose="3" indication="" label="6 months">	
+    <pos row="1" column="3"/>	
+    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>	
+    <early age="" interval="" grace=""/>	
+    <due age="6 months" interval="" grace=""/>	
+    <overdue age="7 months" interval="" grace=""/>	
+    <finished age="5 years" interval="" grace=""/>	
+    <after-invalid interval="4 weeks" grace="4 days"/>	
+    <before-previous interval=""/>	
+    <indicate vaccineName="PCV" schedule="P4" age="12 months" reason="" historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="PCV completes series if administered after 1 year of age." historyOfVaccineName="PCV13"/>	
+    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, supplemental dose of PCV13 needed." historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV7" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
+  </schedule>	
+  <schedule scheduleName="P4" dose="B" indication="" label="booster">	
+    <pos row="1" column="4"/>	
+    <valid age="12 months" interval="8 weeks" grace="4 days"/>	
+    <early age="" interval="" grace=""/>	
+    <due age="12 months" interval="" grace=""/>	
+    <overdue age="16 months" interval="" grace=""/>	
+    <finished age="5 years" interval="" grace=""/>	
+    <after-invalid interval="8 weeks" grace="4 days"/>	
+    <before-previous interval=""/>	
+    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="" historyOfVaccineName="PCV13"/>	
+    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, supplemental dose of PCV13 needed." historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV7" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
+  </schedule>	
+  <schedule scheduleName="R2" dose="2" indication="" label="12 month catchup">	
+    <pos row="2" column="2"/>	
+    <valid age="14 months" interval="8 weeks" grace="4 days"/>	
+    <early age="" interval="" grace=""/>	
+    <due age="14 months" interval="" grace=""/>	
+    <overdue age="" interval="3 months" grace=""/>	
+    <finished age="5 years" interval="" grace=""/>	
+    <after-invalid interval="8 weeks" grace="4 days"/>	
+    <before-previous interval=""/>	
+    <indicate vaccineName="PCV" schedule="P4" age="24 months" reason="" historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="PCV completes series if administered after 2 years of age." historyOfVaccineName="PCV13"/>	
+    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, supplemental dose of PCV13 needed." historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV7" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
+  </schedule>	
+  <schedule scheduleName="P5" dose="S" indication="" label="supplemental PCV13">	
+    <pos row="2" column="5"/>	
+    <valid age="" interval="8 weeks" grace="4 days"/>	
+    <early age="" interval="" grace=""/>	
+    <due age="" interval="8 weeks" grace=""/>	
+    <overdue age="" interval="8 weeks" grace=""/>	
+    <finished age="5 years" interval="" grace=""/>	
+    <after-invalid interval="8 weeks" grace="4 days"/>	
+    <before-previous interval=""/>	
+    <indicate vaccineName="PCV7" schedule="P5" age="" reason="PCV7 series is complete, supplemental dose of PCV13 needed." historyOfVaccineName=""/>	
+    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
+  </schedule>	
+</forecast>	

@@ -8,7 +8,7 @@
 
 <html>
   <head>
-  <title>Forecaster Validator</title>
+  <title>FV Index</title>
   <link rel="stylesheet" type="text/css" href="index.css" />
   </head>
   <body>
@@ -95,6 +95,7 @@
 	[<a href="<%= addvaccine %>" title="Add Vaccine" >Add Vaccine</a>]
 	<% } %>
 	[<a href="batchEvaluate.jsp" title="Batch Evaluate" >Batch Evaluate</a>]
+	[<a href="testAll.jsp" title="Test All" >Test All</a>]
 	<% 
     }
     %>

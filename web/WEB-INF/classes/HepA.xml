@@ -3,6 +3,7 @@
   <vaccine vaccineName="Adult" vaccineIds="1170"/>
   <vaccine vaccineName="Twinrix" vaccineIds="146"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1st">
+    <pos row="1" column="1"/>
     <valid age="12 months" interval="" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="12 months" interval="" grace=""/>
@@ -18,6 +19,7 @@
     <indicate vaccineName="Adult" schedule="P2" age="" reason=""/>
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="booster">
+    <pos row="2" column="1"/>
     <valid age="18 months" interval="6 months" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="18 months" interval="" grace=""/>
@@ -33,6 +35,7 @@
     <indicate vaccineName="Adult" schedule="COMPLETE" age="" reason=""/>
   </schedule>
   <schedule scheduleName="A2" dose="2" indication="" label="2nd adult">
+    <pos row="2" column="2"/>
     <valid age="" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="1 month" grace=""/>
@@ -45,6 +48,7 @@
     <indicate vaccineName="Adult" schedule="A3" age="" reason=""/>
   </schedule>
   <schedule scheduleName="A3" dose="3" indication="" label="3rd adult">
+    <pos row="2" column="3"/>
     <valid age="" interval="5 months" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="6 months" grace=""/>

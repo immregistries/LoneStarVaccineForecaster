@@ -39,11 +39,11 @@ public class VaccineForecastAccessor
     }
     catch (SQLException sqle)
     {
-      throw new DataSourceException("Unable to get vaccine forecast schedules", sqle, sql);
+      throw new DataSourceException("Unable to get vaccine forecast schedules: " + sqle.getMessage(), sqle, sql);
     }
     catch (Exception e)
     {
-      throw new DataSourceException("Unable to create vaccine forecast schedule", e);
+      throw new DataSourceException("Unable to create vaccine forecast schedule: " + e.getMessage(), e);
     }
     return list;
   }

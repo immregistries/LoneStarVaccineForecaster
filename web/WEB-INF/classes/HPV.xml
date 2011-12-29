@@ -1,6 +1,7 @@
 <forecast seriesName="HPV">
   <vaccine vaccineName="HPV" vaccineIds="390, 391"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1st">
+    <pos row="1" column="1"/>
     <valid age="9 years" interval="" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="11 years" interval="" grace=""/>
@@ -11,6 +12,7 @@
     <indicate vaccineName="HPV" schedule="P2" age="" reason=""/>
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="2nd">
+    <pos row="1" column="2"/>
     <valid age="109 months" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="2 months" grace=""/>
@@ -21,6 +23,7 @@
     <indicate vaccineName="HPV" schedule="P3" age="" reason=""/>
   </schedule>
   <schedule scheduleName="P3" dose="3" indication="" label="3rd">
+    <pos row="1" column="3"/>
     <valid age="114 months" interval="12 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="4 months" grace=""/>

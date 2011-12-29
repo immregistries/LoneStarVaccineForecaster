@@ -3,6 +3,7 @@
   <vaccine vaccineName="Adult" vaccineIds="122, 124, 123"/>
   <vaccine vaccineName="Td" vaccineIds="122, 124"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
+    <pos row="1" column="1"/>
     <valid age="6 weeks" interval="" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="2 months" interval="" grace=""/>
@@ -19,6 +20,7 @@
     <indicate vaccineName="Adult" schedule="A2" age="" reason="Starting adult series without indication of childhood vaccination."/>
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="4 months">
+    <pos row="1" column="2"/>
     <valid age="10 weeks" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="4 months" interval="" grace=""/>
@@ -33,6 +35,7 @@
     <indicate vaccineName="Adult" schedule="A2" age="" reason="Changing to adult vaccine schedule."/>
   </schedule>
   <schedule scheduleName="P3" dose="3" indication="" label="6 months">
+    <pos row="1" column="3"/>
     <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="6 months" interval="" grace=""/>
@@ -47,6 +50,7 @@
     <indicate vaccineName="Adult" schedule="A3" age="" reason="Changing to adult vaccine schedule."/>
   </schedule>
   <schedule scheduleName="P4" dose="4" indication="" label="15-18 months">
+    <pos row="1" column="4"/>
     <valid age="12 months" interval="6 months" grace="2 months"/>
     <early age="12 months" interval="" grace=""/>
     <due age="15 months" interval="" grace=""/>
@@ -64,6 +68,7 @@
     <indicate vaccineName="Adult" schedule="B6" age="" reason="Changing to adult vaccine schedule."/>
   </schedule>
   <schedule scheduleName="R2" dose="2" indication="" label="2nd catchup">
+    <pos row="2" column="2"/>
     <valid age="12 months" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="14 months" interval="" grace=""/>
@@ -78,6 +83,7 @@
     <indicate vaccineName="Adult" schedule="A3" age="" reason="Changing to adult vaccine schedule."/>
   </schedule>
   <schedule scheduleName="R3" dose="3" indication="" label="3rd catchup">
+    <pos row="2" column="3"/>
     <valid age="14 months" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="4 weeks" grace=""/>
@@ -94,6 +100,7 @@
     <indicate vaccineName="Adult" schedule="B6" age="" reason="Changing to adult vaccine schedule."/>
   </schedule>
   <schedule scheduleName="B5" dose="5" indication="" label="booster (5th)">
+    <pos row="1" column="5"/>
     <valid age="4 years" interval="6 months" grace=""/>
     <early age="" interval="" grace=""/>
     <due age="4 years" interval="" grace=""/>
@@ -108,6 +115,7 @@
     <indicate vaccineName="Adult" schedule="B10" age="" reason=""/>
   </schedule>
   <schedule scheduleName="B10" dose="B" indication="" label="10-year booster">
+    <pos row="3" column="5"/>
     <valid age="11 years" interval="5 years" grace="3 years"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="10 years" grace=""/>
@@ -121,6 +129,7 @@
     <indicate vaccineName="Adult" schedule="B10" age="" reason=""/>
   </schedule>
   <schedule scheduleName="A2" dose="2" indication="" label="2nd adult">
+    <pos row="3" column="2"/>
     <valid age="7 years" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="4 weeks" grace=""/>
@@ -134,6 +143,7 @@
     <indicate vaccineName="Adult" schedule="A3" age="" reason=""/>
   </schedule>
   <schedule scheduleName="R4" dose="4" indication="" label="4th catchup">
+    <pos row="2" column="4"/>
     <valid age="16 months" interval="6 months" grace="2 months"/>
     <early age="" interval="" grace=""/>
     <due age="15 months" interval="" grace=""/>
@@ -149,6 +159,7 @@
     <indicate vaccineName="Adult" schedule="B10" age="" reason=""/>
   </schedule>
   <schedule scheduleName="A3" dose="3" indication="" label="3rd adult">
+    <pos row="3" column="3"/>
     <valid age="7 years" interval="6 months" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="6 months" grace=""/>
@@ -162,6 +173,7 @@
     <indicate vaccineName="Adult" schedule="B10" age="" reason=""/>
   </schedule>
   <schedule scheduleName="B6" dose="B" indication="" label="6th">
+    <pos row="2" column="5"/>
     <valid age="11 years" interval="5 years" grace="3 years"/>
     <early age="" interval="" grace=""/>
     <due age="11 years" interval="" grace=""/>

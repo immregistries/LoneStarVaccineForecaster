@@ -252,7 +252,7 @@ try {
 %>
 <p>
 [<a href="index.jsp?userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Back to Home</a>] 
-[<a href="showSchedule.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Forecast Trace</a>]
+[<a href="step?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Forecast Step</a>]
 <% if (!viewOnly) { %>
 [<a href=" <%= editTesturl %>">Edit Test Case</a>]
 <% } %>
@@ -706,7 +706,7 @@ while (rset.next()) {
               }
               %>
               <tr>
-                <td style="border-top-width: 1px; border-top-style: solid;"><a href="showSchedule.jsp?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>#trace.<%= forecast.getForecastName() %>"><%= forecast.getForecastName() %></a></td>
+                <td style="border-top-width: 1px; border-top-style: solid;"><a href="step?caseId=<%= caseId %>&lineCode=<%= URLEncoder.encode(forecast.getForecastName(), "UTF-8") %>&nextActionName=Setup&userName=<%= URLEncoder.encode(userName, "UTF-8") %>"><%= forecast.getForecastName() %></a></td>
                 <td style="border-top-width: 1px; border-top-style: solid;"><%= forecastDose %></td>
                 <td style="border-top-width: 1px; border-top-style: solid;"><%= validDate.toString("M/D/Y") %></td>
                 <td style="border-top-width: 1px; border-top-style: solid;"><%= dueDate.toString("M/D/Y") %></td>
