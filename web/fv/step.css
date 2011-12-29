@@ -25,3 +25,4 @@ th {border-width: 1px; border-color:#2B3E42; border-style: solid; padding: 2px; 
 .insideValueCentered {border-width: 1px; border-color:#2B3E42; border-style: solid; padding: 2px; text-align: center; background:#F7F3E8; font-size: small; }
 .smallHeaderCentered {border-width: 1px; border-color:#2B3E42; border-style: solid; padding: 2px; text-align: center; background:#D5E1DD; color:#000000; font-size: x-small;}
 .bigHeaderCentered {border-width: 1px; border-color:#2B3E42; border-style: solid; padding: 2px; text-align: center; background:#2B3E42; color:#D5E1DD; font-size: small;}
+h2 {page-break-before:always}

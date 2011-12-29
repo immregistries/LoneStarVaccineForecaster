@@ -253,6 +253,7 @@ try {
 <p>
 [<a href="index.jsp?userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Back to Home</a>] 
 [<a href="step?caseId=<%= caseId %>&userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Forecast Step</a>]
+[<a href="printSchedule?&userName=<%= URLEncoder.encode(userName, "UTF-8") %>">View Schedules</a>]
 <% if (!viewOnly) { %>
 [<a href=" <%= editTesturl %>">Edit Test Case</a>]
 <% } %>

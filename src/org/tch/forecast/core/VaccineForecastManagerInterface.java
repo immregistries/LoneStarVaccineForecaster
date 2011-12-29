@@ -8,6 +8,8 @@ public interface VaccineForecastManagerInterface
 {
   public List<Schedule> getIndications(String indication) throws Exception;
   
+  public Schedule getSchedule(String lineCode) throws Exception;
+  
   public String getVaccineName(int id);
 
 }

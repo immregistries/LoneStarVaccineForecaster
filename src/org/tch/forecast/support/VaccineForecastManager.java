@@ -15,6 +15,22 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
 {
   private static Map<String, List<Schedule>> indications = null;
   
+  public Schedule getSchedule(String lineCode) throws Exception
+  {
+    init();
+    for (List<Schedule> scheduleList : indications.values())
+    {
+      for (Schedule schedule : scheduleList)
+      {
+        if (schedule.getForecastCode().equals(lineCode))
+        {
+          return schedule;
+        }
+      }
+    }
+    return null;
+  }
+  
   public List<Schedule> getIndications(String indication) throws DataSourceException, DataSourceUnavailableException
   {
     init();
