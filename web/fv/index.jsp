@@ -96,6 +96,7 @@
 	<% } %>
 	[<a href="batchEvaluate.jsp" title="Batch Evaluate" >Batch Evaluate</a>]
 	[<a href="testAll.jsp" title="Test All" >Test All</a>]
+	[<a href="printSchedule.jsp" title="Test All" >Show Schedules</a>]
 	<% 
     }
     %>
