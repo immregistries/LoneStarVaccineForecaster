@@ -52,7 +52,8 @@
     <finished age="200 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="Recombivax" schedule="COMPLETE" age="16 years" reason="" minInterval="4 months"/>
+    <indicate vaccineName="Recombivax" schedule="COMPLETE" age="16 years" reason="" minInterval="4 months -4 days"/>
+    <indicate vaccineName="Recombivax" schedule="INVALID" age="16 years" reason="Recombivax must be administered at least 4 months after previous Recombivax." minInterval=""/>
     <indicate vaccineName="Recombivax" schedule="P3" age="" reason=""/>
     <indicate vaccineName="Series" schedule="P3" age="" reason=""/>
   </schedule>

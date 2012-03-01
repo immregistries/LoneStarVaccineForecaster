@@ -3,6 +3,7 @@ package org.tch.forecast.core.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Contraindicate;
 import org.tch.hl7.core.util.DateTime;

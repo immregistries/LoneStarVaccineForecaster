@@ -28,8 +28,7 @@
     <before-previous interval=""/>
     <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
     <indicate vaccineName="Single" schedule="COMPLETE" age="" reason="" previousVaccineName="" minInterval=""/>
-    <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="MMRV" minInterval="12 weeks"/>
-    <indicate vaccineName="MMRV" schedule="INVALID" age="13 years" reason="MMRV must be administered no sooner than 12 weeks after previous MMRV." previousVaccineName="MMRV" minInterval=""/>
+    <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older." previousVaccineName="" minInterval=""/>
   </schedule>
   <schedule scheduleName="A2" dose="2" indication="" label="13 years +">
