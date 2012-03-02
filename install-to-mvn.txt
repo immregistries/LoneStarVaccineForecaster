@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=deploy/tch-forecaster.jar -Dpackaging=jar\ -DgroupId=org.tch -DartifactId=forecaster -Dversion=1.0
