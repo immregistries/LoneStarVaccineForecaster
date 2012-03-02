@@ -23,7 +23,6 @@ import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.Seasonal;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
-import org.tch.forecast.support.Immunization;
 import org.tch.hl7.core.util.DateTime;
 
 public class DataStore
@@ -85,7 +84,7 @@ public class DataStore
   protected StringBuffer traceBuffer = null;
   protected TraceList traceList = null;
   protected Map<String, List<Trace>> traces = null;
-  protected List<Immunization> vaccinations;
+  protected List<ImmunizationInterface> vaccinations;
   protected DateTime valid = null;
   protected int validDoseCount = 0;
   protected TimePeriod validGrace = null;
@@ -289,7 +288,7 @@ public class DataStore
     return traces;
   }
 
-  public List<Immunization> getVaccinations()
+  public List<ImmunizationInterface> getVaccinations()
   {
     return vaccinations;
   }
@@ -543,12 +542,12 @@ public class DataStore
     this.traces = traces;
   }
 
-  public void setVaccinations(List<Immunization> vaccList)
+  public void setVaccinations(List<ImmunizationInterface> vaccList)
   {
-    this.vaccinations = new ArrayList<Immunization>(vaccList);
-    vaccList = new ArrayList<Immunization>(vaccList);
-    Collections.sort(vaccList, new Comparator<Immunization>() {
-      public int compare(Immunization imm1, Immunization imm2)
+    this.vaccinations = new ArrayList<ImmunizationInterface>(vaccList);
+    vaccList = new ArrayList<ImmunizationInterface>(vaccList);
+    Collections.sort(vaccList, new Comparator<ImmunizationInterface>() {
+      public int compare(ImmunizationInterface imm1, ImmunizationInterface imm2)
       {
         return imm1.getDateOfShot().compareTo(imm2.getDateOfShot());
       }
@@ -556,7 +555,7 @@ public class DataStore
     eventList = new ArrayList<Event>();
     Event event = null;
     hasHistoryOfVaricella = false;
-    for (Iterator<Immunization> it = vaccList.iterator(); it.hasNext();)
+    for (Iterator<ImmunizationInterface> it = vaccList.iterator(); it.hasNext();)
     {
       ImmunizationInterface imm = it.next();
       if (event == null || !event.eventDate.equals(imm.getDateOfShot()))

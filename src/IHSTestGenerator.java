@@ -9,14 +9,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 public class IHSTestGenerator
 {
 
-  private static Map forecastCode = new HashMap();
+  private static Map<String, String> forecastCode = new HashMap<String, String>();
 
   static
   {
@@ -56,10 +55,10 @@ public class IHSTestGenerator
         }
         String caseId = readString(fields, 1);
         System.out.println(" + " + caseId);
-        String lineCode = (String) forecastCode.get(readString(fields, 3));
+        String lineCode = forecastCode.get(readString(fields, 3));
         Date overdueDate = readDate(fields, 7);
-        TestCase testCase = (TestCase) testCases.get(caseId);
-        List testVaccines = (List) vaccinesByCase.get(caseId);
+        TestCase testCase = testCases.get(caseId);
+        List<TestVaccine> testVaccines = vaccinesByCase.get(caseId);
         if (testCase == null)
         {
           throw new Exception("Case " + caseId + " was not found in test case file");
@@ -67,9 +66,8 @@ public class IHSTestGenerator
         Date latestEventDate = testCase.patientDob;
         if (testVaccines != null)
         {
-          for (Iterator it = testVaccines.iterator(); it.hasNext();)
+          for (TestVaccine testVaccine : testVaccines)
           {
-            TestVaccine testVaccine = (TestVaccine) it.next();
             if (testVaccine.adminDate.after(latestEventDate))
             {
               latestEventDate = testVaccine.adminDate;
@@ -97,7 +95,7 @@ public class IHSTestGenerator
   }
 
   private static void printForecast(PrintWriter out, String caseId, String lineCode, TestCase testCase,
-      List testVaccines, Date forecastDate, String description)
+      List<TestVaccine> testVaccines, Date forecastDate, String description)
   {
     out.println("Case: " + testCase.caseLabel + " (" + caseId + ") " + description);
     out.println("Active: " + lineCode);
@@ -109,16 +107,15 @@ public class IHSTestGenerator
     out.println("Other facts:");
     if (testVaccines != null)
     {
-      for (Iterator it = testVaccines.iterator(); it.hasNext();)
+      for (TestVaccine testVaccine : testVaccines)
       {
-        TestVaccine testVaccine = (TestVaccine) it.next();
         out.println(testVaccine.cvxCode + ": " + sdfOut.format(testVaccine.adminDate));
       }
     }
     out.println("");
   }
 
-  private static Map vaccinesByCase = new HashMap();
+  private static Map<String, List<TestVaccine>> vaccinesByCase = new HashMap<String, List<TestVaccine>>();
 
   private static class TestVaccine
   {
@@ -146,24 +143,24 @@ public class IHSTestGenerator
       {
         throw new Exception("Date was null on this line: " + line);
       }
-      List vaccines = (List) vaccinesByCase.get(caseId);
+      List<TestVaccine> vaccines = vaccinesByCase.get(caseId);
       if (vaccines == null)
       {
-        vaccines = new ArrayList();
+        vaccines = new ArrayList<TestVaccine>();
         vaccinesByCase.put(caseId, vaccines);
       }
       vaccines.add(testVaccine);
     }
   }
 
-  private static Map testCases = new HashMap();
+  private static Map<String, TestCase> testCases = new HashMap<String, TestCase>();
 
   private static class TestCase
   {
     String caseLabel = "";
-    String groupCode = "";
-    String patientLast = "";
-    String patientFirst = "";
+//    String groupCode = "";
+//    String patientLast = "";
+//    String patientFirst = "";
     Date patientDob = null;
     String patientSex = "";
   }
@@ -183,9 +180,9 @@ public class IHSTestGenerator
       String caseId = readString(fields, 1);
       TestCase testCase = new TestCase();
       testCase.caseLabel = readString(fields, 2);
-      testCase.groupCode = readString(fields, 3);
-      testCase.patientLast = readString(fields, 4);
-      testCase.patientFirst = readString(fields, 5);
+//      testCase.groupCode = readString(fields, 3);
+//      testCase.patientLast = readString(fields, 4);
+//      testCase.patientFirst = readString(fields, 5);
       testCase.patientDob = readDate(fields, 6);
       testCase.patientSex = readString(fields, 7);
       testCases.put(caseId, testCase);

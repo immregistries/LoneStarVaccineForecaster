@@ -21,5 +21,21 @@ public class SeasonEndEvent implements ImmunizationInterface
   {
     return -504;
   }
+  
+  public String getCvx()
+  {
+    return "";
+  }
+  
+  public String getLabel()
+  {
+    return "Season End";
+  }
+  
+  public String getMvx()
+  {
+    return "";
+  }
+  
 
 }

@@ -69,6 +69,8 @@ public class StepServlet extends HttpServlet
       }
       ActionStep actionStep = ActionStepFactory.get(nextActionName);
       DataStore dataStore = (DataStore) session.getAttribute("dataStore");
+      
+      @SuppressWarnings("unchecked")
       Map<String, String> vaccineNames = (Map<String, String>) session.getAttribute("vaccineNames");
 
       if (nextActionName.equals(StartStep.NAME))
@@ -151,7 +153,7 @@ public class StepServlet extends HttpServlet
           pstmt = conn.prepareStatement(sql);
           pstmt.setString(1, caseId);
           rset = pstmt.executeQuery();
-          List<Immunization> imms = new ArrayList<Immunization>();
+          List<ImmunizationInterface> imms = new ArrayList<ImmunizationInterface>();
 
           while (rset.next())
           {
@@ -162,7 +164,6 @@ public class StepServlet extends HttpServlet
             imm.setCvx(rset.getString(1));
             imm.setMvx(rset.getString(4));
             imms.add(imm);
-
           }
           rset.close();
           pstmt.close();
@@ -821,7 +822,7 @@ public class StepServlet extends HttpServlet
       out.println("          <th class=\"smallHeader\">Status</th>");
       out.println("          <th class=\"smallHeader\">Reason</th>");
       out.println("        </tr>");
-      for (Immunization imm : dataStore.getVaccinations())
+      for (ImmunizationInterface imm : dataStore.getVaccinations())
       {
         boolean foundEvent = false;
         Event event = dataStore.getEvent();

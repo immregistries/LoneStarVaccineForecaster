@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.tch.forecast.core.Forecaster;
+import org.tch.forecast.core.ImmunizationForecastDataBean;
+import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.support.Immunization;
 import org.tch.forecast.support.PatientRecordDataBean;
@@ -91,7 +93,7 @@ public class EvaluateCsv
     PrintWriter out = new PrintWriter(stringOut);
     try
     {
-      Map cvxCodeMap = new HashMap();
+      Map<String, String> cvxCodeMap = new HashMap<String, String>();
       initCvxMap(cvxCodeMap);
 
       BufferedReader in = new BufferedReader(new StringReader(inputCsv));
@@ -99,8 +101,8 @@ public class EvaluateCsv
       String[] firstLine = null;
       String patientId = "";
       String dob = "";
-      List vaxDateList = new ArrayList();
-      List cvxList = new ArrayList();
+      List<String> vaxDateList = new ArrayList<String>();
+      List<String> cvxList = new ArrayList<String>();
 
       while ((line = in.readLine()) != null)
       {
@@ -141,21 +143,21 @@ public class EvaluateCsv
     return stringOut.toString();
   }
 
-  private static void forecast(PrintWriter out, Map cvxCodeMap, String patientId, String dob, List vaxDateList,
-      List cvxList) throws Exception
+  private static void forecast(PrintWriter out, Map<String, String> cvxCodeMap, String patientId, String dob, List<String> vaxDateList,
+      List<String> cvxList) throws Exception
   {
     if (!patientId.equals(""))
     {
-      List imms = new ArrayList();
+      List<ImmunizationInterface> imms = new ArrayList<ImmunizationInterface>();
       for (int i = 0; i < vaxDateList.size(); i++)
       {
         if (!vaxDateList.get(i).equals("") && !cvxList.get(i).equals(""))
         {
-          String vaccineId = (String) cvxCodeMap.get(cvxList.get(i));
+          String vaccineId = cvxCodeMap.get(cvxList.get(i));
           if (vaccineId != null)
           {
             Immunization imm = new Immunization();
-            imm.setDateOfShot(new DateTime((String) vaxDateList.get(i)).getDate());
+            imm.setDateOfShot(new DateTime(vaxDateList.get(i)).getDate());
             imm.setVaccineId(Integer.parseInt(vaccineId));
             imms.add(imm);
           }
@@ -169,8 +171,8 @@ public class EvaluateCsv
       forecaster.setPatient(patient);
       forecaster.setVaccinations(imms);
       forecaster.setForecastDate(new Date());
-      List resultList = new ArrayList();
-      List doseList = new ArrayList();
+      List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
+      List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
       forecaster.forecast(resultList, doseList, null, null);
 
       SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -191,18 +193,18 @@ public class EvaluateCsv
           reasonNotEvaluated = "Not Evaluated: CVX not recognized";
         } else
         {
-          int vaccineId = Integer.parseInt((String) cvxCodeMap.get(cvxList.get(i)));
-          String vaxDate = (String) vaxDateList.get(i);
+          int vaccineId = Integer.parseInt(cvxCodeMap.get(cvxList.get(i)));
+          String vaxDate = vaxDateList.get(i);
           for (int j = 0; j < doseList.size(); j++)
           {
-            VaccinationDoseDataBean dose = (VaccinationDoseDataBean) doseList.get(j);
+            VaccinationDoseDataBean dose = doseList.get(j);
             if (dose.getVaccineId() == vaccineId && vaxDate.equals(sdf.format(dose.getAdminDate())))
             {
               found = true;
               String[] outputLine = createOutputLine();
               outputLine[FIELD_1_PATIENT_ID] = patientId;
               outputLine[FIELD_2_DOB] = dob;
-              outputLine[FIELD_3_VAX_DATE] = (String) vaxDateList.get(i);
+              outputLine[FIELD_3_VAX_DATE] = vaxDateList.get(i);
               outputLine[FIELD_4_CVX] = vaxDate;
               outputLine[FIELD_5_FORECAST_CODE] = dose.getForecastCode();
               outputLine[FIELD_6_SCHEDULE_CODE] = dose.getScheduleCode();
@@ -218,8 +220,8 @@ public class EvaluateCsv
           String[] outputLine = createOutputLine();
           outputLine[FIELD_1_PATIENT_ID] = patientId;
           outputLine[FIELD_2_DOB] = dob;
-          outputLine[FIELD_3_VAX_DATE] = (String) vaxDateList.get(i);
-          outputLine[FIELD_4_CVX] = (String) cvxList.get(i);
+          outputLine[FIELD_3_VAX_DATE] = vaxDateList.get(i);
+          outputLine[FIELD_4_CVX] = cvxList.get(i);
           outputLine[FIELD_9_REASON] = reasonNotEvaluated;
           printLine(out, outputLine);
         }
@@ -229,7 +231,7 @@ public class EvaluateCsv
     }
   }
 
-  private static void initCvxMap(Map cvxCodeMap) throws DataSourceUnavailableException, SQLException
+  private static void initCvxMap(Map<String, String> cvxCodeMap) throws DataSourceUnavailableException, SQLException
   {
     Connection conn = DatabasePool.getConnection();
     try
@@ -320,7 +322,7 @@ public class EvaluateCsv
   {
     String[] firstLine;
     // read first line
-    List tokenList = new ArrayList();
+    List<String> tokenList = new ArrayList<String>();
     char[] lineChars = line.toCharArray();
     String token = "";
     boolean quoted = false;
@@ -357,7 +359,7 @@ public class EvaluateCsv
     firstLine = new String[tokenList.size()];
     for (int i = 0; i < tokenList.size(); i++)
     {
-      firstLine[i] = (String) tokenList.get(i);
+      firstLine[i] = tokenList.get(i);
     }
     return firstLine;
   }

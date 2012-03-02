@@ -1,3 +1,5 @@
+<%@page import="org.tch.forecast.core.VaccinationDoseDataBean"%>
+<%@page import="org.tch.forecast.core.ImmunizationInterface"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="org.tch.forecast.validator.db.DatabasePool"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -90,10 +92,10 @@
         
         Forecaster forecaster = new Forecaster(new VaccineForecastManager());
         List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
-        List doseList = new ArrayList();
+        List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
         PatientRecordDataBean patient = new PatientRecordDataBean();
         Date forecastDate = null;
-        List<Immunization> imms = new ArrayList<Immunization>();
+        List<ImmunizationInterface> imms = new ArrayList<ImmunizationInterface>();
         sql = "SELECT tc.case_label, tc.case_description, tc.case_source, tc.group_code, tc.patient_first, \n" + 
           "tc.patient_last, date_format(tc.patient_dob, '%m/%d/%Y'), tc.patient_sex, tc.status_code, ts.status_label, \n" +
           "tc.forecast_date "+

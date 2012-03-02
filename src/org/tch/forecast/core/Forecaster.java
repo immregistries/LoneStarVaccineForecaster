@@ -16,7 +16,6 @@ import org.tch.forecast.core.logic.ActionStepFactory;
 import org.tch.forecast.core.logic.DataStore;
 import org.tch.forecast.core.logic.EndStep;
 import org.tch.forecast.core.logic.StartStep;
-import org.tch.forecast.support.VaccineForecastManager;
 import org.tch.hl7.core.util.DateTime;
 
 public class Forecaster
@@ -30,10 +29,10 @@ public class Forecaster
 
   public static final int VARICELLA_HISTORY = 378;
 
-  private List vaccinations;
+  private List<ImmunizationInterface> vaccinations;
   private PatientForecastRecordDataBean patient = null;
-  private List eventList = null;
-  private List originalEventList = null;
+  private List<Event> eventList = null;
+  private List<Event> originalEventList = null;
   private DateTime previousEventDate;
   private DateTime previousEventDateValid;
   private boolean previousEventWasContra = false;
@@ -50,14 +49,14 @@ public class Forecaster
   private DateTime overdue = null;
   private DateTime finished = null;
   private DateTime today = null;
-  private List resultList = null;
-  private List doseList = null;
+  private List<ImmunizationForecastDataBean> resultList = null;
+  private List<VaccinationDoseDataBean> doseList = null;
   private Event event = null;
   private int eventPosition = 0;
   private int validDoseCount = 0;
   private Trace trace = null;
   private TraceList traceList = null;
-  private Map traces = null;
+  private Map<String, List<Trace>> traces = null;
   private Date forecastDate = new Date();
   private StringBuffer traceBuffer = null;
   boolean hasHistoryOfVaricella = false;
@@ -68,7 +67,7 @@ public class Forecaster
 
   private DataStore dataStore = null;
 
-  public Map getTraces()
+  public Map<String, List<Trace>> getTraces()
   {
     return traces;
   }
@@ -91,11 +90,13 @@ public class Forecaster
 
   private static final boolean RUN_NEW = true;
 
-  public List forecast(List resultList, List doseList, StringBuffer traceBuffer, Map traces) throws Exception
+  public List<ImmunizationForecastDataBean> forecast(List<ImmunizationForecastDataBean> resultList,
+      List<VaccinationDoseDataBean> doseList, StringBuffer traceBuffer, Map<String, List<Trace>> traces)
+      throws Exception
   {
     if (RUN_NEW)
     {
-      dataStore = new DataStore(new VaccineForecastManager());
+      dataStore = new DataStore(forecastManager);
       dataStore.setResultList(resultList);
       dataStore.setDoseList(doseList);
       dataStore.setTraceBuffer(traceBuffer);
@@ -134,7 +135,8 @@ public class Forecaster
     this.traces = null;
   }
 
-  public void setup(List resultList, List doseList, StringBuffer traceBuffer, Map traces)
+  public void setup(List<ImmunizationForecastDataBean> resultList, List<VaccinationDoseDataBean> doseList,
+      StringBuffer traceBuffer, Map<String, List<Trace>> traces)
   {
     this.resultList = resultList;
     this.doseList = doseList;
@@ -145,15 +147,15 @@ public class Forecaster
 
   private void forecastForAllIndications(String indication) throws Exception, Exception
   {
-    List vaccineForecastList = forecastManager.getIndications(indication);
+    List<VaccineForecastDataBean.Schedule> vaccineForecastList = forecastManager.getIndications(indication);
     if (vaccineForecastList == null)
     {
       System.out.println("No schedules found for indication '" + indication + "'");
     } else
     {
-      for (Iterator fit = vaccineForecastList.iterator(); fit.hasNext();)
+      for (Iterator<VaccineForecastDataBean.Schedule> fit = vaccineForecastList.iterator(); fit.hasNext();)
       {
-        schedule = (VaccineForecastDataBean.Schedule) fit.next();
+        schedule = fit.next();
         forecastSchedule();
       }
     }
@@ -247,11 +249,9 @@ public class Forecaster
         seasonStart = seasonal.getStart().getDateTimeFrom(seasonEnd);
       }
 
-      Collections.sort(eventList, new Comparator() {
-        public int compare(Object o1, Object o2)
+      Collections.sort(eventList, new Comparator<Event>() {
+        public int compare(Event event1, Event event2)
         {
-          Event event1 = (Event) o1;
-          Event event2 = (Event) o2;
           return event1.eventDate.compareTo(event2.eventDate);
         }
       });
@@ -344,7 +344,7 @@ public class Forecaster
         } else
         {
           // A different schedule is the new action
-          schedule = (VaccineForecastDataBean.Schedule) forecast.getSchedules().get(nextAction);
+          schedule = forecast.getSchedules().get(nextAction);
           previousAfterInvalidInterval = null;
           if (schedule == null)
           {
@@ -542,9 +542,8 @@ public class Forecaster
   private boolean indicatedEvent(int[] vaccineIds)
   {
     boolean indicatedEvent = false;
-    for (Iterator it = event.immList.iterator(); it.hasNext();)
+    for (ImmunizationInterface imm : event.immList)
     {
-      ImmunizationInterface imm = (ImmunizationInterface) it.next();
       for (int i = 0; i < vaccineIds.length; i++)
       {
         if (imm.getVaccineId() == vaccineIds[i])
@@ -560,7 +559,7 @@ public class Forecaster
   {
     if (eventPosition < eventList.size())
     {
-      event = (Event) eventList.get(eventPosition);
+      event = eventList.get(eventPosition);
       event.hasEvent = false;
       setHasEvent();
       eventPosition++;
@@ -578,9 +577,8 @@ public class Forecaster
       int[] vaccineIds = ind[i].getVaccines();
       for (int j = 0; j < vaccineIds.length; j++)
       {
-        for (Iterator it = event.immList.iterator(); it.hasNext();)
+        for (ImmunizationInterface imm : event.immList)
         {
-          ImmunizationInterface imm = (ImmunizationInterface) it.next();
           if (vaccineIds[j] == imm.getVaccineId())
           {
             event.hasEvent = true;
@@ -595,9 +593,8 @@ public class Forecaster
   {
     if (!getValidDose(schedule).equals(""))
     {
-      for (Iterator it = event.immList.iterator(); it.hasNext();)
+      for (ImmunizationInterface imm : event.immList)
       {
-        ImmunizationInterface imm = (ImmunizationInterface) it.next();
         for (int i = 0; i < vaccineIds.length; i++)
         {
           if (imm.getVaccineId() == vaccineIds[i])
@@ -636,9 +633,8 @@ public class Forecaster
     {
       if (!getValidDose(schedule).equals(""))
       {
-        for (Iterator it = event.immList.iterator(); it.hasNext();)
+        for (ImmunizationInterface imm : event.immList)
         {
-          ImmunizationInterface imm = (ImmunizationInterface) it.next();
           for (int i = 0; i < vaccineIds.length; i++)
           {
             if (imm.getVaccineId() == vaccineIds[i])
@@ -668,32 +664,12 @@ public class Forecaster
     }
   }
 
-  private void addMissedDose(int[] vaccineIds)
-  {
-    if (!getValidDose(schedule).equals(""))
-    {
-      if (vaccineIds.length > 0)
-      {
-        VaccinationDoseDataBean dose = new VaccinationDoseDataBean();
-        dose.setAdminDate(event.eventDate);
-        dose.setDoseCode(getValidDose(schedule));
-        dose.setImmregid(patient.getImmregid());
-        dose.setForecastCode(forecast.getForecastCode());
-        dose.setScheduleCode(schedule.getScheduleName());
-        dose.setStatusCode(VaccinationDoseDataBean.STATUS_MISSED);
-        dose.setVaccineId(vaccineIds[0]);
-        doseList.add(dose);
-      }
-    }
-  }
-
   private void addValidDose(int[] vaccineIds)
   {
     if (!getValidDose(schedule).equals(""))
     {
-      for (Iterator it = event.immList.iterator(); it.hasNext();)
+      for (ImmunizationInterface imm : event.immList)
       {
-        ImmunizationInterface imm = (ImmunizationInterface) it.next();
         for (int i = 0; i < vaccineIds.length; i++)
         {
           if (imm.getVaccineId() == vaccineIds[i])
@@ -748,9 +724,8 @@ public class Forecaster
   {
     if (seasonal != null)
     {
-      for (Iterator it = event.immList.iterator(); it.hasNext();)
+      for (ImmunizationInterface imm : event.immList)
       {
-        ImmunizationInterface imm = (ImmunizationInterface) it.next();
         if (imm instanceof SeasonEndEvent)
         {
           seasonCompleted = false;
@@ -1045,29 +1020,26 @@ public class Forecaster
     this.patient = patient;
   }
 
-  public List getVaccinations()
+  public List<ImmunizationInterface> getVaccinations()
   {
     return vaccinations;
   }
 
-  public void setVaccinations(List vaccList)
+  public void setVaccinations(List<ImmunizationInterface> vaccList)
   {
-    this.vaccinations = new ArrayList(vaccList);
-    vaccList = new ArrayList(vaccList);
-    Collections.sort(vaccList, new Comparator() {
-      public int compare(Object o1, Object o2)
+    this.vaccinations = new ArrayList<ImmunizationInterface>(vaccList);
+    vaccList = new ArrayList<ImmunizationInterface>(vaccList);
+    Collections.sort(vaccList, new Comparator<ImmunizationInterface>() {
+      public int compare(ImmunizationInterface imm1, ImmunizationInterface imm2)
       {
-        ImmunizationInterface imm1 = (ImmunizationInterface) o1;
-        ImmunizationInterface imm2 = (ImmunizationInterface) o2;
         return imm1.getDateOfShot().compareTo(imm2.getDateOfShot());
       }
     });
-    eventList = new ArrayList();
+    eventList = new ArrayList<Event>();
     Event event = null;
     hasHistoryOfVaricella = false;
-    for (Iterator it = vaccList.iterator(); it.hasNext();)
+    for (ImmunizationInterface imm : vaccList)
     {
-      ImmunizationInterface imm = (ImmunizationInterface) it.next();
       if (event == null || !event.eventDate.equals(imm.getDateOfShot()))
       {
         event = new Event();
@@ -1100,6 +1072,21 @@ public class Forecaster
       return -504;
     }
 
+    public String getCvx()
+    {
+      return "";
+    }
+
+    public String getLabel()
+    {
+      return "Season End";
+    }
+
+    public String getMvx()
+    {
+      return "";
+    }
+
   }
 
   public Date getForecastDate()
@@ -1115,7 +1102,7 @@ public class Forecaster
   private class Event
   {
     private Date eventDate = null;
-    private List immList = new ArrayList();
+    private List<ImmunizationInterface> immList = new ArrayList<ImmunizationInterface>();
     private boolean hasEvent = false;
   }
 

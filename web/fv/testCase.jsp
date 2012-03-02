@@ -1,3 +1,5 @@
+<%@page import="org.tch.forecast.core.ImmunizationInterface"%>
+<%@page import="org.tch.forecast.core.VaccinationDoseDataBean"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="org.tch.forecast.validator.db.DatabasePool"%>
@@ -204,11 +206,11 @@ try {
   
   Forecaster forecaster = new Forecaster(new VaccineForecastManager());
   StringBuffer traceBuffer = new StringBuffer();
-  List resultList = new ArrayList();
-  List doseList = new ArrayList();
+  List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
+  List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
   PatientRecordDataBean patient = new PatientRecordDataBean();
   Date forecastDate = null;
-  List imms = new ArrayList();
+  List<ImmunizationInterface> imms = new ArrayList<ImmunizationInterface>();
   sql = "SELECT tc.case_label, tc.case_description, tc.case_source, tc.group_code, tc.patient_first, \n" + 
     "tc.patient_last, date_format(tc.patient_dob, '%m/%d/%Y'), tc.patient_sex, tc.status_code, ts.status_label, \n" +
     "tc.forecast_date "+
@@ -390,9 +392,9 @@ while (rset.next()) {
         String overdueDateActual = "";
         DateTime today = new DateTime(forecastDate);
 		ImmunizationForecastDataBean forecast = null;
-        for (Iterator it = resultList.iterator(); it.hasNext(); )
+        for (Iterator<ImmunizationForecastDataBean> it = resultList.iterator(); it.hasNext(); )
         {  
-          forecast = (ImmunizationForecastDataBean) it.next();
+          forecast = it.next();
           String forecastLabel = forecast.getForecastLabel();
           if (forecastLabel.equals("DTaP/Tdap"))
           {
@@ -687,10 +689,10 @@ while (rset.next()) {
               <th style="font-size: smaller; color: #FFFFFF; background-color: #006699;">Overdue</th>
               <th style="font-size: smaller; color: #FFFFFF; background-color: #006699;">Finished</th>
             </tr><%
-            List commentList = new ArrayList();  
-            for (Iterator it = resultList.iterator(); it.hasNext(); )
+            List<String> commentList = new ArrayList<String>();  
+            for (Iterator<ImmunizationForecastDataBean> it = resultList.iterator(); it.hasNext(); )
             {  
-              ImmunizationForecastDataBean forecast = (ImmunizationForecastDataBean) it.next();
+              ImmunizationForecastDataBean forecast = it.next();
               DateTime today = new DateTime("today");
               DateTime validDate = new DateTime(forecast.getValid());
               DateTime dueDate = new DateTime(forecast.getDue());
@@ -717,9 +719,9 @@ while (rset.next()) {
             }
           
           int starPosition = 0;
-          for (Iterator cit = commentList.iterator(); cit.hasNext(); )
+          for (Iterator<String> cit = commentList.iterator(); cit.hasNext(); )
           {
-            String comment = " " + (String) cit.next();
+            String comment = " " + cit.next();
             starPosition++;
             for (int starCount = 0; starCount < starPosition; starCount++) 
             {

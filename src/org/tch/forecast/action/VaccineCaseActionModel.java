@@ -71,7 +71,7 @@ public class VaccineCaseActionModel
     model.mvx_code = req.getParameter("mvx_code");
 
     Connection conn = null;
-    PreparedStatement pstmt = null, pstmt2 = null, pstmt3 = null;
+    PreparedStatement pstmt = null, pstmt2 = null;
     ResultSet rs = null, rs2 = null;
     try
     {
@@ -113,7 +113,7 @@ public class VaccineCaseActionModel
             return;
           }
         }
-        ArrayList whereList = new ArrayList();
+        ArrayList<StmtField> whereList = new ArrayList<StmtField>();
         StmtField field = new StmtField();
         field.fieldname = "case_id";
         field.value = model.case_id;

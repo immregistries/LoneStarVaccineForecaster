@@ -115,7 +115,7 @@ public class TestCaseUpdateAction
       StmtField caseIdField = new StmtField();
       caseIdField.fieldname = "case_id";
       caseIdField.value = model.case_id;
-      ArrayList whereList = new ArrayList();
+      ArrayList<StmtField> whereList = new ArrayList<StmtField>();
       whereList.add(caseIdField);
       if (!insert)
       {

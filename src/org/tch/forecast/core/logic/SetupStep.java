@@ -41,7 +41,7 @@ public class SetupStep extends ActionStep
     List<Schedule> vaccineForecastList = ds.forecastManager.getIndications(indication);
     if (vaccineForecastList == null)
     {
-      System.out.println("No schedules found for indication '" + indication + "'");
+      ds.log("No schedules found for indication '" + indication + "'");
     } else
     {
       if (ds.forecastCode != null)

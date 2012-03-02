@@ -8,4 +8,10 @@ public interface ImmunizationInterface
 
   public int getVaccineId();
 
+  public String getLabel();
+
+  public String getCvx();
+
+  public String getMvx();
+
 }

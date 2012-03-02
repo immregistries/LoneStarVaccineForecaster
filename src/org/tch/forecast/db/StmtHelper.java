@@ -83,7 +83,7 @@ public class StmtHelper
   		updateStmt(stmt, field.getType(), value, idx);
     }
 
-    public static void updateStmt(PreparedStatement stmt, Class type, Object value, int idx)
+    public static void updateStmt(PreparedStatement stmt, Class<?> type, Object value, int idx)
     throws SQLException
   	{
   		 if (type == java.lang.String.class) {
@@ -131,11 +131,11 @@ public class StmtHelper
   		 }
   	}
     
-    public static PreparedStatement genUpdate( Connection con, String table, Object model, ArrayList whereList ) throws SQLException {
+    public static PreparedStatement genUpdate( Connection con, String table, Object model, ArrayList<StmtField> whereList ) throws SQLException {
 		return genUpdate( con, table, model, whereList, null);
 	}
 
-    public static PreparedStatement genUpdate( Connection con, String table, Object model, ArrayList whereList, String[] exceptionColumns )
+    public static PreparedStatement genUpdate( Connection con, String table, Object model, ArrayList<StmtField> whereList, String[] exceptionColumns )
     throws SQLException{
         PreparedStatement stmt = null;
         StringBuffer buffer = new StringBuffer( "UPDATE " + table + " SET " );
@@ -162,7 +162,7 @@ public class StmtHelper
             if (whereList != null && whereList.size() > 0){
                 buffer.append( " WHERE " );
                 for (int i = 0; i < whereList.size(); i++){
-                    dbf = (StmtField) whereList.get( i );
+                    dbf = whereList.get( i );
 
                         buffer.append( dbf.fieldname );
                         buffer.append( dbf.oper );
@@ -202,7 +202,7 @@ public class StmtHelper
         return idx;
     }
     
-    public static void fillWhere( PreparedStatement stmt, Object model, ArrayList whereList, int idx )
+    public static void fillWhere( PreparedStatement stmt, Object model, ArrayList<StmtField> whereList, int idx )
     throws SQLException
     {
         Field field = null;
@@ -211,7 +211,7 @@ public class StmtHelper
           if (whereList != null) {
             int size = whereList.size();
             for (int i = 0; i < size; i++) {
-              psf = (StmtField) whereList.get(i);
+              psf = whereList.get(i);
               if (model != null) {
                 field = model.getClass().getField(psf.fieldname);
                 updateStmt(stmt, field, psf.value, ++idx);

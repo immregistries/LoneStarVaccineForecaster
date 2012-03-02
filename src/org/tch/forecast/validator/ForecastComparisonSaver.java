@@ -19,8 +19,8 @@ public class ForecastComparisonSaver
     String dueDate = request.getParameter("due_date");
     String overdueDate = request.getParameter("overdue_date");
     String caseID = request.getParameter("caseId");
-    String userName = request.getParameter("userName");
-    String action = request.getParameter("action");
+//    String userName = request.getParameter("userName");
+//    String action = request.getParameter("action");
     String lineCode = request.getParameter("line_code");
     String softwareId = request.getParameter("software_id");
     String entityId = request.getParameter("entity_id");
