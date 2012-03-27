@@ -44,6 +44,7 @@
     <before-previous interval=""/>
     <indicate vaccineName="Series Dose" schedule="A4" age="15 months" reason=""/>
     <indicate vaccineName="Booster Dose" schedule="INVALID" age="12 months" reason=""/>
+    <indicate vaccineName="Booster Dose" schedule="COMPLETE" age="" reason=""/>
   </schedule>
   <schedule scheduleName="B2" dose="2" indication="" label="7-11 month catch-up">
     <pos row="2" column="2"/>
@@ -56,6 +57,7 @@
     <before-previous interval=""/>
     <indicate vaccineName="Series Dose" schedule="B3" age="15 months" reason=""/>
     <indicate vaccineName="Booster Dose" schedule="INVALID" age="12 months" reason=""/>
+    <indicate vaccineName="Booster Dose" schedule="COMPLETE" age="" reason=""/>
   </schedule>
   <schedule scheduleName="A2" dose="2" indication="" label="4 months">
     <pos row="1" column="2"/>
@@ -83,6 +85,7 @@
     <indicate vaccineName="PRP-OMP" schedule="A4" age="15 months" reason=""/>
     <indicate vaccineName="Hib Only" schedule="A3" age="15 months" reason=""/>
     <indicate vaccineName="Booster Dose" schedule="A3" age="12 months" reason="Booster dose should not be given before 12 months of age."/>
+    <indicate vaccineName="Booster Dose" schedule="COMPLETE" age="" reason=""/>
   </schedule>
   <schedule scheduleName="A4" dose="B" indication="" label="12 months">
     <pos row="1" column="4"/>

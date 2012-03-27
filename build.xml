@@ -39,11 +39,9 @@
     </fileset>
     
     <!-- All files/jars that Tomcat makes available -->
-    <fileset dir="${tomcat.home}/common/lib">
+    <fileset dir="${tomcat.home}/lib">
       <include name="*.jar"/>
     </fileset>
-    <pathelement location="${tomcat.home}/classes"/>
-    <pathelement location="${tomcat.home}/common/classes"/>
     
   </path>
   
@@ -118,7 +116,7 @@
   -->
   
   <target name="compile" depends="prepare">
-    <javac srcdir="${src.home}" destdir="${object.home}" debug="yes">
+    <javac srcdir="${src.home}" destdir="${object.home}" debug="yes" target="1.5">
       <classpath refid="compile.classpath"/>
     </javac>
   </target>
