@@ -1,5 +1,5 @@
 <forecast seriesName="Mening">
-  <vaccine vaccineName="MCV4" vaccineIds="183, 184"/>
+  <vaccine vaccineName="MCV4" vaccineIds="183, 184, 198"/>
   <vaccine vaccineName="MPSV4" vaccineIds="182"/>
   <schedule scheduleName="A1" dose="1" indication="BIRTH" label="1st">
     <pos row="1" column="1"/>
