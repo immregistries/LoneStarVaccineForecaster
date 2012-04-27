@@ -28,7 +28,7 @@ import org.tch.hl7.core.util.DateTime;
 public class DataStore
 {
 
-  protected static DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+  protected static DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
   public static final int VARICELLA_HISTORY = 378;
 

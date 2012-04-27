@@ -64,6 +64,7 @@ public class Forecaster
   private boolean seasonCompleted = false;
   private DateTime seasonStart = null;
   private DateTime seasonEnd = null;
+  private StringBuffer detailLog = null;
 
   private DataStore dataStore = null;
 
@@ -80,6 +81,16 @@ public class Forecaster
   public PatientForecastRecordDataBean getPatient()
   {
     return patient;
+  }
+  
+  public void setDetailLog(StringBuffer detailLog)
+  {
+    this.detailLog = detailLog;
+  }
+
+  public StringBuffer getDetailLog()
+  {
+    return detailLog;
   }
 
   private VaccineForecastManagerInterface forecastManager = null;
@@ -100,6 +111,7 @@ public class Forecaster
       dataStore.setResultList(resultList);
       dataStore.setDoseList(doseList);
       dataStore.setTraceBuffer(traceBuffer);
+      dataStore.setDetailLog(detailLog);
       dataStore.setTraces(traces);
       dataStore.setForecastDate(forecastDate);
       dataStore.setPatient(patient);

@@ -323,6 +323,7 @@ public class LookForDoseStep extends ActionStep
     }
     if (maxDate != null)
     {
+      maxDate = new DateTime(new DateTime(maxDate.toString("M/D/Y")));
       ds.log(" + Indicated maximum date = " + maxDate);
       if (vaccDate.isGreaterThanOrEquals(maxDate))
       {
