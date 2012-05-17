@@ -1,0 +1,97 @@
+package org.tch.forecast.core;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+public class ForecastSchedule
+{
+  private List<VaccineForecastDataBean> vaccineForecastList = new ArrayList<VaccineForecastDataBean>();
+  private String scheduleName = "";
+
+  public List<VaccineForecastDataBean> getVaccineForecastList()
+  {
+    return vaccineForecastList;
+  }
+
+  public void setVaccineForecastList(List<VaccineForecastDataBean> vaccineForecastList)
+  {
+    this.vaccineForecastList = vaccineForecastList;
+  }
+
+  public String getScheduleName()
+  {
+    return scheduleName;
+  }
+
+  public void setScheduleName(String scheduleName)
+  {
+    this.scheduleName = scheduleName;
+  }
+  
+  public ForecastSchedule(String source) throws Exception
+  {
+    try {
+  
+      DocumentBuilderFactory factory;
+      DocumentBuilder builder;
+      factory = DocumentBuilderFactory.newInstance();
+      factory.setIgnoringComments(true);
+      factory.setIgnoringElementContentWhitespace(true);
+      factory.setNamespaceAware(true);
+      builder = factory.newDocumentBuilder();
+      InputStream is = this.getClass().getClassLoader().getResourceAsStream(source);
+      processDocument(builder.parse(new InputSource(is)));
+    } catch (Exception exception)
+    {
+      throw new Exception("Unable to read XML definition " + source, exception);
+    }
+  }
+
+  protected Object processDocument(Document node) throws Exception
+  {
+    Node n = node.getFirstChild();
+    if (n != null)
+    {
+      processNode(n);
+    }
+    return null;
+  }
+
+  private void processNode(Node n) throws Exception
+  {
+    String name = n.getNodeName();
+    if (!name.equals("schedule"))
+    {
+      throw new Exception("Root node in definition xml should be 'forecast', instead found '" + name + "'");
+    }
+    scheduleName = DomUtils.getAttributeValue(n, "scheduleName");
+    if (scheduleName == null )
+    {
+      scheduleName = "";
+    }
+    NodeList l = n.getChildNodes();
+    for (int i = 0, icount = l.getLength(); i < icount; i++)
+    {
+      n = l.item(i);
+      name = n.getNodeName();
+      if (name.equals("forecast")) 
+      {
+        VaccineForecastDataBean vaccineForecast = new VaccineForecastDataBean();
+        vaccineForecastList.add(vaccineForecast);
+        vaccineForecast.processNode(n);
+      }
+    }
+  }
+
+
+
+}

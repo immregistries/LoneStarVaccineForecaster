@@ -24,6 +24,11 @@ public class VaccineForecastDataBean
   private Map<String, String> vaccines = new HashMap<String, String>();
   private Map<String, Schedule> schedules = new HashMap<String, Schedule>();
   private Seasonal seasonal = null;
+  
+  protected VaccineForecastDataBean() 
+  {
+    // default for ForecastSchedule to build object
+  }
 
   public VaccineForecastDataBean(String source) throws Exception {
     try
@@ -53,7 +58,7 @@ public class VaccineForecastDataBean
     return null;
   }
 
-  private void processNode(Node n) throws Exception
+  protected void processNode(Node n) throws Exception
   {
     String name = n.getNodeName();
     if (!name.equals("forecast"))
@@ -821,7 +826,7 @@ public class VaccineForecastDataBean
     return forecastCode;
   }
 
-  public void setForcastCode(String forecastCode)
+  public void setForecastCode(String forecastCode)
   {
     this.forecastCode = forecastCode;
   }

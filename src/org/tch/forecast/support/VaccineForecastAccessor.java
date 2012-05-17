@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.tch.forecast.core.ForecastSchedule;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.validator.DataSourceException;
 
@@ -15,9 +16,8 @@ public class VaccineForecastAccessor
   private static final String GET_VACCINE_FORECASTS = "SELECT forecast_code, forecast_label, sort_order \n"
       + "FROM forecast_antigen ";
 
-  public static List<VaccineForecastDataBean> getVaccineForecasts(Connection conn) throws DataSourceException
+  public static void getVaccineForecasts(ForecastSchedule forecastSchedule, Connection conn) throws DataSourceException
   {
-    List<VaccineForecastDataBean> list = new ArrayList<VaccineForecastDataBean>();
     PreparedStatement pstmt = null;
     ResultSet rset = null;
     String sql = GET_VACCINE_FORECASTS;
@@ -29,23 +29,24 @@ public class VaccineForecastAccessor
       {
         String forecastCode = rset.getString(1);
         String forecastLabel = rset.getString(2);
-        VaccineForecastDataBean vaccineForecast = new VaccineForecastDataBean(forecastCode + ".xml");
-        vaccineForecast.setForcastCode(forecastCode);
-        vaccineForecast.setForecastLabel(forecastLabel);
-        vaccineForecast.setSortOrder(rset.getInt(3));
-        list.add(vaccineForecast);
+        for (VaccineForecastDataBean vaccineForecast : forecastSchedule.getVaccineForecastList())
+        {
+          if (vaccineForecast.getForecastCode().equals(forecastCode))
+          {
+            vaccineForecast.setForecastLabel(forecastLabel);
+            vaccineForecast.setSortOrder(rset.getInt(3));
+            break;
+          }
+        }
       }
 
-    }
-    catch (SQLException sqle)
+    } catch (SQLException sqle)
     {
       throw new DataSourceException("Unable to get vaccine forecast schedules: " + sqle.getMessage(), sqle, sql);
-    }
-    catch (Exception e)
+    } catch (Exception e)
     {
       throw new DataSourceException("Unable to create vaccine forecast schedule: " + e.getMessage(), e);
     }
-    return list;
   }
 
 }
