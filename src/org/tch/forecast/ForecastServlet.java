@@ -153,6 +153,7 @@ public class ForecastServlet extends HttpServlet
       n++;
     }
 
+    DateTime today = new DateTime(forecastDate.getDate());
     StringBuffer traceBuffer = new StringBuffer();
     Map traceMap = new HashMap();
     List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
@@ -164,7 +165,7 @@ public class ForecastServlet extends HttpServlet
     {
       forecaster.forecast(resultList, doseList, traceBuffer, traceMap);
 
-      DateTime sevenYearsAgo = new DateTime("today");
+      DateTime sevenYearsAgo = new DateTime(today);
       sevenYearsAgo.addYears(-7);
       DateTime dob = new DateTime(patient.getDob());
       consolidate(resultList, MMR_FORECASTS, "MMR");
@@ -172,7 +173,6 @@ public class ForecastServlet extends HttpServlet
       ImmunizationForecastDataBean forecastDiphtheria = getForecast(resultList, ImmunizationForecastDataBean.DIPHTHERIA);
       if (forecastDiphtheria != null)
       {
-        DateTime today = new DateTime("today");
         DateTime nextGiveTime = new DateTime(forecastDiphtheria.getDue());
         if (nextGiveTime.isLessThan(today))
         {
@@ -222,7 +222,7 @@ public class ForecastServlet extends HttpServlet
       remove(resultList, ImmunizationForecastDataBean.PERTUSSIS);
       comment(resultList, ImmunizationForecastDataBean.PNEUMO, "S",
           "Supplementary dose of PCV13 is needed. Please refer to the Forecaster Reference Tool and MMWR 59(09) March 12, 2010.");
-      alterInfluenza(resultList);
+      alterInfluenza(resultList, today);
       sort(resultList);
 
     } catch (Exception e)
@@ -291,7 +291,7 @@ public class ForecastServlet extends HttpServlet
 
       out.println("TCH Immunization Forecaster");
       out.println();
-      out.println("VACCINATIONS RECOMMENDED TODAY");
+      out.println("VACCINATIONS RECOMMENDED " + new DateTime(forecastDate.getDate()).toString("M/D/Y"));
 
       List<ImmunizationForecastDataBean> forecastList = forecastListDueToday;
       boolean vaccinesDueToday = false;
@@ -299,7 +299,6 @@ public class ForecastServlet extends HttpServlet
       {
         ImmunizationForecastDataBean forecast = it.next();
         String statusDescription;
-        DateTime today = new DateTime("today");
         DateTime validDate = new DateTime(forecast.getValid());
         DateTime dueDate = new DateTime(forecast.getDue());
         DateTime overdueDate = new DateTime(forecast.getOverdue());
@@ -330,13 +329,12 @@ public class ForecastServlet extends HttpServlet
 
       }
       out.println();
-      out.println("VACCCINATIONS RECOMMENDED IN THE FUTURE");
+      out.println("VACCCINATIONS RECOMMENDED AFTER " + new DateTime(forecastDate.getDate()).toString("M/D/Y"));
 
       forecastList = resultList;
       for (Iterator<ImmunizationForecastDataBean> it = forecastList.iterator(); it.hasNext();)
       {
         ImmunizationForecastDataBean forecast = it.next();
-        DateTime today = new DateTime("today");
         DateTime validDate = new DateTime(forecast.getValid());
         DateTime dueDate = new DateTime(forecast.getDue());
         DateTime overdueDate = new DateTime(forecast.getOverdue());
@@ -484,7 +482,7 @@ public class ForecastServlet extends HttpServlet
     }
   }
 
-  private void alterInfluenza(List<ImmunizationForecastDataBean> forecastList)
+  private void alterInfluenza(List<ImmunizationForecastDataBean> forecastList, DateTime today)
   {
     ImmunizationForecastDataBean forecastExamine = null;
     for (Iterator<ImmunizationForecastDataBean> it = forecastList.iterator(); it.hasNext();)
@@ -500,7 +498,6 @@ public class ForecastServlet extends HttpServlet
     {
       String start = "08/01";
       String end = "07/01";
-      DateTime today = new DateTime("today");
       DateTime startDate = new DateTime(start + "/" + today.getYear());
       DateTime endDate = null;
       if (today.isLessThan(startDate))
