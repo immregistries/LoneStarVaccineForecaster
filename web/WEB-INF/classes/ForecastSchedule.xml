@@ -1,4 +1,4 @@
-<schedule>
+<schedule scheduleName="TCH-2012-05">
 <forecast seriesName="Varicella">
   <vaccine vaccineName="Single" vaccineIds="178"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>

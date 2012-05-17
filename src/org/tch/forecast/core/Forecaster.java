@@ -98,6 +98,11 @@ public class Forecaster
   public Forecaster(VaccineForecastManagerInterface forecastManager) {
     this.forecastManager = forecastManager;
   }
+  
+  public ForecastSchedule getForecastSchedule()
+  {
+    return forecastManager.getForecastSchedule();
+  }
 
   private static final boolean RUN_NEW = true;
 

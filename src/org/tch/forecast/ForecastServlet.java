@@ -364,6 +364,8 @@ public class ForecastServlet extends HttpServlet
         out.print("Vaccine " + imm.getCvx() + " (TCH " + imm.getVaccineId() + ")");
         out.println(" given " + new DateTime(imm.getDateOfShot()).toString("M/D/Y"));
       }
+      out.println();
+      out.println("Forecast generated " + new DateTime().toString("M/D/Y") + " according to schedule " + forecaster.getForecastSchedule().getScheduleName());
       out.close();
 
     } else

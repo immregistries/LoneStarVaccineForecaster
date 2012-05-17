@@ -32,6 +32,11 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
     return null;
   }
   
+  public ForecastSchedule getForecastSchedule()
+  {
+    return forecastSchedule;
+  }
+  
   public List<Schedule> getIndications(String indication) throws Exception
   {
     init();
