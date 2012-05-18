@@ -1,16 +1,21 @@
 package org.tch.forecast.core;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 public class ForecastSchedule
 {
@@ -37,23 +42,45 @@ public class ForecastSchedule
     this.scheduleName = scheduleName;
   }
   
-  public ForecastSchedule(String source) throws Exception
+  public ForecastSchedule()
   {
-    try {
+    // default
+  }
   
-      DocumentBuilderFactory factory;
-      DocumentBuilder builder;
-      factory = DocumentBuilderFactory.newInstance();
-      factory.setIgnoringComments(true);
-      factory.setIgnoringElementContentWhitespace(true);
-      factory.setNamespaceAware(true);
-      builder = factory.newDocumentBuilder();
-      InputStream is = this.getClass().getClassLoader().getResourceAsStream(source);
-      processDocument(builder.parse(new InputSource(is)));
+  public ForecastSchedule initFromText(String text) throws Exception
+  {
+    InputStream is = new ByteArrayInputStream(text.getBytes());
+    try {
+      init(is);
     } catch (Exception exception)
     {
-      throw new Exception("Unable to read XML definition " + source, exception);
+      throw new Exception("Unable to read XML definition ", exception);
     }
+    return this;
+  }
+  
+  public ForecastSchedule initFromResource(String resource) throws Exception
+  {
+    InputStream is = this.getClass().getClassLoader().getResourceAsStream(resource);
+    try {
+      init(is);
+    } catch (Exception exception)
+    {
+      throw new Exception("Unable to read XML definition " + resource, exception);
+    }
+    return this;
+  }
+
+  public void init(InputStream is) throws ParserConfigurationException, Exception, SAXException, IOException
+  {
+    DocumentBuilderFactory factory;
+    DocumentBuilder builder;
+    factory = DocumentBuilderFactory.newInstance();
+    factory.setIgnoringComments(true);
+    factory.setIgnoringElementContentWhitespace(true);
+    factory.setNamespaceAware(true);
+    builder = factory.newDocumentBuilder();
+    processDocument(builder.parse(new InputSource(is)));
   }
 
   protected Object processDocument(Document node) throws Exception

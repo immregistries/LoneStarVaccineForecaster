@@ -67,7 +67,7 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
   {
     if (indications == null)
     {
-      forecastSchedule = new ForecastSchedule("ForecastSchedule.xml");
+      forecastSchedule = new ForecastSchedule().initFromResource("ForecastSchedule.xml");
       getVaccineForecasts();
       indications = VaccineForecastDataBean.getIndications();
     }
