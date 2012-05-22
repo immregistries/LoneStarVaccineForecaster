@@ -370,12 +370,12 @@
   </schedule>
   <schedule scheduleName="T2" dose="2" indication="" label="4 months Recombivax">
     <pos row="2" column="2"/>
-    <valid age="" interval="4 months" grace="4 days"/>
+    <valid age="" interval="4 months" grace="4 months -28 days 4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="4 months" grace=""/>
     <overdue age="" interval="7 months" grace=""/>
     <finished age="200 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
+    <after-invalid interval="4 months" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Recombivax" schedule="COMPLETE" age="16 years" reason="" minInterval="4 months -4 days"/>
     <indicate vaccineName="Recombivax" schedule="INVALID" age="16 years" reason="Recombivax must be administered at least 4 months after previous Recombivax." minInterval=""/>
@@ -393,9 +393,9 @@
     <valid age="12 months" interval="" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="12 months" interval="" grace=""/>
-    <overdue age="24 months" interval="" grace=""/>
+    <overdue age="24 months" interval="6 months" grace=""/>
     <finished age="150 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
+    <after-invalid interval="6 months" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Child" schedule="P2" age="19 years" reason=""/>
     <indicate vaccineName="Child" schedule="INVALID" age="" reason=""/>
@@ -406,12 +406,12 @@
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="booster">
     <pos row="2" column="1"/>
-    <valid age="18 months" interval="6 months" grace="4 days"/>
+    <valid age="" interval="6 months" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="18 months" interval="" grace=""/>
     <overdue age="42 months" interval="" grace=""/>
     <finished age="150 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
+    <after-invalid interval="6 months" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Child" schedule="COMPLETE" age="19 years" reason=""/>
     <indicate vaccineName="Child" schedule="INVALID" age="" reason=""/>
@@ -446,6 +446,7 @@
     <indicate vaccineName="Adult" schedule="COMPLETE" age="" reason=""/>
   </schedule>
 </forecast>
+
 
 <forecast seriesName="Diphtheria">
   <vaccine vaccineName="Child" vaccineIds="110, 112, 114, 115, 116, 2060, 111, 2070, 113, 121, 1150, 142"/>
