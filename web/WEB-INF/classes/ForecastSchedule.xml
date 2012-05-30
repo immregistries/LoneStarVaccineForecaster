@@ -448,6 +448,7 @@
 </forecast>
 
 
+
 <forecast seriesName="Diphtheria">
   <vaccine vaccineName="Child" vaccineIds="110, 112, 114, 115, 116, 2060, 111, 2070, 113, 121, 1150, 142"/>
   <vaccine vaccineName="Adult" vaccineIds="122, 124, 123"/>
