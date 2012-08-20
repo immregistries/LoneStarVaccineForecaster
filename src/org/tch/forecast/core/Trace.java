@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
-import org.tch.hl7.core.util.DateTime;
+import org.tch.forecast.core.DateTime;
 
 public class Trace
 {

@@ -2,7 +2,7 @@ package org.tch.forecast.core;
 
 import java.util.Date;
 
-import org.tch.hl7.core.util.DateTime;
+import org.tch.forecast.core.DateTime;
 
 public class TimePeriod
 {

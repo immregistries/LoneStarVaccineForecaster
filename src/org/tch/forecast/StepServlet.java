@@ -36,11 +36,11 @@ import org.tch.forecast.core.logic.Event;
 import org.tch.forecast.core.logic.LookForDoseStep;
 import org.tch.forecast.core.logic.SetupStep;
 import org.tch.forecast.core.logic.StartStep;
-import org.tch.forecast.support.Immunization;
-import org.tch.forecast.support.PatientRecordDataBean;
+import org.tch.forecast.core.model.Immunization;
+import org.tch.forecast.core.model.PatientRecordDataBean;
 import org.tch.forecast.support.VaccineForecastManager;
 import org.tch.forecast.validator.db.DatabasePool;
-import org.tch.hl7.core.util.DateTime;
+import org.tch.forecast.core.DateTime;
 
 public class StepServlet extends HttpServlet
 {

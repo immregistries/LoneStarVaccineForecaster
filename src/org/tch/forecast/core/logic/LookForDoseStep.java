@@ -8,7 +8,7 @@ import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.Trace;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean;
-import org.tch.hl7.core.util.DateTime;
+import org.tch.forecast.core.DateTime;
 
 public class LookForDoseStep extends ActionStep
 {

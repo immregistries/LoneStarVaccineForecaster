@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Contraindicate;
-import org.tch.hl7.core.util.DateTime;
+import org.tch.forecast.core.DateTime;
 
 public class DetermineRangesStep extends ActionStep
 {

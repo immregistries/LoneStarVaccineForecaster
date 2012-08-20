@@ -9,9 +9,9 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.tch.forecast.core.Forecaster"%>
 <%@page import="org.tch.hl7.immunizations.databeans.PatientDataBean"%>
-<%@page import="org.tch.forecast.support.PatientRecordDataBean"%>
-<%@page import="org.tch.hl7.core.util.DateTime"%>
-<%@page import="org.tch.forecast.support.Immunization"%>
+<%@page import="org.tch.forecast.core.model.PatientRecordDataBean"%>
+<%@page import="org.tch.forecast.core.DateTime"%>
+<%@page import="org.tch.forecast.core.model.Immunization"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="org.tch.forecast.core.ImmunizationForecastDataBean"%>

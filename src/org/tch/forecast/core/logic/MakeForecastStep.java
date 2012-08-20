@@ -2,7 +2,7 @@ package org.tch.forecast.core.logic;
 
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean;
-import org.tch.hl7.core.util.DateTime;
+import org.tch.forecast.core.DateTime;
 
 public class MakeForecastStep extends ActionStep
 {

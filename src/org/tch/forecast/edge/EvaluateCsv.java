@@ -19,12 +19,12 @@ import org.tch.forecast.core.Forecaster;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.VaccinationDoseDataBean;
-import org.tch.forecast.support.Immunization;
-import org.tch.forecast.support.PatientRecordDataBean;
 import org.tch.forecast.support.VaccineForecastManager;
 import org.tch.forecast.validator.DataSourceUnavailableException;
 import org.tch.forecast.validator.db.DatabasePool;
-import org.tch.hl7.core.util.DateTime;
+import org.tch.forecast.core.DateTime;
+import org.tch.forecast.core.model.Immunization;
+import org.tch.forecast.core.model.PatientRecordDataBean;
 
 public class EvaluateCsv
 {

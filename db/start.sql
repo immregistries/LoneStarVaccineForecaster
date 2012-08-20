@@ -2,9 +2,12 @@ CREATE DATABASE forecastValidation;
 
 USE forecastValidation;
 
-CREATE USER forecastUser IDENTIFIED BY 'goldenroot';
-
-GRANT SELECT, INSERT, DELETE, UPDATE, LOCK TABLES, EXECUTE ON forecastValidation.* TO 'forecastUser'@'%';
+CREATE USER 'forecastUser'@'localhost' IDENTIFIED BY 'goldenroot';
+GRANT ALL PRIVILEGES ON *.* TO 'monty'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON forecastValidation.* TO 'monty'@'localhost' WITH GRANT OPTION;
+CREATE USER 'forecastUser'@'%' IDENTIFIED BY 'goldenroot';
+GRANT ALL PRIVILEGES ON *.* TO 'forecastUser'@'%' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON forecastValidation.* TO 'forecastUser'@'%' WITH GRANT OPTION;
 
 
 CREATE TABLE test_group (

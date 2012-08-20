@@ -1,6 +1,6 @@
 package org.tch.forecast.validator;
 
-import org.tch.hl7.core.util.DateTime;
+import org.tch.forecast.core.DateTime;
 
 /**
  * 

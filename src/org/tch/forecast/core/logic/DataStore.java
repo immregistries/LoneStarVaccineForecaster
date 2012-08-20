@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.PatientForecastRecordDataBean;
@@ -23,7 +24,6 @@ import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.Seasonal;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
-import org.tch.hl7.core.util.DateTime;
 
 public class DataStore
 {

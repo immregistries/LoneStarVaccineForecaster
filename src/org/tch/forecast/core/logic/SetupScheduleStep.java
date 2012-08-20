@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 import org.tch.forecast.core.Trace;
 import org.tch.forecast.core.TraceList;
-import org.tch.hl7.core.util.DateTime;
+import org.tch.forecast.core.DateTime;
 
 public class SetupScheduleStep extends ActionStep
 {

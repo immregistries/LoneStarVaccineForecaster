@@ -1,9 +1,9 @@
-package org.tch.forecast.support;
+package org.tch.forecast.core.model;
 
 import java.util.Date;
 
 import org.tch.forecast.core.PatientForecastRecordDataBean;
-import org.tch.hl7.core.util.DateTime;
+import org.tch.forecast.core.DateTime;
 
 public class PatientRecordDataBean implements PatientForecastRecordDataBean
 {
