@@ -15,7 +15,8 @@ public class TransitionScheduleStep extends ActionStep
   @Override
   public String doAction(DataStore ds) throws Exception
   {
-    // A different schedule is the new action
+    ds.log("Transition Schedule");
+    ds.log(" + Setting current schedule to the new one indicated");
     ds.schedule = ds.forecast.getSchedules().get(ds.nextAction);
     ds.indicatesPos = -1;
     ds.previousAfterInvalidInterval = null;
@@ -44,9 +45,11 @@ public class TransitionScheduleStep extends ActionStep
       }
       ds.traceList.append("Now expecting " + label + " dose.</li><li>");
     }
+    ds.log("Checking finished date");
     ds.finished = ds.schedule.getFinishedAge().getDateTimeFrom(ds.patient.getDobDateTime());
     if (ds.today.isGreaterThan(ds.finished))
     {
+      ds.log(" + Patient is now too old to get any more doses");
       if (ds.traceBuffer != null)
       {
         ds.traceBuffer.append("</li><li>No need for further vaccinations.");
@@ -58,6 +61,7 @@ public class TransitionScheduleStep extends ActionStep
       }
       return FinishScheduleStep.NAME;
     }
+    ds.log("Going to next step");
     return TraverseScheduleStep.NAME;
   }
 

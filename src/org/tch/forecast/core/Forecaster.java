@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.tch.forecast.core.VaccineForecastDataBean.Seasonal;
+import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
 import org.tch.forecast.core.logic.ActionStep;
 import org.tch.forecast.core.logic.ActionStepFactory;
 import org.tch.forecast.core.logic.DataStore;
@@ -410,7 +411,7 @@ public class Forecaster
 
   private String lookForDose(VaccineForecastDataBean.Indicate indicate)
   {
-    int[] vaccineIds = indicate.getVaccines();
+    ValidVaccine[] vaccineIds = indicate.getVaccines();
     while (event != null)
     {
       if (event.hasEvent)
@@ -556,14 +557,14 @@ public class Forecaster
     return null;
   }
 
-  private boolean indicatedEvent(int[] vaccineIds)
+  private boolean indicatedEvent(ValidVaccine[] vaccineIds)
   {
     boolean indicatedEvent = false;
     for (ImmunizationInterface imm : event.immList)
     {
       for (int i = 0; i < vaccineIds.length; i++)
       {
-        if (imm.getVaccineId() == vaccineIds[i])
+        if (imm.getVaccineId() == vaccineIds[i].getVaccineId())
         {
           indicatedEvent = true;
         }
@@ -591,12 +592,12 @@ public class Forecaster
     VaccineForecastDataBean.Indicate[] ind = schedule.getIndicates();
     for (int i = 0; i < ind.length; i++)
     {
-      int[] vaccineIds = ind[i].getVaccines();
+      ValidVaccine[] vaccineIds = ind[i].getVaccines();
       for (int j = 0; j < vaccineIds.length; j++)
       {
         for (ImmunizationInterface imm : event.immList)
         {
-          if (vaccineIds[j] == imm.getVaccineId())
+          if (vaccineIds[j].getVaccineId() == imm.getVaccineId())
           {
             event.hasEvent = true;
             return;
@@ -606,7 +607,7 @@ public class Forecaster
     }
   }
 
-  private void addInvalidDose(int[] vaccineIds, String invalidReason)
+  private void addInvalidDose(ValidVaccine[] vaccineIds, String invalidReason)
   {
     if (!getValidDose(schedule).equals(""))
     {
@@ -614,7 +615,7 @@ public class Forecaster
       {
         for (int i = 0; i < vaccineIds.length; i++)
         {
-          if (imm.getVaccineId() == vaccineIds[i])
+          if (imm.getVaccineId() == vaccineIds[i].getVaccineId())
           {
             VaccinationDoseDataBean dose = new VaccinationDoseDataBean();
             dose.setAdminDate(imm.getDateOfShot());
@@ -644,7 +645,7 @@ public class Forecaster
 
   private static DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
 
-  private void addContra(int[] vaccineIds, String contraReason)
+  private void addContra(ValidVaccine[] vaccineIds, String contraReason)
   {
     if (traceBuffer != null)
     {
@@ -654,7 +655,7 @@ public class Forecaster
         {
           for (int i = 0; i < vaccineIds.length; i++)
           {
-            if (imm.getVaccineId() == vaccineIds[i])
+            if (imm.getVaccineId() == vaccineIds[i].getVaccineId())
             {
               if (traceBuffer != null)
               {
@@ -681,7 +682,7 @@ public class Forecaster
     }
   }
 
-  private void addValidDose(int[] vaccineIds)
+  private void addValidDose(ValidVaccine[] vaccineIds)
   {
     if (!getValidDose(schedule).equals(""))
     {
@@ -689,7 +690,7 @@ public class Forecaster
       {
         for (int i = 0; i < vaccineIds.length; i++)
         {
-          if (imm.getVaccineId() == vaccineIds[i])
+          if (imm.getVaccineId() == vaccineIds[i].getVaccineId())
           {
             VaccinationDoseDataBean dose = new VaccinationDoseDataBean();
             dose.setAdminDate(imm.getDateOfShot());

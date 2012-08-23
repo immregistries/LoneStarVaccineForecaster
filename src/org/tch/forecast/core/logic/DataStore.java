@@ -331,6 +331,11 @@ public class DataStore
       detailLog.append("\n");
     }
   }
+  
+  public boolean isLog()
+  {
+    return detailLog != null;
+  }
 
   public void setBeforePreviousEventDate(DateTime beforePreviousEventDate)
   {

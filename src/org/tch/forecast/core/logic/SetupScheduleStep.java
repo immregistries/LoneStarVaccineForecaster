@@ -43,6 +43,7 @@ public class SetupScheduleStep extends ActionStep
       ds.traces.put(ds.forecast.getForecastCode(), ds.traceList);
       ds.traceList.append("<ul><li>");
     }
+    ds.log("Looking at first event");
     ds.eventPosition = 0;
     ds.previousAfterInvalidInterval = null;
     LookForDoseStep.nextEvent(ds);

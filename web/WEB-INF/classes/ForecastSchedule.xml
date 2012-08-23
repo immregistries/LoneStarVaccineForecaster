@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2012-05">
+<schedule scheduleName="TCH-2012-08">
 <forecast seriesName="Varicella">
   <vaccine vaccineName="Single" vaccineIds="178"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
@@ -51,7 +51,7 @@
   <vaccine vaccineName="Mumps" vaccineIds="158, 159, 1560, 162, 175"/>
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Live" vaccineIds="178, 180, 2020, 1990, 148, 161, 162"/>
+  <vaccine vaccineName="Live" vaccineIds="178, 180, 2020, 1990, 161, 162"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
     <valid age="1 year" interval="" grace="4 days"/>
@@ -83,12 +83,14 @@
     <indicate vaccineName="Rubella" schedule="COMPLETE" age="" reason="" previousVaccineName="" minInterval=""/>
   </schedule>
 </forecast>
+
+
 <forecast seriesName="Measles">
   <vaccine vaccineName="Measles" vaccineIds="158, 159, 1560, 160, 161"/>
   <vaccine vaccineName="Mumps" vaccineIds="158, 159, 1560, 162, 175"/>
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Live" vaccineIds="178, 180, 2020, 1990, 148, 162, 171, 175"/>
+  <vaccine vaccineName="Live" vaccineIds="178, 180, 2020, 1990, 162, 171, 175"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
     <valid age="1 year" interval="" grace="4 days"/>
@@ -120,10 +122,14 @@
     <indicate vaccineName="Measles" schedule="COMPLETE" age="" reason="" previousVaccineName="" minInterval=""/>
   </schedule>
 </forecast>
+
+
 <forecast seriesName="Influenza">
-  <vaccine vaccineName="Flu" vaccineIds="2050, 180, 181, 1430, 1440, 179"/>
+  <vaccine vaccineName="Flu" vaccineIds="2050, 180, 181, 1430, 1440, 179, 200, 201, 185"/>
+  <vaccine vaccineName="Flu+" vaccineIds="2050, 180, 181, 1430, 1440, 179, 200, 201, 185" validStartDate="2010-07-31"/>
   <vaccine vaccineName="Nasal" vaccineIds="180"/>
   <vaccine vaccineName="Live" vaccineIds="158, 159, 160, 161, 162, 171, 175, 178, 2020"/>
+  <vaccine vaccineName="H1N1" vaccineIds="186, 187, 188, 189"/>
   <vaccine vaccineName="Season End" vaccineIds="-504"/>
   <seasonal start="1 month" due="0 month" overdue="4 months" end="6 months"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1st">
@@ -137,25 +143,11 @@
     <before-previous interval=""/>
     <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" seasonCompleted=""/>
-    <indicate vaccineName="Flu" schedule="P2" age="9 years" reason="" seasonCompleted=""/>
+    <indicate vaccineName="Flu+" schedule="P2" age="9 years" reason="" seasonCompleted=""/>
+    <indicate vaccineName="Flu" schedule="H1" age="9 years" reason="" seasonCompleted=""/>
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" seasonCompleted="Yes"/>
     <indicate vaccineName="Season End" schedule="P1" age="9 years" reason="" seasonCompleted=""/>
     <indicate vaccineName="Season End" schedule="S1" age="" reason="" seasonCompleted=""/>
-  </schedule>
-  <schedule scheduleName="P2" dose="2" indication="" label="2nd">
-    <pos row="1" column="2"/>
-    <valid age="" interval="4 weeks" grace=""/>
-    <early age="" interval="" grace=""/>
-    <due age="" interval="1 month" grace=""/>
-    <overdue age="" interval="2 months" grace=""/>
-    <finished age="150 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
-    <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
-    <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
-    <indicate vaccineName="Season End" schedule="S1" age="9 years" reason="" minInterval="" seasonCompleted=""/>
-    <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
   </schedule>
   <schedule scheduleName="S1" dose="1" indication="" label="seasonal">
     <pos row="1" column="3"/>
@@ -171,7 +163,88 @@
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" seasonCompleted="Yes"/>
     <indicate vaccineName="Season End" schedule="S1" age="" reason="" seasonCompleted=""/>
   </schedule>
+  <schedule scheduleName="P2" dose="2" indication="" label="2nd">
+    <pos row="1" column="2"/>
+    <valid age="" interval="4 weeks" grace=""/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="1 month" grace=""/>
+    <overdue age="" interval="2 months" grace=""/>
+    <finished age="150 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
+    <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
+    <indicate vaccineName="Season End" schedule="R1" age="9 years" reason="" minInterval="" seasonCompleted=""/>
+    <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
+  </schedule>
+  <schedule scheduleName="R1" dose="1" indication="" label="1st repeat">
+    <pos row="1" column="2"/>
+    <valid age="" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="7 months" interval="" grace=""/>
+    <overdue age="150 years" interval="" grace=""/>
+    <finished age="150 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
+    <indicate vaccineName="Flu" schedule="R2" age="9 years" reason="" minInterval="" seasonCompleted=""/>
+    <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
+    <indicate vaccineName="Season End" schedule="R1" age="9 years" reason="" minInterval="" seasonCompleted=""/>
+    <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
+  </schedule>
+  <schedule scheduleName="R2" dose="2" indication="" label="2nd repeat">
+    <pos row="2" column="2"/>
+    <valid age="" interval="4 weeks" grace=""/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="1 month" grace=""/>
+    <overdue age="" interval="2 months" grace=""/>
+    <finished age="150 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
+    <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
+    <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
+  </schedule>
+  <schedule scheduleName="H1" dose="1" indication="" label="1st Containing H1N1">
+    <pos row="3" column="1"/>
+    <valid age="" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="6 months" interval="" grace=""/>
+    <overdue age="150 years" interval="" grace=""/>
+    <finished age="150 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted="" hasHad=""/>
+    <indicate vaccineName="Flu" schedule="S1" age="9 years" reason="" minInterval="" seasonCompleted="Yes" hasHad="H1N1"/>
+    <indicate vaccineName="Flu+" schedule="H2" age="9 years" reason="" minInterval="" seasonCompleted="" hasHad=""/>
+    <indicate vaccineName="Flu" schedule="H1" age="9 years" reason="" minInterval="" seasonCompleted="" hasHad=""/>
+    <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes" hasHad=""/>
+    <indicate vaccineName="Season End" schedule="H1" age="9 years" reason="" minInterval="" seasonCompleted="" hasHad=""/>
+    <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted="" hasHad=""/>
+  </schedule>
+  <schedule scheduleName="H2" dose="2" indication="" label="2nd Containing H1N1">
+    <pos row="3" column="2"/>
+    <valid age="" interval="4 weeks" grace=""/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="1 month" grace=""/>
+    <overdue age="" interval="2 months" grace=""/>
+    <finished age="150 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
+    <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
+    <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
+  </schedule>
 </forecast>
+
+
+
+
 
 <forecast seriesName="Hib">
   <vaccine vaccineName="Hib Only" vaccineIds="128, 1330, 1340"/>
@@ -703,7 +776,7 @@
   <vaccine vaccineName="Mumps" vaccineIds="158, 159, 1560, 162, 175"/>
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Live" vaccineIds="178, 180, 2020, 1990, 148, 160, 161, 171"/>
+  <vaccine vaccineName="Live" vaccineIds="178, 180, 2020, 1990, 160, 161, 171"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
     <valid age="1 year" interval="" grace="4 days"/>
