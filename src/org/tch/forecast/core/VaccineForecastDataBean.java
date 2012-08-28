@@ -26,6 +26,7 @@ public class VaccineForecastDataBean {
   private Map<String, NamedVaccine> vaccines = new HashMap<String, NamedVaccine>();
   private Map<String, Schedule> schedules = new HashMap<String, Schedule>();
   private Seasonal seasonal = null;
+  private List<Transition> transitionList = new ArrayList<Transition>();
 
   protected VaccineForecastDataBean() {
     // default for ForecastSchedule to build object
@@ -123,6 +124,16 @@ public class VaccineForecastDataBean {
         seasonal.setDue(new TimePeriod(seasonalDue));
         seasonal.setOverdue(new TimePeriod(seasonalOverdue));
         seasonal.setEnd(new TimePeriod(seasonalEnd));
+      } else if (name.equals("transition"))
+      {
+        Transition transition = new Transition();
+        String transitionName = DomUtils.getAttributeValue(n, "name");
+        String transitionAge = DomUtils.getAttributeValue(n, "age");
+        int transitionVaccineId = DomUtils.getAttributeValueInt(n, "vaccineId");
+        transition.setName(transitionName);
+        transition.setAge(new TimePeriod(transitionAge));
+        transition.setVaccineId(transitionVaccineId);
+        transitionList.add(transition);
       }
     }
   }
@@ -209,6 +220,10 @@ public class VaccineForecastDataBean {
       return new ValidVaccine[0];
     }
     NamedVaccine namedVaccine = vaccines.get(vaccineName.toUpperCase());
+    if (namedVaccine == null)
+    {
+      throw new Exception("Unrecognized vaccine name '" + vaccineName + "'");
+    }
     String vaccineString = namedVaccine.getVaccineIds();
     if (vaccineString == null) {
       throw new Exception("Unrecognized vaccine name '" + vaccineName + "'");
@@ -738,6 +753,11 @@ public class VaccineForecastDataBean {
   public Seasonal getSeasonal() {
     return seasonal;
   }
+  
+  public List<Transition> getTransitionList()
+  {
+    return transitionList;
+  }
 
   public String getForecastLabel() {
     return forecastLabel;
@@ -854,6 +874,30 @@ public class VaccineForecastDataBean {
         }
       }
       return true;
+    }
+  }
+  
+  public class Transition {
+    private String name = "";
+    private TimePeriod age = null;
+    private int vaccineId = 0;
+    public String getName() {
+      return name;
+    }
+    public void setName(String name) {
+      this.name = name;
+    }
+    public TimePeriod getAge() {
+      return age;
+    }
+    public void setAge(TimePeriod age) {
+      this.age = age;
+    }
+    public int getVaccineId() {
+      return vaccineId;
+    }
+    public void setVaccineId(int vaccineId) {
+      this.vaccineId = vaccineId;
     }
   }
 

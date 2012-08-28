@@ -1,8 +1,11 @@
 <schedule scheduleName="TCH-2012-08">
+
+
 <forecast seriesName="Varicella">
   <vaccine vaccineName="Single" vaccineIds="178"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Live" vaccineIds="158, 160, 161, 162, 171, 175, 180, 2020, 1990, 148"/>
+  <vaccine vaccineName="Same Live" vaccineIds="158, 160, 161, 162, 171, 175,148"/>
+  <vaccine vaccineName="Other Live" vaccineIds="180, 220, 1990, 148"/>
   <schedule scheduleName="P1" dose="1" indication="NO-VAR-HIS" label="1 year">
     <pos row="1" column="1"/>
     <valid age="12 months" interval="" grace="4 days"/>
@@ -12,7 +15,8 @@
     <finished age="65 years" interval="" grace=""/>
     <after-invalid interval="12 weeks" grace="8 weeks"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
     <indicate vaccineName="Single" schedule="P2" age="13 years" reason=""/>
     <indicate vaccineName="Single" schedule="A2" age="" reason=""/>
     <indicate vaccineName="MMRV" schedule="P2" age="13 years" reason=""/>
@@ -27,7 +31,8 @@
     <finished age="65 years" interval="" grace=""/>
     <after-invalid interval="12 weeks" grace="8 weeks"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
     <indicate vaccineName="Single" schedule="COMPLETE" age="" reason="" previousVaccineName="" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older." previousVaccineName="" minInterval=""/>
@@ -41,17 +46,22 @@
     <finished age="65 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
     <indicate vaccineName="Single" schedule="COMPLETE" age="" reason=""/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older."/>
   </schedule>
 </forecast>
+
+
+
 <forecast seriesName="Rubella">
   <vaccine vaccineName="Measles" vaccineIds="158, 159, 1560, 160, 161"/>
   <vaccine vaccineName="Mumps" vaccineIds="158, 159, 1560, 162, 175"/>
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Live" vaccineIds="178, 180, 2020, 1990, 161, 162"/>
+  <vaccine vaccineName="Same Live" vaccineIds="178, 161, 162"/>
+  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
     <valid age="1 year" interval="" grace="4 days"/>
@@ -61,7 +71,8 @@
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
     <indicate vaccineName="MMRV" schedule="P2" age="13 years" reason=""/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older."/>
     <indicate vaccineName="Rubella" schedule="P2" age="" reason=""/>
@@ -75,7 +86,8 @@
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="MMRV" minInterval="4 weeks"/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV must be administered no sooner than 4 weeks after previous MMRV." previousVaccineName="MMRV" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="" minInterval=""/>
@@ -85,12 +97,14 @@
 </forecast>
 
 
+
 <forecast seriesName="Measles">
   <vaccine vaccineName="Measles" vaccineIds="158, 159, 1560, 160, 161"/>
   <vaccine vaccineName="Mumps" vaccineIds="158, 159, 1560, 162, 175"/>
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Live" vaccineIds="178, 180, 2020, 1990, 162, 171, 175"/>
+  <vaccine vaccineName="Same Live" vaccineIds="178,162, 171, 175"/>
+  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
     <valid age="1 year" interval="" grace="4 days"/>
@@ -100,7 +114,8 @@
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
     <indicate vaccineName="MMRV" schedule="P2" age="13 years" reason=""/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older."/>
     <indicate vaccineName="Measles" schedule="P2" age="" reason=""/>
@@ -114,7 +129,8 @@
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="MMRV" minInterval="4 weeks"/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV must be administered no sooner than 4 weeks after previous MMRV." previousVaccineName="MMRV" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="" minInterval=""/>
@@ -131,7 +147,9 @@
   <vaccine vaccineName="Live" vaccineIds="158, 159, 160, 161, 162, 171, 175, 178, 2020"/>
   <vaccine vaccineName="H1N1" vaccineIds="186, 187, 188, 189"/>
   <vaccine vaccineName="Season End" vaccineIds="-504"/>
+  <vaccine vaccineName="9 Years Old" vaccineIds="-9"/>
   <seasonal start="1 month" due="0 month" overdue="4 months" end="6 months"/>
+  <transition name="9 Years Old" age="9 Years" vaccineId="-9"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1st">
     <pos row="1" column="1"/>
     <valid age="6 months" interval="" grace="4 days"/>
@@ -148,6 +166,7 @@
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" seasonCompleted="Yes"/>
     <indicate vaccineName="Season End" schedule="P1" age="9 years" reason="" seasonCompleted=""/>
     <indicate vaccineName="Season End" schedule="S1" age="" reason="" seasonCompleted=""/>
+    <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" seasonCompleted=""/>
   </schedule>
   <schedule scheduleName="S1" dose="1" indication="" label="seasonal">
     <pos row="1" column="3"/>
@@ -177,6 +196,7 @@
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
     <indicate vaccineName="Season End" schedule="R1" age="9 years" reason="" minInterval="" seasonCompleted=""/>
     <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
+    <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
   </schedule>
   <schedule scheduleName="R1" dose="1" indication="" label="1st repeat">
     <pos row="1" column="2"/>
@@ -193,6 +213,7 @@
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
     <indicate vaccineName="Season End" schedule="R1" age="9 years" reason="" minInterval="" seasonCompleted=""/>
     <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
+    <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
   </schedule>
   <schedule scheduleName="R2" dose="2" indication="" label="2nd repeat">
     <pos row="2" column="2"/>
@@ -207,6 +228,7 @@
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
     <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
+    <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
   </schedule>
   <schedule scheduleName="H1" dose="1" indication="" label="1st Containing H1N1">
     <pos row="3" column="1"/>
@@ -225,6 +247,7 @@
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes" hasHad=""/>
     <indicate vaccineName="Season End" schedule="H1" age="9 years" reason="" minInterval="" seasonCompleted="" hasHad=""/>
     <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted="" hasHad=""/>
+    <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" minInterval="" seasonCompleted="" hasHad=""/>
   </schedule>
   <schedule scheduleName="H2" dose="2" indication="" label="2nd Containing H1N1">
     <pos row="3" column="2"/>
@@ -239,6 +262,7 @@
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
     <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
+    <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
   </schedule>
 </forecast>
 
@@ -468,11 +492,14 @@
     <finished age="200 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="Recombivax" schedule="COMPLETE" age="16 years" reason="" minInterval=""/>
+    <indicate vaccineName="Recombivax" schedule="COMPLETE" age="16 years" reason="" minInterval="4 months -4 days"/>
     <indicate vaccineName="Series" schedule="P3" age="" reason="" minInterval=""/>
     <indicate vaccineName="Adult" schedule="P3" age="" reason="" minInterval=""/>
   </schedule>
 </forecast>
+
+
+
 
 <forecast seriesName="HepA">
   <vaccine vaccineName="Child" vaccineIds="145, 1180, 1190, 1200"/>
@@ -755,10 +782,11 @@
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="MPSV4" schedule="B1" age="" reason=""/>
+    <indicate vaccineName="MCV4" schedule="B2" age="16 years" reason=""/>
     <indicate vaccineName="MCV4" schedule="COMPLETE" age="" reason=""/>
   </schedule>
-  <schedule scheduleName="B1" dose="2" indication="" label="2nd">
-    <pos row="1" column="3"/>
+  <schedule scheduleName="B1" dose="2" indication="" label="2nd after MPSV4">
+    <pos row="2" column="1"/>
     <valid age="" interval="5 years" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="11 years" interval="" grace=""/>
@@ -766,17 +794,37 @@
     <finished age="55 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
+    <indicate vaccineName="MCV4" schedule="B2" age="16 years" reason=""/>
+    <indicate vaccineName="MCV4" schedule="COMPLETE" age="" reason=""/>
+    <indicate vaccineName="MPSV4" schedule="INVALID" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="B2" dose="3" indication="" label="3rd">
+    <pos row="2" column="2"/>
+    <valid age="" interval="8 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="16 years" interval="" grace=""/>
+    <overdue age="17 years" interval="" grace=""/>
+    <finished age="55 years" interval="" grace=""/>
+    <after-invalid interval="8 weeks" grace="4 days"/>
+    <before-previous interval=""/>
     <indicate vaccineName="MCV4" schedule="COMPLETE" age="" reason=""/>
     <indicate vaccineName="MPSV4" schedule="INVALID" age="" reason=""/>
   </schedule>
 </forecast>
+
+
+
+
+
+
 
 <forecast seriesName="Mumps">
   <vaccine vaccineName="Measles" vaccineIds="158, 159, 1560, 160, 161"/>
   <vaccine vaccineName="Mumps" vaccineIds="158, 159, 1560, 162, 175"/>
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Live" vaccineIds="178, 180, 2020, 1990, 160, 161, 171"/>
+  <vaccine vaccineName="Same Live" vaccineIds="178, 160, 161, 171"/>
+  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
     <valid age="1 year" interval="" grace="4 days"/>
@@ -786,7 +834,8 @@
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
     <indicate vaccineName="MMRV" schedule="P2" age="13 years" reason=""/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older."/>
     <indicate vaccineName="Mumps" schedule="P2" age="" reason=""/>
@@ -800,7 +849,8 @@
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="MMRV" minInterval="4 weeks"/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV must be administered no sooner than 4 weeks after previous MMRV." previousVaccineName="MMRV" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="" minInterval=""/>
@@ -808,6 +858,9 @@
     <indicate vaccineName="Mumps" schedule="COMPLETE" age="" reason="" previousVaccineName="" minInterval=""/>
   </schedule>
 </forecast>
+
+
+
 
 <forecast seriesName="Pertussis">
   <vaccine vaccineName="Pertussis" vaccineIds="123"/>

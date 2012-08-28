@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.tch.forecast.core.VaccineForecastDataBean.Seasonal;
+import org.tch.forecast.core.VaccineForecastDataBean.Transition;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
 import org.tch.forecast.core.logic.ActionStep;
 import org.tch.forecast.core.logic.ActionStepFactory;
@@ -19,8 +20,7 @@ import org.tch.forecast.core.logic.EndStep;
 import org.tch.forecast.core.logic.StartStep;
 import org.tch.forecast.core.DateTime;
 
-public class Forecaster
-{
+public class Forecaster {
 
   private static final String COMPLETE = "COMPLETE";
 
@@ -69,28 +69,23 @@ public class Forecaster
 
   private DataStore dataStore = null;
 
-  public Map<String, List<Trace>> getTraces()
-  {
+  public Map<String, List<Trace>> getTraces() {
     return traces;
   }
 
-  public StringBuffer getTraceBuffer()
-  {
+  public StringBuffer getTraceBuffer() {
     return traceBuffer;
   }
 
-  public PatientForecastRecordDataBean getPatient()
-  {
+  public PatientForecastRecordDataBean getPatient() {
     return patient;
   }
-  
-  public void setDetailLog(StringBuffer detailLog)
-  {
+
+  public void setDetailLog(StringBuffer detailLog) {
     this.detailLog = detailLog;
   }
 
-  public StringBuffer getDetailLog()
-  {
+  public StringBuffer getDetailLog() {
     return detailLog;
   }
 
@@ -99,9 +94,8 @@ public class Forecaster
   public Forecaster(VaccineForecastManagerInterface forecastManager) {
     this.forecastManager = forecastManager;
   }
-  
-  public ForecastSchedule getForecastSchedule()
-  {
+
+  public ForecastSchedule getForecastSchedule() {
     return forecastManager.getForecastSchedule();
   }
 
@@ -109,10 +103,8 @@ public class Forecaster
 
   public List<ImmunizationForecastDataBean> forecast(List<ImmunizationForecastDataBean> resultList,
       List<VaccinationDoseDataBean> doseList, StringBuffer traceBuffer, Map<String, List<Trace>> traces)
-      throws Exception
-  {
-    if (RUN_NEW)
-    {
+      throws Exception {
+    if (RUN_NEW) {
       dataStore = new DataStore(forecastManager);
       dataStore.setResultList(resultList);
       dataStore.setDoseList(doseList);
@@ -124,22 +116,18 @@ public class Forecaster
       dataStore.setVaccinations(vaccinations);
       String nextActionName = StartStep.NAME;
       ActionStep actionStep = ActionStepFactory.get(nextActionName);
-      while (!actionStep.getName().equals(EndStep.NAME))
-      {
+      while (!actionStep.getName().equals(EndStep.NAME)) {
         nextActionName = actionStep.doAction(dataStore);
         actionStep = ActionStepFactory.get(nextActionName);
       }
       return dataStore.getResultList();
-    } else
-    {
+    } else {
       setup(resultList, doseList, traceBuffer, traces);
       forecastForAllIndications("BIRTH");
-      if (patient.getSex() == null || !patient.getSex().equals("M"))
-      {
+      if (patient.getSex() == null || !patient.getSex().equals("M")) {
         forecastForAllIndications("FEMALE");
       }
-      if (!hasHistoryOfVaricella)
-      {
+      if (!hasHistoryOfVaricella) {
         forecastForAllIndications("NO-VAR-HIS");
       }
       finish();
@@ -147,15 +135,13 @@ public class Forecaster
     }
   }
 
-  public void finish()
-  {
+  public void finish() {
     this.traceBuffer = null;
     this.traces = null;
   }
 
   public void setup(List<ImmunizationForecastDataBean> resultList, List<VaccinationDoseDataBean> doseList,
-      StringBuffer traceBuffer, Map<String, List<Trace>> traces)
-  {
+      StringBuffer traceBuffer, Map<String, List<Trace>> traces) {
     this.resultList = resultList;
     this.doseList = doseList;
     this.traceBuffer = traceBuffer;
@@ -163,39 +149,31 @@ public class Forecaster
     this.today = new DateTime(forecastDate);
   }
 
-  private void forecastForAllIndications(String indication) throws Exception, Exception
-  {
+  private void forecastForAllIndications(String indication) throws Exception, Exception {
     List<VaccineForecastDataBean.Schedule> vaccineForecastList = forecastManager.getIndications(indication);
-    if (vaccineForecastList == null)
-    {
+    if (vaccineForecastList == null) {
       System.out.println("No schedules found for indication '" + indication + "'");
-    } else
-    {
-      for (Iterator<VaccineForecastDataBean.Schedule> fit = vaccineForecastList.iterator(); fit.hasNext();)
-      {
+    } else {
+      for (Iterator<VaccineForecastDataBean.Schedule> fit = vaccineForecastList.iterator(); fit.hasNext();) {
         schedule = fit.next();
         forecastSchedule();
       }
     }
   }
 
-  public void forecastSchedule() throws Exception
-  {
-    try
-    {
+  public void forecastSchedule() throws Exception {
+    try {
       forecast = schedule.getVaccineForecast();
       previousEventDate = new DateTime(patient.getDobDateTime());
       previousEventDateValid = previousEventDate;
       beforePreviousEventDate = null;
       validDoseCount = 0;
 
-      setupSeasonal();
-      if (traceBuffer != null)
-      {
+      setupSeasonalAndTransitions();
+      if (traceBuffer != null) {
         traceBuffer.append("<p><b>" + forecast.getForecastCode() + "</b></p><ul><li>");
       }
-      if (traces != null)
-      {
+      if (traces != null) {
         trace = new Trace();
         trace.setSchedule(schedule);
         traceList = new TraceList();
@@ -210,28 +188,22 @@ public class Forecaster
       nextEvent();
 
       traverseSchedules();
-      if (traceBuffer != null)
-      {
+      if (traceBuffer != null) {
         traceBuffer.append("</li></ul>");
       }
-      if (traces != null)
-      {
+      if (traces != null) {
         traceList.append("</li></ul>");
       }
-    } catch (Exception e)
-    {
+    } catch (Exception e) {
       throw new Exception("Unable to forecast for schedule " + schedule.getScheduleName() + " because "
           + e.getMessage(), e);
-    } finally
-    {
-      finishSeasonal();
+    } finally {
+      finishSeasonalAndTransitions();
     }
   }
 
-  private void finishSeasonal()
-  {
-    if (seasonal != null)
-    {
+  private void finishSeasonalAndTransitions() {
+    if (originalEventList != null) {
       eventList = originalEventList;
       originalEventList = null;
       seasonal = null;
@@ -240,164 +212,149 @@ public class Forecaster
     }
   }
 
-  private void setupSeasonal()
-  {
-    seasonal = forecast.getSeasonal();
-    if (seasonal != null)
-    {
-      seasonCompleted = false;
+  private void setupSeasonalAndTransitions() {
+    if (forecast.getSeasonal() != null || forecast.getTransitionList().size() > 0) {
       originalEventList = eventList;
-      seasonEnd = setupSeasonEnd();
+      seasonal = forecast.getSeasonal();
+      if (seasonal != null) {
+        seasonCompleted = false;
 
-      int count = 0;
-      while (seasonEnd.isGreaterThanOrEquals(patient.getDobDateTime()) && count < 10)
-      {
-        SeasonEndEvent se = new SeasonEndEvent(seasonEnd.getDate());
-        event = new Event();
-        event.eventDate = se.getDateOfShot();
-        event.immList.add(se);
-        eventList.add(event);
-        count++;
-        seasonEnd.addYears(-1);
-      }
-      if (count == 0)
-      {
-        // If no seasonal events were added then put in a season start for
-        // this year so that first forecast is good
-        seasonStart = seasonal.getStart().getDateTimeFrom(seasonEnd);
-      }
+        seasonEnd = setupSeasonEnd();
 
-      Collections.sort(eventList, new Comparator<Event>() {
-        public int compare(Event event1, Event event2)
+        int count = 0;
+        while (seasonEnd.isGreaterThanOrEquals(patient.getDobDateTime()) && count < 10) {
+          SeasonEndEvent se = new SeasonEndEvent(seasonEnd.getDate());
+          event = new Event();
+          event.eventDate = se.getDateOfShot();
+          event.immList.add(se);
+          eventList.add(event);
+          count++;
+          seasonEnd.addYears(-1);
+        }
+        if (count == 0) {
+          // If no seasonal events were added then put in a season start for
+          // this year so that first forecast is good
+          seasonStart = seasonal.getStart().getDateTimeFrom(seasonEnd);
+        }
+      }
+      if (forecast.getTransitionList().size() > 0)
+      {
+        for (Transition transition : forecast.getTransitionList())
         {
+          DateTime transitionDate = transition.getAge().getDateTimeFrom(patient.getDobDateTime());
+          if (transitionDate.isLessThanOrEquals(today))
+          {
+            // Transition happens before or on forecaster test date
+            TransitionEvent te = new TransitionEvent(transitionDate.getDate(), transition);
+            event = new Event();
+            event.eventDate = te.getDateOfShot();
+            event.immList.add(te);
+            eventList.add(event);
+          }
+        }
+      }
+      Collections.sort(eventList, new Comparator<Event>() {
+        public int compare(Event event1, Event event2) {
           return event1.eventDate.compareTo(event2.eventDate);
         }
       });
     }
   }
 
-  private DateTime setupSeasonEnd()
-  {
+  private DateTime setupSeasonEnd() {
     DateTime seasonEnd = new DateTime(forecastDate);
     seasonEnd.setMonth(1);
     seasonEnd.setDay(1);
     seasonEnd = seasonal.getEnd().getDateTimeFrom(seasonEnd);
-    if (seasonEnd.isGreaterThanOrEquals(new DateTime(forecastDate)))
-    {
+    if (seasonEnd.isGreaterThanOrEquals(new DateTime(forecastDate))) {
       seasonEnd.addYears(-1);
     }
     return seasonEnd;
   }
 
-  private void traverseSchedules() throws Exception
-  {
-    while (schedule != null)
-    {
+  private void traverseSchedules() throws Exception {
+    while (schedule != null) {
       determineRanges();
       indicates = schedule.getIndicates();
-      for (int j = 0; j < indicates.length; j++)
-      {
+      for (int j = 0; j < indicates.length; j++) {
         VaccineForecastDataBean.Indicate indicate = indicates[j];
         String nextAction = lookForDose(indicate);
         if (nextAction == null || nextAction.equalsIgnoreCase(COMPLETE)
-            || (nextAction.equalsIgnoreCase(KEEP_LOOKING) && (j + 1) == indicates.length))
-        {
-          if (traceBuffer != null)
-          {
-            if (nextAction != null)
-            {
-              if (nextAction.equalsIgnoreCase(COMPLETE))
-              {
+            || (nextAction.equalsIgnoreCase(KEEP_LOOKING) && (j + 1) == indicates.length)) {
+          if (traceBuffer != null) {
+            if (nextAction != null) {
+              if (nextAction.equalsIgnoreCase(COMPLETE)) {
                 traceBuffer.append("</li><li>#1 Vaccination series complete, patient vaccinated.");
               }
             }
           }
-          if (trace != null)
-          {
-            if (nextAction != null)
-            {
-              if (nextAction.equalsIgnoreCase(COMPLETE))
-              {
+          if (trace != null) {
+            if (nextAction != null) {
+              if (nextAction.equalsIgnoreCase(COMPLETE)) {
                 trace.setComplete(true);
                 traceList.append("</li><li>Vaccination series complete, patient vaccinated.");
               }
             }
           }
           return;
-        } else if (nextAction.equalsIgnoreCase(KEEP_LOOKING))
-        {
+        } else if (nextAction.equalsIgnoreCase(KEEP_LOOKING)) {
           // Dose found was past cutoff for this indicator, need to look at next
           // one
           continue;
-        } else if (nextAction.equalsIgnoreCase(CONTRA))
-        {
+        } else if (nextAction.equalsIgnoreCase(CONTRA)) {
           // Schedule was contraindicated, same schedule is kept
-          if (traceBuffer != null)
-          {
+          if (traceBuffer != null) {
             traceBuffer.append("</li><li>");
           }
-          if (trace != null)
-          {
+          if (trace != null) {
             trace.setContraindicated(true);
             trace = new Trace();
             traceList.add(trace);
             traceList.append("</li><li>");
           }
           break;
-        } else if (nextAction.equalsIgnoreCase(INVALID))
-        {
+        } else if (nextAction.equalsIgnoreCase(INVALID)) {
           // Dose was invalid for schedule, same schedule to be kept
-          if (traceBuffer != null)
-          {
+          if (traceBuffer != null) {
             traceBuffer.append("</li><li>");
           }
-          if (trace != null)
-          {
+          if (trace != null) {
             trace.setInvalid(true);
             trace = new Trace();
             traceList.add(trace);
             traceList.append("</li><li>");
           }
           break;
-        } else
-        {
+        } else {
           // A different schedule is the new action
           schedule = forecast.getSchedules().get(nextAction);
           previousAfterInvalidInterval = null;
-          if (schedule == null)
-          {
+          if (schedule == null) {
             throw new Exception("Unable to find schedule " + nextAction);
           }
-          if (traceBuffer != null)
-          {
+          if (traceBuffer != null) {
             String label = schedule.getLabel();
-            if (label == null || label.equals(""))
-            {
+            if (label == null || label.equals("")) {
               label = "[Schedule " + schedule.getScheduleName() + "]";
             }
             traceBuffer.append("Now expecting " + label + " dose.</li><li>");
           }
-          if (trace != null)
-          {
+          if (trace != null) {
             trace = new Trace();
             trace.setSchedule(schedule);
             traceList.add(trace);
             String label = schedule.getLabel();
-            if (label == null || label.equals(""))
-            {
+            if (label == null || label.equals("")) {
               label = "[Schedule " + schedule.getScheduleName() + "]";
             }
             traceList.append("Now expecting " + label + " dose.</li><li>");
           }
           finished = schedule.getFinishedAge().getDateTimeFrom(patient.getDobDateTime());
-          if (today.isGreaterThan(finished))
-          {
-            if (traceBuffer != null)
-            {
+          if (today.isGreaterThan(finished)) {
+            if (traceBuffer != null) {
               traceBuffer.append("</li><li>No need for further vaccinations.");
             }
-            if (trace != null)
-            {
+            if (trace != null) {
               trace.setFinished(true);
               traceList.append("</li><li>No need for further vaccinations.");
             }
@@ -409,73 +366,55 @@ public class Forecaster
     }
   }
 
-  private String lookForDose(VaccineForecastDataBean.Indicate indicate)
-  {
+  private String lookForDose(VaccineForecastDataBean.Indicate indicate) {
     ValidVaccine[] vaccineIds = indicate.getVaccines();
-    while (event != null)
-    {
-      if (event.hasEvent)
-      {
+    while (event != null) {
+      if (event.hasEvent) {
         DateTime cutoff = figureCutoff(indicate);
         DateTime vaccDate = new DateTime(event.eventDate);
-        if (!indicatedEvent(vaccineIds))
-        {
+        if (!indicatedEvent(vaccineIds)) {
           return KEEP_LOOKING;
         }
-        if (cutoff != null && !vaccDate.isLessThan(cutoff))
-        {
+        if (cutoff != null && !vaccDate.isLessThan(cutoff)) {
           return KEEP_LOOKING;
         }
-        if (checkSeasonEnd(event))
-        {
-          if (seasonCompleted)
-          {
-            if (traceBuffer != null)
-            {
+        if (checkSeasonEnd(event)) {
+          if (seasonCompleted) {
+            if (traceBuffer != null) {
               traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + ". ");
             }
-          } else if (event.eventDate.before(valid.getDate()))
-          {
-            if (traceBuffer != null)
-            {
+          } else if (event.eventDate.before(valid.getDate())) {
+            if (traceBuffer != null) {
               traceBuffer.append("Season ended " + dateFormat.format(event.eventDate)
                   + " before next dose was valid to give. ");
             }
-            if (trace != null)
-            {
+            if (trace != null) {
               traceList.append("Season ended " + dateFormat.format(event.eventDate)
                   + " before next dose was valid to give. ");
             }
-          } else
-          {
-            if (traceBuffer != null)
-            {
+          } else {
+            if (traceBuffer != null) {
               traceBuffer.append("Season ended " + dateFormat.format(event.eventDate) + " without valid dose given. ");
             }
-            if (trace != null)
-            {
+            if (trace != null) {
               traceList.append("Season ended " + dateFormat.format(event.eventDate) + " without valid dose given. ");
             }
           }
           seasonCompleted = false;
-          if (traceBuffer != null && !indicate.getReason().equals(""))
-          {
+          if (traceBuffer != null && !indicate.getReason().equals("")) {
             traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
           }
-          if (trace != null && !indicate.getReason().equals(""))
-          {
+          if (trace != null && !indicate.getReason().equals("")) {
             trace.setReason(indicate.getReason());
             traceList.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
           }
           seasonStart = seasonal.getStart().getDateTimeFrom(new DateTime(event.eventDate));
-          if (seasonEnd == null)
-          {
+          if (seasonEnd == null) {
             seasonEnd = setupSeasonEnd();
           }
           nextEvent();
           return indicate.getScheduleName();
-        } else if (checkInvalid(vaccDate))
-        {
+        } else if (checkInvalid(vaccDate)) {
           addInvalidDose(vaccineIds, "before valid date");
           previousEventDate = vaccDate;
           previousEventWasContra = false;
@@ -483,16 +422,13 @@ public class Forecaster
           nextEvent();
           previousAfterInvalidInterval = schedule.getAfterInvalidInterval();
           return INVALID;
-        } else if (indicate.isInvalid())
-        {
+        } else if (indicate.isInvalid()) {
           addInvalidDose(vaccineIds, indicate.getVaccineName() + " dose "
               + (indicate.getAge().isEmpty() ? "" : indicate.getAge().toString()));
-          if (traceBuffer != null && !indicate.getReason().equals(""))
-          {
+          if (traceBuffer != null && !indicate.getReason().equals("")) {
             traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
           }
-          if (trace != null)
-          {
+          if (trace != null) {
             trace.setReason(indicate.getReason());
             traceList.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
           }
@@ -502,16 +438,13 @@ public class Forecaster
           nextEvent();
           previousAfterInvalidInterval = schedule.getAfterInvalidInterval();
           return INVALID;
-        } else if (indicate.isContra())
-        {
+        } else if (indicate.isContra()) {
           addContra(vaccineIds, indicate.getVaccineName() + " dose"
               + (indicate.getAge().isEmpty() ? "" : " given before " + indicate.getAge().toString()));
-          if (traceBuffer != null && !indicate.getReason().equals(""))
-          {
+          if (traceBuffer != null && !indicate.getReason().equals("")) {
             traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
           }
-          if (trace != null)
-          {
+          if (trace != null) {
             trace.setReason(indicate.getReason());
             traceList.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
           }
@@ -520,16 +453,13 @@ public class Forecaster
           determineRanges();
           nextEvent();
           return CONTRA;
-        } else
-        {
+        } else {
           validDoseCount++;
           addValidDose(vaccineIds);
-          if (traceBuffer != null && !indicate.getReason().equals(""))
-          {
+          if (traceBuffer != null && !indicate.getReason().equals("")) {
             traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
           }
-          if (trace != null)
-          {
+          if (trace != null) {
             trace.setReason(indicate.getReason());
             traceList.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
           }
@@ -537,11 +467,9 @@ public class Forecaster
           previousEventDateValid = vaccDate;
           previousEventWasContra = true;
           previousEventDate = vaccDate;
-          if (seasonal != null && indicate.isSeasonCompleted())
-          {
+          if (seasonal != null && indicate.isSeasonCompleted()) {
             seasonCompleted = true;
-            if (traceBuffer != null)
-            {
+            if (traceBuffer != null) {
               traceBuffer.append("Season completed. ");
             }
           }
@@ -557,15 +485,11 @@ public class Forecaster
     return null;
   }
 
-  private boolean indicatedEvent(ValidVaccine[] vaccineIds)
-  {
+  private boolean indicatedEvent(ValidVaccine[] vaccineIds) {
     boolean indicatedEvent = false;
-    for (ImmunizationInterface imm : event.immList)
-    {
-      for (int i = 0; i < vaccineIds.length; i++)
-      {
-        if (imm.getVaccineId() == vaccineIds[i].getVaccineId())
-        {
+    for (ImmunizationInterface imm : event.immList) {
+      for (int i = 0; i < vaccineIds.length; i++) {
+        if (imm.getVaccineId() == vaccineIds[i].getVaccineId()) {
           indicatedEvent = true;
         }
       }
@@ -573,32 +497,24 @@ public class Forecaster
     return indicatedEvent;
   }
 
-  private void nextEvent()
-  {
-    if (eventPosition < eventList.size())
-    {
+  private void nextEvent() {
+    if (eventPosition < eventList.size()) {
       event = eventList.get(eventPosition);
       event.hasEvent = false;
       setHasEvent();
       eventPosition++;
-    } else
-    {
+    } else {
       event = null;
     }
   }
 
-  private void setHasEvent()
-  {
+  private void setHasEvent() {
     VaccineForecastDataBean.Indicate[] ind = schedule.getIndicates();
-    for (int i = 0; i < ind.length; i++)
-    {
+    for (int i = 0; i < ind.length; i++) {
       ValidVaccine[] vaccineIds = ind[i].getVaccines();
-      for (int j = 0; j < vaccineIds.length; j++)
-      {
-        for (ImmunizationInterface imm : event.immList)
-        {
-          if (vaccineIds[j].getVaccineId() == imm.getVaccineId())
-          {
+      for (int j = 0; j < vaccineIds.length; j++) {
+        for (ImmunizationInterface imm : event.immList) {
+          if (vaccineIds[j].getVaccineId() == imm.getVaccineId()) {
             event.hasEvent = true;
             return;
           }
@@ -607,16 +523,11 @@ public class Forecaster
     }
   }
 
-  private void addInvalidDose(ValidVaccine[] vaccineIds, String invalidReason)
-  {
-    if (!getValidDose(schedule).equals(""))
-    {
-      for (ImmunizationInterface imm : event.immList)
-      {
-        for (int i = 0; i < vaccineIds.length; i++)
-        {
-          if (imm.getVaccineId() == vaccineIds[i].getVaccineId())
-          {
+  private void addInvalidDose(ValidVaccine[] vaccineIds, String invalidReason) {
+    if (!getValidDose(schedule).equals("")) {
+      for (ImmunizationInterface imm : event.immList) {
+        for (int i = 0; i < vaccineIds.length; i++) {
+          if (imm.getVaccineId() == vaccineIds[i].getVaccineId()) {
             VaccinationDoseDataBean dose = new VaccinationDoseDataBean();
             dose.setAdminDate(imm.getDateOfShot());
             dose.setDoseCode(getValidDose(schedule));
@@ -628,12 +539,10 @@ public class Forecaster
             dose.setReason((forecastManager.getVaccineName(imm.getVaccineId()) + (" given " + dateFormat.format(imm
                 .getDateOfShot()))) + " is invalid " + invalidReason + "");
             doseList.add(dose);
-            if (traceBuffer != null)
-            {
+            if (traceBuffer != null) {
               traceBuffer.append(" <font color=\"#FF0000\">" + dose.getReason() + ".</font> ");
             }
-            if (trace != null)
-            {
+            if (trace != null) {
               trace.getDoses().add(dose);
               traceList.append(" <font color=\"#FF0000\">" + dose.getReason() + ".</font> ");
             }
@@ -645,20 +554,13 @@ public class Forecaster
 
   private static DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
 
-  private void addContra(ValidVaccine[] vaccineIds, String contraReason)
-  {
-    if (traceBuffer != null)
-    {
-      if (!getValidDose(schedule).equals(""))
-      {
-        for (ImmunizationInterface imm : event.immList)
-        {
-          for (int i = 0; i < vaccineIds.length; i++)
-          {
-            if (imm.getVaccineId() == vaccineIds[i].getVaccineId())
-            {
-              if (traceBuffer != null)
-              {
+  private void addContra(ValidVaccine[] vaccineIds, String contraReason) {
+    if (traceBuffer != null) {
+      if (!getValidDose(schedule).equals("")) {
+        for (ImmunizationInterface imm : event.immList) {
+          for (int i = 0; i < vaccineIds.length; i++) {
+            if (imm.getVaccineId() == vaccineIds[i].getVaccineId()) {
+              if (traceBuffer != null) {
                 traceBuffer.append(" <font color=\"#FF0000\">");
                 traceBuffer.append(forecastManager.getVaccineName(imm.getVaccineId()) + " given "
                     + dateFormat.format(imm.getDateOfShot()));
@@ -666,8 +568,7 @@ public class Forecaster
                 traceBuffer.append(contraReason);
                 traceBuffer.append(".</font> ");
               }
-              if (trace != null)
-              {
+              if (trace != null) {
                 traceList.append(" <font color=\"#FF0000\">");
                 traceList.append(forecastManager.getVaccineName(imm.getVaccineId()) + " given "
                     + dateFormat.format(imm.getDateOfShot()));
@@ -682,16 +583,11 @@ public class Forecaster
     }
   }
 
-  private void addValidDose(ValidVaccine[] vaccineIds)
-  {
-    if (!getValidDose(schedule).equals(""))
-    {
-      for (ImmunizationInterface imm : event.immList)
-      {
-        for (int i = 0; i < vaccineIds.length; i++)
-        {
-          if (imm.getVaccineId() == vaccineIds[i].getVaccineId())
-          {
+  private void addValidDose(ValidVaccine[] vaccineIds) {
+    if (!getValidDose(schedule).equals("")) {
+      for (ImmunizationInterface imm : event.immList) {
+        for (int i = 0; i < vaccineIds.length; i++) {
+          if (imm.getVaccineId() == vaccineIds[i].getVaccineId()) {
             VaccinationDoseDataBean dose = new VaccinationDoseDataBean();
             dose.setAdminDate(imm.getDateOfShot());
             dose.setDoseCode(getValidDose(schedule));
@@ -701,8 +597,7 @@ public class Forecaster
             dose.setStatusCode(VaccinationDoseDataBean.STATUS_VALID);
             dose.setVaccineId(imm.getVaccineId());
             doseList.add(dose);
-            if (traceBuffer != null)
-            {
+            if (traceBuffer != null) {
               traceBuffer.append(" <font color=\"#0000FF\">");
               traceBuffer.append(forecastManager.getVaccineName(imm.getVaccineId()) + " given "
                   + dateFormat.format(imm.getDateOfShot()));
@@ -710,8 +605,7 @@ public class Forecaster
               traceBuffer.append(validDoseCount);
               traceBuffer.append(").</font> ");
             }
-            if (trace != null)
-            {
+            if (trace != null) {
               trace.getDoses().add(dose);
               traceList.append(" <font color=\"#0000FF\">");
               traceList.append(forecastManager.getVaccineName(imm.getVaccineId()) + " given "
@@ -726,26 +620,19 @@ public class Forecaster
     }
   }
 
-  private boolean checkInvalid(DateTime vaccDate)
-  {
-    if (validGrace.isEmpty())
-    {
+  private boolean checkInvalid(DateTime vaccDate) {
+    if (validGrace.isEmpty()) {
       return vaccDate.isLessThan(valid);
-    } else
-    {
+    } else {
       DateTime dt = schedule.getValidGrace().getDateTimeFrom(vaccDate);
       return dt.isLessThan(valid);
     }
   }
 
-  private boolean checkSeasonEnd(Event event)
-  {
-    if (seasonal != null)
-    {
-      for (ImmunizationInterface imm : event.immList)
-      {
-        if (imm instanceof SeasonEndEvent)
-        {
+  private boolean checkSeasonEnd(Event event) {
+    if (seasonal != null) {
+      for (ImmunizationInterface imm : event.immList) {
+        if (imm instanceof SeasonEndEvent) {
           seasonCompleted = false;
           return true;
         }
@@ -754,10 +641,8 @@ public class Forecaster
     return false;
   }
 
-  private void addForecastRecommendations()
-  {
-    if (seasonStart != null && seasonCompleted)
-    {
+  private void addForecastRecommendations() {
+    if (seasonStart != null && seasonCompleted) {
       seasonStart = new DateTime(seasonStart);
       System.out.println("seasonStart = " + seasonStart);
       System.out.println("seasonEnd = " + seasonEnd);
@@ -781,69 +666,54 @@ public class Forecaster
     forecastBean.setImmregid(patient.getImmregid());
     forecastBean.setTraceList(traceList);
     resultList.add(forecastBean);
-    if (traceBuffer != null)
-    {
+    if (traceBuffer != null) {
       traceBuffer.append("</li><li>Forecasting for dose " + getNextValidDose(schedule) + " due at " + dueReason + ", "
           + due.toString("M/D/Y") + ".");
     }
-    if (trace != null)
-    {
+    if (trace != null) {
       traceList.append("</li><li>Forecasting for dose " + getNextValidDose(schedule) + " due at " + dueReason + ", "
           + due.toString("M/D/Y") + ".");
     }
   }
 
-  private DateTime figureCutoff(VaccineForecastDataBean.Indicate indicate)
-  {
+  private DateTime figureCutoff(VaccineForecastDataBean.Indicate indicate) {
     DateTime cutoff = null;
-    if (!indicate.getAge().isEmpty())
-    {
+    if (!indicate.getAge().isEmpty()) {
       cutoff = indicate.getAge().getDateTimeFrom(patient.getDobDateTime());
     }
     DateTime cutoffInterval = null;
-    if (!indicate.getMinInterval().isEmpty())
-    {
+    if (!indicate.getMinInterval().isEmpty()) {
       cutoffInterval = indicate.getMinInterval().getDateTimeFrom(previousEventDate);
     }
-    if (cutoff == null)
-    {
+    if (cutoff == null) {
       cutoff = cutoffInterval;
-    } else if (cutoffInterval != null)
-    {
-      if (cutoffInterval.isGreaterThan(cutoff))
-      {
+    } else if (cutoffInterval != null) {
+      if (cutoffInterval.isGreaterThan(cutoff)) {
         cutoff = cutoffInterval;
       }
     }
     return cutoff;
   }
 
-  private void determineRanges()
-  {
+  private void determineRanges() {
     String validReason = "";
     String validBecause = "";
-    if (schedule.getValidAge().isEmpty())
-    {
+    if (schedule.getValidAge().isEmpty()) {
       valid = schedule.getValidInterval().getDateTimeFrom(previousEventDateValid);
       validReason = schedule.getValidInterval() + " after previous valid dose";
       validBecause = "INTERVAL";
-    } else
-    {
+    } else {
       valid = schedule.getValidAge().getDateTimeFrom(patient.getDobDateTime());
-      if (schedule.getValidAge().getAmount() == 0)
-      {
+      if (schedule.getValidAge().getAmount() == 0) {
         validReason = "birth";
         validBecause = "AGE";
-      } else
-      {
+      } else {
         validReason = schedule.getValidAge() + " of age";
         validBecause = "AGE";
       }
-      if (!schedule.getValidInterval().isEmpty())
-      {
+      if (!schedule.getValidInterval().isEmpty()) {
         DateTime validInterval = schedule.getValidInterval().getDateTimeFrom(previousEventDateValid);
-        if (validInterval.isGreaterThan(valid))
-        {
+        if (validInterval.isGreaterThan(valid)) {
           valid = validInterval;
           validReason = schedule.getValidInterval() + " after previous valid dose";
           validBecause = "INTERVAL";
@@ -851,27 +721,21 @@ public class Forecaster
       }
     }
     finished = schedule.getFinishedAge().getDateTimeFrom(patient.getDobDateTime());
-    if (previousEventDate.equals(previousEventDateValid))
-    {
+    if (previousEventDate.equals(previousEventDateValid)) {
       validGrace = schedule.getValidGrace();
-    } else
-    {
+    } else {
       if (previousEventWasContra && schedule.getAfterContraInterval() != null
-          && !schedule.getAfterContraInterval().isEmpty())
-      {
+          && !schedule.getAfterContraInterval().isEmpty()) {
         DateTime validInterval = schedule.getAfterContraInterval().getDateTimeFrom(previousEventDate);
-        if (validInterval.isGreaterThan(valid))
-        {
+        if (validInterval.isGreaterThan(valid)) {
           valid = validInterval;
           validReason = schedule.getAfterContraInterval() + " after contraindicated dose";
           validBecause = "CONTRA";
         }
         validGrace = schedule.getAfterContraGrace();
-      } else
-      {
+      } else {
         DateTime validInterval = schedule.getAfterInvalidInterval().getDateTimeFrom(previousEventDate);
-        if (validInterval.isGreaterThan(valid))
-        {
+        if (validInterval.isGreaterThan(valid)) {
           valid = validInterval;
           validReason = schedule.getAfterInvalidInterval() + " after previous dose";
           validBecause = "INVALID";
@@ -879,134 +743,103 @@ public class Forecaster
         validGrace = schedule.getAfterInvalidGrace();
       }
     }
-    if (!schedule.getBeforePreviousInterval().isEmpty() && beforePreviousEventDate != null)
-    {
+    if (!schedule.getBeforePreviousInterval().isEmpty() && beforePreviousEventDate != null) {
       DateTime beforePreviousInterval = schedule.getBeforePreviousInterval().getDateTimeFrom(beforePreviousEventDate);
-      if (beforePreviousInterval.isGreaterThan(valid))
-      {
+      if (beforePreviousInterval.isGreaterThan(valid)) {
         valid = beforePreviousInterval;
         validReason = schedule.getBeforePreviousInterval() + " after valid dose given before previous valid dose";
         validBecause = "BEFORE";
       }
     }
-    if (previousAfterInvalidInterval != null)
-    {
+    if (previousAfterInvalidInterval != null) {
       DateTime previousAfterInvalidIntervalDate = previousAfterInvalidInterval.getDateTimeFrom(previousEventDate);
-      if (previousAfterInvalidIntervalDate.isGreaterThan(valid))
-      {
+      if (previousAfterInvalidIntervalDate.isGreaterThan(valid)) {
         valid = previousAfterInvalidIntervalDate;
         validReason = previousAfterInvalidInterval + " after previous invalid/contraindicated dose";
         validBecause = "INVALID";
       }
     }
     dueReason = "";
-    if (schedule.getDueAge().isEmpty())
-    {
+    if (schedule.getDueAge().isEmpty()) {
       due = schedule.getDueInterval().getDateTimeFrom(previousEventDate);
       dueReason = schedule.getDueInterval() + " after previous dose";
-    } else
-    {
+    } else {
       due = schedule.getDueAge().getDateTimeFrom(patient.getDobDateTime());
-      if (schedule.getDueAge().getAmount() == 0)
-      {
+      if (schedule.getDueAge().getAmount() == 0) {
         dueReason = "birth";
-      } else
-      {
+      } else {
         dueReason = schedule.getDueAge() + " of age";
       }
-      if (!schedule.getDueInterval().isEmpty())
-      {
+      if (!schedule.getDueInterval().isEmpty()) {
         DateTime dueInterval = schedule.getDueInterval().getDateTimeFrom(previousEventDate);
-        if (dueInterval.isLessThan(due))
-        {
+        if (dueInterval.isLessThan(due)) {
           due = dueInterval;
           dueReason = schedule.getDueInterval() + " after previous dose";
         }
       }
     }
-    if (seasonStart != null)
-    {
-      if (seasonStart.isGreaterThan(valid))
-      {
+    if (seasonStart != null) {
+      if (seasonStart.isGreaterThan(valid)) {
         valid = new DateTime(seasonStart);
         validReason = "at start of next season";
         validBecause = "SEASON";
       }
       DateTime seasonDue = seasonal.getDue().getDateTimeFrom(seasonStart);
-      if (seasonDue.isGreaterThan(due))
-      {
+      if (seasonDue.isGreaterThan(due)) {
         due = seasonDue;
         dueReason = seasonal.getDue() + " after season start";
       }
     }
-    if (schedule.getOverdueAge().isEmpty())
-    {
+    if (schedule.getOverdueAge().isEmpty()) {
       overdue = schedule.getOverdueInterval().getDateTimeFrom(previousEventDate);
-    } else
-    {
+    } else {
       overdue = schedule.getOverdueAge().getDateTimeFrom(patient.getDobDateTime());
 
-      if (!schedule.getOverdueInterval().isEmpty())
-      {
+      if (!schedule.getOverdueInterval().isEmpty()) {
         DateTime overdueInterval = schedule.getOverdueInterval().getDateTimeFrom(previousEventDate);
-        if (overdueInterval.isGreaterThan(overdue))
-        {
+        if (overdueInterval.isGreaterThan(overdue)) {
           overdue = overdueInterval;
         }
       }
     }
-    if (seasonStart != null)
-    {
+    if (seasonStart != null) {
       DateTime seasonOverdue = seasonal.getOverdue().getDateTimeFrom(seasonStart);
-      if (seasonOverdue.isLessThan(overdue))
-      {
+      if (seasonOverdue.isLessThan(overdue)) {
         overdue = seasonOverdue;
       }
     }
-    if (!schedule.getEarlyAge().isEmpty())
-    {
+    if (!schedule.getEarlyAge().isEmpty()) {
       early = schedule.getEarlyAge().getDateTimeFrom(patient.getDobDateTime());
-    } else
-    {
+    } else {
       early = due;
     }
-    if (!schedule.getEarlyInterval().isEmpty())
-    {
+    if (!schedule.getEarlyInterval().isEmpty()) {
       DateTime earlyInterval = schedule.getEarlyInterval().getDateTimeFrom(previousEventDate);
-      if (earlyInterval.isLessThan(early))
-      {
+      if (earlyInterval.isLessThan(early)) {
         early = earlyInterval;
       }
     }
-    if (early.isLessThan(valid))
-    {
+    if (early.isLessThan(valid)) {
       early = new DateTime(valid);
     }
-    if (due.isLessThan(valid))
-    {
+    if (due.isLessThan(valid)) {
       due = new DateTime(valid);
       dueReason = "same time as valid";
     }
-    if (early.isGreaterThan(due))
-    {
+    if (early.isGreaterThan(due)) {
       early = due;
     }
-    if (overdue.isLessThan(due))
-    {
+    if (overdue.isLessThan(due)) {
       overdue = new DateTime(due);
     }
-    if (finished.isLessThan(overdue))
-    {
+    if (finished.isLessThan(overdue)) {
       overdue = new DateTime(finished);
-      if (overdue.isLessThan(due))
-      {
+      if (overdue.isLessThan(due)) {
         due = new DateTime(overdue);
         dueReason = "same time as over due";
-        if (due.isLessThan(early))
-        {
+        if (due.isLessThan(early)) {
           early = new DateTime(due);
-          if (valid.isLessThan(early))
-          {
+          if (valid.isLessThan(early)) {
             valid = new DateTime(early);
             validReason = "vaccine does not need to be administered";
           }
@@ -1014,13 +847,11 @@ public class Forecaster
       }
 
     }
-    if (traceBuffer != null)
-    {
+    if (traceBuffer != null) {
       traceBuffer.append("Dose " + getNextValidDose(schedule) + " valid at " + validReason + ", "
           + valid.toString("M/D/Y") + ". ");
     }
-    if (trace != null)
-    {
+    if (trace != null) {
       trace.setDueDate(due);
       trace.setOverdueDate(overdue);
       trace.setValidDate(valid);
@@ -1033,112 +864,125 @@ public class Forecaster
     }
   }
 
-  public void setPatient(PatientForecastRecordDataBean patient)
-  {
+  public void setPatient(PatientForecastRecordDataBean patient) {
     this.patient = patient;
   }
 
-  public List<ImmunizationInterface> getVaccinations()
-  {
+  public List<ImmunizationInterface> getVaccinations() {
     return vaccinations;
   }
 
-  public void setVaccinations(List<ImmunizationInterface> vaccList)
-  {
+  public void setVaccinations(List<ImmunizationInterface> vaccList) {
     this.vaccinations = new ArrayList<ImmunizationInterface>(vaccList);
     vaccList = new ArrayList<ImmunizationInterface>(vaccList);
     Collections.sort(vaccList, new Comparator<ImmunizationInterface>() {
-      public int compare(ImmunizationInterface imm1, ImmunizationInterface imm2)
-      {
+      public int compare(ImmunizationInterface imm1, ImmunizationInterface imm2) {
         return imm1.getDateOfShot().compareTo(imm2.getDateOfShot());
       }
     });
     eventList = new ArrayList<Event>();
     Event event = null;
     hasHistoryOfVaricella = false;
-    for (ImmunizationInterface imm : vaccList)
-    {
-      if (event == null || !event.eventDate.equals(imm.getDateOfShot()))
-      {
+    for (ImmunizationInterface imm : vaccList) {
+      if (event == null || !event.eventDate.equals(imm.getDateOfShot())) {
         event = new Event();
         eventList.add(event);
         event.eventDate = imm.getDateOfShot();
       }
-      if (imm.getVaccineId() == VARICELLA_HISTORY)
-      {
+      if (imm.getVaccineId() == VARICELLA_HISTORY) {
         hasHistoryOfVaricella = true;
       }
       event.immList.add(imm);
     }
   }
 
-  private class SeasonEndEvent implements ImmunizationInterface
-  {
+  private class SeasonEndEvent implements ImmunizationInterface {
     private Date date = null;
 
     public SeasonEndEvent(Date date) {
       this.date = date;
     }
 
-    public Date getDateOfShot()
-    {
+    public Date getDateOfShot() {
       return date;
     }
 
-    public int getVaccineId()
-    {
+    public int getVaccineId() {
       return -504;
     }
 
-    public String getCvx()
-    {
+    public String getCvx() {
       return "";
     }
 
-    public String getLabel()
-    {
+    public String getLabel() {
       return "Season End";
     }
 
-    public String getMvx()
-    {
+    public String getMvx() {
+      return "";
+    }
+
+  }
+  
+  private class TransitionEvent implements ImmunizationInterface {
+    private Date date = null;
+    private int vaccineId = 0;
+    private String name = "";
+
+    public TransitionEvent(Date date, Transition transition) {
+      this.date = date;
+      this.vaccineId = transition.getVaccineId();
+      this.name = transition.getName();
+    }
+
+    public Date getDateOfShot() {
+      return date;
+    }
+
+    public int getVaccineId() {
+      return vaccineId;
+    }
+
+    public String getCvx() {
+      return "";
+    }
+
+    public String getLabel() {
+      return name;
+    }
+
+    public String getMvx() {
       return "";
     }
 
   }
 
-  public Date getForecastDate()
-  {
+  public Date getForecastDate() {
     return forecastDate;
   }
 
-  public void setForecastDate(Date forecastDate)
-  {
+  public void setForecastDate(Date forecastDate) {
     this.forecastDate = forecastDate;
   }
 
-  private class Event
-  {
+  private class Event {
     private Date eventDate = null;
     private List<ImmunizationInterface> immList = new ArrayList<ImmunizationInterface>();
     private boolean hasEvent = false;
   }
 
-  private String getValidDose(VaccineForecastDataBean.Schedule schedule)
-  {
+  private String getValidDose(VaccineForecastDataBean.Schedule schedule) {
     String dose = schedule.getDose();
-    if (dose.equals("*"))
-    {
+    if (dose.equals("*")) {
       dose = Integer.toString(validDoseCount);
     }
     return dose;
   }
 
-  private String getNextValidDose(VaccineForecastDataBean.Schedule schedule)
-  {
+  private String getNextValidDose(VaccineForecastDataBean.Schedule schedule) {
     String dose = schedule.getDose();
-    if (dose.equals("*"))
-    {
+    if (dose.equals("*")) {
       dose = Integer.toString(validDoseCount + 1);
     }
     return dose;

@@ -21,15 +21,15 @@ public class FinishScheduleStep extends ActionStep
     {
       ds.traceList.append("</li></ul>");
     }
-    finishSeasonal(ds);
+    finishSeasonalAndTransitions(ds);
     ds.nextAction = null;
     // TODO Auto-generated method stub
     return ChooseStartIndicatorStep.NAME;
   }
 
-  private void finishSeasonal(DataStore ds)
+  private void finishSeasonalAndTransitions(DataStore ds)
   {
-    if (ds.seasonal != null)
+    if (ds.originalEventList != null)
     {
       ds.eventList = ds.originalEventList;
       ds.originalEventList = null;

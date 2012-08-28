@@ -23,6 +23,7 @@ import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.Seasonal;
+import org.tch.forecast.core.VaccineForecastDataBean.Transition;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
 
 public class DataStore
@@ -76,6 +77,7 @@ public class DataStore
   protected List<Schedule> scheduleList;
   protected int scheduleListPos = -1;
   protected Seasonal seasonal = null;
+  protected List<Transition> transitionList = null;
   protected boolean seasonCompleted = false;
   protected DateTime seasonEnd = null;
   protected DateTime seasonStart = null;
@@ -251,6 +253,16 @@ public class DataStore
   public Seasonal getSeasonal()
   {
     return seasonal;
+  }
+  
+  public void setTransitionList(List<Transition> transitionList)
+  {
+    this.transitionList = transitionList;
+  }
+  
+  public List<Transition> getTransitionList()
+  {
+    return transitionList;
   }
 
   public DateTime getSeasonEnd()
