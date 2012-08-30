@@ -2,9 +2,10 @@ package org.tch.forecast.core.logic;
 
 import java.util.ArrayList;
 
+import org.tch.forecast.core.DateTime;
+import org.tch.forecast.core.TimePeriod;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Contraindicate;
-import org.tch.forecast.core.DateTime;
 
 public class DetermineRangesStep extends ActionStep {
   public static final String NAME = "Determine Ranges";
@@ -36,7 +37,8 @@ public class DetermineRangesStep extends ActionStep {
           if (LookForDoseStep.indicatedEventVaccine(contraindicate.getVaccines(), ds, event)) {
             DateTime startBlackOut = new DateTime(event.getEventDate());
             DateTime endBlackOut = contraindicate.getAfterInterval().getDateTimeFrom(startBlackOut);
-            ds.blackOutDates.add(new DateTime[] { startBlackOut, endBlackOut });
+            DateTime endBlackOutGrace = contraindicate.getGrace().getDateTimeBefore(endBlackOut);
+            ds.blackOutDates.add(new DateTime[] { startBlackOut, endBlackOutGrace, endBlackOut });
             ds.blackOutReasons.add(contraindicate.getAfterInterval() + " after contraindicated dose");
             ds.log("Contraindicated event found, setting black out dates from " + startBlackOut.toString("M/D/Y")
                 + " to " + endBlackOut.toString("M/D/Y"));

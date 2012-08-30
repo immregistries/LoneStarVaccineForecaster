@@ -896,6 +896,7 @@ public class StepServlet extends HttpServlet {
         out.println("    <th class=\"smallHeader\">Vaccine</th>");
         out.println("    <th class=\"smallHeader\">After Interval</th>");
         out.println("    <th class=\"smallHeader\">Before Age</th>");
+        out.println("    <th class=\"smallHeader\">Grace</th>");
         out.println("  </tr>");
         for (Contraindicate contraindicate : schedule.getContraindicates()) {
           out.println("  <tr>");
@@ -907,6 +908,7 @@ public class StepServlet extends HttpServlet {
                 .toString("M/D/Y"));
           }
           out.println("</td>");
+          out.println("    <td class=\"insideValue\">" + safe(contraindicate.getGrace()) + "</td>");
           out.println("  </tr>");
           if (!contraindicate.getReason().equals("")) {
             out.println("  <tr>");

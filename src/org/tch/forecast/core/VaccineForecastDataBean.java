@@ -187,6 +187,7 @@ public class VaccineForecastDataBean {
         contraindicate.setAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         contraindicate.setAfterInterval(new TimePeriod(DomUtils.getAttributeValue(n, "afterInterval")));
         contraindicate.setReason(DomUtils.getAttributeValue(n, "reason"));
+        contraindicate.setGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
         schedule.getContraindicateList().add(contraindicate);
       } else if (name.equals("indicate")) {
         Indicate indicate = new Indicate();
@@ -538,7 +539,16 @@ public class VaccineForecastDataBean {
     private String vaccineName = "";
     private TimePeriod age = null;
     private TimePeriod afterInterval = null;
+    private TimePeriod grace = null;
     private String reason = "";
+
+    public TimePeriod getGrace() {
+      return grace;
+    }
+
+    public void setGrace(TimePeriod grace) {
+      this.grace = grace;
+    }
 
     public String getVaccineName() {
       return vaccineName;

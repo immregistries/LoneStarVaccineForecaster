@@ -46,12 +46,12 @@ public class MakeForecastStep extends ActionStep
       for (DateTime[] blackOut : ds.blackOutDates)
       {
         i++;
-        ds.log("Looking at black-out from " + blackOut[0] + " to " + blackOut[1]);
-        if (ds.valid.isLessThanOrEquals(blackOut[0]) && ds.overdue.isGreaterThan(blackOut[1]))
+        ds.log("Looking at black-out from " + blackOut[0] + " to " + blackOut[2]);
+        if (ds.valid.isLessThanOrEquals(blackOut[0]) && ds.overdue.isGreaterThan(blackOut[2]))
         {
           ds.log("Recommendation is valid to give but a black out period starts before vaccination is overdue");
-          ds.log("Moving valid date back to after black out date " + blackOut[1]);
-          ds.valid = blackOut[1];
+          ds.log("Moving valid date back to after black out date " + blackOut[2]);
+          ds.valid = blackOut[2];
           validReason = ds.blackOutReasons.get(i);
           if (ds.early.isLessThan(ds.valid))
           {
@@ -74,8 +74,8 @@ public class MakeForecastStep extends ActionStep
         else if (ds.valid.isLessThanOrEquals(blackOut[0]) && (new DateTime(ds.forecastDate)).isGreaterThan(blackOut[0]))
         {
           ds.log("A contraindication event starts after the valid date but before the forecast date");
-          ds.log("Moving valid date back to after black out date " + blackOut[1]);
-          ds.valid = blackOut[1];
+          ds.log("Moving valid date back to after black out date " + blackOut[2]);
+          ds.valid = blackOut[2];
           validReason = ds.blackOutReasons.get(i);
           if (ds.early.isLessThan(ds.valid))
           {

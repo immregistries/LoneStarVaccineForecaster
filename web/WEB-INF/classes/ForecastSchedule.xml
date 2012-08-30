@@ -4,8 +4,8 @@
 <forecast seriesName="Varicella">
   <vaccine vaccineName="Single" vaccineIds="178"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Same Live" vaccineIds="158, 160, 161, 162, 171, 175,148"/>
-  <vaccine vaccineName="Other Live" vaccineIds="180, 220, 1990, 148"/>
+  <vaccine vaccineName="Same Live" vaccineIds="160, 161, 158, 162, 171, 175, 180, 2020, 1990, 148"/>
+  <vaccine vaccineName="Other Live" vaccineIds="1690, 1700, 210"/>
   <schedule scheduleName="P1" dose="1" indication="NO-VAR-HIS" label="1 year">
     <pos row="1" column="1"/>
     <valid age="12 months" interval="" grace="4 days"/>
@@ -15,8 +15,8 @@
     <finished age="65 years" interval="" grace=""/>
     <after-invalid interval="12 weeks" grace="8 weeks"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
-    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks" age="" reason="" grace="4 days"/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="Single" schedule="P2" age="13 years" reason=""/>
     <indicate vaccineName="Single" schedule="A2" age="" reason=""/>
     <indicate vaccineName="MMRV" schedule="P2" age="13 years" reason=""/>
@@ -31,8 +31,8 @@
     <finished age="65 years" interval="" grace=""/>
     <after-invalid interval="12 weeks" grace="8 weeks"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
-    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks" age="" reason="" grace="4 days"/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="Single" schedule="COMPLETE" age="" reason="" previousVaccineName="" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older." previousVaccineName="" minInterval=""/>
@@ -46,12 +46,13 @@
     <finished age="65 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
-    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks" age="" reason="" grace="4 days"/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="Single" schedule="COMPLETE" age="" reason=""/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older."/>
   </schedule>
 </forecast>
+
 
 
 
@@ -61,7 +62,7 @@
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
   <vaccine vaccineName="Same Live" vaccineIds="178, 161, 162"/>
-  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990"/>
+  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 148"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
     <valid age="1 year" interval="" grace="4 days"/>
@@ -71,8 +72,8 @@
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
-    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks" age="" reason="" grace="4 days"/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="MMRV" schedule="P2" age="13 years" reason=""/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older."/>
     <indicate vaccineName="Rubella" schedule="P2" age="" reason=""/>
@@ -86,8 +87,8 @@
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
-    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks" age="" reason="" grace="4 days"/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="MMRV" minInterval="4 weeks"/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV must be administered no sooner than 4 weeks after previous MMRV." previousVaccineName="MMRV" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="" minInterval=""/>
@@ -104,7 +105,7 @@
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
   <vaccine vaccineName="Same Live" vaccineIds="178,162, 171, 175"/>
-  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990"/>
+  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 148"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
     <valid age="1 year" interval="" grace="4 days"/>
@@ -114,8 +115,8 @@
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
-    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks" age="" reason="" grace="4 days"/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="MMRV" schedule="P2" age="13 years" reason=""/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older."/>
     <indicate vaccineName="Measles" schedule="P2" age="" reason=""/>
@@ -129,8 +130,8 @@
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
-    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks" age="" reason="" grace="4 days"/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="MMRV" minInterval="4 weeks"/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV must be administered no sooner than 4 weeks after previous MMRV." previousVaccineName="MMRV" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="" minInterval=""/>
@@ -824,7 +825,7 @@
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
   <vaccine vaccineName="Same Live" vaccineIds="178, 160, 161, 171"/>
-  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990"/>
+  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 148"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
     <valid age="1 year" interval="" grace="4 days"/>
@@ -834,8 +835,8 @@
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
-    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks" age="" reason="" grace="4 days"/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="MMRV" schedule="P2" age="13 years" reason=""/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV should not be administered to persons 13 years of age or older."/>
     <indicate vaccineName="Mumps" schedule="P2" age="" reason=""/>
@@ -849,8 +850,8 @@
     <finished age="50 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Same Live" afterInterval="4 weeks -4 days" age="" reason=""/>
-    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason=""/>
+    <contraindicate vaccineName="Same Live" afterInterval="4 weeks" age="" reason="" grace="4 days"/>
+    <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="MMRV" minInterval="4 weeks"/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV must be administered no sooner than 4 weeks after previous MMRV." previousVaccineName="MMRV" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="" minInterval=""/>

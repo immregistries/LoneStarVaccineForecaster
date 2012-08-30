@@ -130,6 +130,13 @@ public class TimePeriod
     add(dt);
     return dt;
   }
+  
+  public DateTime getDateTimeBefore(DateTime dt)
+  {
+    dt = new DateTime(dt);
+    sub(dt);
+    return dt;
+  }
 
   private void add(DateTime dt)
   {
@@ -146,6 +153,24 @@ public class TimePeriod
     if (addPeriod != null)
     {
       addPeriod.add(dt);
+    }
+  }
+  
+  private void sub(DateTime dt)
+  {
+    if (!isEmpty())
+    {
+      if (isMonth())
+      {
+        dt.addMonths(-amount);
+      } else
+      {
+        dt.addDays(-amount);
+      }
+    }
+    if (addPeriod != null)
+    {
+      addPeriod.sub(dt);
     }
   }
 }
