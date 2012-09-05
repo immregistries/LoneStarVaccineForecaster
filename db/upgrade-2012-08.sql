@@ -4,3 +4,7 @@ INSERT INTO vaccine_cvx (cvx_code, cvx_label, vaccine_id) VALUES ('127', 'Novel 
 INSERT INTO vaccine_cvx (cvx_code, cvx_label, vaccine_id) VALUES ('126', 'Novel Influenza-H1N1-09,Preservative-free', 188);
 INSERT INTO vaccine_cvx (cvx_code, cvx_label, vaccine_id) VALUES ('140', 'Influenza,injectable,prsv free', 181);
 INSERT INTO vaccine_cvx (cvx_code, cvx_label, vaccine_id) VALUES ('147', 'meningococcal MCV4, unspecified formulation', 184);
+
+
+
+INSERT INTO vaccine_cvx (cvx_code, cvx_label, vaccine_id) VALUES ('125', 'Novel Influenza-H1N1-09, nasal', 187);
