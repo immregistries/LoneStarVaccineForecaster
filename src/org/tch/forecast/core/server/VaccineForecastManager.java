@@ -28,18 +28,15 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface {
     vaccines = new Vaccines();
   }
   
-  @Override
   public ForecastSchedule getForecastSchedule() {
     return forecastSchedule;
   }
   
-  @Override
   public String getVaccineName(int id) {
     // TODO, need lookup tables for vaccine name
     return "Vaccine " + id;
   }
   
-  @Override
   public Schedule getSchedule(String lineCode) throws Exception {
     for (List<Schedule> scheduleList : indications.values())
     {
@@ -54,7 +51,6 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface {
     return null;
   }
   
-  @Override
   public List<Schedule> getIndications(String indication) throws Exception {
     return indications.get(indication);
   }

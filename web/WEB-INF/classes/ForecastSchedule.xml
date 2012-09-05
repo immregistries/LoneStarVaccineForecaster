@@ -62,7 +62,7 @@
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
   <vaccine vaccineName="Same Live" vaccineIds="178, 161, 162"/>
-  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 148"/>
+  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 1690, 1700, 210"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
     <valid age="1 year" interval="" grace="4 days"/>
@@ -104,8 +104,8 @@
   <vaccine vaccineName="Mumps" vaccineIds="158, 159, 1560, 162, 175"/>
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Same Live" vaccineIds="178,162, 171, 175"/>
-  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 148"/>
+  <vaccine vaccineName="Same Live" vaccineIds="178, 162, 171, 175"/>
+  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 1690, 1700, 210"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
     <valid age="1 year" interval="" grace="4 days"/>
@@ -825,7 +825,7 @@
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
   <vaccine vaccineName="Same Live" vaccineIds="178, 160, 161, 171"/>
-  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 148"/>
+  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 1690, 1700, 210"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
     <valid age="1 year" interval="" grace="4 days"/>
