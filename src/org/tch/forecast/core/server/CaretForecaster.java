@@ -10,7 +10,7 @@ import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.model.Immunization;
 
 public class CaretForecaster {
-
+  
   public static final int FIELD_IN_IN_01_LOG_ERRRORS = 1;
   public static final int FIELD_IN_02_DATE_USED_FOR_FORECAST = 2; // USE
   public static final int FIELD_IN_03_FORECAST_DOSES_DUE = 3;
@@ -382,11 +382,18 @@ public class CaretForecaster {
     response.append("^");
     currentPosition++;
   }
+  
+  // java -classpath tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster
 
   public static void main(String[] args) throws Exception {
+    if (args.length == 0)
+    {
+      System.err.println("Expect caret string for first parameter");
+      System.exit(1);
+    }
       String request = args[0];
       CaretForecaster cf = new CaretForecaster(request);
       String response = cf.forecast();
-      System.out.println("response");
+      System.out.println(response);
   }
 }

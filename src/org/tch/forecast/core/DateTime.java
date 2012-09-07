@@ -1,4 +1,4 @@
-// Copyright © 2007 Texas Children's Hospital.  All rights reserved.
+// Copyright 2007 Texas Children's Hospital.  All rights reserved.
 
 package org.tch.forecast.core;
 

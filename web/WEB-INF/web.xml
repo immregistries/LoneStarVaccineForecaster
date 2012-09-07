@@ -21,6 +21,10 @@
         <servlet-class>org.tch.forecast.StepServlet</servlet-class>
     </servlet>
 	<servlet>
+        <servlet-name>caret</servlet-name>
+        <servlet-class>org.tch.forecast.CaretServlet</servlet-class>
+    </servlet>
+	<servlet>
         <servlet-name>forecast</servlet-name>
         <servlet-class>org.tch.forecast.ForecastServlet</servlet-class>
     </servlet>
@@ -35,6 +39,10 @@
     <servlet-mapping>
         <servlet-name>step</servlet-name>
         <url-pattern>fv/step</url-pattern>
+    </servlet-mapping>	 
+    <servlet-mapping>
+        <servlet-name>caret</servlet-name>
+        <url-pattern>fv/caret</url-pattern>
     </servlet-mapping>	 
 
 

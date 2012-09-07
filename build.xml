@@ -187,4 +187,9 @@
     <jar jarfile="${deploy.home}/tch-forecaster.jar" basedir="${object.home}" includes="org/tch/forecast/core/**"/>
   </target>
   
+	  <target name="jar-dist" depends="compile">
+	  	<copy todir="${object.home}" file="${web.home}/WEB-INF/classes/ForecastSchedule.xml"/>
+	    <jar jarfile="${deploy.home}/tch-forecaster.jar" basedir="${object.home}" includes="org/tch/forecast/core/**"/>
+	  </target>
+	  
 </project>
