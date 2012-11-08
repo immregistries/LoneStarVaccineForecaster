@@ -3,8 +3,11 @@ package org.tch.forecast.core.api.model;
 import java.util.Date;
 
 /**
- * @author Nathan Bunker
  * 
+ * 
+ * Represents a recommendation for a dose of vaccine.
+ * 
+ * @author Nathan Bunker
  */
 public interface ForecastRecommendationInterface {
   /**

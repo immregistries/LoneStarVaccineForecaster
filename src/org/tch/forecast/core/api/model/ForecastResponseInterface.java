@@ -2,6 +2,13 @@ package org.tch.forecast.core.api.model;
 
 import java.util.List;
 
+/**
+ * 
+ * Represents the response returned by the forecaster for a single patient
+ * forecast.
+ * 
+ * @author Nathan Bunker
+ */
 public interface ForecastResponseInterface {
   /**
    * A human readable description of the evaluation schedule used. This

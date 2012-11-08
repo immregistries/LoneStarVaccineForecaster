@@ -2,6 +2,11 @@ package org.tch.forecast.core.api.model;
 
 import java.util.Date;
 
+/**
+ * Represents a vaccination given to a patient. 
+ * @author Nathan Bunker
+ *
+ */
 public interface ForecastVaccinationInterface {
   /**
    * The date the vaccination was administered. This is required. If the date is

@@ -3,6 +3,12 @@ package org.tch.forecast.core.api.model;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 
+ * Represents the request for a single patient forecast.
+ * 
+ * @author Nathan Bunker
+ */
 public interface ForecastRequestInterface {
 
   /**

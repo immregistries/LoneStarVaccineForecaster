@@ -2,6 +2,12 @@ package org.tch.forecast.core.api.model;
 
 import java.util.Date;
 
+/**
+ * 
+ * Represents a patient that needs a vaccination forecast.
+ * 
+ * @author Nathan Bunker
+ */
 public interface ForecastPatientInterface {
 
   /**
