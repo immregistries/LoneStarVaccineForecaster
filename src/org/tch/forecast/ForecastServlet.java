@@ -6,9 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -19,24 +16,31 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.tch.forecast.core.Forecaster;
+import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.TraceList;
 import org.tch.forecast.core.VaccinationDoseDataBean;
+import org.tch.forecast.core.api.impl.ForecastHandlerCore;
+import org.tch.forecast.core.model.Immunization;
+import org.tch.forecast.core.model.PatientRecordDataBean;
 import org.tch.forecast.support.VaccineForecastManager;
 import org.tch.forecast.validator.DataSourceUnavailableException;
 import org.tch.forecast.validator.db.DatabasePool;
-import org.tch.forecast.core.DateTime;
-import org.tch.forecast.core.model.Immunization;
-import org.tch.forecast.core.model.PatientRecordDataBean;
 
 public class ForecastServlet extends HttpServlet {
+  private static final String PARAM_VACCINE_MVX = "vaccineMvx";
+  private static final String PARAM_VACCINE_CVX = "vaccineCvx";
+  private static final String PARAM_VACCINE_DATE = "vaccineDate";
+  private static final String PARAM_PATIENT_SEX = "patientSex";
+  private static final String PARAM_PATIENT_DOB = "patientDob";
+  private static final String PARAM_RESULT_FORMAT = "resultFormat";
+  private static final String PARAM_EVAL_SCHEDULE = "evalSchedule";
+  private static final String PARAM_EVAL_DATE = "evalDate";
   public static final String RESULT_FORMAT_TEXT = "text";
   public static final String RESULT_FORMAT_HTML = "html";
 
-  private static final String[] MMR_FORECASTS = { ImmunizationForecastDataBean.MEASLES,
-      ImmunizationForecastDataBean.MUMPS, ImmunizationForecastDataBean.RUBELLA };
+  private static ForecastHandlerCore forecastHandlerCore = null;
 
   @Override
   public void init() throws ServletException {
@@ -47,6 +51,10 @@ public class ForecastServlet extends HttpServlet {
   private static Map<String, Integer> cvxToVaccineIdMap = null;
 
   private void initCvxCodes() throws ServletException {
+    if (forecastHandlerCore == null) {
+      forecastHandlerCore = new ForecastHandlerCore(new VaccineForecastManager());
+    }
+
     if (cvxToVaccineIdMap == null) {
       String url;
 
@@ -80,43 +88,44 @@ public class ForecastServlet extends HttpServlet {
     PatientRecordDataBean patient = new PatientRecordDataBean();
     List<ImmunizationInterface> imms = new ArrayList<ImmunizationInterface>();
 
-    String evalDateString = req.getParameter("evalDate");
+    String evalDateString = req.getParameter(PARAM_EVAL_DATE);
     if (evalDateString != null && evalDateString.length() != 8) {
       throw new ServletException("Parameter 'evalDate' is optional, but if sent must be in YYYYMMDD format. ");
     }
     DateTime forecastDate = new DateTime(evalDateString == null ? "today" : evalDateString);
-    String evalSchedule = req.getParameter("evalSchedule");
+    String evalSchedule = req.getParameter(PARAM_EVAL_SCHEDULE);
     if (evalSchedule == null) {
       evalSchedule = "";
     }
-    String resultFormat = req.getParameter("resultFormat");
+    String resultFormat = req.getParameter(PARAM_RESULT_FORMAT);
     if (resultFormat == null || resultFormat.equals("")) {
       throw new ServletException("Parameter 'resultFormat' is required. ");
     }
-    String patientDobString = req.getParameter("patientDob");
+    String patientDobString = req.getParameter(PARAM_PATIENT_DOB);
     if (patientDobString == null || patientDobString.length() != 8) {
       throw new ServletException("Parameter 'patientDob' is required and must be in YYYYMMDD format. ");
     }
     patient.setDob(new DateTime(patientDobString));
-    String patientSex = req.getParameter("patientSex");
+    String patientSex = req.getParameter(PARAM_PATIENT_SEX);
     if (patientSex == null || (!patientSex.equalsIgnoreCase("M") && !patientSex.equalsIgnoreCase("F"))) {
       throw new ServletException("Parameter 'patientSex' is required and must have a value of 'M' or 'F'. ");
     }
     patient.setSex(patientSex.toUpperCase());
     int n = 1;
-    while (req.getParameter("vaccineDate" + n) != null) {
-      String vaccineDateString = req.getParameter("vaccineDate" + n);
+    while (req.getParameter(PARAM_VACCINE_DATE + n) != null) {
+      String vaccineDateString = req.getParameter(PARAM_VACCINE_DATE + n);
       if (vaccineDateString.length() != 8) {
         throw new ServletException("Parameter 'vaccineDate" + n + "' must be in YYYYMMDD format.");
       }
-      String vaccineCvx = req.getParameter("vaccineCvx" + n);
-      String vaccineMvx = req.getParameter("vaccineMvx" + n);
+      String vaccineCvx = req.getParameter(PARAM_VACCINE_CVX + n);
+      String vaccineMvx = req.getParameter(PARAM_VACCINE_MVX + n);
       int vaccineId = 0;
       if (vaccineCvx == null) {
         throw new ServletException("Parameter 'vaccineCvx" + n + "' is required.");
       } else {
         if (!cvxToVaccineIdMap.containsKey(vaccineCvx) && !cvxToVaccineIdMap.containsKey("0" + vaccineCvx)) {
-          throw new ServletException("CVX code '" + vaccineCvx + "' is not recognized in parameter named 'vaccineCvx" + n + "'");
+          throw new ServletException("CVX code '" + vaccineCvx + "' is not recognized in parameter named 'vaccineCvx"
+              + n + "'");
         }
         if (cvxToVaccineIdMap.containsKey(vaccineCvx)) {
           vaccineId = cvxToVaccineIdMap.get(vaccineCvx);
@@ -124,7 +133,8 @@ public class ForecastServlet extends HttpServlet {
           vaccineId = cvxToVaccineIdMap.get("0" + vaccineCvx);
         }
         if (vaccineId == 0) {
-          throw new ServletException("CVX code '" + vaccineCvx + "' is not recognized in parameter named 'vaccineCvx" + n + "'");
+          throw new ServletException("CVX code '" + vaccineCvx + "' is not recognized in parameter named 'vaccineCvx"
+              + n + "'");
         }
       }
       Immunization imm = new Immunization();
@@ -135,69 +145,14 @@ public class ForecastServlet extends HttpServlet {
       n++;
     }
 
-    DateTime today = new DateTime(forecastDate.getDate());
-    StringBuffer traceBuffer = new StringBuffer();
     Map traceMap = new HashMap();
     List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
-    Forecaster forecaster = new Forecaster(new VaccineForecastManager());
-    forecaster.setPatient(patient);
-    forecaster.setVaccinations(imms);
-    forecaster.setForecastDate(forecastDate.getDate());
+    String forecasterScheduleName = "";
     try {
-      forecaster.forecast(resultList, doseList, traceBuffer, traceMap);
-
-      DateTime sevenYearsAgo = new DateTime(today);
-      sevenYearsAgo.addYears(-7);
-      DateTime dob = new DateTime(patient.getDob());
-      consolidate(resultList, MMR_FORECASTS, "MMR");
-      String label;
-      ImmunizationForecastDataBean forecastDiphtheria = getForecast(resultList, ImmunizationForecastDataBean.DIPHTHERIA);
-      if (forecastDiphtheria != null) {
-        DateTime nextGiveTime = new DateTime(forecastDiphtheria.getDue());
-        if (nextGiveTime.isLessThan(today)) {
-          nextGiveTime = today;
-        }
-        DateTime age7 = new DateTime(dob);
-        age7.addYears(7);
-        DateTime moveTo = null;
-        if (nextGiveTime.isLessThan(age7)) {
-          label = "DTaP";
-        } else {
-          ImmunizationForecastDataBean forecastPertussis = getForecast(resultList,
-              ImmunizationForecastDataBean.PERTUSSIS);
-          label = forecastPertussis == null || forecastPertussis.getDose().equals("1") ? "Tdap" : "Td";
-          moveTo = age7;
-        }
-
-        if (moveTo != null) {
-          if (new DateTime(forecastDiphtheria.getDue()).isLessThan(moveTo)) {
-            forecastDiphtheria.setDue(moveTo.getDate());
-          }
-          if (new DateTime(forecastDiphtheria.getValid()).isLessThan(moveTo)) {
-            forecastDiphtheria.setValid(moveTo.getDate());
-          }
-          if (new DateTime(forecastDiphtheria.getEarly()).isLessThan(moveTo)) {
-            forecastDiphtheria.setEarly(moveTo.getDate());
-          }
-          if (new DateTime(forecastDiphtheria.getOverdue()).isLessThan(moveTo)) {
-            forecastDiphtheria.setOverdue(moveTo.getDate());
-          }
-          if (new DateTime(forecastDiphtheria.getFinished()).isLessThan(moveTo)) {
-            forecastDiphtheria.setFinished(moveTo.getDate());
-          }
-
-        }
-        forecastDiphtheria.setForecastName(label);
-        forecastDiphtheria.setForecastLabel(label);
-      }
-      remove(resultList, ImmunizationForecastDataBean.PERTUSSIS);
-      comment(resultList, ImmunizationForecastDataBean.PNEUMO, "S",
-          "Supplementary dose of PCV13 is needed. Please refer to the Forecaster Reference Tool and MMWR 59(09) March 12, 2010.");
-      alterInfluenza(resultList, today);
-      sort(resultList);
-
+      forecasterScheduleName = forecastHandlerCore
+          .forecast(doseList, patient, imms, forecastDate, traceMap, resultList);
     } catch (Exception e) {
-      throw new ServletException("Unable to forecast, enexpected exception", e);
+      throw new ServletException("Unable to forecast", e);
     }
 
     if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_HTML)) {
@@ -236,8 +191,8 @@ public class ForecastServlet extends HttpServlet {
           traceMap.remove(forecastExamine.getForecastName());
         }
       }
-      sort(forecastListDueToday);
-      sort(resultList);
+      ForecastHandlerCore.sort(forecastListDueToday);
+      ForecastHandlerCore.sort(resultList);
 
       for (Iterator it = traceMap.keySet().iterator(); it.hasNext();) {
         String key = (String) it.next();
@@ -260,6 +215,7 @@ public class ForecastServlet extends HttpServlet {
         DateTime dueDate = new DateTime(forecast.getDue());
         DateTime overdueDate = new DateTime(forecast.getOverdue());
         DateTime finishedDate = new DateTime(forecast.getFinished());
+        DateTime today = new DateTime(forecastDate.getDate());
         if (today.isLessThan(dueDate)) {
           statusDescription = "";
         } else if (today.isLessThan(overdueDate)) {
@@ -316,154 +272,12 @@ public class ForecastServlet extends HttpServlet {
       }
       out.println();
       out.println("Forecast generated " + new DateTime().toString("M/D/Y") + " according to schedule "
-          + forecaster.getForecastSchedule().getScheduleName());
+          + forecasterScheduleName);
       out.close();
 
     } else {
       throw new ServletException("Unrecognized result format '" + resultFormat + "'");
     }
-  }
-
-  private boolean consolidate(List<ImmunizationForecastDataBean> forecastList, String[] f, String label) {
-    boolean same = true;
-    ImmunizationForecastDataBean forecastA = getForecast(forecastList, f[0]);
-    for (int i = 1; i < f.length; i++) {
-      ImmunizationForecastDataBean forecastB = getForecast(forecastList, f[i]);
-      if (forecastA == null && forecastB != null) {
-        same = false;
-        break;
-      }
-      if (forecastB != null) {
-        if (!sameDate(forecastB.getValid(), forecastA.getValid())) {
-          same = false;
-          break;
-        }
-        if (!sameDate(forecastB.getDateDue(), forecastA.getDateDue())) {
-          same = false;
-          break;
-        }
-        if (!sameDate(forecastB.getOverdue(), forecastA.getOverdue())) {
-          same = false;
-          break;
-        }
-      }
-      forecastA = forecastB;
-    }
-    if (same) {
-      ImmunizationForecastDataBean forecast = getForecast(forecastList, f[0]);
-      if (forecast != null) {
-        forecast.setForecastName(label);
-        forecast.setForecastLabel(label);
-        for (int i = 1; i < f.length; i++) {
-          removeForecast(forecastList, f[i]);
-        }
-      }
-    }
-    return same;
-  }
-
-  private boolean sameDate(Date date1, Date date2) {
-    DateTime d1 = new DateTime(date1);
-    DateTime d2 = new DateTime(date2);
-    return d1.equals(d2);
-  }
-
-  private ImmunizationForecastDataBean getForecast(List<ImmunizationForecastDataBean> forecastList, String forecastName) {
-    for (Iterator<ImmunizationForecastDataBean> it = forecastList.iterator(); it.hasNext();) {
-      ImmunizationForecastDataBean forecastExamine = it.next();
-      if (forecastExamine.getForecastName().equals(forecastName)) {
-        return forecastExamine;
-      }
-    }
-    return null;
-  }
-
-  private ImmunizationForecastDataBean removeForecast(List<ImmunizationForecastDataBean> forecastList,
-      String forecastName) {
-    for (Iterator<ImmunizationForecastDataBean> it = forecastList.iterator(); it.hasNext();) {
-      ImmunizationForecastDataBean forecastExamine = it.next();
-      if (forecastExamine.getForecastName().equals(forecastName)) {
-        it.remove();
-        return forecastExamine;
-      }
-    }
-    return null;
-  }
-
-  private void remove(List<ImmunizationForecastDataBean> forecastList, String forecastName) {
-    for (Iterator<ImmunizationForecastDataBean> it = forecastList.iterator(); it.hasNext();) {
-      ImmunizationForecastDataBean forecastExamine = it.next();
-      if (forecastExamine.getForecastName().equals(forecastName)) {
-        it.remove();
-      }
-    }
-  }
-
-  private void comment(List forecastList, String forecastName, String dose, String comment) {
-    for (Iterator it = forecastList.iterator(); it.hasNext();) {
-      ImmunizationForecastDataBean forecastExamine = (ImmunizationForecastDataBean) it.next();
-      if (forecastExamine.getForecastName().equals(forecastName)) {
-        if (dose == null || dose.equals(forecastExamine.getDose())) {
-          forecastExamine.setComment(comment);
-        }
-      }
-    }
-  }
-
-  private void alterInfluenza(List<ImmunizationForecastDataBean> forecastList, DateTime today) {
-    ImmunizationForecastDataBean forecastExamine = null;
-    for (Iterator<ImmunizationForecastDataBean> it = forecastList.iterator(); it.hasNext();) {
-      forecastExamine = it.next();
-      if (forecastExamine.getForecastName().equals(ImmunizationForecastDataBean.INFLUENZA)) {
-        break;
-      }
-      forecastExamine = null;
-    }
-    if (forecastExamine != null) {
-      String start = "08/01";
-      String end = "07/01";
-      DateTime startDate = new DateTime(start + "/" + today.getYear());
-      DateTime endDate = null;
-      if (today.isLessThan(startDate)) {
-        // today is before start of next season
-        endDate = new DateTime(end + "/" + today.getYear());
-        if (today.isGreaterThanOrEquals(endDate)) {
-          // today is after the end of previous season
-          // send end date of the next season, which is next year
-          endDate = new DateTime(end + "/" + (today.getYear() + 1));
-        } else {
-          // today is before end of current season
-          // change startDate to last year
-          startDate = new DateTime(start + "/" + (today.getYear() - 1));
-        }
-      } else {
-        // today is in season
-        // send end date to next year
-        endDate = new DateTime(end + "/" + (today.getYear() + 1));
-      }
-      DateTime dateDue = new DateTime(forecastExamine.getDateDue());
-      if (dateDue.isLessThan(startDate)) {
-        // Forecast is before the start of this or next season
-        forecastExamine.setDateDue(startDate.getDate());
-      } else if (dateDue.isGreaterThanOrEquals(endDate)) {
-        // Patient is up-to-date, forecast is for next season, go ahead and
-        // remove
-        remove(forecastList, ImmunizationForecastDataBean.INFLUENZA);
-      }
-    }
-  }
-
-  private void sort(List<ImmunizationForecastDataBean> forecastList) {
-    Collections.sort(forecastList, new Comparator<ImmunizationForecastDataBean>() {
-      public int compare(ImmunizationForecastDataBean forecast1, ImmunizationForecastDataBean forecast2) {
-        if (forecast1.getSortOrder() < forecast2.getSortOrder()) {
-          return -1;
-        } else if (forecast1.getSortOrder() > forecast2.getSortOrder()) {
-          return 1;
-        }
-        return 0;
-      }
-    });
   }
 
 }

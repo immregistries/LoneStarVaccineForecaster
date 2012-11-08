@@ -1,7 +1,6 @@
 package org.tch.forecast.support;
 
 import java.sql.Connection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,10 +66,15 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
   {
     if (indications == null)
     {
-      forecastSchedule = new ForecastSchedule().initFromResource("ForecastSchedule.xml");
-      getVaccineForecasts();
-      indications = VaccineForecastDataBean.getIndications();
+      String forecastScheduleLocation = "ForecastSchedule.xml";
+      init(forecastScheduleLocation);
     }
+  }
+
+  public static void init(String forecastScheduleLocation) throws Exception {
+    forecastSchedule = new ForecastSchedule().initFromResource(forecastScheduleLocation);
+    getVaccineForecasts();
+    indications = VaccineForecastDataBean.getIndications();
   }
 
   private static void getVaccineForecasts() throws Exception

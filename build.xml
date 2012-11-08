@@ -1,195 +1,215 @@
 <project name="HHCIR" default="help" basedir=".">
-  
-  <!-- ===================== Property Definitions =========================== -->
-  
-  <!-- 
+
+	<!-- ===================== Property Definitions =========================== -->
+
+	<!-- 
   All properties should be defined in this section.
   Any host-specific properties should be defined 
   in the build.properties file.
   
   -->
-  
-  <property file="build.properties"/>
-  
-  <property name="app.home" value="."/>
-  <property name="app.name" value="fv"/>
-  
-  <property name="src.home" value="${app.home}/src"/>
-  <property name="lib.home" value="${app.home}/lib"/>
-  <property name="object.home" value="${app.home}/object"/>
-  <property name="deploy.home" value="${app.home}/deploy"/>
-  <property name="web.home" value="${app.home}/web"/>
-  
-  <property name="build.home" value="${app.home}/build"/>
-  <property name="build.classes" value="${build.home}/WEB-INF/classes"/>
-  <property name="build.lib" value="${build.home}/WEB-INF/lib"/>
-  
-  <!-- ==================== Compilation Classpath =========================== -->
-  
-  <!-- 
+
+	<property file="build.properties" />
+
+	<property name="app.home" value="." />
+	<property name="app.name" value="fv" />
+
+	<property name="src.home" value="${app.home}/src" />
+	<property name="lib.home" value="${app.home}/lib" />
+	<property name="object.home" value="${app.home}/object" />
+	<property name="deploy.home" value="${app.home}/deploy" />
+	<property name="web.home" value="${app.home}/web" />
+	<property name="doc.home" value="${app.home}/doc" />
+
+	<property name="build.home" value="${app.home}/build" />
+	<property name="build.classes" value="${build.home}/WEB-INF/classes" />
+	<property name="build.lib" value="${build.home}/WEB-INF/lib" />
+
+	<!-- ==================== Compilation Classpath =========================== -->
+
+	<!-- 
   This section creates the classpath for compilation.
   -->
-  <path id="compile.classpath">
-    
-    <!-- The object files for this application -->
-    <!-- The lib files for this application -->
-    <fileset dir="${lib.home}">
-      <include name="*.jar"/>
-      <include name="*.zip"/>
-    </fileset>
-    
-    <!-- All files/jars that Tomcat makes available -->
-    <fileset dir="${tomcat.home}/lib">
-      <include name="*.jar"/>
-    </fileset>
-    
-  </path>
-  
-  <!-- ==================== Build Targets below here========================= -->
-  
-  <!-- ==================== "help" Target =================================== -->
-  
-  <!--
+	<path id="compile.classpath">
+
+		<!-- The object files for this application -->
+		<!-- The lib files for this application -->
+		<fileset dir="${lib.home}">
+			<include name="*.jar" />
+			<include name="*.zip" />
+		</fileset>
+
+		<!-- All files/jars that Tomcat makes available -->
+		<fileset dir="${tomcat.home}/lib">
+			<include name="*.jar" />
+		</fileset>
+
+	</path>
+
+	<!-- ==================== Build Targets below here========================= -->
+
+	<!-- ==================== "help" Target =================================== -->
+
+	<!--
   This is the default ant target executed if no target is specified.
   This helps avoid users just typeing 'ant' and running a 
   default target that may not do what they are anticipating...
   -->
-  
-  <target name="help">
-    <echo message="Please specify a target! [usage: ant &lt;targetname&gt;]"/>
-    <echo message="Here is a list of possible targets: "/>
-    <echo message="  clean-all.....Delete build dir, all .class and war files"/>
-    <echo message="  prepare.......Creates directories if required"/>
-    <echo message="  compile.......Compiles source files"/>
-    <echo message="  build.........Build war file from .class and other files"/>
-    <echo message="  deploy........Copy war file to the webapps directory"/>
-    <echo message="  javadoc.......Generates javadoc for this application"/>
-  </target>
-  
-  <!-- ==================== "clean-all" Target ============================== -->
-  
-  <!--
+
+	<target name="help">
+		<echo message="Please specify a target! [usage: ant &lt;targetname&gt;]" />
+		<echo message="Here is a list of possible targets: " />
+		<echo message="  clean-all.....Delete build dir, all .class and war files" />
+		<echo message="  prepare.......Creates directories if required" />
+		<echo message="  compile.......Compiles source files" />
+		<echo message="  build.........Build war file from .class and other files" />
+		<echo message="  deploy........Copy war file to the webapps directory" />
+		<echo message="  javadoc.......Generates javadoc for this application" />
+	</target>
+
+	<!-- ==================== "clean-all" Target ============================== -->
+
+	<!--
   This target should clean up any traces of the application
   so that if you run a new build directly after cleaning, all
   files will be replaced with what's current in source control
   -->
-  
-  <target name="clean-all">
-    <delete dir="${build.home}"/>
-    <delete dir="${object.home}"/>
-    <delete dir="${deploy.home}"/>
-    
-    <!-- delete the javadoc -->
-    <delete dir="${doc.home}"/>
-    
-  </target>
-  
-  <!-- ==================== "prepare" Target ================================ -->
-  
-  <!--
+
+	<target name="clean-all">
+		<delete dir="${build.home}" />
+		<delete dir="${object.home}" />
+		<delete dir="${deploy.home}" />
+
+		<!-- delete the javadoc -->
+		<delete dir="${doc.home}" />
+
+	</target>
+
+	<!-- ==================== "prepare" Target ================================ -->
+
+	<!--
   This target is executed prior to any of the later targets
   to make sure the directories exist. It only creates them 
   if they need to be created....
   
   Other, similar, preparation steps can be placed here.
   -->
-  
-  <target name="prepare">
-    
-    <echo message="Tomcat Home  = ${tomcat.home}"/>
-    
-    <mkdir dir="${object.home}"/>
-    <mkdir dir="${deploy.home}"/>
-    
-    <mkdir dir="${build.home}"/>
-    <mkdir dir="${build.home}/WEB-INF"/>
-    <mkdir dir="${build.home}/WEB-INF/classes"/>
-    <mkdir dir="${build.home}/WEB-INF/lib"/>
-    
-  </target>
-  
-  <!-- ==================== "compile" Target ================================ -->
-  
-  <!-- 
+
+	<target name="prepare">
+
+		<echo message="Tomcat Home  = ${tomcat.home}" />
+
+		<mkdir dir="${object.home}" />
+		<mkdir dir="${deploy.home}" />
+
+		<mkdir dir="${build.home}" />
+		<mkdir dir="${build.home}/WEB-INF" />
+		<mkdir dir="${build.home}/WEB-INF/classes" />
+		<mkdir dir="${build.home}/WEB-INF/lib" />
+		
+		<mkdir dir="${doc.home}"/>
+		<mkdir dir="${doc.home}/core"/>
+
+	</target>
+
+	<!-- ==================== "compile" Target ================================ -->
+
+	<!-- 
   This only compiles java files that are newer
   than their corresponding .class files. 
   -->
-  
-  <target name="compile" depends="prepare">
-    <javac srcdir="${src.home}" destdir="${object.home}" debug="yes" target="1.5">
-      <classpath refid="compile.classpath"/>
-    </javac>
-  </target>
-  
-  <!-- ==================== "build" Target ================================== -->
-  
-  <!-- 
+
+	<target name="compile" depends="prepare">
+		<javac srcdir="${src.home}" destdir="${object.home}" debug="yes" target="1.5">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+
+	<!-- ==================== "build" Target ================================== -->
+
+	<!-- 
   This target builds the war file for the application
   by first building the directory structure of the 
   application in ${build.home} and then creating the
   war file using the ant <war> task
   -->
-  
-  <target name="build" depends="compile">
-    
-    <!-- Copy all the webapp content (jsp's, html, tld's, xml, etc. -->
-    <!-- Note that this also copies the META-INF directory -->
-    <copy todir="${build.home}">
-      <fileset dir="${web.home}"/>
-    </copy>
-    
-    <!-- Now, copy all the Java class files -->
-    <copy todir="${build.home}/WEB-INF/classes">
-      <fileset dir="${object.home}"/>
-    </copy>
-    
-    <!-- Now, copy all the jar files we need -->
-    <copy todir="${build.home}/WEB-INF/lib">
-      <fileset dir="${lib.home}"/>
-    </copy>
-    
-    <!-- Create the <war> file -->
-    <jar jarfile="${deploy.home}/${app.name}.war" basedir="${build.home}"/>
-    
-  </target>
-  
-  <target name="war-prep" depends="build">
-    
-    <!-- Copy all the webapp content (jsp's, html, tld's, xml, etc. -->
-    <!-- Note that this also copies the META-INF directory -->
-    <copy todir="${build.home}">
-      <fileset dir="${web.home}"/>
-    </copy>
-    
-    <!-- Now, copy all the Java class files -->
-    <copy todir="${build.home}/WEB-INF/classes">
-      <fileset dir="${object.home.hl7test}"/>
-    </copy>
-    
-    <!-- Now, copy all the jar files we need -->
-    <copy todir="${build.home}/WEB-INF/lib">
-      <fileset dir="${lib.home}"/>
-    </copy>
-  </target>
-  
-  <!-- ==================== "deploy" Target ================================= -->
-  
-  <!-- 
+
+	<target name="build" depends="compile">
+
+		<!-- Copy all the webapp content (jsp's, html, tld's, xml, etc. -->
+		<!-- Note that this also copies the META-INF directory -->
+		<copy todir="${build.home}">
+			<fileset dir="${web.home}" />
+		</copy>
+
+		<!-- Now, copy all the Java class files -->
+		<copy todir="${build.home}/WEB-INF/classes">
+			<fileset dir="${object.home}" />
+		</copy>
+
+		<!-- Now, copy all the jar files we need -->
+		<copy todir="${build.home}/WEB-INF/lib">
+			<fileset dir="${lib.home}" />
+		</copy>
+
+		<!-- Create the <war> file -->
+		<jar jarfile="${deploy.home}/${app.name}.war" basedir="${build.home}" />
+
+	</target>
+
+	<target name="war-prep" depends="build">
+
+		<!-- Copy all the webapp content (jsp's, html, tld's, xml, etc. -->
+		<!-- Note that this also copies the META-INF directory -->
+		<copy todir="${build.home}">
+			<fileset dir="${web.home}" />
+		</copy>
+
+		<!-- Now, copy all the Java class files -->
+		<copy todir="${build.home}/WEB-INF/classes">
+			<fileset dir="${object.home.hl7test}" />
+		</copy>
+
+		<!-- Now, copy all the jar files we need -->
+		<copy todir="${build.home}/WEB-INF/lib">
+			<fileset dir="${lib.home}" />
+		</copy>
+	</target>
+
+	<!-- ==================== "deploy" Target ================================= -->
+
+	<!-- 
   This target simply copies the war file from the deploy
   directory into the Tomcat webapp directory.
   -->
-  
-  <target name="deploy" depends="build">
-    <copy todir="${tomcat.home}/webapps" file="${deploy.home}/${app.name}.war"/>
-  </target>
-  
-  <target name="jar-core" depends="compile">
-    <jar jarfile="${deploy.home}/tch-forecaster.jar" basedir="${object.home}" includes="org/tch/forecast/core/**"/>
-  </target>
-  
-	  <target name="jar-dist" depends="compile">
-	  	<copy todir="${object.home}" file="${web.home}/WEB-INF/classes/ForecastSchedule.xml"/>
-	    <jar jarfile="${deploy.home}/tch-forecaster.jar" basedir="${object.home}" includes="org/tch/forecast/core/**"/>
-	  </target>
-	  
+
+	<target name="deploy" depends="build">
+		<copy todir="${tomcat.home}/webapps" file="${deploy.home}/${app.name}.war" />
+	</target>
+
+	<target name="jar-core" depends="compile">
+		<jar jarfile="${deploy.home}/tch-forecaster.jar" basedir="${object.home}" includes="org/tch/forecast/core/**" />
+	</target>
+
+	<target name="jar-dist" depends="compile">
+		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${web.home}/WEB-INF/classes/ForecastSchedule.xml" />
+		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/cvxToVaccineId.txt" />
+		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/vaccineIdToLabel.txt" />
+		<jar jarfile="${deploy.home}/tch-forecaster.jar" basedir="${object.home}" includes="org/tch/forecast/core/**" />
+	</target>
+	
+	<target name="core-doc" depends="prepare">
+	<javadoc packagenames="org.tch.forecast.core.api.*"
+	           sourcepath="${src.home}"
+	           defaultexcludes="yes"
+	           destdir="${doc.home}/core"
+	           author="true"
+	           version="true"
+	           use="true"
+	           windowtitle="TCH Forecaster API">
+	    <doctitle><![CDATA[<h1>TCH Forecaster API</h1>]]></doctitle>
+	    <bottom><![CDATA[<i>Copyright &#169; 2012 Texas Children's Hospital. All Rights Reserved.</i>]]></bottom>
+	  </javadoc>
+	</target>
+
 </project>
