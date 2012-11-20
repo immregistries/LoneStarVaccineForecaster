@@ -38,6 +38,7 @@ public class DetermineRangesStep extends ActionStep {
             DateTime startBlackOut = new DateTime(event.getEventDate());
             DateTime endBlackOut = contraindicate.getAfterInterval().getDateTimeFrom(startBlackOut);
             DateTime endBlackOutGrace = contraindicate.getGrace().getDateTimeBefore(endBlackOut);
+            startBlackOut.addDays(1);
             ds.blackOutDates.add(new DateTime[] { startBlackOut, endBlackOutGrace, endBlackOut });
             ds.blackOutReasons.add(contraindicate.getAfterInterval() + " after contraindicated dose");
             ds.log("Contraindicated event found, setting black out dates from " + startBlackOut.toString("M/D/Y")
