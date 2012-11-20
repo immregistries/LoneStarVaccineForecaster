@@ -54,7 +54,6 @@ public class ForecastHandler implements ForecastHandlerInterface {
     initCvxCodes();
   }
 
-  @Override
   public ForecastResponseInterface forecast(ForecastRequestInterface forecastRequest) throws Exception {
 
     ForecastResponseInterface forecastResponse = new ForecastResponse();
