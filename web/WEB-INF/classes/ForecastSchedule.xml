@@ -182,6 +182,7 @@
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" seasonCompleted=""/>
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" seasonCompleted="Yes"/>
     <indicate vaccineName="Season End" schedule="S1" age="" reason="" seasonCompleted=""/>
+    <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" seasonCompleted=""/>
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="2nd">
     <pos row="1" column="2"/>
