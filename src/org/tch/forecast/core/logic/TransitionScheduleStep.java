@@ -62,6 +62,7 @@ public class TransitionScheduleStep extends ActionStep
       return FinishScheduleStep.NAME;
     }
     ds.log("Going to next step");
+    LookForDoseStep.setHasEvent(ds);
     return TraverseScheduleStep.NAME;
   }
 

@@ -37,5 +37,8 @@ public class SeasonEndEvent implements ImmunizationInterface
     return "";
   }
   
+  public String getVaccinationId() {
+    return "";
+  }
 
 }

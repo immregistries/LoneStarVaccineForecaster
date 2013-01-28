@@ -29,4 +29,55 @@ public class ForecastVaccination implements ForecastVaccinationInterface {
     this.mvxCode = mvxCode;
   }
   
+  private String tchCode = "";
+  private String forecastCode = "";
+  private String scheduleCode = "";
+  private String doseCode = "";
+  private String statusCode = "";
+  private String reasonText = "";
+  private String vaccinationId = "";
+
+  public String getVaccinationId() {
+    return vaccinationId;
+  }
+  public void setVaccinationId(String vaccinationId) {
+    this.vaccinationId = vaccinationId;
+  }
+  public String getTchCode() {
+    return tchCode;
+  }
+  public void setTchCode(String tchCode) {
+    this.tchCode = tchCode;
+  }
+  public String getForecastCode() {
+    return forecastCode;
+  }
+  public void setForecastCode(String forecastCode) {
+    this.forecastCode = forecastCode;
+  }
+  public String getScheduleCode() {
+    return scheduleCode;
+  }
+  public void setScheduleCode(String scheduleCode) {
+    this.scheduleCode = scheduleCode;
+  }
+  public String getDoseCode() {
+    return doseCode;
+  }
+  public void setDoseCode(String doseCode) {
+    this.doseCode = doseCode;
+  }
+  public String getStatusCode() {
+    return statusCode;
+  }
+  public void setStatusCode(String statusCode) {
+    this.statusCode = statusCode;
+  }
+  public String getReasonText() {
+    return reasonText;
+  }
+  public void setReasonText(String reasonText) {
+    this.reasonText = reasonText;
+  }
+  
 }

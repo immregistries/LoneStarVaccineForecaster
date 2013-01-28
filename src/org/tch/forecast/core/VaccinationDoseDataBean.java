@@ -10,6 +10,8 @@ public class VaccinationDoseDataBean
   public static final String STATUS_MISSED = "M";
   
   private int vaccineId = 0;
+  private String cvxCode = "";
+  private String mvxCode = "";
   private int immregid = 0;
   private Date adminDate = null;
   private String forecastCode = "";
@@ -17,7 +19,26 @@ public class VaccinationDoseDataBean
   private String doseCode = "";
   private String statusCode = "";
   private String reason = "";
+  private String vaccinationId = "";
   
+  public String getVaccinationId() {
+    return vaccinationId;
+  }
+  public void setVaccinationId(String vaccinationId) {
+    this.vaccinationId = vaccinationId;
+  }
+  public String getCvxCode() {
+    return cvxCode;
+  }
+  public void setCvxCode(String cvxCode) {
+    this.cvxCode = cvxCode;
+  }
+  public String getMvxCode() {
+    return mvxCode;
+  }
+  public void setMvxCode(String mvxCode) {
+    this.mvxCode = mvxCode;
+  }
   public String getReason()
   {
     return reason;

@@ -11,6 +11,15 @@ public class Immunization implements ImmunizationInterface
   private String label = "";
   private String cvx = "";
   private String mvx = "";
+  private String vaccinationId = "";
+
+  public String getVaccinationId() {
+    return vaccinationId;
+  }
+
+  public void setVaccinationId(String vaccinationId) {
+    this.vaccinationId = vaccinationId;
+  }
 
   public String getLabel()
   {

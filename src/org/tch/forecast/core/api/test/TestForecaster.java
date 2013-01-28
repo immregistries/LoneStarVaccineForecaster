@@ -79,6 +79,41 @@ public class TestForecaster {
 
       forecastAndPrintResults(forecastHandler, request);
     }
+    {
+      System.out.println("Test 4: Invalid vaccination");
+      ForecastRequestInterface request = new ForecastRequest();
+      Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.YEAR, -1);
+      calendar.add(Calendar.DAY_OF_MONTH, -3);
+
+      request.setEvaluationDate(new Date());
+      ForecastPatient patient = new ForecastPatient();
+      patient.setBirthDate(calendar.getTime());
+      patient.setSex("M");
+      request.setPatient(patient);
+      List<ForecastVaccinationInterface> vaccinationList = new ArrayList<ForecastVaccinationInterface>();
+      request.setVaccinationList(vaccinationList);
+      ForecastVaccination vaccination = new ForecastVaccination();
+      vaccinationList.add(vaccination);
+      vaccination.setAdminDate(calendar.getTime());
+      vaccination.setCvxCode("08");
+      vaccination = new ForecastVaccination();
+      vaccinationList.add(vaccination);
+      calendar.add(Calendar.MONTH, 1);
+      calendar.add(Calendar.DAY_OF_MONTH, 2);
+      vaccination.setAdminDate(calendar.getTime());
+      vaccination.setCvxCode("122");
+      vaccination = new ForecastVaccination();
+      vaccinationList.add(vaccination);
+      calendar.add(Calendar.MONTH, 6);
+      calendar.add(Calendar.DAY_OF_MONTH, 3);
+      vaccination.setAdminDate(calendar.getTime());
+      vaccination.setCvxCode("110");
+      
+      
+
+      forecastAndPrintResults(forecastHandler, request);
+    }
     System.out.println();
     System.out.println("Tests complete");
 
@@ -114,7 +149,26 @@ public class TestForecaster {
       System.out.println();
     }
     System.out.println("------------------------------------------------------------------------------");
+    System.out.println("DATE       CVX  FORECAST   SCHEDULE DOSE STATUS REASON                        ");
+    System.out.println("------------------------------------------------------------------------------");
+    for (ForecastVaccinationInterface forecastVaccination : response.getVaccinationList()) {
+      System.out.print(sdf.format(forecastVaccination.getAdminDate()));
+      System.out.print(" ");
+      System.out.print(pad(forecastVaccination.getCvxCode(), 5));
+      System.out.print(pad(forecastVaccination.getForecastCode(), 11));
+      System.out.print(pad(forecastVaccination.getScheduleCode(), 9));
+      System.out.print(pad(forecastVaccination.getDoseCode(), 5));
+      System.out.print(pad(forecastVaccination.getStatusCode(), 7));
+      System.out.print(pad(forecastVaccination.getReasonText(), 30));
+      System.out.println();
+      if (forecastVaccination.getReasonText().length() > 30) {
+        System.out.println("      " + pad(forecastVaccination.getReasonText().substring(30), 70));
+      }
+    }
+    System.out.println("------------------------------------------------------------------------------");
+
     System.out.println();
+
   }
 
   private static String pad(String s, int size) {

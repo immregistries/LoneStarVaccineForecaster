@@ -89,7 +89,6 @@ public class LookForDoseStep extends ActionStep {
   protected static void nextEvent(DataStore ds) {
     if (ds.eventPosition < ds.eventList.size()) {
       ds.event = ds.eventList.get(ds.eventPosition);
-      ds.event.hasEvent = false;
       setHasEvent(ds);
       ds.eventPosition++;
       ds.log("Moved to next event on " + new DateTime(ds.event.getEventDate()));
@@ -100,19 +99,22 @@ public class LookForDoseStep extends ActionStep {
     }
   }
 
-  private static void setHasEvent(DataStore ds) {
-    ds.log("Looking to see if current event is indicated for");
-    VaccineForecastDataBean.Indicate[] ind = ds.schedule.getIndicates();
-    for (int i = 0; i < ind.length; i++) {
-      ds.log(" + Looking at indicate " + ind[i].getVaccineName());
-      ValidVaccine[] vaccineIds = ind[i].getVaccines();
-      for (int j = 0; j < vaccineIds.length; j++) {
-        for (Iterator<ImmunizationInterface> it = ds.event.immList.iterator(); it.hasNext();) {
-          ImmunizationInterface imm = it.next();
-          ds.log(" + Looking at indicated vaccine " + vaccineIds[j] + " and given vaccine " + imm.getVaccineId());
-          if (vaccineIds[j].isSame(imm, ds.event)) {
-            ds.event.hasEvent = true;
-            return;
+  protected static void setHasEvent(DataStore ds) {
+    if (ds.event != null) {
+      ds.log("Looking to see if current event is indicated for");
+      ds.event.hasEvent = false;
+      VaccineForecastDataBean.Indicate[] ind = ds.schedule.getIndicates();
+      for (int i = 0; i < ind.length; i++) {
+        ds.log(" + Looking at indicate " + ind[i].getVaccineName());
+        ValidVaccine[] vaccineIds = ind[i].getVaccines();
+        for (int j = 0; j < vaccineIds.length; j++) {
+          for (Iterator<ImmunizationInterface> it = ds.event.immList.iterator(); it.hasNext();) {
+            ImmunizationInterface imm = it.next();
+            ds.log(" + Looking at indicated vaccine " + vaccineIds[j] + " and given vaccine " + imm.getVaccineId());
+            if (vaccineIds[j].isSame(imm, ds.event)) {
+              ds.event.hasEvent = true;
+              return;
+            }
           }
         }
       }
@@ -481,6 +483,9 @@ public class LookForDoseStep extends ActionStep {
             dose.setScheduleCode(ds.schedule.getScheduleName());
             dose.setStatusCode(VaccinationDoseDataBean.STATUS_INVALID);
             dose.setVaccineId(imm.getVaccineId());
+            dose.setCvxCode(imm.getCvx());
+            dose.setMvxCode(imm.getMvx());
+            dose.setVaccinationId(imm.getVaccinationId());
             dose.setReason((ds.forecastManager.getVaccineName(imm.getVaccineId()) + (" given " + DataStore.dateFormat
                 .format(imm.getDateOfShot()))) + " is invalid " + invalidReason + "");
             ds.doseList.add(dose);
@@ -549,6 +554,9 @@ public class LookForDoseStep extends ActionStep {
             dose.setScheduleCode(ds.schedule.getScheduleName());
             dose.setStatusCode(VaccinationDoseDataBean.STATUS_VALID);
             dose.setVaccineId(imm.getVaccineId());
+            dose.setCvxCode(imm.getCvx());
+            dose.setMvxCode(imm.getMvx());
+            dose.setVaccinationId(imm.getVaccinationId());
             ds.doseList.add(dose);
             if (ds.traceBuffer != null) {
               ds.traceBuffer.append(" <font color=\"#0000FF\">");

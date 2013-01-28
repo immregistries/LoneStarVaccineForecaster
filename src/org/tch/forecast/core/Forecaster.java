@@ -237,13 +237,10 @@ public class Forecaster {
           seasonStart = seasonal.getStart().getDateTimeFrom(seasonEnd);
         }
       }
-      if (forecast.getTransitionList().size() > 0)
-      {
-        for (Transition transition : forecast.getTransitionList())
-        {
+      if (forecast.getTransitionList().size() > 0) {
+        for (Transition transition : forecast.getTransitionList()) {
           DateTime transitionDate = transition.getAge().getDateTimeFrom(patient.getDobDateTime());
-          if (transitionDate.isLessThanOrEquals(today))
-          {
+          if (transitionDate.isLessThanOrEquals(today)) {
             // Transition happens before or on forecaster test date
             TransitionEvent te = new TransitionEvent(transitionDate.getDate(), transition);
             event = new Event();
@@ -536,6 +533,9 @@ public class Forecaster {
             dose.setScheduleCode(schedule.getScheduleName());
             dose.setStatusCode(VaccinationDoseDataBean.STATUS_INVALID);
             dose.setVaccineId(imm.getVaccineId());
+            dose.setCvxCode(imm.getCvx());
+            dose.setMvxCode(imm.getMvx());
+            dose.setVaccinationId(imm.getVaccinationId());
             dose.setReason((forecastManager.getVaccineName(imm.getVaccineId()) + (" given " + dateFormat.format(imm
                 .getDateOfShot()))) + " is invalid " + invalidReason + "");
             doseList.add(dose);
@@ -595,7 +595,10 @@ public class Forecaster {
             dose.setForecastCode(forecast.getForecastCode());
             dose.setScheduleCode(schedule.getScheduleName());
             dose.setStatusCode(VaccinationDoseDataBean.STATUS_VALID);
+            dose.setCvxCode(imm.getCvx());
+            dose.setMvxCode(imm.getMvx());
             dose.setVaccineId(imm.getVaccineId());
+            dose.setVaccinationId(imm.getVaccinationId());
             doseList.add(dose);
             if (traceBuffer != null) {
               traceBuffer.append(" <font color=\"#0000FF\">");
@@ -922,9 +925,13 @@ public class Forecaster {
     public String getMvx() {
       return "";
     }
+    
+    public String getVaccinationId() {
+      return "";
+    }
 
   }
-  
+
   private class TransitionEvent implements ImmunizationInterface {
     private Date date = null;
     private int vaccineId = 0;
@@ -956,6 +963,9 @@ public class Forecaster {
       return "";
     }
 
+    public String getVaccinationId() {
+      return "";
+    }
   }
 
   public Date getForecastDate() {

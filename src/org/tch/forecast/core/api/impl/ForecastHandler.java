@@ -46,11 +46,11 @@ public class ForecastHandler implements ForecastHandlerInterface {
       }
     }
   }
-  
-  private static ForecastHandlerCore forecastHandlerCore = null; 
+
+  private static ForecastHandlerCore forecastHandlerCore = null;
 
   public ForecastHandler() throws Exception {
-    
+
     initCvxCodes();
   }
 
@@ -94,6 +94,8 @@ public class ForecastHandler implements ForecastHandlerInterface {
       imm.setCvx(vaccineCvx);
       imm.setDateOfShot(forecastVaccination.getAdminDate());
       imm.setVaccineId(vaccineId);
+      imm.setMvx(vaccineMvx);
+      imm.setVaccinationId(forecastVaccination.getVaccinationId());
       imms.add(imm);
     }
 
@@ -130,6 +132,22 @@ public class ForecastHandler implements ForecastHandlerInterface {
         forecastRecommendationList.add(forecastRecommendation);
       }
     }
+    List<ForecastVaccinationInterface> forecastVaccinationList = new ArrayList<ForecastVaccinationInterface>();
+    for (VaccinationDoseDataBean dose : doseList) {
+      ForecastVaccinationInterface fv = new ForecastVaccination();
+      fv.setAdminDate(dose.getAdminDate());
+      fv.setCvxCode(dose.getCvxCode());
+      fv.setMvxCode(dose.getMvxCode());
+      fv.setDoseCode(dose.getDoseCode());
+      fv.setForecastCode(dose.getForecastCode());
+      fv.setReasonText(dose.getReason());
+      fv.setScheduleCode(dose.getScheduleCode());
+      fv.setTchCode(String.valueOf(dose.getVaccineId()));
+      fv.setVaccinationId(dose.getVaccinationId());
+      fv.setStatusCode(dose.getStatusCode());
+      forecastVaccinationList.add(fv);
+    }
+    forecastResponse.setVaccinationList(forecastVaccinationList);
     return forecastResponse;
   }
 
@@ -148,7 +166,5 @@ public class ForecastHandler implements ForecastHandlerInterface {
       forecastRecommendation.setStatusDescription("finished");
     }
   }
-
- 
 
 }

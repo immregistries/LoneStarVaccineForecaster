@@ -61,4 +61,9 @@ public class Immunization implements ImmunizationInterface
   {
     this.vaccineId = vaccineId;
   }
+  
+  public String getVaccinationId() {
+    return "";
+  }
+
 }

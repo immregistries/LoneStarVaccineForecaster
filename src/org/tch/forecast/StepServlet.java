@@ -36,6 +36,7 @@ import org.tch.forecast.core.logic.ChooseIndicatorStep;
 import org.tch.forecast.core.logic.DataStore;
 import org.tch.forecast.core.logic.EndStep;
 import org.tch.forecast.core.logic.Event;
+import org.tch.forecast.core.logic.FinishStep;
 import org.tch.forecast.core.logic.LookForDoseStep;
 import org.tch.forecast.core.logic.SetupStep;
 import org.tch.forecast.core.logic.StartStep;
@@ -70,6 +71,7 @@ public class StepServlet extends HttpServlet {
       if (caseId == null) {
         caseId = "";
       }
+      String nextEventPosition = req.getParameter("nextEventPosition");
       ActionStep actionStep = ActionStepFactory.get(nextActionName);
       DataStore dataStore = (DataStore) session.getAttribute("dataStore");
 
@@ -203,13 +205,24 @@ public class StepServlet extends HttpServlet {
         dataStore.setDetailLog(detailLog);
         String previousActionName = nextActionName;
         nextActionName = actionStep.doAction(dataStore);
+        if (nextEventPosition != null) {
+          int nextEventPositionInt = Integer.parseInt(nextEventPosition);
+          while (dataStore.getEventPosition() < nextEventPositionInt && !nextActionName.equals(FinishStep.NAME)) {
+            actionStep = ActionStepFactory.get(nextActionName);
+            detailLog = new StringBuffer();
+            dataStore.setDetailLog(detailLog);
+            previousActionName = nextActionName;
+            nextActionName = actionStep.doAction(dataStore);
+          }
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         String imageName = previousActionName + "-" + nextActionName + ".png";
         out.println("<table class=\"layout\">");
         out.println("  <tr class=\"layout\">");
         out.println("    <td valign=\"top\" class=\"layout\" width=\"667\">");
-        out.println("      <a href=\"step?nextActionName=" + URLEncoder.encode(nextActionName, "UTF-8") + "&userName="
-            + URLEncoder.encode(userName, "UTF-8") + "&caseId=" + caseId + "\"><img src=\"img/" + imageName
+        String baseLink = "step?nextActionName=" + URLEncoder.encode(nextActionName, "UTF-8") + "&userName="
+            + URLEncoder.encode(userName, "UTF-8") + "&caseId=" + caseId + "";
+        out.println("      <a href=\"" + baseLink + "\"><img src=\"img/" + imageName
             + "\"/ width=\"662\" height=\"240\" class=\"stepimg\"></a>");
         out.println("    <br/>");
 
@@ -271,7 +284,7 @@ public class StepServlet extends HttpServlet {
         }
 
         Schedule schedule = dataStore.getSchedule();
-        printSchedule(out, dataStore, schedule, vaccineNames);
+        printSchedule(out, dataStore, schedule, vaccineNames, baseLink);
         out.println("<h4>Additional Information</h4>");
 
         out.println("<table>");
@@ -628,11 +641,11 @@ public class StepServlet extends HttpServlet {
   }
 
   public static void printSchedule(PrintWriter out, Schedule schedule) {
-    printSchedule(out, null, schedule, null);
+    printSchedule(out, null, schedule, null, null);
   }
 
   private static void printSchedule(PrintWriter out, DataStore dataStore, Schedule schedule,
-      Map<String, String> vaccineNames) {
+      Map<String, String> vaccineNames, String baseLink) {
 
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
     out.println("      <table>");
@@ -784,7 +797,9 @@ public class StepServlet extends HttpServlet {
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getValidGrace()) + "</td>");
-      out.println("        <td class=\"insideValue\">" + safe(dataStore != null && dataStore.getValid() != null ? dataStore.getValid().toString("M/D/Y") : "") + "</td>");
+      out.println("        <td class=\"insideValue\">"
+          + safe(dataStore != null && dataStore.getValid() != null ? dataStore.getValid().toString("M/D/Y") : "")
+          + "</td>");
       out.println("      </tr>");
       out.println("      <tr>");
       out.println("        <th class=\"smallHeader\">Eary due</th>");
@@ -799,7 +814,8 @@ public class StepServlet extends HttpServlet {
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">&nbsp;</td>");
-      out.println("        <td class=\"insideValue\">" + safe((dataStore != null && dataStore.getEarly() != null ? dataStore.getEarly().toString("M/D/Y") : ""))
+      out.println("        <td class=\"insideValue\">"
+          + safe((dataStore != null && dataStore.getEarly() != null ? dataStore.getEarly().toString("M/D/Y") : ""))
           + "</td>");
       out.println("      </tr>");
       out.println("      <tr>");
@@ -815,7 +831,8 @@ public class StepServlet extends HttpServlet {
       }
       out.println("</td>");
       out.println("        <td>&nbsp;</td>");
-      out.println("        <td class=\"insideValue\">" + safe(dataStore != null && dataStore.getDue() != null ? dataStore.getDue().toString("M/D/Y") : "") + "</td>");
+      out.println("        <td class=\"insideValue\">"
+          + safe(dataStore != null && dataStore.getDue() != null ? dataStore.getDue().toString("M/D/Y") : "") + "</td>");
       out.println("      </tr>");
       out.println("      <tr>");
       out.println("        <th class=\"smallHeader\">Overdue</th>");
@@ -980,6 +997,9 @@ public class StepServlet extends HttpServlet {
         out.println("    <th class=\"smallHeader\">Date</th>");
         out.println("    <th class=\"smallHeader\">Vaccine</th>");
         out.println("    <th class=\"smallHeader\">Indicated Event</th>");
+        if (baseLink != null) {
+          out.println("    <th class=\"smallHeader\"></th>");
+        }
         out.println("  </tr>");
         pos = -1;
         for (Event event : dataStore.getEventList()) {
@@ -1004,9 +1024,11 @@ public class StepServlet extends HttpServlet {
             out.println("    <td" + c + ">" + (dataStore.getEvent().isHasEvent() ? "YES" : "NO") + " </td>");
           } else {
             out.println("    <td" + c + ">&nbsp;</td>");
-
           }
-
+          if (baseLink != null) {
+            out.println("    <td" + c + "><a href=\"" + baseLink + "&nextEventPosition="
+                + (pos + 1) + "\">Jump</a></td>");
+          }
           out.println("  </tr>");
         }
         out.println("</table>");
