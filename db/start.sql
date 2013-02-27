@@ -85,7 +85,7 @@ CREATE TABLE test_note (
   note_date       DATETIME NOT NULL
 );
 
---ALTER TABLE test_note ADD COLUMN( user_name VARCHAR(40) NOT NULL DEFAULT 'Not Known' );
+-- ALTER TABLE test_note ADD COLUMN( user_name VARCHAR(40) NOT NULL DEFAULT 'Not Known' );
 
 CREATE TABLE test_vaccine (
   case_id   INT NOT NULL,
@@ -101,9 +101,11 @@ CREATE TABLE vaccine_cvx (
   vaccine_id INT
 );
 
+/*
 alter TABLE vaccine_cvx add (
   vaccine_id INT
 );
+*/
 
 CREATE TABLE vaccine_tch (
   vaccine_id INT NOT NULL PRIMARY KEY,
@@ -196,7 +198,7 @@ INSERT INTO forecast_antigen (forecast_code, forecast_label, sort_order) VALUES
 
 
 create table test_user (
-user_name VARCHAR(40)
+  user_name VARCHAR(40)
 );
 
 ALTER TABLE test_user ADD COLUMN (entity_id INT DEFAULT 0);
