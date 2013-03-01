@@ -191,4 +191,24 @@ public interface ForecastVaccinationInterface {
    * @param vaccinationId
    */
   public void setVaccinationId(String vaccinationId);
+
+  /**
+   * A human readable text that describes which valid date was chosen and why.
+   * This helps providers understand whether the date was selected because of
+   * the age of the patient, the interval since the last vaccination, or to
+   * space it away from a conflicting vaccinations.
+   * 
+   * @return
+   */
+  public String getWhenValidText();
+  
+  /**
+   * A human readable text that describes which valid date was chosen and why.
+   * This helps providers understand whether the date was selected because of
+   * the age of the patient, the interval since the last vaccination, or to
+   * space it away from a conflicting vaccinations.
+   * 
+   * @param whenValidText
+   */
+  public void setWhenValidText(String whenValidText);
 }

@@ -488,6 +488,7 @@ public class LookForDoseStep extends ActionStep {
             dose.setVaccinationId(imm.getVaccinationId());
             dose.setReason((ds.forecastManager.getVaccineName(imm.getVaccineId()) + (" given " + DataStore.dateFormat
                 .format(imm.getDateOfShot()))) + " is invalid " + invalidReason + "");
+            dose.setWhenValidText(ds.whenValidText);
             ds.doseList.add(dose);
             if (ds.traceBuffer != null) {
               ds.traceBuffer.append(" <font color=\"#FF0000\">" + dose.getReason() + ".</font> ");
@@ -557,6 +558,7 @@ public class LookForDoseStep extends ActionStep {
             dose.setCvxCode(imm.getCvx());
             dose.setMvxCode(imm.getMvx());
             dose.setVaccinationId(imm.getVaccinationId());
+            dose.setWhenValidText(ds.whenValidText);
             ds.doseList.add(dose);
             if (ds.traceBuffer != null) {
               ds.traceBuffer.append(" <font color=\"#0000FF\">");

@@ -19,8 +19,15 @@ public class VaccinationDoseDataBean
   private String doseCode = "";
   private String statusCode = "";
   private String reason = "";
+  private String whenValidText = "";
   private String vaccinationId = "";
   
+  public String getWhenValidText() {
+    return whenValidText;
+  }
+  public void setWhenValidText(String whenValidText) {
+    this.whenValidText = whenValidText;
+  }
   public String getVaccinationId() {
     return vaccinationId;
   }

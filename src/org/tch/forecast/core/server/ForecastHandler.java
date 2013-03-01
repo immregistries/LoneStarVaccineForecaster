@@ -25,16 +25,22 @@ public class ForecastHandler extends Thread {
       BufferedReader in = new BufferedReader(new InputStreamReader(input));
       String request = in.readLine();
       System.out.println("  Request: " + request);
-      StringBuilder response = new StringBuilder("You said '" + request + "'");      
-      System.out.println("  Response: " + response.toString());
-      output.println(response.toString());
-    }
-    catch (IOException ioe)
-    {
+      String response = "";
+      try {
+        CaretForecaster caretForecaster = new CaretForecaster(request);
+        response = caretForecaster.forecast(ForecastServer.vaccineForecastManager, ForecastServer.cvxToVaccineIdMap);
+      } catch (Exception e) {
+        response = "Unexpected problem: " + e.getMessage();
+        e.printStackTrace();
+      }
+      System.out.println("  Response: " + response);
+      output.println(response);
+    } catch (IOException ioe) {
       System.err.println("Unable to process request: " + ioe.getMessage());
       ioe.printStackTrace(System.err);
+    } finally {
+      close();
     }
-    close();
   }
 
   private void close() {

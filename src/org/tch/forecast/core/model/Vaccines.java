@@ -6,11 +6,11 @@ import java.util.Map;
 public class Vaccines {
 
   private Map<Integer, String> vaccineIdToCvx = new HashMap<Integer, String>();
-  private Map<String, Integer> cvxToVacineId = new HashMap<String, Integer>();
+  private Map<String, Integer> cvxToVaccineId = new HashMap<String, Integer>();
 
   private void setCvxToVaccineId(int vaccineId, String cvxCode) {
     vaccineIdToCvx.put(vaccineId, cvxCode);
-    cvxToVacineId.put(cvxCode, vaccineId);
+    cvxToVaccineId.put(cvxCode, vaccineId);
   }
   
   public String mapToCvx(int vaccineid)
@@ -20,7 +20,12 @@ public class Vaccines {
   
   public Integer mapToVaccineid(String cvxCode)
   {
-    return cvxToVacineId.get(cvxCode);
+    return cvxToVaccineId.get(cvxCode);
+  }
+  
+  public boolean isRecognizedCvxCode(String cvxCode)
+  {
+    return cvxToVaccineId.containsKey(cvxCode);
   }
 
   public Vaccines() {

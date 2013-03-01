@@ -25,6 +25,11 @@ public class ImmunizationForecastDataBean
   public static final String VARICELLA = "Varicella";
   public static final String PERTUSSIS = "Pertussis";
   public static final String INFLUENZA = "Influenza";
+  
+  public static final String MMR = "MMR";
+  public static final String DTAP = "DTaP";
+  public static final String TDAP = "Tdap";
+  public static final String TD = "Td";
 
   public static final String SCHEDULE_COMPLETED = "COMP";
 
@@ -41,6 +46,16 @@ public class ImmunizationForecastDataBean
   private int sortOrder = 0;
   private TraceList traceList = null;
   private String comment = "";
+  private String statusDescription = "";
+  
+  public String getStatusDescription() {
+    return statusDescription;
+  }
+
+  public void setStatusDescription(String dueDescription) {
+    this.statusDescription = dueDescription;
+  }
+
   public TraceList getTraceList()
   {
     return traceList;

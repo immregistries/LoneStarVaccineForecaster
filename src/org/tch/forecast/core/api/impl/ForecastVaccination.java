@@ -35,7 +35,15 @@ public class ForecastVaccination implements ForecastVaccinationInterface {
   private String doseCode = "";
   private String statusCode = "";
   private String reasonText = "";
+  private String whenValidText = "";
   private String vaccinationId = "";
+
+  public String getWhenValidText() {
+    return whenValidText;
+  }
+  public void setWhenValidText(String whenValidText) {
+    this.whenValidText = whenValidText;
+  }
 
   public String getVaccinationId() {
     return vaccinationId;

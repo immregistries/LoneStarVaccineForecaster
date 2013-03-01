@@ -25,6 +25,7 @@ public class DetermineRangesStep extends ActionStep {
   }
 
   protected static void determineRanges(DataStore ds) {
+    ds.whenValidText = "";
     ds.blackOutDates = new ArrayList<DateTime[]>();
     ds.blackOutReasons = new ArrayList<String>();
     // adjust dates past contraindications
@@ -152,7 +153,7 @@ public class DetermineRangesStep extends ActionStep {
       ds.log("Calculating season rules");
       if (ds.seasonStart.isGreaterThan(ds.valid)) {
         ds.valid = new DateTime(ds.seasonStart);
-        validReason = "at start of next season";
+        validReason = "start of next season";
         validBecause = "SEASON";
         ds.log("Season start is is after valid date, moving valid date forward to " + ds.valid.toString("M/D/Y"));
       }
@@ -255,21 +256,21 @@ public class DetermineRangesStep extends ActionStep {
         }
       }
     }
+    ds.whenValidText = "Dose " + getNextValidDose(ds, ds.schedule) + " valid at " + validReason + ", "
+        + ds.valid.toString("M/D/Y");
     if (ds.traceBuffer != null) {
-      ds.traceBuffer.append("Dose " + getNextValidDose(ds, ds.schedule) + " valid at " + validReason + ", "
-          + ds.valid.toString("M/D/Y") + ". ");
+      ds.traceBuffer.append(ds.whenValidText + ". ");
     }
     if (ds.trace != null) {
       ds.trace.setDueDate(ds.due);
       ds.trace.setOverdueDate(ds.overdue);
       ds.trace.setValidDate(ds.valid);
       ds.trace.setFinishedDate(ds.finished);
-      ds.trace.setValidReason("Dose " + getNextValidDose(ds, ds.schedule) + " valid at " + validReason + ", "
-          + ds.valid.toString("M/D/Y") + ". ");
+      ds.trace.setValidReason(ds.whenValidText + ". ");
       ds.trace.setValidBecause(validBecause);
-      ds.traceList.append("Dose " + getNextValidDose(ds, ds.schedule) + " valid at " + validReason + ", "
-          + ds.valid.toString("M/D/Y") + ". ");
+      ds.traceList.append(ds.whenValidText + ". ");
     }
+
   }
 
   protected static String getNextValidDose(DataStore ds, VaccineForecastDataBean.Schedule schedule) {

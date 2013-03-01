@@ -17,6 +17,9 @@ import org.tch.forecast.core.api.model.ForecastResponseInterface;
 import org.tch.forecast.core.api.model.ForecastVaccinationInterface;
 
 public class TestForecaster {
+  // To run this simply:
+  // 1. run: ant jar-dist
+  // 2. from deploy directory, run: java -classpath tch-forecaster.jar org.tch.forecast.core.api.test.TestForecaster
   public static void main(String[] args) throws Exception {
     System.out.println("TCH Forecaster");
     System.out.println("------------------------------------------------------------------------------");
@@ -109,8 +112,6 @@ public class TestForecaster {
       calendar.add(Calendar.DAY_OF_MONTH, 3);
       vaccination.setAdminDate(calendar.getTime());
       vaccination.setCvxCode("110");
-      
-      
 
       forecastAndPrintResults(forecastHandler, request);
     }
@@ -129,7 +130,8 @@ public class TestForecaster {
           + sdf.format(forecastVaccination.getAdminDate()));
     }
 
-    System.out.println("-- RESULTS -------------------------------------------------------------------");
+    System.out.println();
+    System.out.println("-- FORECAST ------------------------------------------------------------------");
     System.out.println("LABEL     ANTIGEN   STATUS   DOSE  VALID      DUE        OVERDUE    FINISHED ");
     System.out.println("------------------------------------------------------------------------------");
     for (ForecastRecommendationInterface recommendation : response.getRecommendationList()) {
@@ -149,24 +151,39 @@ public class TestForecaster {
       System.out.println();
     }
     System.out.println("------------------------------------------------------------------------------");
-    System.out.println("DATE       CVX  FORECAST   SCHEDULE DOSE STATUS REASON                        ");
+    System.out.println();
+    System.out.println("-- EVALUATION ----------------------------------------------------------------");
+    System.out.println("DATE       CVX  FORECAST   SCH DO ST REASON                           ");
     System.out.println("------------------------------------------------------------------------------");
     for (ForecastVaccinationInterface forecastVaccination : response.getVaccinationList()) {
       System.out.print(sdf.format(forecastVaccination.getAdminDate()));
       System.out.print(" ");
       System.out.print(pad(forecastVaccination.getCvxCode(), 5));
       System.out.print(pad(forecastVaccination.getForecastCode(), 11));
-      System.out.print(pad(forecastVaccination.getScheduleCode(), 9));
-      System.out.print(pad(forecastVaccination.getDoseCode(), 5));
-      System.out.print(pad(forecastVaccination.getStatusCode(), 7));
-      System.out.print(pad(forecastVaccination.getReasonText(), 30));
+      System.out.print(pad(forecastVaccination.getScheduleCode(), 4));
+      System.out.print(pad(forecastVaccination.getDoseCode(), 3));
+      System.out.print(pad(forecastVaccination.getStatusCode(), 3));
+      System.out.print(pad(forecastVaccination.getReasonText(), 42));
       System.out.println();
-      if (forecastVaccination.getReasonText().length() > 30) {
-        System.out.println("      " + pad(forecastVaccination.getReasonText().substring(30), 70));
+      if (forecastVaccination.getReasonText().length() > 42) {
+        System.out.println("                                     " + pad(forecastVaccination.getReasonText().substring(42), 42));
       }
     }
     System.out.println("------------------------------------------------------------------------------");
-
+    System.out.println();
+    System.out.println("-- EVALUATION DETAILS --------------------------------------------------------");
+    System.out.println("DATE       CVX  FORECAST   SCH DETAILS                                        ");
+    System.out.println("------------------------------------------------------------------------------");
+    for (ForecastVaccinationInterface forecastVaccination : response.getVaccinationList()) {
+      System.out.print(sdf.format(forecastVaccination.getAdminDate()));
+      System.out.print(" ");
+      System.out.print(pad(forecastVaccination.getCvxCode(), 5));
+      System.out.print(pad(forecastVaccination.getForecastCode(), 11));
+      System.out.print(pad(forecastVaccination.getScheduleCode(), 4));
+      System.out.print(pad(forecastVaccination.getWhenValidText(), 51));
+      System.out.println();
+    }
+    System.out.println("------------------------------------------------------------------------------");
     System.out.println();
 
   }

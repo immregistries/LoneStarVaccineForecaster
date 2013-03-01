@@ -10,6 +10,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.tch.forecast.core.api.impl.ForecastHandler;
+import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -61,6 +63,11 @@ public class ForecastSchedule
   public ForecastSchedule initFromResource(String resource) throws Exception
   {
     InputStream is = this.getClass().getClassLoader().getResourceAsStream(resource);
+    if (is == null)
+    {
+      throw new Exception("Unable to find XML definition " + resource + " that is required to run forecaster");
+    }
+    
     try {
       init(is);
     } catch (Exception exception)

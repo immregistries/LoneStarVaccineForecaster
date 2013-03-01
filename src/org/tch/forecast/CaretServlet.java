@@ -2,12 +2,15 @@ package org.tch.forecast;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.tch.forecast.core.api.impl.CvxCodes;
+import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.server.CaretForecaster;
 
 public class CaretServlet extends HttpServlet {
@@ -33,8 +36,10 @@ public class CaretServlet extends HttpServlet {
         out.println("</html>");
       } else {
         resp.setContentType("text/plain");
+        VaccineForecastManager vaccineForecastManager = new VaccineForecastManager();
+        Map<String, Integer> cvxToVaccineIdMap = CvxCodes.getCvxToVaccineIdMap();
         CaretForecaster cf = new CaretForecaster(caretString);
-        out.println(cf.forecast());
+        out.println(cf.forecast(vaccineForecastManager, cvxToVaccineIdMap));
       }
     } catch (Exception e) {
       throw new ServletException("Unable to forecast", e);

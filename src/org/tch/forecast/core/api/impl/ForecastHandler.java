@@ -28,29 +28,13 @@ public class ForecastHandler implements ForecastHandlerInterface {
 
   private synchronized void initCvxCodes() throws Exception {
     if (cvxToVaccineIdMap == null) {
-      try {
-        cvxToVaccineIdMap = new HashMap<String, Integer>();
-        BufferedReader in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(
-            "cvxToVaccineId.txt")));
-        String line;
-        while ((line = in.readLine()) != null) {
-          int pos = line.indexOf("=");
-          if (line.length() >= 3 && pos != -1) {
-            String cvxCode = line.substring(0, pos).trim();
-            String vaccineId = line.substring(pos + 1);
-            cvxToVaccineIdMap.put(cvxCode, Integer.parseInt(vaccineId));
-          }
-        }
-      } catch (Exception e) {
-        throw new Exception("Unable to connect to load vaccine ids from cvxToVaccineId.txt", e);
-      }
+      cvxToVaccineIdMap = CvxCodes.getCvxToVaccineIdMap();
     }
   }
 
   private static ForecastHandlerCore forecastHandlerCore = null;
 
   public ForecastHandler() throws Exception {
-
     initCvxCodes();
   }
 
@@ -141,6 +125,7 @@ public class ForecastHandler implements ForecastHandlerInterface {
       fv.setDoseCode(dose.getDoseCode());
       fv.setForecastCode(dose.getForecastCode());
       fv.setReasonText(dose.getReason());
+      fv.setWhenValidText(dose.getWhenValidText());
       fv.setScheduleCode(dose.getScheduleCode());
       fv.setTchCode(String.valueOf(dose.getVaccineId()));
       fv.setVaccinationId(dose.getVaccinationId());

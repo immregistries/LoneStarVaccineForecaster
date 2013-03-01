@@ -90,6 +90,7 @@ public class DataStore
   protected DateTime valid = null;
   protected int validDoseCount = 0;
   protected TimePeriod validGrace = null;
+  protected String whenValidText = null;
 
   public DataStore(VaccineForecastManagerInterface forecastManager) {
     this.forecastManager = forecastManager;

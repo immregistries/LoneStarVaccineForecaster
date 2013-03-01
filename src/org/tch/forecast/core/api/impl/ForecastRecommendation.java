@@ -15,6 +15,15 @@ public class ForecastRecommendation implements ForecastRecommendationInterface {
   private Date finishedDate = null;
   private String statusDescription = "";
   private String evaluationExplanation = "";
+  private String decisionProcessTextHTML = "";
+
+  public String getDecisionProcessTextHTML() {
+    return decisionProcessTextHTML;
+  }
+
+  public void setDecisionProcessTextHTML(String decisionProcessTextHTML) {
+    this.decisionProcessTextHTML = decisionProcessTextHTML;
+  }
 
   public String getAntigenName() {
     return antigenName;

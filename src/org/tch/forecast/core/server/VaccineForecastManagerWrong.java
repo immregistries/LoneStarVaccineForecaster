@@ -9,7 +9,7 @@ import org.tch.forecast.core.VaccineForecastManagerInterface;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.model.Vaccines;
 
-public class VaccineForecastManager implements VaccineForecastManagerInterface {
+public class VaccineForecastManagerWrong implements VaccineForecastManagerInterface {
   
   private ForecastSchedule forecastSchedule;
   private Map<String, List<Schedule>> indications = null;
@@ -20,7 +20,7 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface {
     return vaccines;
   }
 
-  public VaccineForecastManager() throws Exception
+  public VaccineForecastManagerWrong() throws Exception
   {
     forecastSchedule = new ForecastSchedule();
     forecastSchedule.initFromResource("ForecastSchedule.xml");

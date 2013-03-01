@@ -142,4 +142,20 @@ public interface ForecastRecommendationInterface {
    */
   public void setStatusDescription(String statusDescription);
 
+  /**
+   * An HTML formatted list of steps the forecaster took to arrive at the
+   * results. The list is color coded to highlight critical points and is ready
+   * for display on a standard web page.
+   * 
+   * @return
+   */
+  public String getDecisionProcessTextHTML();
+
+  /**
+   * An HTML formatted list of steps the forecaster took to arrive at the
+   * results. The list is color coded to highlight critical points and is ready
+   * for display on a standard web page. * @param decisionProcessTextHTML
+   */
+  public void setDecisionProcessTextHTML(String decisionProcessTextHTML);
+
 }
