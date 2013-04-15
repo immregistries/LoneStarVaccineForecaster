@@ -41,14 +41,16 @@ public interface ForecastRecommendationInterface {
   public void setAntigenName(String antigenName);
 
   /**
-   * A human readable description of how the result was obtained.
+   * A human readable description of how the result was obtained. This field was defined, but currently is not
+   * set. Unless this field is further defined it may be removed in future versions. 
    * 
    * @return
    */
   public String getEvaluationExplanation();
 
   /**
-   * A human readable description of how the result was obtained.
+   * A human readable description of how the result was obtained. This field was defined, but currently is not
+   * set. Unless this field is further defined it may be removed in future versions. 
    * 
    * @param evaluationExplanation
    */

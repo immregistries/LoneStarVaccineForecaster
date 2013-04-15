@@ -112,6 +112,7 @@ public class ForecastHandler implements ForecastHandlerInterface {
         forecastRecommendation.setValidDate(forecast.getValid());
         forecastRecommendation.setOverdueDate(forecast.getOverdue());
         forecastRecommendation.setFinishedDate(forecast.getFinished());
+        forecastRecommendation.setDecisionProcessTextHTML(forecast.getTraceList().getExplanation().toString());
 
         forecastRecommendationList.add(forecastRecommendation);
       }

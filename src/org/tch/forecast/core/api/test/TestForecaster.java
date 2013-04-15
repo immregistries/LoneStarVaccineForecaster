@@ -19,7 +19,8 @@ import org.tch.forecast.core.api.model.ForecastVaccinationInterface;
 public class TestForecaster {
   // To run this simply:
   // 1. run: ant jar-dist
-  // 2. from deploy directory, run: java -classpath tch-forecaster.jar org.tch.forecast.core.api.test.TestForecaster
+  // 2. from deploy directory, run: java -classpath tch-forecaster.jar
+  // org.tch.forecast.core.api.test.TestForecaster
   public static void main(String[] args) throws Exception {
     System.out.println("TCH Forecaster");
     System.out.println("------------------------------------------------------------------------------");
@@ -148,6 +149,7 @@ public class TestForecaster {
       System.out.print(" ");
       System.out.print(sdf.format(recommendation.getFinishedDate()));
       System.out.print(" ");
+//      System.out.print(" [" + recommendation.getEvaluationExplanation() + "]");
       System.out.println();
     }
     System.out.println("------------------------------------------------------------------------------");
@@ -166,7 +168,8 @@ public class TestForecaster {
       System.out.print(pad(forecastVaccination.getReasonText(), 42));
       System.out.println();
       if (forecastVaccination.getReasonText().length() > 42) {
-        System.out.println("                                     " + pad(forecastVaccination.getReasonText().substring(42), 42));
+        System.out.println("                                     "
+            + pad(forecastVaccination.getReasonText().substring(42), 42));
       }
     }
     System.out.println("------------------------------------------------------------------------------");
@@ -185,6 +188,11 @@ public class TestForecaster {
     }
     System.out.println("------------------------------------------------------------------------------");
     System.out.println();
+    System.out.println("-- EVALUATION EXPLANATION TEXT (HTML) ----------------------------------------");
+    for (ForecastRecommendationInterface recommendation : response.getRecommendationList()) {
+      System.out.println(recommendation.getDecisionProcessTextHTML());
+    }
+    System.out.println("------------------------------------------------------------------------------");
 
   }
 
