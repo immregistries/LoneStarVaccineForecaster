@@ -113,6 +113,7 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface {
     forecastAntigenList.add(new ForecastAntigen("Mening", "MCV4", 13));
     forecastAntigenList.add(new ForecastAntigen("HepA", "HepA", 14));
     forecastAntigenList.add(new ForecastAntigen("HPV", "HPV", 15));
+    forecastAntigenList.add(new ForecastAntigen("Zoster", "Zoster", 15));
   }
 
   private static void getVaccineForecasts() throws Exception {

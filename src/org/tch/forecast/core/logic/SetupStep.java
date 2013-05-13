@@ -44,17 +44,21 @@ public class SetupStep extends ActionStep
       ds.log("No schedules found for indication '" + indication + "'");
     } else
     {
+      ds.log("Found schedule for indicatoin '" + indication + "'");
       if (ds.forecastCode != null)
       {
+        ds.log("Forecast code = '" + ds.forecastCode + "'");
         for (Schedule schedule : vaccineForecastList)
         {
           if (schedule.getForecastCode().equals(ds.forecastCode))
           {
+            ds.log("Adding schedule '" + schedule.getForecastCode() + "' to schedule list");
             ds.scheduleList.add(schedule);
           }
         }
       } else
       {
+        ds.log("Adding all to schedule list");
         ds.scheduleList.addAll(vaccineForecastList);
       }
     }

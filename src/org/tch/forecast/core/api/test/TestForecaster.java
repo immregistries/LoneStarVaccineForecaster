@@ -19,8 +19,7 @@ import org.tch.forecast.core.api.model.ForecastVaccinationInterface;
 public class TestForecaster {
   // To run this simply:
   // 1. run: ant jar-dist
-  // 2. from deploy directory, run: java -classpath tch-forecaster.jar
-  // org.tch.forecast.core.api.test.TestForecaster
+  // 2. from deploy directory, run: java -classpath tch-forecaster.jar org.tch.forecast.core.api.test.TestForecaster
   public static void main(String[] args) throws Exception {
     System.out.println("TCH Forecaster");
     System.out.println("------------------------------------------------------------------------------");
@@ -113,6 +112,40 @@ public class TestForecaster {
       calendar.add(Calendar.DAY_OF_MONTH, 3);
       vaccination.setAdminDate(calendar.getTime());
       vaccination.setCvxCode("110");
+
+      forecastAndPrintResults(forecastHandler, request);
+    }
+    {
+      System.out.println("Test 5: Invalid Multiple");
+      ForecastRequestInterface request = new ForecastRequest();
+      Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.YEAR, -1);
+      calendar.add(Calendar.DAY_OF_MONTH, -3);
+      
+      SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
+      request.setEvaluationDate(new Date());
+      ForecastPatient patient = new ForecastPatient();
+      patient.setBirthDate(sdf.parse("06/26/2008"));
+      patient.setSex("M");
+      request.setPatient(patient);
+      List<ForecastVaccinationInterface> vaccinationList = new ArrayList<ForecastVaccinationInterface>();
+      request.setVaccinationList(vaccinationList);
+
+      ForecastVaccination vaccination = new ForecastVaccination();
+      vaccinationList.add(vaccination);
+      vaccination.setAdminDate(sdf.parse("12/04/2008"));
+      vaccination.setCvxCode("120");
+
+      vaccination = new ForecastVaccination();
+      vaccinationList.add(vaccination);
+      vaccination.setAdminDate(sdf.parse("01/20/2009"));
+      vaccination.setCvxCode("120");
+
+      vaccination = new ForecastVaccination();
+      vaccinationList.add(vaccination);
+      vaccination.setAdminDate(sdf.parse("08/28/2008"));
+      vaccination.setCvxCode("20");
 
       forecastAndPrintResults(forecastHandler, request);
     }

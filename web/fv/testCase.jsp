@@ -428,6 +428,10 @@ while (rset.next()) {
           {
             forecastLabel = "Flu";
           }
+          else if (forecastLabel.equals("Zoster"))
+          {
+            forecastLabel = "Zos";
+          }
           if (forecastLabel.equals(lineCode))
           {
             DateTime finishedActual = new DateTime(forecast.getFinished());

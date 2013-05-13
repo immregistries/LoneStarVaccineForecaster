@@ -208,6 +208,10 @@
                   {
                     forecastLabel = "Pneu";
                   }
+                  else if (forecastLabel.equals("Zoster"))
+                  {
+                    forecastLabel = "Zos";
+                  }
                   else if (forecastLabel.equals("Rotavirus"))
                   {
                     forecastLabel = "Rota";

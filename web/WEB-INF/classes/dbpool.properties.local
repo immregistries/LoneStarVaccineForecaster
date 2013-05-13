@@ -1,8 +1,8 @@
 drivers=com.mysql.jdbc.Driver
 logfile=c:/dbpool.mysql.log
 
-validator.url=jdbc:mysql://localhost/forecastValidation
-validator.user=forecastUser
+validator.url=jdbc:mysql://localhost/open_fv
+validator.user=root
 validator.password=goldenroot
 validator.maxpool=5
 validator.maxconn=10

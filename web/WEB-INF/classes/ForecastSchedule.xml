@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2012-12">
+<schedule scheduleName="TCH-2013-05">
 
 
 <forecast seriesName="Varicella">
@@ -1126,6 +1126,24 @@
     <indicate vaccineName="Rotavirus" schedule="COMPLETE" age="" reason=""/>
   </schedule>
 </forecast>
+
+<forecast seriesName="Zoster">
+  <vaccine vaccineName="Single" vaccineIds="2010, 2110"/>
+  <vaccine vaccineName="Live" vaccineIds="160, 161, 158, 162, 171, 175, 180, 2020, 1990, 148, 1690, 1700, 210"/>
+  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
+    <pos row="1" column="1"/>
+    <valid age="50 years" interval="" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="60 years" interval="" grace=""/>
+    <overdue age="65 years" interval="" grace=""/>
+    <finished age="120 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" grace=""/>
+    <indicate vaccineName="Single" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
+</forecast>
+
 
 
 </schedule>

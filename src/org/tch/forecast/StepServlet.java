@@ -505,6 +505,8 @@ public class StepServlet extends HttpServlet {
       lineCode = "Pneumo";
     } else if (lineCode.equals("HPV")) {
       lineCode = "HPV";
+    } else if (lineCode.equals("Zos")) {
+      lineCode = "Zoster";
     } else if (lineCode.equals("Flu")) {
       lineCode = "Influenza";
     } else if (lineCode.equals("Rota")) {
