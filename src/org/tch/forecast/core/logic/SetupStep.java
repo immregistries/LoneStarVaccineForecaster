@@ -29,6 +29,10 @@ public class SetupStep extends ActionStep
     {
       setupAll("FEMALE", dataStore);
     }
+    if (dataStore.patient.getSex() == null || dataStore.patient.getSex().equals("M"))
+    {
+      setupAll("MALE", dataStore);
+    }
     if (!dataStore.hasHistoryOfVaricella)
     {
       setupAll("NO-VAR-HIS", dataStore);

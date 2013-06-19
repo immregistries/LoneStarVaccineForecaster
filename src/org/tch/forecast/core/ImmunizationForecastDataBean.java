@@ -33,6 +33,7 @@ public class ImmunizationForecastDataBean
 
   public static final String SCHEDULE_COMPLETED = "COMP";
 
+  private String forecastNameOriginal = "";
   private String forecastName = "";
   private String forecastLabel = "";
   private int immregid = 0;
@@ -48,6 +49,14 @@ public class ImmunizationForecastDataBean
   private String comment = "";
   private String statusDescription = "";
   
+  public String getForecastNameOriginal() {
+    return forecastNameOriginal;
+  }
+
+  public void setForecastNameOriginal(String forecastNameOrginal) {
+    this.forecastNameOriginal = forecastNameOrginal;
+  }
+
   public String getStatusDescription() {
     return statusDescription;
   }
@@ -110,6 +119,10 @@ public class ImmunizationForecastDataBean
 
   public void setForecastName(String forecastName)
   {
+    if (this.forecastNameOriginal.equals(""))
+    {
+      this.forecastNameOriginal = forecastName;
+    }
     this.forecastName = forecastName;
   }
 

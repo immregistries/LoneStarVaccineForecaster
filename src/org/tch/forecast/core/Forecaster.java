@@ -127,6 +127,9 @@ public class Forecaster {
       if (patient.getSex() == null || !patient.getSex().equals("M")) {
         forecastForAllIndications("FEMALE");
       }
+      if (patient.getSex() == null || patient.getSex().equals("M")) {
+        forecastForAllIndications("MALE");
+      }
       if (!hasHistoryOfVaricella) {
         forecastForAllIndications("NO-VAR-HIS");
       }

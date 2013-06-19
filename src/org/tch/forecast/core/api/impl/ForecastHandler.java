@@ -105,7 +105,8 @@ public class ForecastHandler implements ForecastHandlerInterface {
 
         setStatusDescription(forecastDate, forecast, forecastRecommendation);
 
-        forecastRecommendation.setAntigenName(forecast.getForecastName());
+        
+        forecastRecommendation.setAntigenName(forecast.getForecastNameOriginal());
         forecastRecommendation.setDisplayLabel(forecast.getForecastLabel());
         forecastRecommendation.setDoseNumber(forecast.getDose());
         forecastRecommendation.setDueDate(forecast.getDue());
