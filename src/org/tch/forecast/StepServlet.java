@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -45,13 +44,23 @@ import org.tch.forecast.core.model.PatientRecordDataBean;
 import org.tch.forecast.support.VaccineForecastManager;
 import org.tch.forecast.validator.db.DatabasePool;
 
-public class StepServlet extends HttpServlet {
+public class StepServlet extends ForecastServlet {
   /**
    * 
    */
   private static final long serialVersionUID = 1L;
 
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    String userName = req.getParameter("userName");
+    String caseId = req.getParameter("caseId");
+    String nextActionName = req.getParameter("nextActionName");
+    if (nextActionName == null) {
+      nextActionName = StartStep.NAME;
+    }
+    if (caseId == null) {
+      caseId = "";
+    }
+
     resp.setContentType("text/html");
     PrintWriter out = new PrintWriter(resp.getOutputStream());
     HttpSession session = req.getSession(true);
@@ -62,15 +71,6 @@ public class StepServlet extends HttpServlet {
       out.println("    <link rel=\"stylesheet\" type=\"text/css\" href=\"step.css\" />");
       out.println("  </head>");
       out.println("  <body>");
-      String userName = req.getParameter("userName");
-      String caseId = req.getParameter("caseId");
-      String nextActionName = req.getParameter("nextActionName");
-      if (nextActionName == null) {
-        nextActionName = StartStep.NAME;
-      }
-      if (caseId == null) {
-        caseId = "";
-      }
       String nextEventPosition = req.getParameter("nextEventPosition");
       ActionStep actionStep = ActionStepFactory.get(nextActionName);
       DataStore dataStore = (DataStore) session.getAttribute("dataStore");
@@ -79,103 +79,37 @@ public class StepServlet extends HttpServlet {
       Map<String, String> vaccineNames = (Map<String, String>) session.getAttribute("vaccineNames");
 
       if (nextActionName.equals(StartStep.NAME)) {
-
-        Connection conn = DatabasePool.getConnection();
-        PreparedStatement pstmt = null;
-        ResultSet rset = null;
-        out.println("<h1>Step Through Forecaster</h1>");
-        out.println("<form action=\"step\" method=\"GET\">");
-        out.println("<table>");
-        out.println("<tr>");
-        out.println("<td>Test Case</td>");
-        out.println("<td><select name=\"caseId\">");
-        String sql = "select tg.group_label, tc.case_id, tc.case_label, tc.case_description, ts.status_label \n"
-            + "from test_case tc, test_group tg, test_status ts \n" + "where tc.group_code = tg.group_code \n"
-            + "  and tc.status_code = ts.status_code \n" + "order by tg.group_code, tc.case_id";
-        pstmt = conn.prepareStatement(sql);
-        rset = pstmt.executeQuery();
-        while (rset.next()) {
-          if (rset.getString(2).equals(caseId)) {
-            out.println("<option value=\"" + rset.getString(2) + "\" selected=\"true\">" + rset.getString(1) + ": "
-                + rset.getString(3) + "</option>");
-          } else {
-            out.println("<option value=\"" + rset.getString(2) + "\">" + rset.getString(1) + ": " + rset.getString(3)
-                + "</option>");
-          }
-        }
-        out.println("</select></td>");
-        out.println("</tr>");
-        sql = "SELECT line_code, line_label FROM forecast_line";
-        pstmt = conn.prepareStatement(sql);
-        rset = pstmt.executeQuery();
-        out.println("<tr>");
-        out.println("<td>Forecast Line</td>");
-        out.println("<td><select name=\"lineCode\">");
-        while (rset.next()) {
-          out.println("<option value=\"" + rset.getString(1) + "\">" + rset.getString(2) + "</option>");
-        }
-        out.println("</select></td>");
-        out.println("</tr>");
-        out.println("</table>");
-        out.println("<input type=\"hidden\" value=\"" + userName + "\" name=\"userName\"/>");
-        out.println("<input type=\"hidden\" value=\"" + caseId + "\" name=\"caseId\"/>");
-        out.println("<input type=\"submit\" value=\"" + SetupStep.NAME + "\" name=\"nextActionName\"/>");
-        out.println("</form>");
-        pstmt.close();
-        conn.close();
-      } else if (nextActionName.equals(EndStep.NAME)) {
-        out.println("<h1>Finished</h1>");
-      } else {
-        if (nextActionName.equals(SetupStep.NAME)) {
-          dataStore = new DataStore(new VaccineForecastManager());
-          session.setAttribute("dataStore", dataStore);
-
-          String lineCode = req.getParameter("lineCode");
-          lineCode = convertLineCode(lineCode);
-          dataStore.setForecastCode(lineCode);
-
+        if (caseId.equals("")) {
           Connection conn = DatabasePool.getConnection();
           PreparedStatement pstmt = null;
           ResultSet rset = null;
 
-          String sql = "SELECT tv.cvx_code, cvx.cvx_label, date_format(admin_date, '%m/%d/%Y'), mvx_code, cvx.vaccine_id \n"
-              + "FROM test_vaccine tv, vaccine_cvx cvx \n"
-              + "WHERE tv.cvx_code = cvx.cvx_code \n"
-              + "  AND tv.case_id = ? \n" + "ORDER BY admin_date \n";
+          out.println("<h1>Step Through Forecaster</h1>");
+          out.println("<form action=\"step\" method=\"GET\">");
+          out.println("<table>");
+          String sql = "SELECT line_code, line_label FROM forecast_line";
           pstmt = conn.prepareStatement(sql);
-          pstmt.setString(1, caseId);
           rset = pstmt.executeQuery();
-          List<ImmunizationInterface> imms = new ArrayList<ImmunizationInterface>();
-
+          out.println("<tr>");
+          out.println("<td>Forecast Line</td>");
+          out.println("<td><select name=\"lineCode\">");
           while (rset.next()) {
-            Immunization imm = new Immunization();
-            imm.setDateOfShot(new DateTime(rset.getString(3)).getDate());
-            imm.setVaccineId(rset.getInt(5));
-            imm.setLabel(rset.getString(2));
-            imm.setCvx(rset.getString(1));
-            imm.setMvx(rset.getString(4));
-            imms.add(imm);
+            out.println("<option value=\"" + rset.getString(1) + "\">" + rset.getString(2) + "</option>");
           }
-          rset.close();
+          out.println("</select></td>");
+          out.println("</tr>");
+          out.println("</table>");
+          out.println("<input type=\"submit\" value=\"" + SetupStep.NAME + "\" name=\"nextActionName\"/>");
+          out.println("</form>");
           pstmt.close();
 
-          sql = "SELECT tc.case_label, tc.case_description, tc.case_source, tc.group_code, tc.patient_first, \n"
-              + "tc.patient_last, date_format(tc.patient_dob, '%m/%d/%Y'), tc.patient_sex, tc.status_code, ts.status_label, \n"
-              + "tc.forecast_date " + "FROM test_case tc, test_status ts\n" + "WHERE tc.case_id =" + caseId + " \n"
-              + "  AND tc.status_code = ts.status_code\n";
-          pstmt = conn.prepareStatement(sql);
-          rset = pstmt.executeQuery();
-          PatientRecordDataBean patient = new PatientRecordDataBean();
-          Date forecastDate = null;
-          if (rset.next()) {
-            patient.setSex(rset.getString(8));
-            patient.setDob(new DateTime(rset.getString(7)));
-            forecastDate = rset.getDate(11);
-          }
+          super.readRequest(req);
 
+          dataStore = new DataStore(new VaccineForecastManager());
+          session.setAttribute("dataStore", dataStore);
           dataStore.setPatient(patient);
           dataStore.setVaccinations(imms);
-          dataStore.setForecastDate(forecastDate);
+          dataStore.setForecastDate(forecastDate.getDate());
           List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
           List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
           StringBuffer traceBuffer = new StringBuffer();
@@ -184,9 +118,6 @@ public class StepServlet extends HttpServlet {
           dataStore.setDoseList(doseList);
           dataStore.setTraceBuffer(traceBuffer);
           dataStore.setTraces(traces);
-
-          rset.close();
-          pstmt.close();
 
           vaccineNames = new HashMap<String, String>();
           sql = "SELECT cvx.vaccine_id, cvx.cvx_label \n" + "FROM vaccine_cvx cvx \n";
@@ -199,6 +130,137 @@ public class StepServlet extends HttpServlet {
 
           pstmt.close();
           conn.close();
+
+        } else {
+          Connection conn = DatabasePool.getConnection();
+          PreparedStatement pstmt = null;
+          ResultSet rset = null;
+          out.println("<h1>Step Through Forecaster</h1>");
+          out.println("<form action=\"step\" method=\"GET\">");
+          out.println("<table>");
+          out.println("<tr>");
+          out.println("<td>Test Case</td>");
+          out.println("<td><select name=\"caseId\">");
+          String sql = "select tg.group_label, tc.case_id, tc.case_label, tc.case_description, ts.status_label \n"
+              + "from test_case tc, test_group tg, test_status ts \n" + "where tc.group_code = tg.group_code \n"
+              + "  and tc.status_code = ts.status_code \n" + "order by tg.group_code, tc.case_id";
+          pstmt = conn.prepareStatement(sql);
+          rset = pstmt.executeQuery();
+          while (rset.next()) {
+            if (rset.getString(2).equals(caseId)) {
+              out.println("<option value=\"" + rset.getString(2) + "\" selected=\"true\">" + rset.getString(1) + ": "
+                  + rset.getString(3) + "</option>");
+            } else {
+              out.println("<option value=\"" + rset.getString(2) + "\">" + rset.getString(1) + ": " + rset.getString(3)
+                  + "</option>");
+            }
+          }
+          out.println("</select></td>");
+          out.println("</tr>");
+          sql = "SELECT line_code, line_label FROM forecast_line";
+          pstmt = conn.prepareStatement(sql);
+          rset = pstmt.executeQuery();
+          out.println("<tr>");
+          out.println("<td>Forecast Line</td>");
+          out.println("<td><select name=\"lineCode\">");
+          while (rset.next()) {
+            out.println("<option value=\"" + rset.getString(1) + "\">" + rset.getString(2) + "</option>");
+          }
+          out.println("</select></td>");
+          out.println("</tr>");
+          out.println("</table>");
+          out.println("<input type=\"hidden\" value=\"" + userName + "\" name=\"userName\"/>");
+          out.println("<input type=\"hidden\" value=\"" + caseId + "\" name=\"caseId\"/>");
+          out.println("<input type=\"submit\" value=\"" + SetupStep.NAME + "\" name=\"nextActionName\"/>");
+          out.println("</form>");
+          pstmt.close();
+          conn.close();
+
+        }
+      } else if (nextActionName.equals(EndStep.NAME)) {
+        out.println("<h1>Finished</h1>");
+      } else {
+        if (nextActionName.equals(SetupStep.NAME)) {
+          if (caseId.equals("")) {
+            String lineCode = req.getParameter("lineCode");
+            lineCode = convertLineCode(lineCode);
+            dataStore.setForecastCode(lineCode);
+
+          } else {
+
+            dataStore = new DataStore(new VaccineForecastManager());
+            session.setAttribute("dataStore", dataStore);
+
+            String lineCode = req.getParameter("lineCode");
+            lineCode = convertLineCode(lineCode);
+            dataStore.setForecastCode(lineCode);
+
+            Connection conn = DatabasePool.getConnection();
+            PreparedStatement pstmt = null;
+            ResultSet rset = null;
+
+            String sql = "SELECT tv.cvx_code, cvx.cvx_label, date_format(admin_date, '%m/%d/%Y'), mvx_code, cvx.vaccine_id \n"
+                + "FROM test_vaccine tv, vaccine_cvx cvx \n"
+                + "WHERE tv.cvx_code = cvx.cvx_code \n"
+                + "  AND tv.case_id = ? \n" + "ORDER BY admin_date \n";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, caseId);
+            rset = pstmt.executeQuery();
+            List<ImmunizationInterface> imms = new ArrayList<ImmunizationInterface>();
+
+            while (rset.next()) {
+              Immunization imm = new Immunization();
+              imm.setDateOfShot(new DateTime(rset.getString(3)).getDate());
+              imm.setVaccineId(rset.getInt(5));
+              imm.setLabel(rset.getString(2));
+              imm.setCvx(rset.getString(1));
+              imm.setMvx(rset.getString(4));
+              imms.add(imm);
+            }
+            rset.close();
+            pstmt.close();
+
+            sql = "SELECT tc.case_label, tc.case_description, tc.case_source, tc.group_code, tc.patient_first, \n"
+                + "tc.patient_last, date_format(tc.patient_dob, '%m/%d/%Y'), tc.patient_sex, tc.status_code, ts.status_label, \n"
+                + "tc.forecast_date " + "FROM test_case tc, test_status ts\n" + "WHERE tc.case_id =" + caseId + " \n"
+                + "  AND tc.status_code = ts.status_code\n";
+            pstmt = conn.prepareStatement(sql);
+            rset = pstmt.executeQuery();
+            PatientRecordDataBean patient = new PatientRecordDataBean();
+            Date forecastDate = null;
+            if (rset.next()) {
+              patient.setSex(rset.getString(8));
+              patient.setDob(new DateTime(rset.getString(7)));
+              forecastDate = rset.getDate(11);
+            }
+
+            dataStore.setPatient(patient);
+            dataStore.setVaccinations(imms);
+            dataStore.setForecastDate(forecastDate);
+            List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
+            List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
+            StringBuffer traceBuffer = new StringBuffer();
+            Map<String, List<Trace>> traces = new HashMap<String, List<Trace>>();
+            dataStore.setResultList(resultList);
+            dataStore.setDoseList(doseList);
+            dataStore.setTraceBuffer(traceBuffer);
+            dataStore.setTraces(traces);
+
+            rset.close();
+            pstmt.close();
+
+            vaccineNames = new HashMap<String, String>();
+            sql = "SELECT cvx.vaccine_id, cvx.cvx_label \n" + "FROM vaccine_cvx cvx \n";
+            pstmt = conn.prepareStatement(sql);
+            rset = pstmt.executeQuery();
+            while (rset.next()) {
+              vaccineNames.put(rset.getString(1), rset.getString(2));
+            }
+            session.setAttribute("vaccineNames", vaccineNames);
+
+            pstmt.close();
+            conn.close();
+          }
 
         }
         StringBuffer detailLog = new StringBuffer();
@@ -220,8 +282,15 @@ public class StepServlet extends HttpServlet {
         out.println("<table class=\"layout\">");
         out.println("  <tr class=\"layout\">");
         out.println("    <td valign=\"top\" class=\"layout\" width=\"667\">");
-        String baseLink = "step?nextActionName=" + URLEncoder.encode(nextActionName, "UTF-8") + "&userName="
-            + URLEncoder.encode(userName, "UTF-8") + "&caseId=" + caseId + "";
+        String baseLink;
+        if (caseId.equals("")) {
+          baseLink = "step?nextActionName=" + URLEncoder.encode(nextActionName, "UTF-8");
+        }
+        else
+        {
+          baseLink = "step?nextActionName=" + URLEncoder.encode(nextActionName, "UTF-8") + "&userName="
+              + URLEncoder.encode(userName, "UTF-8") + "&caseId=" + caseId + "";
+        }
         out.println("      <a href=\"" + baseLink + "\"><img src=\"img/" + imageName
             + "\"/ width=\"662\" height=\"240\" class=\"stepimg\"></a>");
         out.println("    <br/>");
@@ -470,11 +539,13 @@ public class StepServlet extends HttpServlet {
         out.println("</table>");
 
       }
-      out.println("<p>");
-      out.println("[<a href=\"index.jsp?userName=" + URLEncoder.encode(userName, "UTF-8") + "\">Back to Home</a>]");
-      out.println("[<a href=\"testCase.jsp?userName=" + URLEncoder.encode(userName, "UTF-8") + "&caseId=" + caseId
-          + "\">Test Case</a>]");
-      out.println("</p>");
+      if (userName != null) {
+        out.println("<p>");
+        out.println("[<a href=\"index.jsp?userName=" + URLEncoder.encode(userName, "UTF-8") + "\">Back to Home</a>]");
+        out.println("[<a href=\"testCase.jsp?userName=" + URLEncoder.encode(userName, "UTF-8") + "&caseId=" + caseId
+            + "\">Test Case</a>]");
+        out.println("</p>");
+      }
       out.println("  </body>");
       out.println("</html>");
     } catch (Exception e) {
@@ -1028,8 +1099,8 @@ public class StepServlet extends HttpServlet {
             out.println("    <td" + c + ">&nbsp;</td>");
           }
           if (baseLink != null) {
-            out.println("    <td" + c + "><a href=\"" + baseLink + "&nextEventPosition="
-                + (pos + 1) + "\">Jump</a></td>");
+            out.println("    <td" + c + "><a href=\"" + baseLink + "&nextEventPosition=" + (pos + 1)
+                + "\">Jump</a></td>");
           }
           out.println("  </tr>");
         }

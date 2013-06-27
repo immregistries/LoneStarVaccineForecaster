@@ -3,7 +3,6 @@ package org.tch.forecast.core.logic;
 import java.util.ArrayList;
 
 import org.tch.forecast.core.DateTime;
-import org.tch.forecast.core.TimePeriod;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Contraindicate;
 
@@ -40,7 +39,8 @@ public class DetermineRangesStep extends ActionStep {
             DateTime endBlackOut = contraindicate.getAfterInterval().getDateTimeFrom(startBlackOut);
             DateTime endBlackOutGrace = contraindicate.getGrace().getDateTimeBefore(endBlackOut);
             startBlackOut.addDays(1);
-            ds.blackOutDates.add(new DateTime[] { startBlackOut, endBlackOutGrace, endBlackOut });
+            ds.blackOutDates.add(new DateTime[] { startBlackOut, endBlackOutGrace, endBlackOut,
+                new DateTime(event.getEventDate()) });
             ds.blackOutReasons.add(contraindicate.getAfterInterval() + " after contraindicated dose");
             ds.log("Contraindicated event found, setting black out dates from " + startBlackOut.toString("M/D/Y")
                 + " to " + endBlackOut.toString("M/D/Y"));
@@ -164,24 +164,18 @@ public class DetermineRangesStep extends ActionStep {
         ds.log("Season start is is after due date, moving due date forward to " + ds.due.toString("M/D/Y"));
       }
     }
-
+    
     for (int i = 0; i < ds.blackOutDates.size(); i++) {
       ds.log("Looking to see if valid and due dates need to be adjusted around black out dates");
       DateTime[] blackOut = ds.blackOutDates.get(i);
 
-      if (ds.valid.isGreaterThan(blackOut[0]) && ds.valid.isLessThan(blackOut[1])) {
-        // valid date is in contraindication window, need to move backwards
-        ds.valid = blackOut[1];
-        validReason = ds.blackOutReasons.get(i);
-        validBecause = "CONTRA";
-        ds.log("Moving valid date to end of blackOut period, setting to " + ds.valid.toString("M/D/Y"));
-      }
       if (ds.due.isGreaterThan(blackOut[0]) && ds.due.isLessThan(blackOut[1])) {
         ds.due = blackOut[1];
         ds.dueReason = ds.blackOutReasons.get(i);
         ds.log("Moving due date to end of blackOut period, setting to " + ds.due.toString("M/D/Y"));
       }
     }
+    
 
     if (ds.schedule.getOverdueAge().isEmpty()) {
       ds.overdue = ds.schedule.getOverdueInterval().getDateTimeFrom(ds.previousEventDate);

@@ -81,68 +81,18 @@ public class ForecastServlet extends HttpServlet {
     }
   }
 
+  protected List<VaccinationDoseDataBean> doseList = null;
+  protected PatientRecordDataBean patient = null;
+  protected List<ImmunizationInterface> imms = null;
+  protected DateTime forecastDate = null;
+
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    initCvxCodes();
-    List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
-    PatientRecordDataBean patient = new PatientRecordDataBean();
-    List<ImmunizationInterface> imms = new ArrayList<ImmunizationInterface>();
 
-    String evalDateString = req.getParameter(PARAM_EVAL_DATE);
-    if (evalDateString != null && evalDateString.length() != 8) {
-      throw new ServletException("Parameter 'evalDate' is optional, but if sent must be in YYYYMMDD format. ");
-    }
-    DateTime forecastDate = new DateTime(evalDateString == null ? "today" : evalDateString);
-    String evalSchedule = req.getParameter(PARAM_EVAL_SCHEDULE);
-    if (evalSchedule == null) {
-      evalSchedule = "";
-    }
+    readRequest(req);
     String resultFormat = req.getParameter(PARAM_RESULT_FORMAT);
     if (resultFormat == null || resultFormat.equals("")) {
       throw new ServletException("Parameter 'resultFormat' is required. ");
-    }
-    String patientDobString = req.getParameter(PARAM_PATIENT_DOB);
-    if (patientDobString == null || patientDobString.length() != 8) {
-      throw new ServletException("Parameter 'patientDob' is required and must be in YYYYMMDD format. ");
-    }
-    patient.setDob(new DateTime(patientDobString));
-    String patientSex = req.getParameter(PARAM_PATIENT_SEX);
-    if (patientSex == null || (!patientSex.equalsIgnoreCase("M") && !patientSex.equalsIgnoreCase("F"))) {
-      throw new ServletException("Parameter 'patientSex' is required and must have a value of 'M' or 'F'. ");
-    }
-    patient.setSex(patientSex.toUpperCase());
-    int n = 1;
-    while (req.getParameter(PARAM_VACCINE_DATE + n) != null) {
-      String vaccineDateString = req.getParameter(PARAM_VACCINE_DATE + n);
-      if (vaccineDateString.length() != 8) {
-        throw new ServletException("Parameter 'vaccineDate" + n + "' must be in YYYYMMDD format.");
-      }
-      String vaccineCvx = req.getParameter(PARAM_VACCINE_CVX + n);
-      String vaccineMvx = req.getParameter(PARAM_VACCINE_MVX + n);
-      int vaccineId = 0;
-      if (vaccineCvx == null) {
-        throw new ServletException("Parameter 'vaccineCvx" + n + "' is required.");
-      } else {
-        if (!cvxToVaccineIdMap.containsKey(vaccineCvx) && !cvxToVaccineIdMap.containsKey("0" + vaccineCvx)) {
-          throw new ServletException("CVX code '" + vaccineCvx + "' is not recognized in parameter named 'vaccineCvx"
-              + n + "'");
-        }
-        if (cvxToVaccineIdMap.containsKey(vaccineCvx)) {
-          vaccineId = cvxToVaccineIdMap.get(vaccineCvx);
-        } else {
-          vaccineId = cvxToVaccineIdMap.get("0" + vaccineCvx);
-        }
-        if (vaccineId == 0) {
-          throw new ServletException("CVX code '" + vaccineCvx + "' is not recognized in parameter named 'vaccineCvx"
-              + n + "'");
-        }
-      }
-      Immunization imm = new Immunization();
-      imm.setCvx(vaccineCvx);
-      imm.setDateOfShot(new DateTime(vaccineDateString).getDate());
-      imm.setVaccineId(vaccineId);
-      imms.add(imm);
-      n++;
     }
 
     Map traceMap = new HashMap();
@@ -277,6 +227,66 @@ public class ForecastServlet extends HttpServlet {
 
     } else {
       throw new ServletException("Unrecognized result format '" + resultFormat + "'");
+    }
+  }
+
+  protected void readRequest(HttpServletRequest req) throws ServletException {
+    initCvxCodes();
+    doseList = new ArrayList<VaccinationDoseDataBean>();
+    patient = new PatientRecordDataBean();
+    imms = new ArrayList<ImmunizationInterface>();
+
+    String evalDateString = req.getParameter(PARAM_EVAL_DATE);
+    if (evalDateString != null && evalDateString.length() != 8) {
+      throw new ServletException("Parameter 'evalDate' is optional, but if sent must be in YYYYMMDD format. ");
+    }
+    forecastDate = new DateTime(evalDateString == null ? "today" : evalDateString);
+    String evalSchedule = req.getParameter(PARAM_EVAL_SCHEDULE);
+    if (evalSchedule == null) {
+      evalSchedule = "";
+    }
+    String patientDobString = req.getParameter(PARAM_PATIENT_DOB);
+    if (patientDobString == null || patientDobString.length() != 8) {
+      throw new ServletException("Parameter 'patientDob' is required and must be in YYYYMMDD format. ");
+    }
+    patient.setDob(new DateTime(patientDobString));
+    String patientSex = req.getParameter(PARAM_PATIENT_SEX);
+    if (patientSex == null || (!patientSex.equalsIgnoreCase("M") && !patientSex.equalsIgnoreCase("F"))) {
+      throw new ServletException("Parameter 'patientSex' is required and must have a value of 'M' or 'F'. ");
+    }
+    patient.setSex(patientSex.toUpperCase());
+    int n = 1;
+    while (req.getParameter(PARAM_VACCINE_DATE + n) != null) {
+      String vaccineDateString = req.getParameter(PARAM_VACCINE_DATE + n);
+      if (vaccineDateString.length() != 8) {
+        throw new ServletException("Parameter 'vaccineDate" + n + "' must be in YYYYMMDD format.");
+      }
+      String vaccineCvx = req.getParameter(PARAM_VACCINE_CVX + n);
+      String vaccineMvx = req.getParameter(PARAM_VACCINE_MVX + n);
+      int vaccineId = 0;
+      if (vaccineCvx == null) {
+        throw new ServletException("Parameter 'vaccineCvx" + n + "' is required.");
+      } else {
+        if (!cvxToVaccineIdMap.containsKey(vaccineCvx) && !cvxToVaccineIdMap.containsKey("0" + vaccineCvx)) {
+          throw new ServletException("CVX code '" + vaccineCvx + "' is not recognized in parameter named 'vaccineCvx"
+              + n + "'");
+        }
+        if (cvxToVaccineIdMap.containsKey(vaccineCvx)) {
+          vaccineId = cvxToVaccineIdMap.get(vaccineCvx);
+        } else {
+          vaccineId = cvxToVaccineIdMap.get("0" + vaccineCvx);
+        }
+        if (vaccineId == 0) {
+          throw new ServletException("CVX code '" + vaccineCvx + "' is not recognized in parameter named 'vaccineCvx"
+              + n + "'");
+        }
+      }
+      Immunization imm = new Immunization();
+      imm.setCvx(vaccineCvx);
+      imm.setDateOfShot(new DateTime(vaccineDateString).getDate());
+      imm.setVaccineId(vaccineId);
+      imms.add(imm);
+      n++;
     }
   }
 
