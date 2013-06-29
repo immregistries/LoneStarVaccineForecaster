@@ -13,6 +13,7 @@ import java.util.Map;
 import org.tch.forecast.core.VaccineForecastDataBean.Seasonal;
 import org.tch.forecast.core.VaccineForecastDataBean.Transition;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
+import org.tch.forecast.core.api.impl.ForecastOptions;
 import org.tch.forecast.core.logic.ActionStep;
 import org.tch.forecast.core.logic.ActionStepFactory;
 import org.tch.forecast.core.logic.DataStore;
@@ -66,6 +67,15 @@ public class Forecaster {
   private DateTime seasonStart = null;
   private DateTime seasonEnd = null;
   private StringBuffer detailLog = null;
+  private ForecastOptions forecastOptions = null;
+
+  public ForecastOptions getForecastOptions() {
+    return forecastOptions;
+  }
+
+  public void setForecastOptions(ForecastOptions forecastOptions) {
+    this.forecastOptions = forecastOptions;
+  }
 
   private DataStore dataStore = null;
 
@@ -114,6 +124,7 @@ public class Forecaster {
       dataStore.setForecastDate(forecastDate);
       dataStore.setPatient(patient);
       dataStore.setVaccinations(vaccinations);
+      dataStore.setForecastOptions(forecastOptions);
       String nextActionName = StartStep.NAME;
       ActionStep actionStep = ActionStepFactory.get(nextActionName);
       while (!actionStep.getName().equals(EndStep.NAME)) {

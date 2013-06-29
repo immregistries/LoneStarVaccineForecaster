@@ -19,9 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
+import org.tch.forecast.core.TimePeriod;
 import org.tch.forecast.core.TraceList;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.api.impl.ForecastHandlerCore;
+import org.tch.forecast.core.api.impl.ForecastOptions;
 import org.tch.forecast.core.model.Immunization;
 import org.tch.forecast.core.model.PatientRecordDataBean;
 import org.tch.forecast.support.VaccineForecastManager;
@@ -37,6 +39,11 @@ public class ForecastServlet extends HttpServlet {
   private static final String PARAM_RESULT_FORMAT = "resultFormat";
   private static final String PARAM_EVAL_SCHEDULE = "evalSchedule";
   private static final String PARAM_EVAL_DATE = "evalDate";
+  private static final String PARAM_FLU_SEASON_START = "fluSeasonStart";
+  private static final String PARAM_FLU_SEASON_DUE = "fluSeasonDue";
+  private static final String PARAM_FLU_SEASON_OVERDUE = "fluSeasonOverdue";
+  private static final String PARAM_FLU_SEASON_END = "fluSeasonEnd";
+
   public static final String RESULT_FORMAT_TEXT = "text";
   public static final String RESULT_FORMAT_HTML = "html";
 
@@ -85,6 +92,7 @@ public class ForecastServlet extends HttpServlet {
   protected PatientRecordDataBean patient = null;
   protected List<ImmunizationInterface> imms = null;
   protected DateTime forecastDate = null;
+  protected ForecastOptions forecastOptions = new ForecastOptions();
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -95,12 +103,15 @@ public class ForecastServlet extends HttpServlet {
       throw new ServletException("Parameter 'resultFormat' is required. ");
     }
 
+
+    
+
     Map traceMap = new HashMap();
     List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
     String forecasterScheduleName = "";
     try {
-      forecasterScheduleName = forecastHandlerCore
-          .forecast(doseList, patient, imms, forecastDate, traceMap, resultList);
+      forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms, forecastDate, traceMap,
+          resultList, forecastOptions);
     } catch (Exception e) {
       throw new ServletException("Unable to forecast", e);
     }
@@ -223,11 +234,16 @@ public class ForecastServlet extends HttpServlet {
       out.println();
       out.println("Forecast generated " + new DateTime().toString("M/D/Y") + " according to schedule "
           + forecasterScheduleName);
+      
       out.close();
 
     } else {
       throw new ServletException("Unrecognized result format '" + resultFormat + "'");
     }
+  }
+
+  public TimePeriod readTimePeriod(HttpServletRequest req, String key) {
+    return req.getParameter(key) == null ? null : new TimePeriod(req.getParameter(key));
   }
 
   protected void readRequest(HttpServletRequest req) throws ServletException {
@@ -288,6 +304,13 @@ public class ForecastServlet extends HttpServlet {
       imms.add(imm);
       n++;
     }
+    
+    forecastOptions.setFluSeasonDue(readTimePeriod(req, PARAM_FLU_SEASON_DUE));
+    forecastOptions.setFluSeasonEnd(readTimePeriod(req, PARAM_FLU_SEASON_END));
+    forecastOptions.setFluSeasonOverdue(readTimePeriod(req, PARAM_FLU_SEASON_OVERDUE));
+    forecastOptions.setFluSeasonStart(readTimePeriod(req, PARAM_FLU_SEASON_START));
+    
+
   }
 
 }

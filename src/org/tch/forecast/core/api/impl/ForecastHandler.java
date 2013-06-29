@@ -82,13 +82,15 @@ public class ForecastHandler implements ForecastHandlerInterface {
       imm.setVaccinationId(forecastVaccination.getVaccinationId());
       imms.add(imm);
     }
+    
+    ForecastOptions forecastOptions = new ForecastOptions();
 
     Map traceMap = new HashMap();
     List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
     VaccineForecastManager vaccineForecastManager = new VaccineForecastManager();
     ForecastHandlerCore forecastHandlerCore = new ForecastHandlerCore(vaccineForecastManager);
     String forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms, forecastDate, traceMap,
-        resultList);
+        resultList, forecastOptions);
 
     forecastResponse.setEvaluationSchedule(forecasterScheduleName);
 

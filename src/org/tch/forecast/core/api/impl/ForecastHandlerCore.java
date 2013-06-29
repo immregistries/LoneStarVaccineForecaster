@@ -171,7 +171,7 @@ public class ForecastHandlerCore {
 
   public String forecast(List<VaccinationDoseDataBean> doseList, PatientRecordDataBean patient,
       List<ImmunizationInterface> imms, DateTime forecastDate, Map traceMap,
-      List<ImmunizationForecastDataBean> resultList) throws Exception {
+      List<ImmunizationForecastDataBean> resultList, ForecastOptions forecastOptions) throws Exception {
     String forecasterScheduleName = null;
     {
 
@@ -182,6 +182,7 @@ public class ForecastHandlerCore {
       forecaster.setPatient(patient);
       forecaster.setVaccinations(imms);
       forecaster.setForecastDate(forecastDate.getDate());
+      forecaster.setForecastOptions(forecastOptions);
       try {
         forecaster.forecast(resultList, doseList, traceBuffer, traceMap);
         forecasterScheduleName = forecaster.getForecastSchedule().getScheduleName();

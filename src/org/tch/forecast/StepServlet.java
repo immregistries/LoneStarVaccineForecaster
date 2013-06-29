@@ -29,6 +29,7 @@ import org.tch.forecast.core.VaccineForecastDataBean.Indicate;
 import org.tch.forecast.core.VaccineForecastDataBean.NamedVaccine;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.Transition;
+import org.tch.forecast.core.api.impl.ForecastOptions;
 import org.tch.forecast.core.logic.ActionStep;
 import org.tch.forecast.core.logic.ActionStepFactory;
 import org.tch.forecast.core.logic.ChooseIndicatorStep;
@@ -110,6 +111,7 @@ public class StepServlet extends ForecastServlet {
           dataStore.setPatient(patient);
           dataStore.setVaccinations(imms);
           dataStore.setForecastDate(forecastDate.getDate());
+          dataStore.setForecastOptions(forecastOptions);
           List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
           List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
           StringBuffer traceBuffer = new StringBuffer();
@@ -285,9 +287,7 @@ public class StepServlet extends ForecastServlet {
         String baseLink;
         if (caseId.equals("")) {
           baseLink = "step?nextActionName=" + URLEncoder.encode(nextActionName, "UTF-8");
-        }
-        else
-        {
+        } else {
           baseLink = "step?nextActionName=" + URLEncoder.encode(nextActionName, "UTF-8") + "&userName="
               + URLEncoder.encode(userName, "UTF-8") + "&caseId=" + caseId + "";
         }
@@ -456,6 +456,36 @@ public class StepServlet extends ForecastServlet {
           out.println("</table>");
         }
 
+        if (dataStore.getForecastOptions() != null) {
+          out.println("<h3>Forecast Options</h3>");
+          out.println("<table>");
+          ForecastOptions forecastOptions = dataStore.getForecastOptions();
+          if (forecastOptions.getFluSeasonStart() != null) {
+            out.println("  <tr>");
+            out.println("    <th>Flu Season Start</th>");
+            out.println("    <td>" + safe(forecastOptions.getFluSeasonStart()) + "</td>");
+            out.println("  </tr>");
+          }
+          if (forecastOptions.getFluSeasonDue() != null) {
+            out.println("  <tr>");
+            out.println("    <th>Flu Season  Due</th>");
+            out.println("    <td>" + safe(forecastOptions.getFluSeasonDue()) + "</td>");
+            out.println("  </tr>");
+          }
+          if (forecastOptions.getFluSeasonOverdue() != null) {
+            out.println("  <tr>");
+            out.println("    <th>Flu Season  Overdue</th>");
+            out.println("    <td>" + safe(forecastOptions.getFluSeasonOverdue()) + "</td>");
+            out.println("  </tr>");
+          }
+          if (forecastOptions.getFluSeasonEnd() != null) {
+            out.println("  <tr>");
+            out.println("    <th>Flu Season End</th>");
+            out.println("    <td>" + safe(forecastOptions.getFluSeasonEnd()) + "</td>");
+            out.println("  </tr>");
+          }
+          out.println("</table>");
+        }
         if (dataStore.getTransitionList() != null) {
           out.println("<h3>Transitions</h3>");
           out.println("<table>");

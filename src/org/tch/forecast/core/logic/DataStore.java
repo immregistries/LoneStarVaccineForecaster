@@ -24,6 +24,7 @@ import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.Seasonal;
 import org.tch.forecast.core.VaccineForecastDataBean.Transition;
+import org.tch.forecast.core.api.impl.ForecastOptions;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
 
 public class DataStore
@@ -91,6 +92,15 @@ public class DataStore
   protected int validDoseCount = 0;
   protected TimePeriod validGrace = null;
   protected String whenValidText = null;
+  protected ForecastOptions forecastOptions = null;
+
+  public ForecastOptions getForecastOptions() {
+    return forecastOptions;
+  }
+
+  public void setForecastOptions(ForecastOptions forecastOptions) {
+    this.forecastOptions = forecastOptions;
+  }
 
   public DataStore(VaccineForecastManagerInterface forecastManager) {
     this.forecastManager = forecastManager;

@@ -48,6 +48,10 @@ public class SetupScheduleStep extends ActionStep {
 
   private void setupSeasonalAndTransition(DataStore ds) {
     ds.seasonal = ds.forecast.getSeasonal();
+    if (ds.seasonal != null && ds.forecastOptions != null)
+    {
+      copyOverrideSetttings(ds);
+    }
     ds.transitionList = ds.forecast.getTransitionList();
     if (ds.seasonal != null || ds.transitionList.size() > 0) {
       ds.originalEventList = ds.eventList;
@@ -91,6 +95,25 @@ public class SetupScheduleStep extends ActionStep {
           return event1.eventDate.compareTo(event2.eventDate);
         }
       });
+    }
+  }
+
+  public void copyOverrideSetttings(DataStore ds) {
+    if (ds.forecastOptions.getFluSeasonDue() != null)
+    {
+      ds.seasonal.setDue(ds.forecastOptions.getFluSeasonDue());
+    }
+    else if (ds.forecastOptions.getFluSeasonEnd() != null)
+    {
+      ds.seasonal.setEnd(ds.forecastOptions.getFluSeasonEnd());
+    }
+    else if (ds.forecastOptions.getFluSeasonOverdue() != null)
+    {
+      ds.seasonal.setOverdue(ds.forecastOptions.getFluSeasonOverdue());
+    }
+    else if (ds.forecastOptions.getFluSeasonStart() != null)
+    {
+      ds.seasonal.setStart(ds.forecastOptions.getFluSeasonStart());
     }
   }
 
