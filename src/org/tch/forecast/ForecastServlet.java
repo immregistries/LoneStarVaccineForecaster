@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
+import org.tch.forecast.core.SoftwareVersion;
 import org.tch.forecast.core.TimePeriod;
 import org.tch.forecast.core.TraceList;
 import org.tch.forecast.core.VaccinationDoseDataBean;
@@ -43,6 +44,7 @@ public class ForecastServlet extends HttpServlet {
   private static final String PARAM_FLU_SEASON_DUE = "fluSeasonDue";
   private static final String PARAM_FLU_SEASON_OVERDUE = "fluSeasonOverdue";
   private static final String PARAM_FLU_SEASON_END = "fluSeasonEnd";
+  private static final String PARAM_DUE_USE_EARLY = "dueUseEarly";
 
   public static final String RESULT_FORMAT_TEXT = "text";
   public static final String RESULT_FORMAT_HTML = "html";
@@ -93,6 +95,7 @@ public class ForecastServlet extends HttpServlet {
   protected List<ImmunizationInterface> imms = null;
   protected DateTime forecastDate = null;
   protected ForecastOptions forecastOptions = new ForecastOptions();
+  protected boolean dueUseEarly = false;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -102,9 +105,6 @@ public class ForecastServlet extends HttpServlet {
     if (resultFormat == null || resultFormat.equals("")) {
       throw new ServletException("Parameter 'resultFormat' is required. ");
     }
-
-
-    
 
     Map traceMap = new HashMap();
     List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
@@ -135,7 +135,7 @@ public class ForecastServlet extends HttpServlet {
             || forecastExamine.getForecastName().equals("Td")) {
           traceMap.remove(ImmunizationForecastDataBean.DIPHTHERIA);
         }
-        if (!forecastDate.isLessThan(new DateTime(forecastExamine.getDue()))) {
+        if (!forecastDate.isLessThan(new DateTime(forecastExamine.getDue(dueUseEarly)))) {
           if (!forecastDate.isLessThan(new DateTime(forecastExamine.getFinished()))) {
             TraceList traceList = (TraceList) traceMap.get(forecastExamine.getForecastName());
             if (traceList != null) {
@@ -173,7 +173,7 @@ public class ForecastServlet extends HttpServlet {
         ImmunizationForecastDataBean forecast = it.next();
         String statusDescription;
         DateTime validDate = new DateTime(forecast.getValid());
-        DateTime dueDate = new DateTime(forecast.getDue());
+        DateTime dueDate = new DateTime(forecast.getDue(dueUseEarly));
         DateTime overdueDate = new DateTime(forecast.getOverdue());
         DateTime finishedDate = new DateTime(forecast.getFinished());
         DateTime today = new DateTime(forecastDate.getDate());
@@ -205,7 +205,7 @@ public class ForecastServlet extends HttpServlet {
       for (Iterator<ImmunizationForecastDataBean> it = forecastList.iterator(); it.hasNext();) {
         ImmunizationForecastDataBean forecast = it.next();
         DateTime validDate = new DateTime(forecast.getValid());
-        DateTime dueDate = new DateTime(forecast.getDue());
+        DateTime dueDate = new DateTime(forecast.getDue(dueUseEarly));
         DateTime overdueDate = new DateTime(forecast.getOverdue());
         DateTime finishedDate = new DateTime(forecast.getFinished());
         String forecastDose = forecast.getDose();
@@ -233,8 +233,8 @@ public class ForecastServlet extends HttpServlet {
       }
       out.println();
       out.println("Forecast generated " + new DateTime().toString("M/D/Y") + " according to schedule "
-          + forecasterScheduleName);
-      
+          + forecasterScheduleName + " using version " + SoftwareVersion.VERSION + " of the TCH Forecaster.");
+
       out.close();
 
     } else {
@@ -243,7 +243,20 @@ public class ForecastServlet extends HttpServlet {
   }
 
   public TimePeriod readTimePeriod(HttpServletRequest req, String key) {
-    return req.getParameter(key) == null ? null : new TimePeriod(req.getParameter(key));
+    String value = req.getParameter(key);
+    return value == null || value.equals("") ? null : new TimePeriod(value);
+  }
+
+  public boolean readBoolean(HttpServletRequest req, String key) {
+    String value = req.getParameter(key);
+    if (value == null || value.equals("")) {
+      return false;
+    }
+    if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("yes") || value.equalsIgnoreCase("t")
+        || value.equalsIgnoreCase("1") || value.equalsIgnoreCase("y")) {
+      return true;
+    }
+    return false;
   }
 
   protected void readRequest(HttpServletRequest req) throws ServletException {
@@ -304,13 +317,13 @@ public class ForecastServlet extends HttpServlet {
       imms.add(imm);
       n++;
     }
-    
+
     forecastOptions.setFluSeasonDue(readTimePeriod(req, PARAM_FLU_SEASON_DUE));
     forecastOptions.setFluSeasonEnd(readTimePeriod(req, PARAM_FLU_SEASON_END));
     forecastOptions.setFluSeasonOverdue(readTimePeriod(req, PARAM_FLU_SEASON_OVERDUE));
     forecastOptions.setFluSeasonStart(readTimePeriod(req, PARAM_FLU_SEASON_START));
-    
+
+    dueUseEarly = readBoolean(req, PARAM_DUE_USE_EARLY);
 
   }
-
 }

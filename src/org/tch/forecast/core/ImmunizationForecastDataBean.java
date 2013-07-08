@@ -135,6 +135,15 @@ public class ImmunizationForecastDataBean
   {
     this.valid = valid;
   }
+  
+  public Date getDue(boolean useEarly)
+  {
+    if (useEarly)
+    {
+      return early;
+    }
+    return due;
+  }
 
   public Date getDue()
   {

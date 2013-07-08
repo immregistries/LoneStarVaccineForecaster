@@ -103,15 +103,15 @@ public class SetupScheduleStep extends ActionStep {
     {
       ds.seasonal.setDue(ds.forecastOptions.getFluSeasonDue());
     }
-    else if (ds.forecastOptions.getFluSeasonEnd() != null)
+    if (ds.forecastOptions.getFluSeasonEnd() != null)
     {
       ds.seasonal.setEnd(ds.forecastOptions.getFluSeasonEnd());
     }
-    else if (ds.forecastOptions.getFluSeasonOverdue() != null)
+    if (ds.forecastOptions.getFluSeasonOverdue() != null)
     {
       ds.seasonal.setOverdue(ds.forecastOptions.getFluSeasonOverdue());
     }
-    else if (ds.forecastOptions.getFluSeasonStart() != null)
+    if (ds.forecastOptions.getFluSeasonStart() != null)
     {
       ds.seasonal.setStart(ds.forecastOptions.getFluSeasonStart());
     }
