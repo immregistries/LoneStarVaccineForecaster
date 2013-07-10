@@ -392,7 +392,7 @@
     <early age="" interval="" grace=""/>
     <due age="11 years" interval="" grace=""/>
     <overdue age="13 years" interval="" grace=""/>
-    <finished age="26 years" interval="" grace=""/>
+    <finished age="27 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="HPV" schedule="F2" age="" reason=""/>
@@ -403,7 +403,7 @@
     <early age="" interval="" grace=""/>
     <due age="" interval="2 months" grace=""/>
     <overdue age="" interval="3 months" grace=""/>
-    <finished age="26 years" interval="" grace=""/>
+    <finished age="27 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="HPV" schedule="F3" age="" reason=""/>
@@ -414,14 +414,13 @@
     <early age="" interval="" grace=""/>
     <due age="" interval="4 months" grace=""/>
     <overdue age="" interval="5 months" grace=""/>
-    <finished age="26 years" interval="" grace=""/>
+    <finished age="27 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="HPV" schedule="COMPLETE" age="" reason=""/>
   </schedule>
-  <vaccine vaccineName="Show Column" vaccineIds="1"/>
   <schedule scheduleName="M1" dose="1" indication="MALE" label="1st">
-    <pos row="1" column="1"/>
+    <pos row="2" column="1"/>
     <valid age="9 years" interval="" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="11 years" interval="" grace=""/>
@@ -432,7 +431,7 @@
     <indicate vaccineName="HPV" schedule="M2" age="" reason=""/>
   </schedule>
   <schedule scheduleName="M2" dose="2" indication="" label="2nd">
-    <pos row="1" column="2"/>
+    <pos row="2" column="2"/>
     <valid age="109 months" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="2 months" grace=""/>
@@ -443,12 +442,46 @@
     <indicate vaccineName="HPV" schedule="M3" age="" reason=""/>
   </schedule>
   <schedule scheduleName="M3" dose="3" indication="" label="3rd">
-    <pos row="1" column="3"/>
+    <pos row="2" column="3"/>
     <valid age="114 months" interval="12 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="4 months" grace=""/>
     <overdue age="" interval="5 months" grace=""/>
     <finished age="22 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="HPV" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="S1" dose="1" indication="MALE" label="At Risk 1st">
+    <indicationCriteria vaccineName="HPV" afterAge="22 years" beforeAge="27 years"/>
+    <pos row="3" column="1"/>
+    <valid age="9 years" interval="" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="11 years" interval="" grace=""/>
+    <overdue age="13 years" interval="" grace=""/>
+    <finished age="27 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="HPV" schedule="S2" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="S2" dose="2" indication="" label="At Risk 2nd">
+    <pos row="3" column="2"/>
+    <valid age="109 months" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="2 months" grace=""/>
+    <overdue age="" interval="3 months" grace=""/>
+    <finished age="27 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="HPV" schedule="S3" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="S3" dose="3" indication="" label="At Risk 3rd">
+    <pos row="3" column="3"/>
+    <valid age="114 months" interval="12 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="4 months" grace=""/>
+    <overdue age="" interval="5 months" grace=""/>
+    <finished age="27 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="HPV" schedule="COMPLETE" age="" reason=""/>
@@ -1177,6 +1210,53 @@
     <indicate vaccineName="Single" schedule="COMPLETE" age="" reason=""/>
   </schedule>
 </forecast>
+
+<forecast seriesName="PPSV">
+  <vaccine vaccineName="PPSV" vaccineIds="155"/>
+  <vaccine vaccineName="PCV" vaccineIds="154, 3143, 156"/>
+  <vaccine vaccineName="18 Years Old" vaccineIds="-18"/>
+  <transition name="18 Years Old" age="18 years" vaccineId="-18"/>
+  <schedule scheduleName="R1" dose="1" indication="BIRTH" label="At Risk">
+    <pos row="1" column="1"/>
+    <valid age="2 years" interval="" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="65 years" interval="" grace=""/>
+    <overdue age="66 years" interval="" grace=""/>
+    <finished age="120 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <contraindicate vaccineName="PCV" afterInterval="8 weeks" age="" reason="PPSV should not be given until 8 weeks after a previously administered PCV" grace="4 days"/>
+    <indicate vaccineName="PPSV" schedule="R2" age="65 years" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="18 Years Old" schedule="A1" age="" reason="" historyOfVaccineName=""/>
+  </schedule>
+  <schedule scheduleName="R2" dose="2" indication="" label="5 years later">
+    <pos row="1" column="2"/>
+    <valid age="" interval="5 years" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="65 years" interval="" grace=""/>
+    <overdue age="66 years" interval="" grace=""/>
+    <finished age="120 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <contraindicate vaccineName="PCV" afterInterval="8 weeks" age="" reason="PPSV should not be given until 8 weeks after a previously administered PCV" grace="4 days"/>
+    <indicate vaccineName="PPSV" schedule="A1" age="65 years" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="18 Years Old" schedule="A1" age="" reason="" historyOfVaccineName=""/>
+  </schedule>
+  <schedule scheduleName="A1" dose="1" indication="" label="65 Years">
+    <pos row="1" column="3"/>
+    <valid age="2 years" interval="5 years" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="65 years" interval="" grace=""/>
+    <overdue age="66 years" interval="" grace=""/>
+    <finished age="120 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <contraindicate vaccineName="PCV" afterInterval="1 year" age="" reason="PPSV should not be given until 1 year after a previously administered PCV" grace="4 days"/>
+    <indicate vaccineName="PPSV" schedule="A1" age="65 years" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="PPSV" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
+  </schedule>
+</forecast>
+
 
 
 
