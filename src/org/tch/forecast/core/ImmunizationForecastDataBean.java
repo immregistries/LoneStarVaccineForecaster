@@ -48,7 +48,25 @@ public class ImmunizationForecastDataBean
   private TraceList traceList = null;
   private String comment = "";
   private String statusDescription = "";
+  private Date seasonStart = null;
+  private Date seasonEnd = null;
+  public Date getSeasonStart() {
+    return seasonStart;
+  }
+
+  public void setSeasonStart(Date seasonStart) {
+    this.seasonStart = seasonStart;
+  }
+
   
+  public Date getSeasonEnd() {
+    return seasonEnd;
+  }
+
+  public void setSeasonEnd(Date seasonEnd) {
+    this.seasonEnd = seasonEnd;
+  }
+
   public String getForecastNameOriginal() {
     return forecastNameOriginal;
   }

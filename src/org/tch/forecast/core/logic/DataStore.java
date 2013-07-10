@@ -70,6 +70,7 @@ public class DataStore
   protected TimePeriod previousAfterInvalidInterval;
   protected DateTime previousEventDate;
   protected DateTime previousEventDateValid;
+  protected DateTime previousEventDateValidNotBirth;
   protected boolean previousEventWasContra = false;
   protected Set<Integer> previousVaccineIdHistory = new HashSet<Integer>();
   protected List<Integer> previousVaccineIdList = null;
@@ -93,6 +94,14 @@ public class DataStore
   protected TimePeriod validGrace = null;
   protected String whenValidText = null;
   protected ForecastOptions forecastOptions = null;
+
+  public DateTime getPreviousEventDateValidNotBirth() {
+    return previousEventDateValidNotBirth;
+  }
+
+  public void setPreviousEventDateValidNotBirth(DateTime previousEventDateValidNotBirth) {
+    this.previousEventDateValidNotBirth = previousEventDateValidNotBirth;
+  }
 
   public ForecastOptions getForecastOptions() {
     return forecastOptions;

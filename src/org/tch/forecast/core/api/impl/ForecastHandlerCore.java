@@ -106,32 +106,7 @@ public class ForecastHandlerCore {
       forecastExamine = null;
     }
     if (forecastExamine != null) {
-      String start = "08/01";
-      String end = "07/01";
-      DateTime startDate = new DateTime(start + "/" + today.getYear());
-      DateTime endDate = null;
-      if (today.isLessThan(startDate)) {
-        // today is before start of next season
-        endDate = new DateTime(end + "/" + today.getYear());
-        if (today.isGreaterThanOrEquals(endDate)) {
-          // today is after the end of previous season
-          // send end date of the next season, which is next year
-          endDate = new DateTime(end + "/" + (today.getYear() + 1));
-        } else {
-          // today is before end of current season
-          // change startDate to last year
-          startDate = new DateTime(start + "/" + (today.getYear() - 1));
-        }
-      } else {
-        // today is in season
-        // send end date to next year
-        endDate = new DateTime(end + "/" + (today.getYear() + 1));
-      }
-      DateTime dateDue = new DateTime(forecastExamine.getDateDue());
-      if (dateDue.isLessThan(startDate)) {
-        // Forecast is before the start of this or next season
-        forecastExamine.setDateDue(startDate.getDate());
-      } else if (dateDue.isGreaterThanOrEquals(endDate)) {
+       if (forecastExamine.getDateDue().after(forecastExamine.getSeasonEnd())) {
         // Patient is up-to-date, forecast is for next season, go ahead and
         // remove
         remove(forecastList, ImmunizationForecastDataBean.INFLUENZA);

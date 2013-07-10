@@ -220,6 +220,24 @@ public class LookForDoseStep extends ActionStep {
           DetermineRangesStep.determineRanges(ds);
           nextEvent(ds);
           return CONTRA;
+        } else if (checkTransition(ds, ds.event)) {
+          ds.log("Valid transition event.");
+          addValidTransition(ds, vaccineIds);
+          if (ds.traceBuffer != null && !indicate.getReason().equals("")) {
+            ds.traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
+          }
+          if (ds.trace != null) {
+            ds.trace.setReason(indicate.getReason());
+            ds.traceList.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
+          }
+          if (ds.seasonal != null && indicate.isSeasonCompleted()) {
+            ds.seasonCompleted = true;
+            if (ds.traceBuffer != null) {
+              ds.traceBuffer.append("Season completed. ");
+            }
+          }
+          nextEvent(ds);
+          return indicate.getScheduleName();
         } else {
           ds.log("Valid dose.");
           ds.validDoseCount++;
@@ -234,6 +252,7 @@ public class LookForDoseStep extends ActionStep {
           }
           ds.beforePreviousEventDate = ds.previousEventDateValid;
           ds.previousEventDateValid = vaccDate;
+          ds.previousEventDateValidNotBirth = vaccDate;
           ds.previousEventWasContra = true;
           ds.previousEventDate = vaccDate;
           if (ds.seasonal != null && indicate.isSeasonCompleted()) {
@@ -416,6 +435,20 @@ public class LookForDoseStep extends ActionStep {
     }
     return indicatedEvent;
   }
+  
+  protected static String createIndicatedEventVaccineLabel(ValidVaccine[] vaccineIds, DataStore ds, Event event) {
+    if (event != null && event.immList != null) {
+      for (Iterator<ImmunizationInterface> it = event.immList.iterator(); it.hasNext();) {
+        ImmunizationInterface imm = it.next();
+        for (int i = 0; i < vaccineIds.length; i++) {
+          if (vaccineIds[i].isSame(imm, event)) {
+            return ds.forecastManager.getVaccineName(imm.getVaccineId());
+          }
+        }
+      }
+    }
+    return null;
+  }
 
   private boolean checkSeasonEnd(DataStore ds, Event event) {
     if (ds.seasonal != null) {
@@ -425,6 +458,16 @@ public class LookForDoseStep extends ActionStep {
           ds.seasonCompleted = false;
           return true;
         }
+      }
+    }
+    return false;
+  }
+
+  private boolean checkTransition(DataStore ds, Event event) {
+    for (Iterator<ImmunizationInterface> it = event.immList.iterator(); it.hasNext();) {
+      ImmunizationInterface imm = it.next();
+      if (imm.getVaccineId() < 0) {
+        return true;
       }
     }
     return false;
@@ -576,6 +619,31 @@ public class LookForDoseStep extends ActionStep {
               ds.traceList.append(" is valid (dose #");
               ds.traceList.append(String.valueOf(ds.validDoseCount));
               ds.traceList.append(").</font> ");
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private void addValidTransition(DataStore ds, ValidVaccine[] vaccineIds) {
+    if (!getValidDose(ds, ds.schedule).equals("")) {
+      for (Iterator<ImmunizationInterface> it = ds.event.immList.iterator(); it.hasNext();) {
+        ImmunizationInterface imm = it.next();
+        for (int i = 0; i < vaccineIds.length; i++) {
+          if (vaccineIds[i].isSame(imm, ds.event)) {
+
+            if (ds.traceBuffer != null) {
+              ds.traceBuffer.append(" <font color=\"#0000FF\">");
+              ds.traceBuffer.append("Transitioning because patient is " + imm.getLabel() + " as of "
+                  + DataStore.dateFormat.format(imm.getDateOfShot()));
+              ds.traceBuffer.append(".</font> ");
+            }
+            if (ds.trace != null) {
+              ds.traceList.append(" <font color=\"#0000FF\">");
+              ds.traceList.append("Transitioning because patient is " + imm.getLabel() + " as of "
+                  + DataStore.dateFormat.format(imm.getDateOfShot()));
+              ds.traceList.append(".</font> ");
             }
           }
         }

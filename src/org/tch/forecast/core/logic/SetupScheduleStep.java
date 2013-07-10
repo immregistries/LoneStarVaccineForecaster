@@ -22,6 +22,7 @@ public class SetupScheduleStep extends ActionStep {
     ds.forecast = ds.schedule.getVaccineForecast();
     ds.previousEventDate = new DateTime(ds.patient.getDobDateTime());
     ds.previousEventDateValid = ds.previousEventDate;
+    ds.previousEventDateValidNotBirth = null;
     ds.beforePreviousEventDate = null;
     ds.validDoseCount = 0;
 

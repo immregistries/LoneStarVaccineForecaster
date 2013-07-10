@@ -124,8 +124,7 @@ public class VaccineForecastDataBean {
         seasonal.setDue(new TimePeriod(seasonalDue));
         seasonal.setOverdue(new TimePeriod(seasonalOverdue));
         seasonal.setEnd(new TimePeriod(seasonalEnd));
-      } else if (name.equals("transition"))
-      {
+      } else if (name.equals("transition")) {
         Transition transition = new Transition();
         String transitionName = DomUtils.getAttributeValue(n, "name");
         String transitionAge = DomUtils.getAttributeValue(n, "age");
@@ -151,7 +150,16 @@ public class VaccineForecastDataBean {
 
   private void processScheduleItem(Node n, String name, Schedule schedule) throws Exception {
     if (name != null) {
-      if (name.equals("valid")) {
+      if (name.equals("indicationCriteria")) {
+        IndicationCriteria indicationCriteria = new IndicationCriteria();
+        schedule.setIndicationCriteria(indicationCriteria);
+        indicationCriteria.setAfterAge(new TimePeriod(DomUtils.getAttributeValue(n, "afterAge")));
+        indicationCriteria.setBeforeAge(new TimePeriod(DomUtils.getAttributeValue(n, "beforeAge")));
+        String vaccineName = DomUtils.getAttributeValue(n, "vaccineName");
+        indicationCriteria.setVaccineName(vaccineName);
+        indicationCriteria.setVaccines(convertToVaccineIds(vaccineName));
+      }
+      else if (name.equals("valid")) {
         schedule.setValidAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         schedule.setValidInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
         schedule.setValidGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
@@ -207,8 +215,7 @@ public class VaccineForecastDataBean {
         indicate.setReason(DomUtils.getAttributeValue(n, "reason"));
         indicate.setSeasonCompleted("Yes".equalsIgnoreCase(DomUtils.getAttributeValue(n, "seasonCompleted")));
         indicate.setHasHad(DomUtils.getAttributeValue(n, "hasHad"));
-        if (indicate.isHashHad())
-        {
+        if (indicate.isHashHad()) {
           indicate.setHasHadVaccines(convertToVaccineIds(indicate.getHasHad()));
         }
         schedule.getIndicateList().add(indicate);
@@ -221,8 +228,7 @@ public class VaccineForecastDataBean {
       return new ValidVaccine[0];
     }
     NamedVaccine namedVaccine = vaccines.get(vaccineName.toUpperCase());
-    if (namedVaccine == null)
-    {
+    if (namedVaccine == null) {
       throw new Exception("Unrecognized vaccine name '" + vaccineName + "'");
     }
     String vaccineString = namedVaccine.getVaccineIds();
@@ -277,6 +283,15 @@ public class VaccineForecastDataBean {
     private String indication = "";
     private int posColumn = 0;
     private int posRow = 0;
+    private IndicationCriteria indicationCriteria = null;
+
+    public IndicationCriteria getIndicationCriteria() {
+      return indicationCriteria;
+    }
+
+    public void setIndicationCriteria(IndicationCriteria indicateCriteria) {
+      this.indicationCriteria = indicateCriteria;
+    }
 
     public int getPosColumn() {
       return posColumn;
@@ -592,6 +607,46 @@ public class VaccineForecastDataBean {
 
   }
 
+  public class IndicationCriteria {
+    private TimePeriod afterAge = null;
+    private TimePeriod beforeAge = null;
+    private String vaccineName = "";
+    private ValidVaccine[] vaccines = new ValidVaccine[0];
+
+    public String getVaccineName() {
+      return vaccineName;
+    }
+
+    public void setVaccineName(String vaccineName) {
+      this.vaccineName = vaccineName;
+    }
+
+    public TimePeriod getAfterAge() {
+      return afterAge;
+    }
+
+    public void setAfterAge(TimePeriod afterAge) {
+      this.afterAge = afterAge;
+    }
+
+    public TimePeriod getBeforeAge() {
+      return beforeAge;
+    }
+
+    public void setBeforeAge(TimePeriod beforeAge) {
+      this.beforeAge = beforeAge;
+    }
+
+    public ValidVaccine[] getVaccines() {
+      return vaccines;
+    }
+
+    public void setVaccines(ValidVaccine[] vaccines) {
+      this.vaccines = vaccines;
+    }
+
+  }
+
   public class Indicate {
     private ValidVaccine[] vaccines = new ValidVaccine[0];
     private String scheduleName = "";
@@ -619,7 +674,6 @@ public class VaccineForecastDataBean {
     public void setHasHadVaccines(ValidVaccine[] hasHadVaccines) {
       this.hasHadVaccines = hasHadVaccines;
     }
-
 
     public String getReason() {
       return reason;
@@ -688,9 +742,8 @@ public class VaccineForecastDataBean {
     public String getHasHad() {
       return hasHad;
     }
-    
-    public boolean isHashHad()
-    {
+
+    public boolean isHashHad() {
       return hasHad != null && !hasHad.equals("");
     }
 
@@ -763,9 +816,8 @@ public class VaccineForecastDataBean {
   public Seasonal getSeasonal() {
     return seasonal;
   }
-  
-  public List<Transition> getTransitionList()
-  {
+
+  public List<Transition> getTransitionList() {
     return transitionList;
   }
 
@@ -827,11 +879,10 @@ public class VaccineForecastDataBean {
     private int vaccineId = 0;
     private Date validStartDate = null;
     private Date validEndDate = null;
-    
+
     @Override
     public String toString() {
-      if (validStartDate != null)
-      {
+      if (validStartDate != null) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         return Integer.toString(vaccineId) + " given before " + sdf.format(validStartDate);
       }
@@ -861,9 +912,8 @@ public class VaccineForecastDataBean {
     public void setValidEndDate(Date validEndDate) {
       this.validEndDate = validEndDate;
     }
-    
-    public boolean isSame(ImmunizationInterface imm, Event event)
-    {
+
+    public boolean isSame(ImmunizationInterface imm, Event event) {
       return isSame(imm.getVaccineId(), event == null ? null : event.getEventDate());
     }
 
@@ -886,26 +936,32 @@ public class VaccineForecastDataBean {
       return true;
     }
   }
-  
+
   public class Transition {
     private String name = "";
     private TimePeriod age = null;
     private int vaccineId = 0;
+
     public String getName() {
       return name;
     }
+
     public void setName(String name) {
       this.name = name;
     }
+
     public TimePeriod getAge() {
       return age;
     }
+
     public void setAge(TimePeriod age) {
       this.age = age;
     }
+
     public int getVaccineId() {
       return vaccineId;
     }
+
     public void setVaccineId(int vaccineId) {
       this.vaccineId = vaccineId;
     }

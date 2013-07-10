@@ -41,7 +41,15 @@ public class DetermineRangesStep extends ActionStep {
             startBlackOut.addDays(1);
             ds.blackOutDates.add(new DateTime[] { startBlackOut, endBlackOutGrace, endBlackOut,
                 new DateTime(event.getEventDate()) });
-            ds.blackOutReasons.add(contraindicate.getAfterInterval() + " after contraindicated dose");
+            String contraindicationDoseLabel = LookForDoseStep.createIndicatedEventVaccineLabel(
+                contraindicate.getVaccines(), ds, event);
+            if (contraindicationDoseLabel != null) {
+              ds.blackOutReasons.add(contraindicate.getAfterInterval() + " after contraindicated dose of "
+                  + contraindicationDoseLabel + " given " + new DateTime(event.eventDate).toString("M/D/Y"));
+            } else {
+              ds.blackOutReasons.add(contraindicate.getAfterInterval() + " after contraindicated dose given "
+                  + new DateTime(event.eventDate).toString("M/D/Y"));
+            }
             ds.log("Contraindicated event found, setting black out dates from " + startBlackOut.toString("M/D/Y")
                 + " to " + endBlackOut.toString("M/D/Y"));
           }
@@ -68,8 +76,8 @@ public class DetermineRangesStep extends ActionStep {
         validBecause = "AGE";
         ds.log("Setting validity " + ds.schedule.getValidAge() + " of age");
       }
-      if (!ds.schedule.getValidInterval().isEmpty()) {
-        DateTime validInterval = ds.schedule.getValidInterval().getDateTimeFrom(ds.previousEventDateValid);
+      if (!ds.schedule.getValidInterval().isEmpty() && ds.previousEventDateValidNotBirth != null) {
+        DateTime validInterval = ds.schedule.getValidInterval().getDateTimeFrom(ds.previousEventDateValidNotBirth);
         if (validInterval.isGreaterThan(ds.valid)) {
           ds.valid = validInterval;
           validReason = ds.schedule.getValidInterval() + " after previous valid dose";
@@ -164,7 +172,7 @@ public class DetermineRangesStep extends ActionStep {
         ds.log("Season start is is after due date, moving due date forward to " + ds.due.toString("M/D/Y"));
       }
     }
-    
+
     for (int i = 0; i < ds.blackOutDates.size(); i++) {
       ds.log("Looking to see if valid and due dates need to be adjusted around black out dates");
       DateTime[] blackOut = ds.blackOutDates.get(i);
@@ -175,7 +183,6 @@ public class DetermineRangesStep extends ActionStep {
         ds.log("Moving due date to end of blackOut period, setting to " + ds.due.toString("M/D/Y"));
       }
     }
-    
 
     if (ds.schedule.getOverdueAge().isEmpty()) {
       ds.overdue = ds.schedule.getOverdueInterval().getDateTimeFrom(ds.previousEventDate);

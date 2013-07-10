@@ -390,6 +390,10 @@ public class StepServlet extends ForecastServlet {
         out.println("    <td>" + safe(dataStore.getPreviousEventDateValid()) + "</td>");
         out.println("  </tr>");
         out.println("  <tr>");
+        out.println("    <th class=\"smallHeader\">Previous Event Date Valid, But not Birth</th>");
+        out.println("    <td>" + safe(dataStore.getPreviousEventDateValidNotBirth()) + "</td>");
+        out.println("  </tr>");
+        out.println("  <tr>");
         out.println("    <th class=\"smallHeader\">Previous Event Was Contra</th>");
         out.println("    <td>" + safe(dataStore.isPreviousEventWasContra()) + "</td>");
         out.println("  </tr>");

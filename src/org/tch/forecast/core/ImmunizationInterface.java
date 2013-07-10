@@ -15,5 +15,5 @@ public interface ImmunizationInterface
   public String getMvx();
   
   public String getVaccinationId();
-
+  
 }
