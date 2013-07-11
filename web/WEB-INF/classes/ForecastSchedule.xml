@@ -638,6 +638,7 @@
   <vaccine vaccineName="Child" vaccineIds="110, 112, 114, 115, 116, 2060, 111, 2070, 113, 121, 1150, 142"/>
   <vaccine vaccineName="Adult" vaccineIds="122, 124, 123"/>
   <vaccine vaccineName="Td" vaccineIds="122, 124"/>
+  <vaccine vaccineName="Assume Comp" vaccineIds="-110"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
     <pos row="1" column="1"/>
     <valid age="6 weeks" interval="" grace="4 days"/>
@@ -654,6 +655,7 @@
     <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="A2" age="" reason="Starting adult series without indication of childhood vaccination."/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule."/>
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="4 months">
     <pos row="1" column="2"/>
@@ -669,6 +671,7 @@
     <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="A2" age="" reason="Changing to adult vaccine schedule."/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule."/>
   </schedule>
   <schedule scheduleName="P3" dose="3" indication="" label="6 months">
     <pos row="1" column="3"/>
@@ -684,6 +687,7 @@
     <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="A3" age="" reason="Changing to adult vaccine schedule."/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule."/>
   </schedule>
   <schedule scheduleName="P4" dose="4" indication="" label="15-18 months">
     <pos row="1" column="4"/>
@@ -702,6 +706,7 @@
     <indicate vaccineName="Adult" schedule="B5" age="4 years" reason="Adult dose should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="B6" age="7 years" reason="Adult dose should not be given before 7 years of age. Received 4th dose on or after 4 years of age, 5th dose not required."/>
     <indicate vaccineName="Adult" schedule="B6" age="" reason="Changing to adult vaccine schedule."/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule."/>
   </schedule>
   <schedule scheduleName="R2" dose="2" indication="" label="2nd catchup">
     <pos row="2" column="2"/>
@@ -717,6 +722,7 @@
     <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="A3" age="" reason="Changing to adult vaccine schedule."/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule."/>
   </schedule>
   <schedule scheduleName="R3" dose="3" indication="" label="3rd catchup">
     <pos row="2" column="3"/>
@@ -734,6 +740,7 @@
     <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason=""/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="B6" age="" reason="Changing to adult vaccine schedule."/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule."/>
   </schedule>
   <schedule scheduleName="B5" dose="5" indication="" label="booster (5th)">
     <pos row="1" column="5"/>
@@ -749,6 +756,7 @@
     <indicate vaccineName="Adult" schedule="B6" age="7 years" reason="Adult vaccine should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="B6" age="11 years" reason=""/>
     <indicate vaccineName="Adult" schedule="B10" age="" reason=""/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule."/>
   </schedule>
   <schedule scheduleName="B10" dose="B" indication="" label="10-year booster">
     <pos row="3" column="5"/>
@@ -777,6 +785,7 @@
     <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="A3" age="" reason=""/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule."/>
   </schedule>
   <schedule scheduleName="R4" dose="4" indication="" label="4th catchup">
     <pos row="2" column="4"/>
@@ -793,6 +802,7 @@
     <indicate vaccineName="Adult" schedule="B5" age="4 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="B6" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="B10" age="" reason=""/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule."/>
   </schedule>
   <schedule scheduleName="A3" dose="3" indication="" label="3rd adult">
     <pos row="3" column="3"/>
@@ -807,6 +817,7 @@
     <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="B10" age="" reason=""/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule."/>
   </schedule>
   <schedule scheduleName="B6" dose="B" indication="" label="6th">
     <pos row="2" column="5"/>
@@ -821,6 +832,7 @@
     <indicate vaccineName="Td" schedule="B10" age="7 years" reason="Td should not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age."/>
     <indicate vaccineName="Adult" schedule="B10" age="" reason=""/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule."/>
   </schedule>
 </forecast>
 

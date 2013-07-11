@@ -6,6 +6,8 @@ import org.tch.forecast.core.ImmunizationInterface;
 
 public class Immunization implements ImmunizationInterface
 {
+  public static final int ASSUME_DTAP_SERIES_COMPLETE = -110;
+  
   private int vaccineId = 0;
   private Date dateOfShot = null;
   private String label = "";

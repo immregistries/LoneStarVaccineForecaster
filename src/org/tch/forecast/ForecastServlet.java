@@ -47,6 +47,7 @@ public class ForecastServlet extends HttpServlet {
   private static final String PARAM_FLU_SEASON_OVERDUE = "fluSeasonOverdue";
   private static final String PARAM_FLU_SEASON_END = "fluSeasonEnd";
   private static final String PARAM_DUE_USE_EARLY = "dueUseEarly";
+  private static final String PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE = "assumeDtapSeriesCompleteAtAge";
 
   public static final String RESULT_FORMAT_TEXT = "text";
   public static final String RESULT_FORMAT_HTML = "html";
@@ -438,7 +439,8 @@ public class ForecastServlet extends HttpServlet {
     if (patientDobString == null || patientDobString.length() != 8) {
       throw new ServletException("Parameter 'patientDob' is required and must be in YYYYMMDD format. ");
     }
-    patient.setDob(new DateTime(patientDobString));
+    DateTime patientDob = new DateTime(patientDobString);
+    patient.setDob(patientDob);
     String patientSex = req.getParameter(PARAM_PATIENT_SEX);
     if (patientSex == null || (!patientSex.equalsIgnoreCase("M") && !patientSex.equalsIgnoreCase("F"))) {
       throw new ServletException("Parameter 'patientSex' is required and must have a value of 'M' or 'F'. ");
@@ -484,7 +486,20 @@ public class ForecastServlet extends HttpServlet {
     forecastOptions.setFluSeasonStart(readTimePeriod(req, PARAM_FLU_SEASON_START));
 
     dueUseEarly = readBoolean(req, PARAM_DUE_USE_EARLY);
-
+    TimePeriod assumeDtapSeriesCompleteAtAge = readTimePeriod(req, PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE);
+    
+    if (assumeDtapSeriesCompleteAtAge != null) {
+      DateTime assumptionAge = assumeDtapSeriesCompleteAtAge.getDateTimeFrom(patientDob);
+      if (forecastDate.isGreaterThanOrEquals(assumptionAge)) {
+        DateTime assumptionDate = new DateTime(forecastDate);
+        assumptionDate.addDays(1);
+        Immunization imm = new Immunization();
+        imm.setDateOfShot(assumptionDate.getDate());
+        imm.setVaccineId(Immunization.ASSUME_DTAP_SERIES_COMPLETE);
+        imm.setLabel("Assuming DTaP Series Complete");
+        imms.add(imm);
+      }
+    }
   }
 
   private static String n(String s) {
