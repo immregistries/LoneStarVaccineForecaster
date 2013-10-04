@@ -150,6 +150,33 @@ public class TestForecaster {
       forecastAndPrintResults(forecastHandler, request);
     }
     System.out.println();
+    
+    {
+      System.out.println("Test 6: MMR Contraindication");
+      ForecastRequestInterface request = new ForecastRequest();
+      SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
+      request.setEvaluationDate(new Date());
+      ForecastPatient patient = new ForecastPatient();
+      patient.setBirthDate(sdf.parse("07/27/2008"));
+      patient.setSex("M");
+      request.setPatient(patient);
+      List<ForecastVaccinationInterface> vaccinationList = new ArrayList<ForecastVaccinationInterface>();
+      request.setVaccinationList(vaccinationList);
+
+      ForecastVaccination vaccination = new ForecastVaccination();
+      vaccinationList.add(vaccination);
+      vaccination.setAdminDate(sdf.parse("08/02/2009"));
+      vaccination.setCvxCode("03");
+
+      vaccination = new ForecastVaccination();
+      vaccinationList.add(vaccination);
+      vaccination.setAdminDate(sdf.parse("08/21/2009"));
+      vaccination.setCvxCode("21");
+
+      forecastAndPrintResults(forecastHandler, request);
+    }
+    System.out.println();
     System.out.println("Tests complete");
 
   }
@@ -203,6 +230,10 @@ public class TestForecaster {
       if (forecastVaccination.getReasonText().length() > 42) {
         System.out.println("                                     "
             + pad(forecastVaccination.getReasonText().substring(42), 42));
+        if (forecastVaccination.getReasonText().length() > 84) {
+          System.out.println("                                     "
+              + pad(forecastVaccination.getReasonText().substring(84), 42));
+        }
       }
     }
     System.out.println("------------------------------------------------------------------------------");

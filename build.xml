@@ -106,9 +106,9 @@
 		<mkdir dir="${build.home}/WEB-INF" />
 		<mkdir dir="${build.home}/WEB-INF/classes" />
 		<mkdir dir="${build.home}/WEB-INF/lib" />
-		
-		<mkdir dir="${doc.home}"/>
-		<mkdir dir="${doc.home}/core"/>
+
+		<mkdir dir="${doc.home}" />
+		<mkdir dir="${doc.home}/core" />
 
 	</target>
 
@@ -197,19 +197,14 @@
 		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/vaccineIdToLabel.txt" />
 		<jar jarfile="${deploy.home}/tch-forecaster.jar" basedir="${object.home}" includes="org/tch/forecast/core/**" />
 	</target>
-	
+
 	<target name="core-doc" depends="prepare">
-	<javadoc packagenames="org.tch.forecast.core.api.*"
-	           sourcepath="${src.home}"
-	           defaultexcludes="yes"
-	           destdir="${doc.home}/core"
-	           author="true"
-	           version="true"
-	           use="true"
-	           windowtitle="TCH Forecaster API">
-	    <doctitle><![CDATA[<h1>TCH Forecaster API</h1>]]></doctitle>
-	    <bottom><![CDATA[<i>Copyright &#169; 2013 Texas Children's Hospital. All Rights Reserved.</i>]]></bottom>
-	  </javadoc>
-	</target>
+		<javadoc packagenames="org.tch.forecast.core.api.*" sourcepath="${src.home}" defaultexcludes="yes" destdir="${doc.home}/core" author="true" version="true" use="true" windowtitle="TCH Forecaster API">
+			<doctitle>
+				<![CDATA[<h1>TCH Forecaster API</h1>]]></doctitle>
+		<bottom>
+			<![CDATA[<i>Copyright &#169; 2013 Texas Children's Hospital. All Rights Reserved.</i>]]></bottom>
+</javadoc>
+</target>
 
 </project>
