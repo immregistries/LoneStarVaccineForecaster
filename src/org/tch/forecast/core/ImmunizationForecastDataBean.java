@@ -30,6 +30,7 @@ public class ImmunizationForecastDataBean
   public static final String DTAP = "DTaP";
   public static final String TDAP = "Tdap";
   public static final String TD = "Td";
+  public static final String DT = "DT";
 
   public static final String SCHEDULE_COMPLETED = "COMP";
 

@@ -1,5 +1,7 @@
 package org.tch.forecast.core.server;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +15,7 @@ import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.TraceList;
 import org.tch.forecast.core.VaccinationDoseDataBean;
+import org.tch.forecast.core.VaccineForecastManagerInterface;
 import org.tch.forecast.core.api.impl.ForecastHandlerCore;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.model.PatientRecordDataBean;
@@ -78,6 +81,11 @@ public class ForecastRunner {
   private List<ImmunizationForecastDataBean> forecastListDueToday;
   private List<ImmunizationForecastDataBean> forecastListDueLater;
   private List<TraceList> traceListListDontGive;
+  private String forecasterScheduleName = "";
+
+  public String getForecasterScheduleName() {
+    return forecasterScheduleName;
+  }
 
   public List<ImmunizationForecastDataBean> getForecastListDueToday() {
     return forecastListDueToday;
@@ -106,6 +114,17 @@ public class ForecastRunner {
   public ForecastRunner(VaccineForecastManager vaccineForecastManager) throws Exception {
     this.vaccineForecastManager = vaccineForecastManager;
   }
+  
+  public String getTextReport(boolean dueUseEarly)
+  {
+    StringWriter stringOut = new StringWriter();
+    PrintWriter out = new PrintWriter(stringOut);
+    ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(vaccineForecastManager);
+    forecastReportPrinter.printTextVersionOfForecast(traceMap, resultList, imms, forecasterScheduleName,
+        forecastListDueToday, new DateTime(forecastDate), dueUseEarly, doseList, out);
+    out.close();
+    return stringOut.toString();
+  }
 
   public void forecast() throws Exception {
     StringBuffer traceBuffer = new StringBuffer();
@@ -114,6 +133,7 @@ public class ForecastRunner {
     forecaster.setVaccinations(imms);
     forecaster.setForecastDate(forecastDate);
     forecaster.forecast(resultList, doseList, traceBuffer, traceMap);
+    forecasterScheduleName = forecaster.getForecastSchedule().getScheduleName();
 
     DateTime forecastDateTime = new DateTime(forecastDate);
     forecastListDueToday = new ArrayList<ImmunizationForecastDataBean>();

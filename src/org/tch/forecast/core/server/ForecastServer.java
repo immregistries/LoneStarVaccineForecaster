@@ -14,7 +14,7 @@ public class ForecastServer {
   // java -classpath tch-forecaster.jar
   // org.tch.forecast.core.server.ForecastServer [port num]
 
-  public static final String TEST_1 = "^09052012^^^^^^^R^^^^^^^^^^^^^^^^^^^^TEST123^^01012012^M^^^^^^^^^^^^^^^^^^^^^1^TEST456^50^^^^03132012^^";
+  public static final String TEST_1 = "09052012^R^^TEST123^^01012012^M^^^^^^^^^^^^^^^^^^^^^1^TEST456^50^03132012^^^^";
 
   protected static VaccineForecastManager vaccineForecastManager = null;
   protected static Map<String, Integer> cvxToVaccineIdMap = null;
