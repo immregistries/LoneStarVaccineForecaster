@@ -1247,7 +1247,7 @@
   <vaccine vaccineName="Live" vaccineIds="160, 161, 158, 162, 171, 175, 180, 2020, 1990, 148, 1690, 1700, 210"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
-    <valid age="60 years" interval="" grace="10 years"/>
+    <valid age="50 years" interval="" grace=""/>
     <early age="" interval="" grace=""/>
     <due age="60 years" interval="" grace=""/>
     <overdue age="61 years" interval="" grace=""/>
