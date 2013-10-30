@@ -7,7 +7,14 @@ public class ForecastOptions {
   private TimePeriod fluSeasonDue = null;
   private TimePeriod fluSeasonOverdue = null;
   private TimePeriod fluSeasonEnd = null;
+  private boolean ignoreFourDayGrace = false;
   
+  public boolean isIgnoreFourDayGrace() {
+    return ignoreFourDayGrace;
+  }
+  public void setIgnoreFourDayGrace(boolean ignoreFourDayGrace) {
+    this.ignoreFourDayGrace = ignoreFourDayGrace;
+  }
   public TimePeriod getFluSeasonStart() {
     return fluSeasonStart;
   }

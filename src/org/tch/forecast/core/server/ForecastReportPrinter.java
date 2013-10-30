@@ -15,11 +15,10 @@ import org.tch.forecast.core.VaccineForecastManagerInterface;
 
 public class ForecastReportPrinter
 {
-  
+
   private VaccineForecastManagerInterface forecastManager = null;
-  
-  public ForecastReportPrinter(VaccineForecastManagerInterface forecastManager)
-  {
+
+  public ForecastReportPrinter(VaccineForecastManagerInterface forecastManager) {
     this.forecastManager = forecastManager;
   }
 
@@ -35,7 +34,7 @@ public class ForecastReportPrinter
     out.println("    <h1>TCH Immunization Forecaster Results</h1>");
     out.println("    <h2>Vaccinations Recommended For " + new DateTime(forecastDate.getDate()).toString("M/D/Y")
         + "</h2>");
-  
+
     out.println("    <table border=\"1\" cellpadding=\"2\" cellspacing=\"0\">");
     out.println("      <tr>");
     out.println("        <th>Vaccine</th>");
@@ -67,7 +66,7 @@ public class ForecastReportPrinter
         continue;
       }
       vaccinesDueToday = true;
-  
+
       String forecastDose = forecast.getDose();
       out.println("      <tr>");
       out.println("        <td>" + forecast.getForecastLabel() + "</td>");
@@ -81,10 +80,10 @@ public class ForecastReportPrinter
       out.println("      </tr>");
     }
     out.println("    </table>");
-  
+
     out.println("<h2>Vaccinations Recommended After " + new DateTime(forecastDate.getDate()).toString("M/D/Y")
         + "</h2>");
-  
+
     out.println("    <table border=\"1\" cellpadding=\"2\" cellspacing=\"0\">");
     out.println("      <tr>");
     out.println("        <th>Vaccine</th>");
@@ -112,7 +111,7 @@ public class ForecastReportPrinter
       out.println("      </tr>");
     }
     out.println("    </table>");
-  
+
     out.println("<h2>Vaccinations Completed or Not Recommended</h2>");
     out.println("    <table border=\"1\" cellpadding=\"2\" cellspacing=\"0\">");
     out.println("      <tr>");
@@ -126,7 +125,7 @@ public class ForecastReportPrinter
       out.println("      </tr>");
     }
     out.println("    </table>");
-  
+
     out.println("<h2>Immunization Evaluation</h2>");
     out.println("    <table border=\"1\" cellpadding=\"2\" cellspacing=\"0\">");
     out.println("      <tr>");
@@ -159,7 +158,7 @@ public class ForecastReportPrinter
     out.println();
     out.println("<p>Forecast generated " + new DateTime().toString("M/D/Y") + " according to schedule "
         + forecasterScheduleName + " using version " + SoftwareVersion.VERSION + " of the TCH Forecaster.</p>");
-  
+
     out.println("<h2>Detail Information</h2>");
     for (ImmunizationForecastDataBean forecast : resultListOriginal) {
       out.println("<h3>" + forecast.getForecastLabel() + "</h3>");
@@ -176,7 +175,7 @@ public class ForecastReportPrinter
     out.println("TCH Immunization Forecaster");
     out.println();
     out.println("VACCINATIONS RECOMMENDED " + new DateTime(forecastDate.getDate()).toString("M/D/Y"));
-  
+
     List<ImmunizationForecastDataBean> forecastList = forecastListDueToday;
     boolean vaccinesDueToday = false;
     for (Iterator<ImmunizationForecastDataBean> it = forecastList.iterator(); it.hasNext();) {
@@ -197,7 +196,7 @@ public class ForecastReportPrinter
         continue;
       }
       vaccinesDueToday = true;
-  
+
       String forecastDose = forecast.getDose();
       out.print("Forecasting " + forecast.getForecastLabel());
       out.print(" dose " + forecastDose);
@@ -206,11 +205,11 @@ public class ForecastReportPrinter
       out.print(" overdue " + overdueDate.toString("M/D/Y"));
       out.print(" finished " + finishedDate.toString("M/D/Y"));
       out.println(" status " + statusDescription);
-  
+
     }
     out.println();
     out.println("VACCCINATIONS RECOMMENDED AFTER " + new DateTime(forecastDate.getDate()).toString("M/D/Y"));
-  
+
     forecastList = resultList;
     for (Iterator<ImmunizationForecastDataBean> it = forecastList.iterator(); it.hasNext();) {
       ImmunizationForecastDataBean forecast = it.next();
@@ -228,13 +227,13 @@ public class ForecastReportPrinter
     }
     out.println();
     out.println("VACCINATIONS COMPLETED OR NOT RECOMMENDED");
-  
+
     for (Iterator it = traceMap.keySet().iterator(); it.hasNext();) {
       String key = (String) it.next();
       TraceList traceList = (TraceList) traceMap.get(key);
       out.println("Forecasting " + traceList.getForecastLabel() + " complete");
     }
-  
+
     out.println();
     out.println("IMMUNIZATION EVALUATION");
     for (VaccinationDoseDataBean dose : doseList) {

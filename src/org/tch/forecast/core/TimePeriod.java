@@ -48,6 +48,11 @@ public class TimePeriod
   {
     return amount;
   }
+  
+  public boolean isFourDay()
+  {
+    return isDay() && getAmount() == 4 && addPeriod == null;
+  }
 
   public boolean isMonth()
   {

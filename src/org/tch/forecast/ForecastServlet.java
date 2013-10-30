@@ -49,6 +49,7 @@ public class ForecastServlet extends HttpServlet
   private static final String PARAM_FLU_SEASON_END = "fluSeasonEnd";
   private static final String PARAM_DUE_USE_EARLY = "dueUseEarly";
   private static final String PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE = "assumeDtapSeriesCompleteAtAge";
+  private static final String PARAM_IGNORE_FOUR_DAY_GRACE = "ignoreFourDayGrace";
 
   public static final String RESULT_FORMAT_TEXT = "text";
   public static final String RESULT_FORMAT_HTML = "html";
@@ -191,6 +192,7 @@ public class ForecastServlet extends HttpServlet
     }
   }
 
+  
   public TimePeriod readTimePeriod(HttpServletRequest req, String key) {
     String value = req.getParameter(key);
     return value == null || value.equals("") ? null : new TimePeriod(value);
@@ -273,7 +275,8 @@ public class ForecastServlet extends HttpServlet
     forecastOptions.setFluSeasonEnd(readTimePeriod(req, PARAM_FLU_SEASON_END));
     forecastOptions.setFluSeasonOverdue(readTimePeriod(req, PARAM_FLU_SEASON_OVERDUE));
     forecastOptions.setFluSeasonStart(readTimePeriod(req, PARAM_FLU_SEASON_START));
-
+    forecastOptions.setIgnoreFourDayGrace(readBoolean(req, PARAM_IGNORE_FOUR_DAY_GRACE));
+    
     dueUseEarly = readBoolean(req, PARAM_DUE_USE_EARLY);
     TimePeriod assumeDtapSeriesCompleteAtAge = readTimePeriod(req, PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE);
 

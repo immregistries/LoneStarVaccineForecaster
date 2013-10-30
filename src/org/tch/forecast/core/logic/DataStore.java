@@ -30,6 +30,8 @@ import org.tch.forecast.core.VaccineForecastManagerInterface;
 public class DataStore
 {
 
+  public static final TimePeriod NO_GRACE_PERIOD = new TimePeriod("");
+  
   protected static DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
   public static final int VARICELLA_HISTORY = 378;

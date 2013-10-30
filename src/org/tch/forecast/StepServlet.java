@@ -488,6 +488,12 @@ public class StepServlet extends ForecastServlet {
             out.println("    <td>" + safe(forecastOptions.getFluSeasonEnd()) + "</td>");
             out.println("  </tr>");
           }
+          if (forecastOptions.isIgnoreFourDayGrace()) {
+            out.println("  <tr>");
+            out.println("    <th>Ignore Four Day Grace</th>");
+            out.println("    <td>True</td>");
+            out.println("  </tr>");
+          }
           out.println("</table>");
         }
         if (dataStore.getTransitionList() != null) {

@@ -11,8 +11,7 @@ import org.tch.forecast.core.api.impl.VaccineForecastManager;
 public class ForecastServer {
 
   private ServerSocket serverSocket;
-  // java -classpath tch-forecaster.jar
-  // org.tch.forecast.core.server.ForecastServer [port num]
+  // java -classpath tch-forecaster.jar org.tch.forecast.core.server.ForecastServer [port num]
 
   public static final String TEST_1 = "09052012^R^^TEST123^^01012012^M^^^^^^^^^^^^^^^^^^^^^1^TEST456^50^03132012^^^^";
 

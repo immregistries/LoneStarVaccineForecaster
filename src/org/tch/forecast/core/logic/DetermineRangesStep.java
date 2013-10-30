@@ -6,7 +6,8 @@ import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Contraindicate;
 
-public class DetermineRangesStep extends ActionStep {
+public class DetermineRangesStep extends ActionStep
+{
   public static final String NAME = "Determine Ranges";
 
   @Override
@@ -90,6 +91,11 @@ public class DetermineRangesStep extends ActionStep {
     ds.finished = ds.schedule.getFinishedAge().getDateTimeFrom(ds.patient.getDobDateTime());
     if (ds.previousEventDate.equals(ds.previousEventDateValid)) {
       ds.validGrace = ds.schedule.getValidGrace();
+      if (ds.getForecastOptions() != null && ds.getForecastOptions().isIgnoreFourDayGrace()
+          && ds.validGrace.isFourDay()) {
+        ds.log("Standard grace period of 4 days is being ignored, no grace period will be applied");
+        ds.validGrace = DataStore.NO_GRACE_PERIOD;
+      }
     } else {
       if (ds.previousEventWasContra && ds.schedule.getAfterContraInterval() != null
           && !ds.schedule.getAfterContraInterval().isEmpty()) {
@@ -101,6 +107,11 @@ public class DetermineRangesStep extends ActionStep {
           ds.log("Contraindication indication pushes validity date back by " + ds.schedule.getAfterContraInterval());
         }
         ds.validGrace = ds.schedule.getAfterContraGrace();
+        if (ds.getForecastOptions() != null && ds.getForecastOptions().isIgnoreFourDayGrace()
+            && ds.validGrace.isFourDay()) {
+          ds.log("Standard grace period of 4 days is being ignored, no grace period will be applied");
+          ds.validGrace = DataStore.NO_GRACE_PERIOD;
+        }
         ds.log("Setting valid grace to contraindication grace of " + ds.validGrace);
       } else {
         DateTime validInterval = ds.schedule.getAfterInvalidInterval().getDateTimeFrom(ds.previousEventDate);
@@ -111,6 +122,11 @@ public class DetermineRangesStep extends ActionStep {
           ds.log("Applying minimum interval after invalid vaccination of " + ds.schedule.getAfterInvalidInterval());
         }
         ds.validGrace = ds.schedule.getAfterInvalidGrace();
+        if (ds.getForecastOptions() != null && ds.getForecastOptions().isIgnoreFourDayGrace()
+            && ds.validGrace.isFourDay()) {
+          ds.log("Standard grace period of 4 days is being ignored, no grace period will be applied");
+          ds.validGrace = DataStore.NO_GRACE_PERIOD;
+        }
         ds.log("Setting valid grace to after invalid grace interval of " + ds.validGrace);
       }
     }
