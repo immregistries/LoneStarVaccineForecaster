@@ -144,20 +144,14 @@ public class CaretForecaster
   private static final int FIELD_OUT_INPUT_DOSE_02_DOSE_INPUT_HL7_CODE = 2;
   //  3 Dose Input HL7 Code Error Code
   private static final int FIELD_OUT_INPUT_DOSE_03_DOSE_INPUT_HL7_CODE_ERROR_CODE = 3;
-  //  4 Dose Input Print String
-  private static final int FIELD_OUT_INPUT_DOSE_04_DOSE_INPUT_PRINT_STRING = 4;
-  //  5 Dose HL7 Code 
-  private static final int FIELD_OUT_INPUT_DOSE_05_DOSE_HL7_CODE_ = 5;
-  //  6 Dose HL7 Code Print String
-  private static final int FIELD_OUT_INPUT_DOSE_06_DOSE_HL7_CODE_PRINT_STRING = 6;
-  //  7 Date of Dose Administration
-  private static final int FIELD_OUT_INPUT_DOSE_07_DATE_OF_DOSE_ADMINISTRATION = 7;
-  //  8 Dose Override
-  private static final int FIELD_OUT_INPUT_DOSE_08_DOSE_OVERRIDE = 8;
-  //  9 Reserved for future use
-  private static final int FIELD_OUT_INPUT_DOSE_09_RESERVED_FOR_FUTURE_USE = 9;
-  //  10  Reserved for future use
-  private static final int FIELD_OUT_INPUT_DOSE_10_RESERVED_FOR_FUTURE_USE = 10;
+  //  4 Date of Dose Administration
+  private static final int FIELD_OUT_INPUT_DOSE_07_DATE_OF_DOSE_ADMINISTRATION = 4;
+  //  5 Dose Override
+  private static final int FIELD_OUT_INPUT_DOSE_08_DOSE_OVERRIDE = 5;
+  //  6 Reserved for future use
+  private static final int FIELD_OUT_INPUT_DOSE_09_RESERVED_FOR_FUTURE_USE = 6;
+  //  7  Reserved for future use
+  private static final int FIELD_OUT_INPUT_DOSE_10_RESERVED_FOR_FUTURE_USE = 7;
 
   //  1 Dose Due IMM/Serve Series Code
   private static final int FIELD_OUT_DOSE_DUE_1_DOSE_DUE_IMM_SERVE_SERIES_CODE = 1;
@@ -224,6 +218,7 @@ public class CaretForecaster
 
   private int runCode = 0;
   private String runProblem = "";
+  private Throwable exception = null;
 
   private String request = "";
   private StringBuilder response = new StringBuilder();
@@ -297,7 +292,7 @@ public class CaretForecaster
       request = "";
     } else {
       caseDetailRequest = request.substring(0, pos);
-      chopRequest(request, pos);
+      request = chopRequest(request, pos);
     }
 
     caseDetailFieldList = new ArrayList<String>();
@@ -448,7 +443,9 @@ public class CaretForecaster
         String cvxCode = readField(inputDoseFieldList, FIELD_IN_INPUT_DOSE_2_DOSE_HL7_CODE);
         // TODO mapping code to cvx
         // for now, tack on 0 for single digit codes
-        if (cvxCode.length() == 1) {
+        if (cvxCode.length() == 0) {
+          continue;
+        } else if (cvxCode.length() == 1) {
           cvxCode = "0" + cvxCode;
         }
         Integer vaccineId = null;
@@ -457,6 +454,9 @@ public class CaretForecaster
           vaccineId = cvxToVaccineIdMap.get(cvxCode);
         }
 
+        if (readField(inputDoseFieldList, FIELD_IN_INPUT_DOSE_3_DATE_OF_DOSE_ADMINISTRATION).equals("")) {
+          continue;
+        }
         Date doseAdminDate = readDate(inputDoseFieldList, FIELD_IN_INPUT_DOSE_3_DATE_OF_DOSE_ADMINISTRATION);
 
         String doseOveride = readField(inputDoseFieldList, FIELD_IN_INPUT_DOSE_4_DOSE_OVERRIDE);
@@ -471,10 +471,10 @@ public class CaretForecaster
         imm.setDateOfShot(doseAdminDate);
         imm.setDoseNote(doseNote);
         if (vaccineId == null) {
-          imm.setHl7CodeErrorCode(HL7_CODE_ERROR_CODE_UNSUPPORTED);
+          imm.setHl7CodeErrorCode(HL7_CODE_ERROR_CODE_UNRECOGNIZED);
           imm.setVaccineId(0);
         } else {
-          imm.setHl7CodeErrorCode("0");
+          imm.setHl7CodeErrorCode(HL7_CODE_ERROR_CODE_NONE);
           imm.setVaccineId(vaccineId);
         }
         imms.add(imm);
@@ -505,34 +505,30 @@ public class CaretForecaster
           FIELD_OUT_CASE_DATA_11_DATE_OF_BIRTH);
       addValue(readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_09_GENDER), FIELD_OUT_CASE_DATA_12_GENDER);
 
+      // #2 History Segment
       response.append(SECTION_SEPARATOR);
       {
         boolean first = true;
-        currentPosition = 1;
         i = 0;
         for (List<String> inputDoseFieldList : inputDoseFieldListList) {
           if (!first) {
             response.append(DOSE_SEPARATOR);
           }
+          first = false;
+          currentPosition = 1;
           ImmunizationMDA imm = (ImmunizationMDA) imms.get(i);
           addValue(imm.getDoseNote(), FIELD_OUT_INPUT_DOSE_01_DOSE_NOTE);
           addValue(imm.getCvx(), FIELD_OUT_INPUT_DOSE_02_DOSE_INPUT_HL7_CODE);
-          addValue(imm.getDoseNote(), FIELD_OUT_INPUT_DOSE_03_DOSE_INPUT_HL7_CODE_ERROR_CODE);
-          addValue(imm.getCvx(), FIELD_OUT_INPUT_DOSE_04_DOSE_INPUT_PRINT_STRING);
-          addValue(imm.getCvx(), FIELD_OUT_INPUT_DOSE_05_DOSE_HL7_CODE_);
-          if (imm.getVaccineId() != 0) {
-            addValue(imm.getCvx(), FIELD_OUT_INPUT_DOSE_06_DOSE_HL7_CODE_PRINT_STRING);
-          }
+          addValue(imm.getHl7CodeErrorCode(), FIELD_OUT_INPUT_DOSE_03_DOSE_INPUT_HL7_CODE_ERROR_CODE);
           addValue(new DateTime(imm.getDateOfShot()).toString("YMD"),
               FIELD_OUT_INPUT_DOSE_07_DATE_OF_DOSE_ADMINISTRATION);
-          addValue("", FIELD_OUT_INPUT_DOSE_10_RESERVED_FOR_FUTURE_USE);
-          response.append(DOSE_SEPARATOR);
 
           i++;
         }
         response.append(SECTION_SEPARATOR);
       }
 
+      // #3 Doses Due Segment
       Set<String> nc = new HashSet<String>();
       {
 
@@ -553,6 +549,7 @@ public class CaretForecaster
             if (!first) {
               response.append(DOSE_SEPARATOR);
             }
+            first = false;
             currentPosition = 1;
             String doseDueCode = seriesOutHash.get(forecastResult.getForecastName());
             //        String doseHL7Code = doseDueOutHash.get(forecastResult.getForecastName());
@@ -577,7 +574,6 @@ public class CaretForecaster
             //        addValue(overdue ? "1" : "0", FIELD_OUT_149_DOSE_DUE_EXCEEDS_REMINDER_DATE + base);
             //        addValue("", FIELD_OUT_150_DOSE_DUE_VFC_PAYMENT_INDICATOR + base);
             addValue("", FIELD_OUT_DOSE_DUE_08_RESERVED_FOR_FUTURE_USE);
-            response.append(DOSE_SEPARATOR);
 
           }
           response.append(SECTION_SEPARATOR);
@@ -721,7 +717,7 @@ public class CaretForecaster
     return notCompleted.contains(forecastName) ? "0" : "1";
   }
 
-  private SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");
+  private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
   private int readInt(List<String> fieldList, int position) throws Exception {
     String value = readField(fieldList, position);
@@ -772,7 +768,7 @@ public class CaretForecaster
   // java -classpath tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster
 
   public static void main(String[] args) throws Exception {
-    String request = ForecastServer.TEST_1;
+    String request = ForecastServer.TEST_2;
     if (args.length > 0) {
       request = args[0];
     }

@@ -14,6 +14,7 @@ public class ForecastServer {
   // java -classpath tch-forecaster.jar org.tch.forecast.core.server.ForecastServer [port num]
 
   public static final String TEST_1 = "09052012^R^^^^TEST123^^01012012^M^^^^^^^^^^^^^^^^^^^^^~~~TEST456^50^03132012^^^^|||";
+  public static final String TEST_2 = "20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||";
   // java -classpath tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster
 
   protected static VaccineForecastManager vaccineForecastManager = null;
@@ -54,6 +55,11 @@ public class ForecastServer {
   }
 
   public static final int DEFAULT_PORT = 6708;
+  
+  public void close() throws IOException
+  {
+    serverSocket.close();
+  }
 
   public static void main(String[] args) throws IOException {
     int port = DEFAULT_PORT;
