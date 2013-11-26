@@ -8,30 +8,61 @@ import java.util.Map;
 import org.tch.forecast.core.api.impl.CvxCodes;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
 
-public class ForecastServer {
+public class ForecastServer extends Thread
+{
 
   private ServerSocket serverSocket;
   // java -classpath tch-forecaster.jar org.tch.forecast.core.server.ForecastServer [port num]
 
-  public static final String TEST_1 = "09052012^R^^^^TEST123^^01012012^M^^^^^^^^^^^^^^^^^^^^^~~~TEST456^50^03132012^^^^|||";
+  public static final String TEST_1 = "20120905^R^^^^TEST123^^20120101^M^^^^^^^^^^^^^^^^^^^^^~~~TEST456^50^20120313^^^^|||";
   public static final String TEST_2 = "20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||";
   // java -classpath tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster
 
   protected static VaccineForecastManager vaccineForecastManager = null;
   protected static Map<String, Integer> cvxToVaccineIdMap = null;
 
-  public ForecastServer(int port) throws IOException {
-    System.out.println("Starting TCH Forecast Server");
+  private int port = DEFAULT_PORT;
+  private boolean debug = false;
+
+  public boolean isDebug() {
+    return debug;
+  }
+
+  public void setDebug(boolean debug) {
+    this.debug = debug;
+  }
+
+  public ForecastServer() {
+    // default
+  }
+
+  public ForecastServer(int port) {
+    this.port = port;
+  }
+
+  private static final String LOG_PRE = "TCH Forecaster: ";
+
+  @Override
+  public void run() {
+    System.out.println(LOG_PRE + "Starting");
 
     try {
-      System.out.println("  + loading forecaster");
+      System.out.println(LOG_PRE + "  + loading forecaster core");
       vaccineForecastManager = new VaccineForecastManager();
-      System.out.println("  + loading cvx codes");
+      System.out.println(LOG_PRE + "  + loading cvx codes");
       cvxToVaccineIdMap = CvxCodes.getCvxToVaccineIdMap();
-      System.out.println("Testing forecaster to ensure that it works");
-      System.out.print("  + Test 1: ");
+      System.out.println(LOG_PRE + "Testing");
+      System.out.print(LOG_PRE + "  + Test 1: ");
       CaretForecaster caretForecaster = new CaretForecaster(TEST_1);
       String response = caretForecaster.forecast(vaccineForecastManager, cvxToVaccineIdMap);
+      if (response.length() > 20) {
+        System.out.println("pass");
+      } else {
+        System.out.println("fail");
+      }
+      System.out.print(LOG_PRE + "  + Test 2: ");
+      caretForecaster = new CaretForecaster(TEST_2);
+      response = caretForecaster.forecast(vaccineForecastManager, cvxToVaccineIdMap);
       if (response.length() > 20) {
         System.out.println("pass");
       } else {
@@ -40,25 +71,38 @@ public class ForecastServer {
 
     } catch (Exception e) {
       System.out.println("fail");
-      System.out.println("Unable to start forecaster because " + e.getMessage());
+      System.out.println(LOG_PRE + "Unable to start forecaster because " + e.getMessage());
       e.printStackTrace();
       return;
     }
-    serverSocket = new ServerSocket(port);
-    System.out.println("Connected on port " + port);
-    while (true) {
-      Socket socket = serverSocket.accept();
-      System.out.println("Received request from local port " + socket.getLocalPort());
-      ForecastHandler forecastHandler = new ForecastHandler(socket);
-      forecastHandler.start();
+    try {
+      serverSocket = new ServerSocket(port);
+      System.out.println("Connected on port " + port);
+      while (true) {
+        Socket socket = serverSocket.accept();
+        if (debug) {
+          System.out.println(LOG_PRE + "Received request from local port " + socket.getLocalPort());
+        }
+        ForecastHandler forecastHandler = new ForecastHandler(socket, this);
+        forecastHandler.start();
+      }
+    } catch (IOException e) {
+      System.out.println("Unable to listen on port " + port + ", shutting down TCH Foreacast Server");
+      e.printStackTrace();
     }
+  }
+  
+  protected void log(String message)
+  {
+    System.out.println(LOG_PRE + message);
   }
 
   public static final int DEFAULT_PORT = 6708;
-  
-  public void close() throws IOException
-  {
-    serverSocket.close();
+
+  public void close() throws IOException {
+    if (serverSocket != null) {
+      serverSocket.close();
+    }
   }
 
   public static void main(String[] args) throws IOException {
@@ -80,6 +124,7 @@ public class ForecastServer {
         port = DEFAULT_PORT;
       }
     }
-    new ForecastServer(port);
+    ForecastServer forecastServer = new ForecastServer(port);
+    forecastServer.start();
   }
 }

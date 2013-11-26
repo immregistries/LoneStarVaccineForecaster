@@ -7,13 +7,17 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 
-public class ForecastHandler extends Thread {
+public class ForecastHandler extends Thread
+{
   private Socket socket;
   private DataInputStream input = null;
   private PrintStream output = null;
+  private ForecastServer forecastServer = null;
 
-  public ForecastHandler(Socket socket) {
+  public ForecastHandler(Socket socket, ForecastServer forecastServer) {
     this.socket = socket;
+    this.forecastServer = forecastServer;
+
   }
 
   public void run() {
@@ -24,7 +28,9 @@ public class ForecastHandler extends Thread {
     try {
       BufferedReader in = new BufferedReader(new InputStreamReader(input));
       String request = in.readLine();
-      System.out.println("  Request: " + request);
+      if (forecastServer.isDebug()) {
+        forecastServer.log("  Request: " + request);
+      }
       String response = "";
       try {
         CaretForecaster caretForecaster = new CaretForecaster(request);
@@ -33,11 +39,13 @@ public class ForecastHandler extends Thread {
         response = "Unexpected problem: " + e.getMessage();
         e.printStackTrace();
       }
-      System.out.println("  Response: " + response);
+      if (forecastServer.isDebug()) {
+        forecastServer.log("  Response: " + response);
+      }
       output.println(response);
     } catch (IOException ioe) {
-      System.err.println("Unable to process request: " + ioe.getMessage());
-      ioe.printStackTrace(System.err);
+      forecastServer.log("Unable to process request: " + ioe.getMessage());
+      ioe.printStackTrace();
     } finally {
       close();
     }
@@ -49,8 +57,8 @@ public class ForecastHandler extends Thread {
       input.close();
       socket.close();
     } catch (IOException ioe) {
-      System.err.println("Unable to close outputs: " + ioe.getMessage());
-      ioe.printStackTrace(System.err);
+      forecastServer.log("Unable to close outputs: " + ioe.getMessage());
+      ioe.printStackTrace();
     }
   }
 
@@ -58,14 +66,14 @@ public class ForecastHandler extends Thread {
     try {
       input = new DataInputStream(socket.getInputStream());
     } catch (IOException ioe) {
-      System.err.println("Unable to create input stream: " + ioe.getMessage());
-      ioe.printStackTrace(System.err);
+      forecastServer.log("Unable to create input stream: " + ioe.getMessage());
+      ioe.printStackTrace();
     }
     try {
       output = new PrintStream(socket.getOutputStream());
     } catch (IOException ioe) {
-      System.err.println("Unable to create output stream: " + ioe.getMessage());
-      ioe.printStackTrace(System.err);
+      forecastServer.log("Unable to create output stream: " + ioe.getMessage());
+      ioe.printStackTrace();
     }
   }
 
