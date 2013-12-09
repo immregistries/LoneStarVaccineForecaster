@@ -14,8 +14,10 @@ public class ForecastServer extends Thread
   private ServerSocket serverSocket;
   // java -classpath tch-forecaster.jar org.tch.forecast.core.server.ForecastServer [port num]
 
-  public static final String TEST_1 = "20120905^R^^^^TEST123^^20120101^M^^^^^^^^^^^^^^^^^^^^^~~~TEST456^50^20120313^^^^|||";
-  public static final String TEST_2 = "20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||";
+  public static final String[] TEST = {
+      "20120905^R^^^^TEST123^^20120101^M^^^^^^^^^^^^^^^^^^^^^~~~TEST456^50^20120313^^^^|||",
+      "20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||",
+      "20131126^A^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||^" };
   // java -classpath tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster
 
   protected static VaccineForecastManager vaccineForecastManager = null;
@@ -52,23 +54,17 @@ public class ForecastServer extends Thread
       System.out.println(LOG_PRE + "  + loading cvx codes");
       cvxToVaccineIdMap = CvxCodes.getCvxToVaccineIdMap();
       System.out.println(LOG_PRE + "Testing");
-      System.out.print(LOG_PRE + "  + Test 1: ");
-      CaretForecaster caretForecaster = new CaretForecaster(TEST_1);
-      String response = caretForecaster.forecast(vaccineForecastManager, cvxToVaccineIdMap);
-      if (response.length() > 20) {
-        System.out.println("pass");
-      } else {
-        System.out.println("fail");
-      }
-      System.out.print(LOG_PRE + "  + Test 2: ");
-      caretForecaster = new CaretForecaster(TEST_2);
-      response = caretForecaster.forecast(vaccineForecastManager, cvxToVaccineIdMap);
-      if (response.length() > 20) {
-        System.out.println("pass");
-      } else {
-        System.out.println("fail");
-      }
 
+      for (int i = 0; i < TEST.length; i++) {
+        System.out.print(LOG_PRE + "  + Test " + (i + 1) + ": ");
+        CaretForecaster caretForecaster = new CaretForecaster(TEST[i]);
+        String response = caretForecaster.forecast(vaccineForecastManager, cvxToVaccineIdMap);
+        if (response.length() > 20) {
+          System.out.println("pass");
+        } else {
+          System.out.println("fail");
+        }
+      }
     } catch (Exception e) {
       System.out.println("fail");
       System.out.println(LOG_PRE + "Unable to start forecaster because " + e.getMessage());
@@ -91,9 +87,8 @@ public class ForecastServer extends Thread
       e.printStackTrace();
     }
   }
-  
-  protected void log(String message)
-  {
+
+  protected void log(String message) {
     System.out.println(LOG_PRE + message);
   }
 

@@ -230,13 +230,13 @@ public class CaretForecaster
     seriesOutHash.put(ImmunizationForecastDataBean.DIPHTHERIA, "101"); // D/T Series
     seriesOutHash.put(ImmunizationForecastDataBean.TDAP, "101"); // D/T Series
     seriesOutHash.put(ImmunizationForecastDataBean.HEPA, "102"); // Hepatitis A Series
-    seriesOutHash.put(ImmunizationForecastDataBean.HEPB, "103"); // Hepatitis B Series
+    seriesOutHash.put(ImmunizationForecastDataBean.HEPB, "45"); // Hepatitis B Series
     seriesOutHash.put(ImmunizationForecastDataBean.HIB, "104"); // Hib Series
     seriesOutHash.put(ImmunizationForecastDataBean.MMR, "105"); // MMR Series
     seriesOutHash.put(ImmunizationForecastDataBean.MEASLES, "105"); // MMR Series
     seriesOutHash.put(ImmunizationForecastDataBean.MUMPS, "105"); // MMR Series
     seriesOutHash.put(ImmunizationForecastDataBean.RUBELLA, "105"); // MMR  Series
-    seriesOutHash.put(ImmunizationForecastDataBean.POLIO, "106"); // IPV/OPV  Series
+    seriesOutHash.put(ImmunizationForecastDataBean.POLIO, "10"); // IPV/OPV  Series
     seriesOutHash.put(ImmunizationForecastDataBean.VARICELLA, "107"); // Varicella
     // seriesOutHash.put("", "108"); // HBIG -- IMM/Serve treats HBIG as a standalone series
     seriesOutHash.put(ImmunizationForecastDataBean.TD, "109"); // D/T Series
@@ -510,13 +510,13 @@ public class CaretForecaster
       {
         boolean first = true;
         i = 0;
-        for (List<String> inputDoseFieldList : inputDoseFieldListList) {
+        for (ImmunizationInterface immInterface : imms) {
           if (!first) {
             response.append(DOSE_SEPARATOR);
           }
           first = false;
           currentPosition = 1;
-          ImmunizationMDA imm = (ImmunizationMDA) imms.get(i);
+          ImmunizationMDA imm = (ImmunizationMDA) immInterface;
           addValue(imm.getDoseNote(), FIELD_OUT_INPUT_DOSE_01_DOSE_NOTE);
           addValue(imm.getCvx(), FIELD_OUT_INPUT_DOSE_02_DOSE_INPUT_HL7_CODE);
           addValue(imm.getHl7CodeErrorCode(), FIELD_OUT_INPUT_DOSE_03_DOSE_INPUT_HL7_CODE_ERROR_CODE);
@@ -537,7 +537,7 @@ public class CaretForecaster
         for (Iterator<ImmunizationForecastDataBean> it = forecastListDueToday.iterator(); it.hasNext();) {
           ImmunizationForecastDataBean forecastResult = it.next();
           nc.add(forecastResult.getForecastName());
-          if (!seriesOutHash.containsKey(forecastResult.getForecastName())) {
+          if (!doseDueOutHash.containsKey(forecastResult.getForecastName())) {
             it.remove();
           }
           filter(filterSet, forecastListDueTodayAdd, it, forecastResult);
@@ -551,7 +551,7 @@ public class CaretForecaster
             }
             first = false;
             currentPosition = 1;
-            String doseDueCode = seriesOutHash.get(forecastResult.getForecastName());
+            String doseDueCode = doseDueOutHash.get(forecastResult.getForecastName());
             //        String doseHL7Code = doseDueOutHash.get(forecastResult.getForecastName());
             //        if (doseHL7Code == null) {
             //          doseHL7Code = "";
@@ -583,7 +583,7 @@ public class CaretForecaster
         for (Iterator<ImmunizationForecastDataBean> it = forecastListDueLater.iterator(); it.hasNext();) {
           ImmunizationForecastDataBean forecastResult = it.next();
           nc.add(forecastResult.getForecastName());
-          if (!seriesOutHash.containsKey(forecastResult.getForecastName())) {
+          if (!doseDueOutHash.containsKey(forecastResult.getForecastName())) {
             it.remove();
           }
           filter(filterSet, forecastListDueLaterAdd, it, forecastResult);
@@ -596,7 +596,7 @@ public class CaretForecaster
               response.append(DOSE_SEPARATOR);
             }
             currentPosition = 1;
-            String doseDueCode = seriesOutHash.get(forecastResult.getForecastName());
+            String doseDueCode = doseDueOutHash.get(forecastResult.getForecastName());
             //        String doseHL7Code = doseDueOutHash.get(forecastResult.getForecastName());
             //        if (doseHL7Code == null) {
             //          doseHL7Code = "";
@@ -768,7 +768,7 @@ public class CaretForecaster
   // java -classpath tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster
 
   public static void main(String[] args) throws Exception {
-    String request = ForecastServer.TEST_2;
+    String request = ForecastServer.TEST[1];
     if (args.length > 0) {
       request = args[0];
     }
