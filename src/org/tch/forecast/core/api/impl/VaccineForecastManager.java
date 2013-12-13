@@ -35,6 +35,11 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface {
   public ForecastSchedule getForecastSchedule() {
     return forecastSchedule;
   }
+  
+  public Map<String, List<Schedule>> getIndicationsMap()
+  {
+    return indications;
+  }
 
   public List<Schedule> getIndications(String indication) throws Exception {
     init();

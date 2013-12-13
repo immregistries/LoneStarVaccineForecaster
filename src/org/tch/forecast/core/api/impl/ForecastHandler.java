@@ -1,8 +1,5 @@
 package org.tch.forecast.core.api.impl;
 
-import java.io.BufferedReader;
-
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,11 +23,19 @@ public class ForecastHandler implements ForecastHandlerInterface {
 
   private static Map<String, Integer> cvxToVaccineIdMap = null;
 
+  public static Map<String, Integer> getCvxToVaccineIdMap() throws Exception {
+    if (cvxToVaccineIdMap == null) {
+      cvxToVaccineIdMap = CvxCodes.getCvxToVaccineIdMap();
+    }
+    return cvxToVaccineIdMap;
+  }
+
   private synchronized void initCvxCodes() throws Exception {
     if (cvxToVaccineIdMap == null) {
       cvxToVaccineIdMap = CvxCodes.getCvxToVaccineIdMap();
     }
   }
+ 
 
   private static ForecastHandlerCore forecastHandlerCore = null;
 
