@@ -16,16 +16,19 @@ public class ImmunizationForecastDataBean
   public static final String DIPHTHERIA = "Diphtheria";
   public static final String ROTAVIRUS = "Rotavirus";
   public static final String PNEUMO = "Pneumo";
+  public static final String PCV13 = "PCV13";
   public static final String HEPA = "HepA";
   public static final String HPV = "HPV";
   public static final String MENING = "Mening";
+  public static final String MCV4 = "MCV4";
   public static final String MEASLES = "Measles";
   public static final String MUMPS = "Mumps";
   public static final String RUBELLA = "Rubella";
   public static final String VARICELLA = "Varicella";
   public static final String PERTUSSIS = "Pertussis";
   public static final String INFLUENZA = "Influenza";
-  
+  public static final String PPSV = "PPSV";
+  public static final String ZOSTER = "Zoster";
   public static final String MMR = "MMR";
   public static final String DTAP = "DTaP";
   public static final String TDAP = "Tdap";

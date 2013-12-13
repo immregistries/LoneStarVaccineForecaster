@@ -224,29 +224,7 @@ public class CaretForecaster
   private StringBuilder response = new StringBuilder();
   private int currentPosition = 1;
 
-  private static HashMap<String, String> seriesOutHash = new HashMap<String, String>();
-  static {
-    seriesOutHash.put(ImmunizationForecastDataBean.DTAP, "101"); // D/T Series
-    seriesOutHash.put(ImmunizationForecastDataBean.DIPHTHERIA, "101"); // D/T Series
-    seriesOutHash.put(ImmunizationForecastDataBean.TDAP, "101"); // D/T Series
-    seriesOutHash.put(ImmunizationForecastDataBean.HEPA, "102"); // Hepatitis A Series
-    seriesOutHash.put(ImmunizationForecastDataBean.HEPB, "45"); // Hepatitis B Series
-    seriesOutHash.put(ImmunizationForecastDataBean.HIB, "104"); // Hib Series
-    seriesOutHash.put(ImmunizationForecastDataBean.MMR, "105"); // MMR Series
-    seriesOutHash.put(ImmunizationForecastDataBean.MEASLES, "105"); // MMR Series
-    seriesOutHash.put(ImmunizationForecastDataBean.MUMPS, "105"); // MMR Series
-    seriesOutHash.put(ImmunizationForecastDataBean.RUBELLA, "105"); // MMR  Series
-    seriesOutHash.put(ImmunizationForecastDataBean.POLIO, "10"); // IPV/OPV  Series
-    seriesOutHash.put(ImmunizationForecastDataBean.VARICELLA, "107"); // Varicella
-    // seriesOutHash.put("", "108"); // HBIG -- IMM/Serve treats HBIG as a standalone series
-    seriesOutHash.put(ImmunizationForecastDataBean.TD, "109"); // D/T Series
-    seriesOutHash.put(ImmunizationForecastDataBean.ROTAVIRUS, "110"); // Rotavirus Series
-    seriesOutHash.put(ImmunizationForecastDataBean.PNEUMO, "111"); // Strep-Pneumococcal Series
-    seriesOutHash.put(ImmunizationForecastDataBean.INFLUENZA, "112"); // Influenza Series
-    seriesOutHash.put(ImmunizationForecastDataBean.MENING, "113"); // Meningococcal Series
-    seriesOutHash.put(ImmunizationForecastDataBean.HPV, "114"); // HPV Series
-    // seriesOutHash.put("", "115"); // H1N1Flu Series
-  }
+
   private static HashMap<String, String> doseDueOutHash = new HashMap<String, String>();
   static {
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"1"); // DTP
@@ -261,18 +239,20 @@ public class CaretForecaster
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"28"); // DT pediatric
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"30"); // HBIG
     doseDueOutHash.put(ImmunizationForecastDataBean.HEPA, "31"); // Hep A  pediatric
-    doseDueOutHash.put(ImmunizationForecastDataBean.PNEUMO, "33"); // Strep  Pneumococcal (polysacchoride)
+    doseDueOutHash.put(ImmunizationForecastDataBean.PCV13, "133"); // Strep  Pneumococcal (polysacchoride)
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"49"); // Hib PRP-OMP
-    doseDueOutHash.put(ImmunizationForecastDataBean.HPV, "62"); // HPV,  quadrivalent
+    doseDueOutHash.put(ImmunizationForecastDataBean.HPV, "137"); // HPV,  quadrivalent
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"89"); // Unspecified Polio
-    doseDueOutHash.put(ImmunizationForecastDataBean.MENING, "114"); // Meningococcal (MCV4)
+    doseDueOutHash.put(ImmunizationForecastDataBean.MCV4, "147"); // Meningococcal (MCV4)
     doseDueOutHash.put(ImmunizationForecastDataBean.TDAP, "115"); // Tdap
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"116"); // Rotavirus, pentavalent
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"119"); // Rotavirus,monovalent
     doseDueOutHash.put(ImmunizationForecastDataBean.ROTAVIRUS, "122"); // Rotavirus, NOS
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"128"); // H1N1-09, NOS
-    doseDueOutHash.put(ImmunizationForecastDataBean.PNEUMO, "133"); // Pneumococcal,  PCV13
-    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA, "141"); // Influenza, seasonal, injectable
+    doseDueOutHash.put(ImmunizationForecastDataBean.PPSV, "33"); // Pneumococcal,  PCV13
+    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA, "88"); // Influenza, seasonal, injectable
+    doseDueOutHash.put(ImmunizationForecastDataBean.ZOSTER, "36"); // Influenza, seasonal, injectable
+    
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-10"); // Td Adult  Booster
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-12"); // Unspecified D/T
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-13"); // Tdap Adult Booster
@@ -453,7 +433,7 @@ public class CaretForecaster
         if (cvxToVaccineIdMap.containsKey(cvxCode)) {
           vaccineId = cvxToVaccineIdMap.get(cvxCode);
         }
-
+        
         if (readField(inputDoseFieldList, FIELD_IN_INPUT_DOSE_3_DATE_OF_DOSE_ADMINISTRATION).equals("")) {
           continue;
         }
@@ -765,10 +745,10 @@ public class CaretForecaster
     currentPosition++;
   }
 
-  // java -classpath tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster
+  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster
 
   public static void main(String[] args) throws Exception {
-    String request = ForecastServer.TEST[1];
+    String request = ForecastServer.TEST[0];
     if (args.length > 0) {
       request = args[0];
     }

@@ -1,5 +1,7 @@
 package org.tch.forecast.core.api.test;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +17,7 @@ import org.tch.forecast.core.api.model.ForecastRecommendationInterface;
 import org.tch.forecast.core.api.model.ForecastRequestInterface;
 import org.tch.forecast.core.api.model.ForecastResponseInterface;
 import org.tch.forecast.core.api.model.ForecastVaccinationInterface;
+import org.tch.forecast.core.server.ForecastReportPrinter;
 
 public class TestForecaster {
   // To run this simply:
@@ -190,84 +193,13 @@ public class TestForecaster {
       System.out.println("Vaccination: " + forecastVaccination.getCvxCode() + " given "
           + sdf.format(forecastVaccination.getAdminDate()));
     }
+    
+    PrintStream out = System.out;
 
-    System.out.println();
-    System.out.println("-- FORECAST ------------------------------------------------------------------");
-    System.out.println("LABEL     ANTIGEN   STATUS   DOSE  VALID      DUE        OVERDUE    FINISHED ");
-    System.out.println("------------------------------------------------------------------------------");
-    for (ForecastRecommendationInterface recommendation : response.getRecommendationList()) {
-
-      System.out.print(pad(recommendation.getDisplayLabel(), 10));
-      System.out.print(pad(recommendation.getAntigenName(), 10));
-      System.out.print(pad(recommendation.getStatusDescription(), 9));
-      System.out.print(pad(recommendation.getDoseNumber(), 6));
-      System.out.print(sdf.format(recommendation.getDueDate()));
-      System.out.print(" ");
-      System.out.print(sdf.format(recommendation.getValidDate()));
-      System.out.print(" ");
-      System.out.print(sdf.format(recommendation.getOverdueDate()));
-      System.out.print(" ");
-      System.out.print(sdf.format(recommendation.getFinishedDate()));
-      System.out.print(" ");
-//      System.out.print(" [" + recommendation.getEvaluationExplanation() + "]");
-      System.out.println();
-    }
-    System.out.println("------------------------------------------------------------------------------");
-    System.out.println();
-    System.out.println("-- EVALUATION ----------------------------------------------------------------");
-    System.out.println("DATE       CVX  FORECAST   SCH DO ST REASON                           ");
-    System.out.println("------------------------------------------------------------------------------");
-    for (ForecastVaccinationInterface forecastVaccination : response.getVaccinationList()) {
-      System.out.print(sdf.format(forecastVaccination.getAdminDate()));
-      System.out.print(" ");
-      System.out.print(pad(forecastVaccination.getCvxCode(), 5));
-      System.out.print(pad(forecastVaccination.getForecastCode(), 11));
-      System.out.print(pad(forecastVaccination.getScheduleCode(), 4));
-      System.out.print(pad(forecastVaccination.getDoseCode(), 3));
-      System.out.print(pad(forecastVaccination.getStatusCode(), 3));
-      System.out.print(pad(forecastVaccination.getReasonText(), 42));
-      System.out.println();
-      if (forecastVaccination.getReasonText().length() > 42) {
-        System.out.println("                                     "
-            + pad(forecastVaccination.getReasonText().substring(42), 42));
-        if (forecastVaccination.getReasonText().length() > 84) {
-          System.out.println("                                     "
-              + pad(forecastVaccination.getReasonText().substring(84), 42));
-        }
-      }
-    }
-    System.out.println("------------------------------------------------------------------------------");
-    System.out.println();
-    System.out.println("-- EVALUATION DETAILS --------------------------------------------------------");
-    System.out.println("DATE       CVX  FORECAST   SCH DETAILS                                        ");
-    System.out.println("------------------------------------------------------------------------------");
-    for (ForecastVaccinationInterface forecastVaccination : response.getVaccinationList()) {
-      System.out.print(sdf.format(forecastVaccination.getAdminDate()));
-      System.out.print(" ");
-      System.out.print(pad(forecastVaccination.getCvxCode(), 5));
-      System.out.print(pad(forecastVaccination.getForecastCode(), 11));
-      System.out.print(pad(forecastVaccination.getScheduleCode(), 4));
-      System.out.print(pad(forecastVaccination.getWhenValidText(), 51));
-      System.out.println();
-    }
-    System.out.println("------------------------------------------------------------------------------");
-    System.out.println();
-    System.out.println("-- EVALUATION EXPLANATION TEXT (HTML) ----------------------------------------");
-    for (ForecastRecommendationInterface recommendation : response.getRecommendationList()) {
-      System.out.println(recommendation.getDecisionProcessTextHTML());
-    }
-    System.out.println("------------------------------------------------------------------------------");
+    ForecastReportPrinter.printTables(sdf, response, out);
 
   }
 
-  private static String pad(String s, int size) {
-    if (s.length() > size) {
-      return s.substring(0, size);
-    } else {
-      while (s.length() < size) {
-        s = s + " ";
-      }
-    }
-    return s;
-  }
+ 
+
 }
