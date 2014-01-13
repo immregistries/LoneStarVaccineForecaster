@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.tch.forecast.core.VaccineForecastDataBean.IndicationCriteria;
 import org.tch.forecast.core.VaccineForecastDataBean.NamedVaccine;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;

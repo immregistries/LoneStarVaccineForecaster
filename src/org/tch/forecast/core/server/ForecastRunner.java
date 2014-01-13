@@ -17,6 +17,7 @@ import org.tch.forecast.core.TraceList;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
 import org.tch.forecast.core.api.impl.ForecastHandlerCore;
+import org.tch.forecast.core.api.impl.ForecastOptions;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.model.PatientRecordDataBean;
 
@@ -127,14 +128,11 @@ public class ForecastRunner {
   }
 
   public void forecast() throws Exception {
-    StringBuffer traceBuffer = new StringBuffer();
-    Forecaster forecaster = new Forecaster(vaccineForecastManager);
-    forecaster.setPatient(patient);
-    forecaster.setVaccinations(imms);
-    forecaster.setForecastDate(forecastDate);
-    forecaster.forecast(resultList, doseList, traceBuffer, traceMap);
-    forecasterScheduleName = forecaster.getForecastSchedule().getScheduleName();
-
+    ForecastOptions forecastOptions = new ForecastOptions();
+    ForecastHandlerCore forecastHandlerCore = new ForecastHandlerCore(vaccineForecastManager);
+    String forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms, new DateTime(forecastDate), traceMap,
+        resultList, forecastOptions);
+    
     DateTime forecastDateTime = new DateTime(forecastDate);
     forecastListDueToday = new ArrayList<ImmunizationForecastDataBean>();
     forecastListDueLater = new ArrayList<ImmunizationForecastDataBean>();

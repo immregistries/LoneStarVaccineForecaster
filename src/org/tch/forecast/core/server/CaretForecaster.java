@@ -14,6 +14,7 @@ import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.SoftwareVersion;
+import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.api.impl.CvxCodes;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.model.ImmunizationMDA;
@@ -224,27 +225,30 @@ public class CaretForecaster
   private StringBuilder response = new StringBuilder();
   private int currentPosition = 1;
 
-
   private static HashMap<String, String> doseDueOutHash = new HashMap<String, String>();
   static {
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"1"); // DTP
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"2"); // OPV
     doseDueOutHash.put(ImmunizationForecastDataBean.MMR, "3"); // MMR
     doseDueOutHash.put(ImmunizationForecastDataBean.MEASLES, "5"); // Measles
+    doseDueOutHash.put(ImmunizationForecastDataBean.MUMPS, "07"); // Mumps
+    doseDueOutHash.put(ImmunizationForecastDataBean.RUBELLA, "06"); // Rubella
     doseDueOutHash.put(ImmunizationForecastDataBean.HEPB, "8"); // Hep B adolescent or pediatric
-    doseDueOutHash.put(ImmunizationForecastDataBean.TD, "9"); // Td adult IPV
+    doseDueOutHash.put(ImmunizationForecastDataBean.TD, "9"); // Td adult
+    doseDueOutHash.put(ImmunizationForecastDataBean.TDAP, "115"); // Tdap
     doseDueOutHash.put(ImmunizationForecastDataBean.HIB, "17"); // Hib  unspecified
+    doseDueOutHash.put(ImmunizationForecastDataBean.DIPHTHERIA, "20"); // DTaP
     doseDueOutHash.put(ImmunizationForecastDataBean.DTAP, "20"); // DTaP
     doseDueOutHash.put(ImmunizationForecastDataBean.VARICELLA, "21"); // Varicella
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"28"); // DT pediatric
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"30"); // HBIG
-    doseDueOutHash.put(ImmunizationForecastDataBean.HEPA, "31"); // Hep A  pediatric
+    doseDueOutHash.put(ImmunizationForecastDataBean.HEPA, "85"); // Hep A  pediatric
     doseDueOutHash.put(ImmunizationForecastDataBean.PCV13, "133"); // Strep  Pneumococcal (polysacchoride)
+    doseDueOutHash.put(ImmunizationForecastDataBean.PNEUMO, "133"); // Strep  Pneumococcal (polysacchoride)
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"49"); // Hib PRP-OMP
     doseDueOutHash.put(ImmunizationForecastDataBean.HPV, "137"); // HPV,  quadrivalent
-    // doseDueOutHash.put(ImmunizationForecastDataBean. ,"89"); // Unspecified Polio
+    doseDueOutHash.put(ImmunizationForecastDataBean.POLIO ,"89"); // Unspecified Polio
     doseDueOutHash.put(ImmunizationForecastDataBean.MCV4, "147"); // Meningococcal (MCV4)
-    doseDueOutHash.put(ImmunizationForecastDataBean.TDAP, "115"); // Tdap
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"116"); // Rotavirus, pentavalent
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"119"); // Rotavirus,monovalent
     doseDueOutHash.put(ImmunizationForecastDataBean.ROTAVIRUS, "122"); // Rotavirus, NOS
@@ -252,7 +256,7 @@ public class CaretForecaster
     doseDueOutHash.put(ImmunizationForecastDataBean.PPSV, "33"); // Pneumococcal,  PCV13
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA, "88"); // Influenza, seasonal, injectable
     doseDueOutHash.put(ImmunizationForecastDataBean.ZOSTER, "36"); // Influenza, seasonal, injectable
-    
+
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-10"); // Td Adult  Booster
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-12"); // Unspecified D/T
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-13"); // Tdap Adult Booster
@@ -433,7 +437,7 @@ public class CaretForecaster
         if (cvxToVaccineIdMap.containsKey(cvxCode)) {
           vaccineId = cvxToVaccineIdMap.get(cvxCode);
         }
-        
+
         if (readField(inputDoseFieldList, FIELD_IN_INPUT_DOSE_3_DATE_OF_DOSE_ADMINISTRATION).equals("")) {
           continue;
         }
@@ -512,15 +516,19 @@ public class CaretForecaster
       Set<String> nc = new HashSet<String>();
       {
 
-        List<ImmunizationForecastDataBean> forecastListDueToday = forecastRunner.getForecastListDueToday();
-        List<ImmunizationForecastDataBean> forecastListDueTodayAdd = new ArrayList<ImmunizationForecastDataBean>();
-        for (Iterator<ImmunizationForecastDataBean> it = forecastListDueToday.iterator(); it.hasNext();) {
+        List<ImmunizationForecastDataBean> forecastListDueToday = new ArrayList<ImmunizationForecastDataBean>();
+        List<ImmunizationForecastDataBean> forecastListDueTodayAdd = new ArrayList<ImmunizationForecastDataBean>(
+            forecastRunner.getForecastListDueToday());
+        for (Iterator<ImmunizationForecastDataBean> it = forecastListDueTodayAdd.iterator(); it.hasNext();) {
           ImmunizationForecastDataBean forecastResult = it.next();
           nc.add(forecastResult.getForecastName());
           if (!doseDueOutHash.containsKey(forecastResult.getForecastName())) {
             it.remove();
           }
-          filter(filterSet, forecastListDueTodayAdd, it, forecastResult);
+          else
+          {
+            filter(filterSet, forecastListDueTodayAdd, it, forecastResult);
+          }
         }
         forecastListDueToday.addAll(forecastListDueTodayAdd);
         {
@@ -558,7 +566,8 @@ public class CaretForecaster
           }
           response.append(SECTION_SEPARATOR);
         }
-        List<ImmunizationForecastDataBean> forecastListDueLater = forecastRunner.getForecastListDueLater();
+        List<ImmunizationForecastDataBean> forecastListDueLater = new ArrayList<ImmunizationForecastDataBean>(
+            forecastRunner.getForecastListDueLater());
         List<ImmunizationForecastDataBean> forecastListDueLaterAdd = new ArrayList<ImmunizationForecastDataBean>();
         for (Iterator<ImmunizationForecastDataBean> it = forecastListDueLater.iterator(); it.hasNext();) {
           ImmunizationForecastDataBean forecastResult = it.next();
@@ -622,10 +631,11 @@ public class CaretForecaster
     return errorCode + "&&&" + response.toString() + "&&&" + description;
   }
 
-  public void filter(Set<String> filterSet, List<ImmunizationForecastDataBean> forecastListDueTodayAdd,
+  public boolean filter(Set<String> filterSet, List<ImmunizationForecastDataBean> forecastListDueTodayAdd,
       Iterator<ImmunizationForecastDataBean> it, ImmunizationForecastDataBean forecastResult) {
     if (filterSet.contains(forecastResult.getForecastName())) {
       it.remove();
+      return true;
     } else if (forecastResult.getForecastName().equals(ImmunizationForecastDataBean.MMR)
         && (filterSet.contains(ImmunizationForecastDataBean.MEASLES)
             || filterSet.contains(ImmunizationForecastDataBean.MUMPS) || filterSet
@@ -649,6 +659,7 @@ public class CaretForecaster
         forecastResultAdd.setForecastLabel(ImmunizationForecastDataBean.RUBELLA);
         forecastListDueTodayAdd.add(forecastResultAdd);
       }
+      return true;
     } else if (forecastResult.getForecastName().equals(ImmunizationForecastDataBean.DIPHTHERIA)
         || forecastResult.getForecastName().equals(ImmunizationForecastDataBean.DTAP)
         || forecastResult.getForecastName().equals(ImmunizationForecastDataBean.TD)
@@ -656,6 +667,7 @@ public class CaretForecaster
       if (filterSet.contains(ImmunizationForecastDataBean.DIPHTHERIA)) {
         // if Diphtheria is contraindicated no combination is valid
         it.remove();
+        return true;
       } else if (filterSet.contains(ImmunizationForecastDataBean.PERTUSSIS)) {
         // if Pertussis is contraindicated then only DT or TD can be given
         if (forecastResult.getForecastName().equals(ImmunizationForecastDataBean.DTAP)) {
@@ -669,6 +681,7 @@ public class CaretForecaster
         }
       }
     }
+    return false;
   }
 
   public ImmunizationForecastDataBean createForecastCopy(ImmunizationForecastDataBean forecastResult) {
