@@ -3,8 +3,10 @@ package org.tch.forecast.core.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.tch.forecast.core.api.impl.CvxCode;
 import org.tch.forecast.core.api.impl.CvxCodes;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
 
@@ -54,7 +56,11 @@ public class ForecastServer extends Thread
       System.out.println(LOG_PRE + "  + loading forecaster core");
       vaccineForecastManager = new VaccineForecastManager();
       System.out.println(LOG_PRE + "  + loading cvx codes");
-      cvxToVaccineIdMap = CvxCodes.getCvxToVaccineIdMap();
+      Map<String, CvxCode> cvxToCvxCodeMap = CvxCodes.getCvxToCvxCodeMap();
+      cvxToVaccineIdMap = new HashMap<String, Integer>();
+      for (CvxCode cvxCode : cvxToCvxCodeMap.values()) {
+        cvxToVaccineIdMap.put(cvxCode.getCvxCode(), cvxCode.getVaccineId());
+      }
       System.out.println(LOG_PRE + "Testing");
 
       for (int i = 0; i < TEST.length; i++) {

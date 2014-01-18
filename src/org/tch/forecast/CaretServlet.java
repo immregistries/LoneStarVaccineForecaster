@@ -2,6 +2,7 @@ package org.tch.forecast;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -9,11 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.tch.forecast.core.api.impl.CvxCode;
 import org.tch.forecast.core.api.impl.CvxCodes;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.server.CaretForecaster;
 
-public class CaretServlet extends HttpServlet {
+public class CaretServlet extends HttpServlet
+{
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,7 +40,11 @@ public class CaretServlet extends HttpServlet {
       } else {
         resp.setContentType("text/plain");
         VaccineForecastManager vaccineForecastManager = new VaccineForecastManager();
-        Map<String, Integer> cvxToVaccineIdMap = CvxCodes.getCvxToVaccineIdMap();
+        Map<String, CvxCode> cvxToCvxCodeMap = CvxCodes.getCvxToCvxCodeMap();
+        Map<String, Integer> cvxToVaccineIdMap = new HashMap<String, Integer>();
+        for (CvxCode cvxCode : cvxToCvxCodeMap.values()) {
+          cvxToVaccineIdMap.put(cvxCode.getCvxCode(), cvxCode.getVaccineId());
+        }
         CaretForecaster cf = new CaretForecaster(caretString);
         out.println(cf.forecast(vaccineForecastManager, cvxToVaccineIdMap));
       }

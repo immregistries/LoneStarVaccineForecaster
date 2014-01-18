@@ -21,18 +21,18 @@ import org.tch.forecast.core.model.PatientRecordDataBean;
 
 public class ForecastHandler implements ForecastHandlerInterface {
 
-  private static Map<String, Integer> cvxToVaccineIdMap = null;
+  private static Map<String, CvxCode> cvxToVaccineIdMap = null;
 
-  public static Map<String, Integer> getCvxToVaccineIdMap() throws Exception {
+  public static Map<String, CvxCode> getCvxToVaccineIdMap() throws Exception {
     if (cvxToVaccineIdMap == null) {
-      cvxToVaccineIdMap = CvxCodes.getCvxToVaccineIdMap();
+      cvxToVaccineIdMap = CvxCodes.getCvxToCvxCodeMap();
     }
     return cvxToVaccineIdMap;
   }
 
   private synchronized void initCvxCodes() throws Exception {
     if (cvxToVaccineIdMap == null) {
-      cvxToVaccineIdMap = CvxCodes.getCvxToVaccineIdMap();
+      cvxToVaccineIdMap = CvxCodes.getCvxToCvxCodeMap();
     }
   }
  
@@ -70,10 +70,15 @@ public class ForecastHandler implements ForecastHandlerInterface {
         if (!cvxToVaccineIdMap.containsKey(vaccineCvx) && !cvxToVaccineIdMap.containsKey("0" + vaccineCvx)) {
           throw new Exception("CVX code '" + vaccineCvx + "' is not recognized");
         }
+        CvxCode cvxCode = null;
         if (cvxToVaccineIdMap.containsKey(vaccineCvx)) {
-          vaccineId = cvxToVaccineIdMap.get(vaccineCvx);
+          cvxCode = cvxToVaccineIdMap.get(vaccineCvx);
         } else {
-          vaccineId = cvxToVaccineIdMap.get("0" + vaccineCvx);
+          cvxCode = cvxToVaccineIdMap.get("0" + vaccineCvx);
+        }
+        if (cvxCode != null)
+        {
+          vaccineId = cvxCode.getVaccineId();
         }
         if (vaccineId == 0) {
           throw new Exception("CVX code '" + vaccineCvx + "' is not recognized");

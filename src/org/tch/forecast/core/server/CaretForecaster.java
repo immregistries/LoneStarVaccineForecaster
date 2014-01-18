@@ -14,7 +14,7 @@ import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.SoftwareVersion;
-import org.tch.forecast.core.VaccinationDoseDataBean;
+import org.tch.forecast.core.api.impl.CvxCode;
 import org.tch.forecast.core.api.impl.CvxCodes;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.model.ImmunizationMDA;
@@ -247,7 +247,7 @@ public class CaretForecaster
     doseDueOutHash.put(ImmunizationForecastDataBean.PNEUMO, "133"); // Strep  Pneumococcal (polysacchoride)
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"49"); // Hib PRP-OMP
     doseDueOutHash.put(ImmunizationForecastDataBean.HPV, "137"); // HPV,  quadrivalent
-    doseDueOutHash.put(ImmunizationForecastDataBean.POLIO ,"89"); // Unspecified Polio
+    doseDueOutHash.put(ImmunizationForecastDataBean.POLIO, "89"); // Unspecified Polio
     doseDueOutHash.put(ImmunizationForecastDataBean.MCV4, "147"); // Meningococcal (MCV4)
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"116"); // Rotavirus, pentavalent
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"119"); // Rotavirus,monovalent
@@ -524,9 +524,7 @@ public class CaretForecaster
           nc.add(forecastResult.getForecastName());
           if (!doseDueOutHash.containsKey(forecastResult.getForecastName())) {
             it.remove();
-          }
-          else
-          {
+          } else {
             filter(filterSet, forecastListDueTodayAdd, it, forecastResult);
           }
         }
@@ -767,7 +765,11 @@ public class CaretForecaster
     }
     CaretForecaster cf = new CaretForecaster(request);
     VaccineForecastManager vaccineForecastManager = new VaccineForecastManager();
-    Map<String, Integer> cvxToVaccineIdMap = CvxCodes.getCvxToVaccineIdMap();
+    Map<String, CvxCode> cvxToCvxCodeMap = CvxCodes.getCvxToCvxCodeMap();
+    Map<String, Integer> cvxToVaccineIdMap = new HashMap<String, Integer>();
+    for (CvxCode cvxCode : cvxToCvxCodeMap.values()) {
+      cvxToVaccineIdMap.put(cvxCode.getCvxCode(), cvxCode.getVaccineId());
+    }
     String response = cf.forecast(vaccineForecastManager, cvxToVaccineIdMap);
     System.out.println(response);
   }
