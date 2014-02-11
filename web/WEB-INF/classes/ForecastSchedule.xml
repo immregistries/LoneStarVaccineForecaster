@@ -164,7 +164,7 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal"/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" seasonCompleted=""/>
     <indicate vaccineName="Flu+" schedule="P2" age="9 years" reason="" seasonCompleted=""/>
     <indicate vaccineName="Flu" schedule="H1" age="9 years" reason="" seasonCompleted=""/>
@@ -182,7 +182,7 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal"/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" seasonCompleted=""/>
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" seasonCompleted="Yes"/>
     <indicate vaccineName="Season End" schedule="S1" age="" reason="" seasonCompleted=""/>
@@ -196,7 +196,7 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal"/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
     <indicate vaccineName="Season End" schedule="R1" age="9 years" reason="" minInterval="" seasonCompleted=""/>
@@ -212,7 +212,7 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal"/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
     <indicate vaccineName="Flu" schedule="R2" age="9 years" reason="" minInterval="" seasonCompleted=""/>
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
@@ -229,7 +229,7 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal"/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
     <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
@@ -244,7 +244,7 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal"/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted="" hasHad=""/>
     <indicate vaccineName="Flu" schedule="S1" age="9 years" reason="" minInterval="" seasonCompleted="Yes" hasHad="H1N1"/>
     <indicate vaccineName="Flu+" schedule="H2" age="9 years" reason="" minInterval="" seasonCompleted="" hasHad=""/>
@@ -263,13 +263,14 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal"/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
     <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
     <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
     <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
   </schedule>
 </forecast>
+
 
 
 

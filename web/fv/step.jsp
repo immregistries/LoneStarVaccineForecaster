@@ -78,7 +78,7 @@ try {
   </tr>
 </table>
 <% } %>
-<p>[<a href="index.jsp?userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Back to Home</a>]</p>
+<p>[<a href="main.jsp?userName=<%= URLEncoder.encode(userName, "UTF-8") %>">Back to Home</a>]</p>
   <%
   sql = "SELECT tv.cvx_code, cvx.cvx_label, date_format(admin_date, '%m/%d/%Y'), mvx_code, cvx.vaccine_id \n" + 
     "FROM test_vaccine tv, vaccine_cvx cvx \n" +
@@ -292,7 +292,7 @@ try {
         </table>
     <font size="-1"><%= traceBuffer %></font>
     <% } else { %>
-    <p>[<a href="index.jsp">Back to Home</a>]</p>
+    <p>[<a href="main.jsp">Back to Home</a>]</p>
     <% }} finally {DatabasePool.close(conn); } %>
 
 </body>

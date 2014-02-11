@@ -20,9 +20,9 @@
 		validationDone = true;
 	}
 	if(success){
-        RequestDispatcher dispatcher =request.getRequestDispatcher("index.jsp");
+        RequestDispatcher dispatcher =request.getRequestDispatcher("main.jsp");
 		dispatcher.forward(request, response); 
-		//response.sendRedirect("index.jsp"); 
+		//response.sendRedirect("main.jsp"); 
 	}
 
 	%>
