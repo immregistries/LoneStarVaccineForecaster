@@ -125,6 +125,7 @@ public class MakeForecastStep extends ActionStep
       }
       if (ds.due.isLessThan(seasonStart)) {
         ds.due = seasonStart;
+
       }
 
     }
@@ -161,12 +162,16 @@ public class MakeForecastStep extends ActionStep
         ds.traceList.setStatusDescription("Too late to complete. Next dose was expected before " + ds.finished + ".");
       }
     } else {
-      if (forecastDateTime.isLessThan(ds.due)) {
-        statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER;
-      } else if (forecastDateTime.isLessThan(ds.overdue)) {
-        statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE;
-      } else if (forecastDateTime.isLessThan(ds.finished)) {
-        statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE;
+      if ((ds.seasonal != null && ds.seasonCompleted) || (seasonEnd != null && ds.due.getDate().after(seasonEnd.getDate()))) {
+        statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON;
+      } else {
+        if (forecastDateTime.isLessThan(ds.due)) {
+          statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER;
+        } else if (forecastDateTime.isLessThan(ds.overdue)) {
+          statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE;
+        } else if (forecastDateTime.isLessThan(ds.finished)) {
+          statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE;
+        }
       }
       if (ds.traceBuffer != null) {
         ds.traceBuffer.append("Forecasting for dose " + DetermineRangesStep.getNextValidDose(ds, ds.schedule)

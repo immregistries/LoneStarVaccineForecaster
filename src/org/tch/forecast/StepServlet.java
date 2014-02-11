@@ -29,10 +29,12 @@ import org.tch.forecast.core.VaccineForecastDataBean.Indicate;
 import org.tch.forecast.core.VaccineForecastDataBean.NamedVaccine;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.Transition;
+import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
 import org.tch.forecast.core.api.impl.ForecastOptions;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.logic.ActionStep;
 import org.tch.forecast.core.logic.ActionStepFactory;
+import org.tch.forecast.core.logic.BlackOut;
 import org.tch.forecast.core.logic.ChooseIndicatorStep;
 import org.tch.forecast.core.logic.DataStore;
 import org.tch.forecast.core.logic.EndStep;
@@ -45,7 +47,8 @@ import org.tch.forecast.core.model.Immunization;
 import org.tch.forecast.core.model.PatientRecordDataBean;
 import org.tch.forecast.validator.db.DatabasePool;
 
-public class StepServlet extends ForecastServlet {
+public class StepServlet extends ForecastServlet
+{
   /**
    * 
    */
@@ -458,6 +461,55 @@ public class StepServlet extends ForecastServlet {
           out.println("    <td>" + safe(dataStore.isSeasonCompleted()) + "</td>");
           out.println("  </tr>");
           out.println("</table>");
+        }
+
+        if (dataStore.getBlackOutDates() != null && dataStore.getBlackOutDates().size() > 0) {
+          out.println("<h3>Black Out Dates</h3>");
+          out.println("<table>");
+          out.println("  <tr>");
+          out.println("    <th>Start</th>");
+          out.println("    <th>End</th>");
+          out.println("    <th>End Grace</th>");
+          out.println("    <th>Event Date</th>");
+          out.println("    <th>Vaccine Name</th>");
+          out.println("    <th>Vaccine Ids</th>");
+          out.println("    <th>Against Contra</th>");
+          out.println("    <th>Against Allowed</th>");
+          out.println("    <th>Reason</th>");
+          out.println("  </tr>");
+          for (BlackOut blackOut : dataStore.getBlackOutDates()) {
+            out.println("  <tr>");
+            out.println("    <td>" + safe(blackOut.getStartBlackOut()) + "</td>");
+            out.println("    <td>" + safe(blackOut.getEndBlackOut()) + "</td>");
+            out.println("    <td>" + safe(blackOut.getEndBlackOutGrace()) + "</td>");
+            out.println("    <td>" + safe(blackOut.getEventDate()) + "</td>");
+            out.println("    <td>" + safe(blackOut.getVaccineName()) + "</td>");
+            out.println("    <td>");
+            boolean first = true;
+            for (ValidVaccine validVaccine : blackOut.getAgainstVaccineIds()) {
+              if (!first) {
+                out.print(", ");
+              }
+              out.print(validVaccine.getVaccineId());
+              first = false;
+            }
+            out.println("</td>");
+            out.println("    <td>" + safe(blackOut.getAgainstContra()) + "</td>");
+            out.println("    <td>" + safe(blackOut.getAgainstAllowed()) + "</td>");
+            out.println("    <td>" + safe(blackOut.getReason()) + "</td>");
+            out.println("  </tr>");
+          }
+          out.println("</table>");
+
+          //          private DateTime startBlackOut = null;
+          //          private DateTime endBlackOut = null;
+          //          private DateTime endBlackOutGrace = null;
+          //          private DateTime eventDate = null;
+          //          private String vaccineName = "";
+          //          private ValidVaccine[] againstVaccineIds = null;
+          //          private String againstContra = "";
+          //          private String againstAllowed = "";
+          //          private String reason = "";
         }
 
         if (dataStore.getForecastOptions() != null) {

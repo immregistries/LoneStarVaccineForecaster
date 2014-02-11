@@ -16,7 +16,8 @@ import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
 import org.tch.forecast.core.model.PatientRecordDataBean;
 
-public class ForecastHandlerCore {
+public class ForecastHandlerCore
+{
   private static final String[] MMR_FORECASTS = { ImmunizationForecastDataBean.MEASLES,
       ImmunizationForecastDataBean.MUMPS, ImmunizationForecastDataBean.RUBELLA };
 
@@ -82,6 +83,11 @@ public class ForecastHandlerCore {
   }
 
   public static boolean sameDate(Date date1, Date date2) {
+    if (date1 == null && date2 == null) {
+      return true;
+    } else if (date1 == null || date2 == null) {
+      return false;
+    }
     DateTime d1 = new DateTime(date1);
     DateTime d2 = new DateTime(date2);
     return d1.equals(d2);
@@ -92,24 +98,6 @@ public class ForecastHandlerCore {
       ImmunizationForecastDataBean forecastExamine = it.next();
       if (forecastExamine.getForecastName().equals(forecastName)) {
         it.remove();
-      }
-    }
-  }
-
-  public static void alterInfluenza(List<ImmunizationForecastDataBean> forecastList, DateTime today) {
-    ImmunizationForecastDataBean forecastExamine = null;
-    for (Iterator<ImmunizationForecastDataBean> it = forecastList.iterator(); it.hasNext();) {
-      forecastExamine = it.next();
-      if (forecastExamine.getForecastName().equals(ImmunizationForecastDataBean.INFLUENZA)) {
-        break;
-      }
-      forecastExamine = null;
-    }
-    if (forecastExamine != null) {
-       if (forecastExamine.getDateDue().after(forecastExamine.getSeasonEnd())) {
-        // Patient is up-to-date, forecast is for next season, go ahead and
-        // remove
-        remove(forecastList, ImmunizationForecastDataBean.INFLUENZA);
       }
     }
   }
@@ -207,10 +195,11 @@ public class ForecastHandlerCore {
           forecastDiphtheria.setForecastName(label);
           forecastDiphtheria.setForecastLabel(label);
         }
+        
         remove(resultList, ImmunizationForecastDataBean.PERTUSSIS);
+        
         comment(resultList, ImmunizationForecastDataBean.PNEUMO, "S",
             "Supplementary dose of PCV13 is needed. Please refer to the Forecaster Reference Tool and MMWR 59(09) March 12, 2010.");
-        alterInfluenza(resultList, today);
         sort(resultList);
 
       } catch (Exception e) {

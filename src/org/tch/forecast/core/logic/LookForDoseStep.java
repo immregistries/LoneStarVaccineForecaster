@@ -53,8 +53,7 @@ public class LookForDoseStep extends ActionStep
         ds.log("Time to make forcast recommendations");
         return MakeForecastStep.NAME;
       }
-      if (ds.nextAction != null && ds.nextAction.equalsIgnoreCase(COMPLETE))
-      {
+      if (ds.nextAction != null && ds.nextAction.equalsIgnoreCase(COMPLETE)) {
         ImmunizationForecastDataBean forecastBean = new ImmunizationForecastDataBean();
         forecastBean.setForecastName(ds.forecast.getForecastCode());
         forecastBean.setForecastLabel(ds.forecast.getForecastLabel());
@@ -505,22 +504,30 @@ public class LookForDoseStep extends ActionStep
     if (ds.blackOutDates != null && ds.blackOutDates.size() > 0) {
       ds.log("Checking validity against black out dates");
       for (BlackOut blackOut : ds.blackOutDates) {
+        ds.log("Checking black out to vaccine " + blackOut.getVaccineName());
         boolean shouldBlackOut = true;
         if (blackOut.getAgainstVaccineIds() != null) {
+          ds.log("Checking validity against specific vaccine types, this black out does not apply to all vaccinations");
           shouldBlackOut = false;
           for (ValidVaccine cvi : blackOut.getAgainstVaccineIds()) {
             for (ValidVaccine vi : vaccineIds) {
-              if (cvi.equals(vi)) {
+              if (cvi.getVaccineId() == vi.getVaccineId()) {
+                ds.log("This black out applies to this event");
                 shouldBlackOut = true;
               }
             }
           }
+        } else {
+          ds.log("Black out date is general so it blocks all vaccines");
         }
         if (shouldBlackOut) {
+          ds.log("The blackout is being applied, the vaccination is not valid");
           if (vaccDate.isGreaterThan(blackOut.getStartBlackOut())
               && vaccDate.isLessThan(blackOut.getEndBlackOutGrace())) {
             return blackOut.getReason();
           }
+        } else {
+          ds.log("The blackout should not be applied, vaccination may be valid");
         }
       }
     }
