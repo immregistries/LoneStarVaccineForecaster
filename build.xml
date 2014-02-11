@@ -123,6 +123,9 @@
 		<javac srcdir="${src.home}" destdir="${object.home}" debug="yes" target="1.5">
 			<classpath refid="compile.classpath" />
 		</javac>
+     	<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/ForecastSchedule.xml" />
+		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/vaccineIdToLabel.txt" />
+		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/cvxCodes.txt" />
 	</target>
 
 	<!-- ==================== "build" Target ================================== -->
@@ -192,9 +195,9 @@
 	</target>
 
 	<target name="jar-dist" depends="compile">
-		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${web.home}/WEB-INF/classes/ForecastSchedule.xml" />
-		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/cvxToVaccineId.txt" />
+		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/ForecastSchedule.xml" />
 		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/vaccineIdToLabel.txt" />
+				<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/cvxCodes.txt" />
 		<jar jarfile="${deploy.home}/tch-forecaster.jar" basedir="${object.home}" includes="org/tch/forecast/core/**" />
 	</target>
 
