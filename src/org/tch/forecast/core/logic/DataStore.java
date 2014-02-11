@@ -47,8 +47,7 @@ public class DataStore
   }
 
   protected DateTime beforePreviousEventDate;
-  protected List<DateTime[]> blackOutDates = null;
-  protected List<String> blackOutReasons = null;
+  protected List<BlackOut> blackOutDates = null;
   protected StringBuffer detailLog = null;
   protected List<VaccinationDoseDataBean> doseList = null;
   protected DateTime due = null;
@@ -122,14 +121,9 @@ public class DataStore
     return beforePreviousEventDate;
   }
 
-  public List<DateTime[]> getBlackOutDates()
+  public List<BlackOut> getBlackOutDates()
   {
     return blackOutDates;
-  }
-
-  public List<String> getBlackOutReasons()
-  {
-    return blackOutReasons;
   }
 
   public StringBuffer getDetailLog()
@@ -376,14 +370,9 @@ public class DataStore
     this.beforePreviousEventDate = beforePreviousEventDate;
   }
 
-  public void setBlackOutDates(List<DateTime[]> blackOutDates)
+  public void setBlackOutDates(List<BlackOut> blackOutDates)
   {
     this.blackOutDates = blackOutDates;
-  }
-
-  public void setBlackOutReasons(List<String> blackOutReasons)
-  {
-    this.blackOutReasons = blackOutReasons;
   }
 
   public void setDetailLog(StringBuffer detailLog)

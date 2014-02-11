@@ -27,6 +27,8 @@ public class ImmunizationForecastDataBean
   public static final String VARICELLA = "Varicella";
   public static final String PERTUSSIS = "Pertussis";
   public static final String INFLUENZA = "Influenza";
+  public static final String INFLUENZA_IIV = "Influenza IIV";
+  public static final String INFLUENZA_LAIV = "Influenza LAIV";
   public static final String PPSV = "PPSV";
   public static final String ZOSTER = "Zoster";
   public static final String MMR = "MMR";
@@ -34,6 +36,13 @@ public class ImmunizationForecastDataBean
   public static final String TDAP = "Tdap";
   public static final String TD = "Td";
   public static final String DT = "DT";
+  
+  public static final String STATUS_DESCRIPTION_DUE_LATER = "due later";
+  public static final String STATUS_DESCRIPTION_DUE = "due";
+  public static final String STATUS_DESCRIPTION_OVERDUE = "overdue";
+  public static final String STATUS_DESCRIPTION_FINISHED = "finished";
+  public static final String STATUS_DESCRIPTION_COMPLETE = "complete";
+  public static final String STATUS_DESCRIPTION_CONTRAINDICATED = "contraindicated";
 
   public static final String SCHEDULE_COMPLETED = "COMP";
 
@@ -54,6 +63,7 @@ public class ImmunizationForecastDataBean
   private String statusDescription = "";
   private Date seasonStart = null;
   private Date seasonEnd = null;
+  
   public Date getSeasonStart() {
     return seasonStart;
   }

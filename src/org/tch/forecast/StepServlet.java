@@ -30,6 +30,7 @@ import org.tch.forecast.core.VaccineForecastDataBean.NamedVaccine;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.Transition;
 import org.tch.forecast.core.api.impl.ForecastOptions;
+import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.logic.ActionStep;
 import org.tch.forecast.core.logic.ActionStepFactory;
 import org.tch.forecast.core.logic.ChooseIndicatorStep;
@@ -42,7 +43,6 @@ import org.tch.forecast.core.logic.SetupStep;
 import org.tch.forecast.core.logic.StartStep;
 import org.tch.forecast.core.model.Immunization;
 import org.tch.forecast.core.model.PatientRecordDataBean;
-import org.tch.forecast.support.VaccineForecastManager;
 import org.tch.forecast.validator.db.DatabasePool;
 
 public class StepServlet extends ForecastServlet {
@@ -106,7 +106,7 @@ public class StepServlet extends ForecastServlet {
 
           super.readRequest(req);
 
-          dataStore = new DataStore(new VaccineForecastManager());
+          dataStore = new DataStore(forecastManager);
           session.setAttribute("dataStore", dataStore);
           dataStore.setPatient(patient);
           dataStore.setVaccinations(imms);
@@ -581,7 +581,7 @@ public class StepServlet extends ForecastServlet {
       }
       if (userName != null) {
         out.println("<p>");
-        out.println("[<a href=\"index.jsp?userName=" + URLEncoder.encode(userName, "UTF-8") + "\">Back to Home</a>]");
+        out.println("[<a href=\"main.jsp?userName=" + URLEncoder.encode(userName, "UTF-8") + "\">Back to Home</a>]");
         out.println("[<a href=\"testCase.jsp?userName=" + URLEncoder.encode(userName, "UTF-8") + "&caseId=" + caseId
             + "\">Test Case</a>]");
         out.println("</p>");

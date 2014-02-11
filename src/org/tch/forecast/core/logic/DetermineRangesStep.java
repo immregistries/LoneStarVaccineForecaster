@@ -26,8 +26,7 @@ public class DetermineRangesStep extends ActionStep
 
   protected static void determineRanges(DataStore ds) {
     ds.whenValidText = "";
-    ds.blackOutDates = new ArrayList<DateTime[]>();
-    ds.blackOutReasons = new ArrayList<String>();
+    ds.blackOutDates = new ArrayList<BlackOut>();
     // adjust dates past contraindications
     if (ds.schedule.getContraindicates() != null && ds.schedule.getContraindicates().length > 0) {
       ds.log("This schedule has contraindications");
@@ -40,17 +39,28 @@ public class DetermineRangesStep extends ActionStep
             DateTime endBlackOut = contraindicate.getAfterInterval().getDateTimeFrom(startBlackOut);
             DateTime endBlackOutGrace = contraindicate.getGrace().getDateTimeBefore(endBlackOut);
             startBlackOut.addDays(1);
-            ds.blackOutDates.add(new DateTime[] { startBlackOut, endBlackOutGrace, endBlackOut,
-                new DateTime(event.getEventDate()) });
+
+            BlackOut blackOut = new BlackOut();
+            blackOut.setStartBlackOut(startBlackOut);
+            blackOut.setEndBlackOut(endBlackOut);
+            blackOut.setEndBlackOutGrace(endBlackOutGrace);
+            blackOut.setEventDate(new DateTime(event.getEventDate()));
+            if (contraindicate.hasAgainst()) {
+              blackOut.setVaccineName(contraindicate.getAgainst());
+              blackOut.setAgainstVaccineIds(contraindicate.getAgainstVaccines());
+              blackOut.setAgainstContra(contraindicate.getAgainstContra());
+              blackOut.setAgainstAllowed(contraindicate.getAgainstAllowed());
+            }
             String contraindicationDoseLabel = LookForDoseStep.createIndicatedEventVaccineLabel(
                 contraindicate.getVaccines(), ds, event);
             if (contraindicationDoseLabel != null) {
-              ds.blackOutReasons.add(contraindicate.getAfterInterval() + " after contraindicated dose of "
+              blackOut.setReason(contraindicate.getAfterInterval() + " after contraindicated dose of "
                   + contraindicationDoseLabel + " given " + new DateTime(event.eventDate).toString("M/D/Y"));
             } else {
-              ds.blackOutReasons.add(contraindicate.getAfterInterval() + " after contraindicated dose given "
+              blackOut.setReason(contraindicate.getAfterInterval() + " after contraindicated dose given "
                   + new DateTime(event.eventDate).toString("M/D/Y"));
             }
+            ds.blackOutDates.add(blackOut);
             ds.log("Contraindicated event found, setting black out dates from " + startBlackOut.toString("M/D/Y")
                 + " to " + endBlackOut.toString("M/D/Y"));
           }
@@ -191,11 +201,11 @@ public class DetermineRangesStep extends ActionStep
 
     for (int i = 0; i < ds.blackOutDates.size(); i++) {
       ds.log("Looking to see if valid and due dates need to be adjusted around black out dates");
-      DateTime[] blackOut = ds.blackOutDates.get(i);
+      BlackOut blackOut = ds.blackOutDates.get(i);
 
-      if (ds.due.isGreaterThan(blackOut[0]) && ds.due.isLessThan(blackOut[1])) {
-        ds.due = blackOut[1];
-        ds.dueReason = ds.blackOutReasons.get(i);
+      if (ds.due.isGreaterThan(blackOut.getStartBlackOut()) && ds.due.isLessThan(blackOut.getEndBlackOutGrace())) {
+        ds.due = blackOut.getEndBlackOutGrace();
+        ds.dueReason = blackOut.getReason();
         ds.log("Moving due date to end of blackOut period, setting to " + ds.due.toString("M/D/Y"));
       }
     }

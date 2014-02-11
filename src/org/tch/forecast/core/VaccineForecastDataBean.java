@@ -17,7 +17,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class VaccineForecastDataBean {
+public class VaccineForecastDataBean
+{
   private static Map<String, List<Schedule>> indications = new HashMap<String, List<Schedule>>();
 
   private String forecastCode = "";
@@ -158,8 +159,7 @@ public class VaccineForecastDataBean {
         String vaccineName = DomUtils.getAttributeValue(n, "vaccineName");
         indicationCriteria.setVaccineName(vaccineName);
         indicationCriteria.setVaccines(convertToVaccineIds(vaccineName));
-      }
-      else if (name.equals("valid")) {
+      } else if (name.equals("valid")) {
         schedule.setValidAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         schedule.setValidInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
         schedule.setValidGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
@@ -196,6 +196,12 @@ public class VaccineForecastDataBean {
         contraindicate.setAfterInterval(new TimePeriod(DomUtils.getAttributeValue(n, "afterInterval")));
         contraindicate.setReason(DomUtils.getAttributeValue(n, "reason"));
         contraindicate.setGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
+        contraindicate.setAgainst(DomUtils.getAttributeValue(n, "against"));
+        if (contraindicate.hasAgainst()) {
+          contraindicate.setAgainstVaccines(convertToVaccineIds(contraindicate.getAgainst()));
+          contraindicate.setAgainstContra(DomUtils.getAttributeValue(n, "contra"));
+          contraindicate.setAgainstAllowed(DomUtils.getAttributeValue(n, "allowed"));
+        }
         schedule.getContraindicateList().add(contraindicate);
       } else if (name.equals("indicate")) {
         Indicate indicate = new Indicate();
@@ -254,7 +260,8 @@ public class VaccineForecastDataBean {
     return validVaccines;
   }
 
-  public class Schedule {
+  public class Schedule
+  {
     private String forecastCode = "";
     private String scheduleName = "";
     private String label = "";
@@ -549,13 +556,54 @@ public class VaccineForecastDataBean {
 
   }
 
-  public class Contraindicate {
+  public class Contraindicate
+  {
     private ValidVaccine[] vaccines = new ValidVaccine[0];
     private String vaccineName = "";
     private TimePeriod age = null;
     private TimePeriod afterInterval = null;
     private TimePeriod grace = null;
     private String reason = "";
+    private String against = "";
+    private ValidVaccine[] againstVaccines = new ValidVaccine[0];
+    private String againstContra = "";
+    private String againstAllowed = "";
+
+    public String getAgainstContra() {
+      return againstContra;
+    }
+
+    public void setAgainstContra(String againstContra) {
+      this.againstContra = againstContra;
+    }
+
+    public String getAgainstAllowed() {
+      return againstAllowed;
+    }
+
+    public void setAgainstAllowed(String againstAllowed) {
+      this.againstAllowed = againstAllowed;
+    }
+
+    public ValidVaccine[] getAgainstVaccines() {
+      return againstVaccines;
+    }
+
+    public void setAgainstVaccines(ValidVaccine[] againstVaccines) {
+      this.againstVaccines = againstVaccines;
+    }
+
+    public String getAgainst() {
+      return against;
+    }
+
+    public boolean hasAgainst() {
+      return against != null && against.length() > 0;
+    }
+
+    public void setAgainst(String against) {
+      this.against = against;
+    }
 
     public TimePeriod getGrace() {
       return grace;
@@ -607,7 +655,8 @@ public class VaccineForecastDataBean {
 
   }
 
-  public class IndicationCriteria {
+  public class IndicationCriteria
+  {
     private TimePeriod afterAge = null;
     private TimePeriod beforeAge = null;
     private String vaccineName = "";
@@ -647,7 +696,8 @@ public class VaccineForecastDataBean {
 
   }
 
-  public class Indicate {
+  public class Indicate
+  {
     private ValidVaccine[] vaccines = new ValidVaccine[0];
     private String scheduleName = "";
     private TimePeriod age = null;
@@ -845,7 +895,8 @@ public class VaccineForecastDataBean {
     return vaccines;
   }
 
-  public class NamedVaccine {
+  public class NamedVaccine
+  {
     private String vaccineIds = "";
     private String vaccineName = "";
     private Date validStartDate = null;
@@ -875,7 +926,8 @@ public class VaccineForecastDataBean {
     }
   }
 
-  public class ValidVaccine {
+  public class ValidVaccine
+  {
     private int vaccineId = 0;
     private Date validStartDate = null;
     private Date validEndDate = null;
@@ -937,7 +989,8 @@ public class VaccineForecastDataBean {
     }
   }
 
-  public class Transition {
+  public class Transition
+  {
     private String name = "";
     private TimePeriod age = null;
     private int vaccineId = 0;
@@ -967,7 +1020,8 @@ public class VaccineForecastDataBean {
     }
   }
 
-  public class Seasonal {
+  public class Seasonal
+  {
     private TimePeriod start = null;
     private TimePeriod due = null;
     private TimePeriod overdue = null;

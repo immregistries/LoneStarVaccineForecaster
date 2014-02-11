@@ -20,16 +20,17 @@ import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.TimePeriod;
+import org.tch.forecast.core.Trace;
 import org.tch.forecast.core.TraceList;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
 import org.tch.forecast.core.api.impl.ForecastHandlerCore;
 import org.tch.forecast.core.api.impl.ForecastOptions;
+import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.model.Immunization;
 import org.tch.forecast.core.model.PatientRecordDataBean;
 import org.tch.forecast.core.server.ForecastReportPrinter;
 import org.tch.forecast.model.VaccineModel;
-import org.tch.forecast.support.VaccineForecastManager;
 import org.tch.forecast.validator.DataSourceUnavailableException;
 import org.tch.forecast.validator.db.DatabasePool;
 
@@ -53,6 +54,7 @@ public class ForecastServlet extends HttpServlet
 
   public static final String RESULT_FORMAT_TEXT = "text";
   public static final String RESULT_FORMAT_HTML = "html";
+  public static final String RESULT_FORMAT_COMPACT = "compact";
 
   private static ForecastHandlerCore forecastHandlerCore = null;
 
@@ -68,7 +70,11 @@ public class ForecastServlet extends HttpServlet
 
   private void initCvxCodes() throws ServletException {
     if (forecastHandlerCore == null) {
-      forecastManager = new VaccineForecastManager();
+      try {
+        forecastManager = new VaccineForecastManager();
+      } catch (Exception e) {
+        throw new ServletException("Unable to initialize forecaster", e);
+      }
       forecastHandlerCore = new ForecastHandlerCore(forecastManager);
     }
 
@@ -118,81 +124,44 @@ public class ForecastServlet extends HttpServlet
       throw new ServletException("Parameter 'resultFormat' is required. ");
     }
 
-    Map traceMap = new HashMap();
     List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
     String forecasterScheduleName = "";
     try {
+      Map<String, List<Trace>> traceMap = new HashMap<String, List<Trace>>();
       forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms, forecastDate, traceMap,
           resultList, forecastOptions);
     } catch (Exception e) {
       throw new ServletException("Unable to forecast", e);
     }
 
-    List<ImmunizationForecastDataBean> resultListOriginal = new ArrayList<ImmunizationForecastDataBean>(resultList);
-    ForecastHandlerCore.sort(resultListOriginal);
-
-    List<ImmunizationForecastDataBean> forecastListDueToday = new ArrayList<ImmunizationForecastDataBean>();
-    traceMap.remove(ImmunizationForecastDataBean.PERTUSSIS);
-    for (Iterator<ImmunizationForecastDataBean> it = resultList.iterator(); it.hasNext();) {
-      ImmunizationForecastDataBean forecastExamine = it.next();
-      if (forecastExamine.getForecastName().equals("MMR")) {
-        traceMap.remove(ImmunizationForecastDataBean.MEASLES);
-        traceMap.remove(ImmunizationForecastDataBean.MUMPS);
-        traceMap.remove(ImmunizationForecastDataBean.RUBELLA);
-      }
-      if (forecastExamine.getForecastName().equals("DTaP") || forecastExamine.getForecastName().equals("Tdap")
-          || forecastExamine.getForecastName().equals("Td")) {
-        traceMap.remove(ImmunizationForecastDataBean.DIPHTHERIA);
-      }
-      if (!forecastDate.isLessThan(new DateTime(forecastExamine.getDue(dueUseEarly)))) {
-        if (!forecastDate.isLessThan(new DateTime(forecastExamine.getFinished()))) {
-          TraceList traceList = (TraceList) traceMap.get(forecastExamine.getForecastName());
-          if (traceList != null) {
-            DateTime dt = new DateTime(forecastExamine.getFinished());
-            traceList.setStatusDescription("Too late to complete. Next dose was expected before "
-                + dt.toString("M/D/Y") + ".");
-          }
-        } else {
-          traceMap.remove(forecastExamine.getForecastName());
-          forecastListDueToday.add(forecastExamine);
-        }
-        it.remove();
-      } else {
-        traceMap.remove(forecastExamine.getForecastName());
-      }
-    }
-    ForecastHandlerCore.sort(forecastListDueToday);
     ForecastHandlerCore.sort(resultList);
-
-    for (Iterator it = traceMap.keySet().iterator(); it.hasNext();) {
-      String key = (String) it.next();
-      TraceList traceList = (TraceList) traceMap.get(key);
-      if (traceList.getStatusDescription().equals("")) {
-        traceList.setStatusDescription("Vaccination series complete.");
-      }
-    }
 
     ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(forecastManager);
     if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_HTML)) {
       resp.setContentType("text/html");
       PrintWriter out = new PrintWriter(resp.getOutputStream());
 
-      forecastReportPrinter.printHTMLVersionOfForecast(traceMap, resultList, imms, forecasterScheduleName,
-          resultListOriginal, forecastListDueToday, forecastDate, dueUseEarly, doseList, out);
+      forecastReportPrinter.printHTMLVersionOfForecast(resultList, imms, forecasterScheduleName, forecastDate,
+          dueUseEarly, doseList, out);
       out.close();
 
     } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_TEXT)) {
       resp.setContentType("text/plain");
       PrintWriter out = new PrintWriter(resp.getOutputStream());
-      forecastReportPrinter.printTextVersionOfForecast(traceMap, resultList, imms, forecasterScheduleName,
-          forecastListDueToday, forecastDate, dueUseEarly, doseList, out);
+      forecastReportPrinter.printTextVersionOfForecast(resultList, imms, forecasterScheduleName, forecastDate,
+          dueUseEarly, doseList, out);
+      out.close();
+    } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_COMPACT)) {
+      resp.setContentType("text/plain");
+      PrintWriter out = new PrintWriter(resp.getOutputStream());
+      forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, imms, forecasterScheduleName, forecastDate,
+          dueUseEarly, doseList, out);
       out.close();
     } else {
       throw new ServletException("Unrecognized result format '" + resultFormat + "'");
     }
   }
 
-  
   public TimePeriod readTimePeriod(HttpServletRequest req, String key) {
     String value = req.getParameter(key);
     return value == null || value.equals("") ? null : new TimePeriod(value);
@@ -276,7 +245,7 @@ public class ForecastServlet extends HttpServlet
     forecastOptions.setFluSeasonOverdue(readTimePeriod(req, PARAM_FLU_SEASON_OVERDUE));
     forecastOptions.setFluSeasonStart(readTimePeriod(req, PARAM_FLU_SEASON_START));
     forecastOptions.setIgnoreFourDayGrace(readBoolean(req, PARAM_IGNORE_FOUR_DAY_GRACE));
-    
+
     dueUseEarly = readBoolean(req, PARAM_DUE_USE_EARLY);
     TimePeriod assumeDtapSeriesCompleteAtAge = readTimePeriod(req, PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE);
 

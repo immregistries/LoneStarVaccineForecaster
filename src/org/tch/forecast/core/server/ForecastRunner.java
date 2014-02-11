@@ -17,10 +17,12 @@ import org.tch.forecast.core.TraceList;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
 import org.tch.forecast.core.api.impl.ForecastHandlerCore;
+import org.tch.forecast.core.api.impl.ForecastOptions;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.model.PatientRecordDataBean;
 
-public class ForecastRunner {
+public class ForecastRunner
+{
   private VaccineForecastManager vaccineForecastManager;
 
   private List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
@@ -80,7 +82,6 @@ public class ForecastRunner {
   private Map traceMap = new HashMap();
   private List<ImmunizationForecastDataBean> forecastListDueToday;
   private List<ImmunizationForecastDataBean> forecastListDueLater;
-  private List<TraceList> traceListListDontGive;
   private String forecasterScheduleName = "";
 
   public String getForecasterScheduleName() {
@@ -103,59 +104,31 @@ public class ForecastRunner {
     this.forecastListDueLater = forecastListDueLater;
   }
 
-  public List<TraceList> getTraceListListDontGive() {
-    return traceListListDontGive;
-  }
-
-  public void setTraceListListDontGive(List<TraceList> traceListListDontGive) {
-    this.traceListListDontGive = traceListListDontGive;
-  }
-
   public ForecastRunner(VaccineForecastManager vaccineForecastManager) throws Exception {
     this.vaccineForecastManager = vaccineForecastManager;
   }
-  
-  public String getTextReport(boolean dueUseEarly)
-  {
+
+  public String getTextReport(boolean dueUseEarly) {
     StringWriter stringOut = new StringWriter();
     PrintWriter out = new PrintWriter(stringOut);
     ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(vaccineForecastManager);
-    forecastReportPrinter.printNarrowTextVersionOfForecast(traceMap, resultList, imms, forecasterScheduleName,
-        forecastListDueToday, new DateTime(forecastDate), dueUseEarly, doseList, out);
+    forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, imms, forecasterScheduleName,
+        new DateTime(forecastDate), dueUseEarly, doseList, out);
     out.close();
     return stringOut.toString();
   }
 
   public void forecast() throws Exception {
-    StringBuffer traceBuffer = new StringBuffer();
-    Forecaster forecaster = new Forecaster(vaccineForecastManager);
-    forecaster.setPatient(patient);
-    forecaster.setVaccinations(imms);
-    forecaster.setForecastDate(forecastDate);
-    forecaster.forecast(resultList, doseList, traceBuffer, traceMap);
-    forecasterScheduleName = forecaster.getForecastSchedule().getScheduleName();
+    ForecastOptions forecastOptions = new ForecastOptions();
+    ForecastHandlerCore forecastHandlerCore = new ForecastHandlerCore(vaccineForecastManager);
+    String forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms, new DateTime(forecastDate),
+        traceMap, resultList, forecastOptions);
 
-    DateTime forecastDateTime = new DateTime(forecastDate);
     forecastListDueToday = new ArrayList<ImmunizationForecastDataBean>();
     forecastListDueLater = new ArrayList<ImmunizationForecastDataBean>();
-    traceListListDontGive = new ArrayList<TraceList>();
     traceMap.remove(ImmunizationForecastDataBean.PERTUSSIS);
-    for (Iterator<ImmunizationForecastDataBean> it = resultList.iterator(); it.hasNext();) {
-      ImmunizationForecastDataBean forecastExamine = it.next();
-      DateTime validDate = new DateTime(forecastExamine.getValid());
-      DateTime dueDate = new DateTime(forecastExamine.getDue());
-      DateTime overdueDate = new DateTime(forecastExamine.getOverdue());
-      DateTime finishedDate = new DateTime(forecastExamine.getFinished());
-      String statusDescription = ""; 
-      if (forecastDateTime.isLessThan(dueDate)) {
-        statusDescription = "";
-      } else if (forecastDateTime.isLessThan(overdueDate)) {
-        statusDescription = "due";
-      } else if (forecastDateTime.isLessThan(finishedDate)) {
-        statusDescription = "overdue";
-      } 
-      forecastExamine.setStatusDescription(statusDescription);
-      
+    for (ImmunizationForecastDataBean forecastExamine : resultList) {
+
       if (forecastExamine.getForecastName().equals(ImmunizationForecastDataBean.MMR)) {
         traceMap.remove(ImmunizationForecastDataBean.MEASLES);
         traceMap.remove(ImmunizationForecastDataBean.MUMPS);
@@ -166,40 +139,18 @@ public class ForecastRunner {
           || forecastExamine.getForecastName().equals(ImmunizationForecastDataBean.TD)) {
         traceMap.remove(ImmunizationForecastDataBean.DIPHTHERIA);
       }
-      if (!forecastDateTime.isLessThan(new DateTime(forecastExamine.getDue()))) {
-        if (!forecastDateTime.isLessThan(new DateTime(forecastExamine.getFinished()))) {
-          TraceList traceList = (TraceList) traceMap.get(forecastExamine.getForecastName());
-          if (traceList != null) {
-            DateTime dt = new DateTime(forecastExamine.getFinished());
-            traceList.setStatusDescription("Too late to complete. Next dose was expected before "
-                + dt.toString("M/D/Y") + ".");
-          }
-        } else {
-          traceMap.remove(forecastExamine.getForecastName());
-          forecastListDueToday.add(forecastExamine);
-        }
-        it.remove();
-      } else {
+
+      if (forecastExamine.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)) {
+        forecastListDueToday.add(forecastExamine);
         traceMap.remove(forecastExamine.getForecastName());
+      } else if (forecastExamine.getStatusDescription().equals(
+          ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)) {
         forecastListDueLater.add(forecastExamine);
+        traceMap.remove(forecastExamine.getForecastName());
       }
     }
     ForecastHandlerCore.sort(forecastListDueToday);
     ForecastHandlerCore.sort(resultList);
-
-    for (Iterator it = traceMap.keySet().iterator(); it.hasNext();) {
-      String key = (String) it.next();
-      TraceList traceList = (TraceList) traceMap.get(key);
-      if (traceList.getStatusDescription().equals("")) {
-        traceList.setStatusDescription("Vaccination series complete.");
-      }
-    }
-
-    for (Iterator it = traceMap.keySet().iterator(); it.hasNext();) {
-      String key = (String) it.next();
-      TraceList traceList = (TraceList) traceMap.get(key);
-      traceListListDontGive.add(traceList);
-    }
 
   }
 }

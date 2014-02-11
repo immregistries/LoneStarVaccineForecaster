@@ -60,7 +60,7 @@ public class TestAddAction
       }
       pstmt = StmtHelper.genInsert(conn, "test_case", model, null);
       pstmt.execute();
-      RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+      RequestDispatcher dispatcher = req.getRequestDispatcher("main.jsp");
       dispatcher.forward(req, resp);
     }catch(Exception ex){
       throw new ServletException(ex);

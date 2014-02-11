@@ -1,7 +1,6 @@
 package org.tch.forecast.core.api.test;
 
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,7 +12,6 @@ import org.tch.forecast.core.api.impl.ForecastPatient;
 import org.tch.forecast.core.api.impl.ForecastRequest;
 import org.tch.forecast.core.api.impl.ForecastVaccination;
 import org.tch.forecast.core.api.model.ForecastHandlerInterface;
-import org.tch.forecast.core.api.model.ForecastRecommendationInterface;
 import org.tch.forecast.core.api.model.ForecastRequestInterface;
 import org.tch.forecast.core.api.model.ForecastResponseInterface;
 import org.tch.forecast.core.api.model.ForecastVaccinationInterface;

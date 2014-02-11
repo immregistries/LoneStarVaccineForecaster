@@ -11,10 +11,10 @@ import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.Forecaster;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
+import org.tch.forecast.core.Trace;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
 import org.tch.forecast.core.model.PatientRecordDataBean;
-import org.tch.forecast.support.VaccineForecastManager;
 
 public class ForecastHandlerCore {
   private static final String[] MMR_FORECASTS = { ImmunizationForecastDataBean.MEASLES,
@@ -145,7 +145,7 @@ public class ForecastHandlerCore {
   }
 
   public String forecast(List<VaccinationDoseDataBean> doseList, PatientRecordDataBean patient,
-      List<ImmunizationInterface> imms, DateTime forecastDate, Map traceMap,
+      List<ImmunizationInterface> imms, DateTime forecastDate, Map<String, List<Trace>> traceMap,
       List<ImmunizationForecastDataBean> resultList, ForecastOptions forecastOptions) throws Exception {
     String forecasterScheduleName = null;
     {

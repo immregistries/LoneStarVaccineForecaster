@@ -9,6 +9,19 @@ public class TraceList extends ArrayList<Trace>
   private String forecastName = "";
   private String forecastLabel = "";
   
+  public TraceList()
+  {
+    // default
+  }
+  
+  public TraceList(TraceList traceList)
+  {
+    this.explanation = new StringBuffer(traceList.explanation);
+    this.statusDescription = traceList.statusDescription;
+    this.forecastName = traceList.forecastName;
+    this.forecastLabel = traceList.forecastLabel;
+  }
+  
   public String getForecastName()
   {
     return forecastName;

@@ -15,16 +15,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
+
+import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.Forecaster;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.VaccinationDoseDataBean;
-import org.tch.forecast.support.VaccineForecastManager;
-import org.tch.forecast.validator.DataSourceUnavailableException;
-import org.tch.forecast.validator.db.DatabasePool;
-import org.tch.forecast.core.DateTime;
+import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.model.Immunization;
 import org.tch.forecast.core.model.PatientRecordDataBean;
+import org.tch.forecast.validator.DataSourceUnavailableException;
+import org.tch.forecast.validator.db.DatabasePool;
 
 public class EvaluateCsv
 {
@@ -163,7 +165,9 @@ public class EvaluateCsv
           }
         }
       }
+
       Forecaster forecaster = new Forecaster(new VaccineForecastManager());
+      
       PatientRecordDataBean patient = new PatientRecordDataBean();
       patient.setSex("F");
       patient.setDob(new DateTime(dob));

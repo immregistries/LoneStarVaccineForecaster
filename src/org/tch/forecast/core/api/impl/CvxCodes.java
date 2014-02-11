@@ -5,25 +5,55 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CvxCodes {
-  public static Map<String, Integer> getCvxToVaccineIdMap() throws Exception {
-    Map<String, Integer> cvxToVaccineIdMap = null;
+public class CvxCodes
+{
+  public static Map<String, CvxCode> getCvxToCvxCodeMap() throws Exception {
+    Map<String, CvxCode> cvxToVaccineIdMap = null;
     try {
-      cvxToVaccineIdMap = new HashMap<String, Integer>();
-      BufferedReader in = new BufferedReader(new InputStreamReader(
-          CvxCodes.class.getResourceAsStream("cvxToVaccineId.txt")));
-      String line;
-      while ((line = in.readLine()) != null) {
-        int pos = line.indexOf("=");
-        if (line.length() >= 3 && pos != -1) {
-          String cvxCode = line.substring(0, pos).trim();
-          String vaccineId = line.substring(pos + 1);
-          cvxToVaccineIdMap.put(cvxCode, Integer.parseInt(vaccineId));
+      cvxToVaccineIdMap = new HashMap<String, CvxCode>();
+      BufferedReader in = new BufferedReader(new InputStreamReader(CvxCodes.class.getResourceAsStream("cvxCodes.txt")));
+      String line = in.readLine();
+      if (line != null) {
+        while ((line = in.readLine()) != null) {
+          String[] fields = line.split("\\t");
+          if (fields.length >= 5) {
+            CvxCode cvxCode = new CvxCode();
+            cvxCode.setCvxLabel(clean(fields[0]));
+            cvxCode.setCvxCode(clean(fields[1]));
+            cvxCode.setVaccineLabel(clean(fields[2]));
+            String vaccineId = clean(fields[3]);
+            if (vaccineId.length() > 0) {
+              cvxCode.setVaccineId(Integer.parseInt(vaccineId));
+            } else {
+              cvxCode.setVaccineId(0);
+            }
+            String useStatus = clean(fields[4]);
+            if (useStatus.equalsIgnoreCase("SUPPORTED")) {
+              cvxCode.setUseStatus(CvxCode.UseStatus.SUPPORTED);
+            } else if (useStatus.equalsIgnoreCase("NOT SUPPORTED")) {
+              cvxCode.setUseStatus(CvxCode.UseStatus.NOT_SUPPORTED);
+            } else if (useStatus.equalsIgnoreCase("PENDING")) {
+              cvxCode.setUseStatus(CvxCode.UseStatus.PENDING);
+            } else {
+              cvxCode.setUseStatus(CvxCode.UseStatus.NOT_SUPPORTED);
+            }
+
+            cvxToVaccineIdMap.put(cvxCode.getCvxCode(), cvxCode);
+          }
         }
       }
     } catch (Exception e) {
-      throw new Exception("Unable to connect to load vaccine ids from cvxToVaccineId.txt", e);
+      throw new Exception("Unable to connect to load vaccine ids from cvxCodes.txt", e);
     }
     return cvxToVaccineIdMap;
+  }
+
+  private static String clean(String s) {
+    if (s == null) {
+      return "";
+    } else if (s.startsWith("\"") && s.endsWith("\"")) {
+      return s.substring(1, s.length() - 1);
+    }
+    return s;
   }
 }

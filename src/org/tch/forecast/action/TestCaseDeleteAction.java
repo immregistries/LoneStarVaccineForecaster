@@ -24,7 +24,7 @@ public class TestCaseDeleteAction
       pstmt = conn.prepareStatement(" DELETE FROM test_case where case_id = ? ");
       pstmt.setInt(1, new Integer(req.getParameter("case_id")).intValue());
       pstmt.execute();
-      RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+      RequestDispatcher dispatcher = req.getRequestDispatcher("main.jsp");
       dispatcher.forward(req, resp);
     }catch(Exception ex){
       throw new ServletException(ex);

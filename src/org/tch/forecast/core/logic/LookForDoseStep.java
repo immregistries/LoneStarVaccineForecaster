@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.Trace;
 import org.tch.forecast.core.VaccinationDoseDataBean;
@@ -11,7 +12,8 @@ import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
 
-public class LookForDoseStep extends ActionStep {
+public class LookForDoseStep extends ActionStep
+{
   public static final String NAME = "Look For Dose";
 
   private static final String COMPLETE = "COMPLETE";
@@ -50,6 +52,21 @@ public class LookForDoseStep extends ActionStep {
       if (ds.nextAction == null || ds.nextAction.equalsIgnoreCase(KEEP_LOOKING)) {
         ds.log("Time to make forcast recommendations");
         return MakeForecastStep.NAME;
+      }
+      if (ds.nextAction != null && ds.nextAction.equalsIgnoreCase(COMPLETE))
+      {
+        ImmunizationForecastDataBean forecastBean = new ImmunizationForecastDataBean();
+        forecastBean.setForecastName(ds.forecast.getForecastCode());
+        forecastBean.setForecastLabel(ds.forecast.getForecastLabel());
+        forecastBean.setSortOrder(ds.forecast.getSortOrder());
+        forecastBean.setImmregid(ds.patient.getImmregid());
+        forecastBean.setTraceList(ds.traceList);
+        forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED);
+        ds.resultList.add(forecastBean);
+        if (ds.traceList != null) {
+          ds.traceList.append("Vaccination series complete.");
+          ds.traceList.setStatusDescription("Vaccination series complete.");
+        }
       }
       ds.log("Schedule is finished, no more recommendations.");
       return FinishScheduleStep.NAME;
@@ -175,7 +192,7 @@ public class LookForDoseStep extends ActionStep {
           }
           nextEvent(ds);
           return indicate.getScheduleName();
-        } else if ((invalidReason = checkInvalid(ds, vaccDate)) != null) {
+        } else if ((invalidReason = checkInvalid(ds, vaccDate, vaccineIds)) != null) {
           ds.log("Dose is invalid.");
           addInvalidDose(ds, vaccineIds, invalidReason);
           addPreviousDose(ds, vaccineIds);
@@ -435,7 +452,7 @@ public class LookForDoseStep extends ActionStep {
     }
     return indicatedEvent;
   }
-  
+
   protected static String createIndicatedEventVaccineLabel(ValidVaccine[] vaccineIds, DataStore ds, Event event) {
     if (event != null && event.immList != null) {
       for (Iterator<ImmunizationInterface> it = event.immList.iterator(); it.hasNext();) {
@@ -473,7 +490,7 @@ public class LookForDoseStep extends ActionStep {
     return false;
   }
 
-  private String checkInvalid(DataStore ds, DateTime vaccDate) {
+  private String checkInvalid(DataStore ds, DateTime vaccDate, ValidVaccine[] vaccineIds) {
     if (ds.validGrace.isEmpty()) {
       if (vaccDate.isLessThan(ds.valid)) {
         return "before valid date";
@@ -487,11 +504,23 @@ public class LookForDoseStep extends ActionStep {
     // Adjust around black out dates
     if (ds.blackOutDates != null && ds.blackOutDates.size() > 0) {
       ds.log("Checking validity against black out dates");
-      int i = -1;
-      for (DateTime[] blackOut : ds.blackOutDates) {
-        i++;
-        if (vaccDate.isGreaterThan(blackOut[0]) && vaccDate.isLessThan(blackOut[1])) {
-          return ds.blackOutReasons.get(i);
+      for (BlackOut blackOut : ds.blackOutDates) {
+        boolean shouldBlackOut = true;
+        if (blackOut.getAgainstVaccineIds() != null) {
+          shouldBlackOut = false;
+          for (ValidVaccine cvi : blackOut.getAgainstVaccineIds()) {
+            for (ValidVaccine vi : vaccineIds) {
+              if (cvi.equals(vi)) {
+                shouldBlackOut = true;
+              }
+            }
+          }
+        }
+        if (shouldBlackOut) {
+          if (vaccDate.isGreaterThan(blackOut.getStartBlackOut())
+              && vaccDate.isLessThan(blackOut.getEndBlackOutGrace())) {
+            return blackOut.getReason();
+          }
         }
       }
     }

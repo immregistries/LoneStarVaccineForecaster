@@ -3,8 +3,10 @@ package org.tch.forecast.core.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.tch.forecast.core.api.impl.CvxCode;
 import org.tch.forecast.core.api.impl.CvxCodes;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
 
@@ -18,7 +20,8 @@ public class ForecastServer extends Thread
       "20120905^R^^^^TEST123^^20120101^M^^^^^^^^^^^^^^^^^^^^^~~~TEST456^50^20120313^^^^|||",
       "20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||",
       "20131126^A^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||^" ,
-      "20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^149^20131018^0^0^0|||"};
+      "20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^149^20131018^0^0^0|||"
+      , "20120905^R^^^^TEST123^^20020101^M^^^^^^^^^^^^^^^^^^^^^~~~TEST456^50^20120313^^^^|||"};
   // java -classpath tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster
 
   protected static VaccineForecastManager vaccineForecastManager = null;
@@ -53,7 +56,11 @@ public class ForecastServer extends Thread
       System.out.println(LOG_PRE + "  + loading forecaster core");
       vaccineForecastManager = new VaccineForecastManager();
       System.out.println(LOG_PRE + "  + loading cvx codes");
-      cvxToVaccineIdMap = CvxCodes.getCvxToVaccineIdMap();
+      Map<String, CvxCode> cvxToCvxCodeMap = CvxCodes.getCvxToCvxCodeMap();
+      cvxToVaccineIdMap = new HashMap<String, Integer>();
+      for (CvxCode cvxCode : cvxToCvxCodeMap.values()) {
+        cvxToVaccineIdMap.put(cvxCode.getCvxCode(), cvxCode.getVaccineId());
+      }
       System.out.println(LOG_PRE + "Testing");
 
       for (int i = 0; i < TEST.length; i++) {
