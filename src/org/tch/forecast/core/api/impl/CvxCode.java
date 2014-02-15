@@ -15,7 +15,16 @@ public class CvxCode
   private String vaccineLabel = "";
   private int vaccineId = 0;
   private UseStatus useStatus = null;
+  private boolean locationSet = false;
   
+  public boolean isLocationSet() {
+    return locationSet;
+  }
+
+  public void setLocationSet(boolean locationSet) {
+    this.locationSet = locationSet;
+  }
+
   private Map<String, Set<String>> locationMapSet = null;
 
   public Map<String, Set<String>> getLocationMapSet() {

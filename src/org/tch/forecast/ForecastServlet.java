@@ -2,12 +2,8 @@ package org.tch.forecast;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -21,18 +17,16 @@ import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.TimePeriod;
 import org.tch.forecast.core.Trace;
-import org.tch.forecast.core.TraceList;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
+import org.tch.forecast.core.api.impl.CvxCode;
+import org.tch.forecast.core.api.impl.ForecastHandler;
 import org.tch.forecast.core.api.impl.ForecastHandlerCore;
 import org.tch.forecast.core.api.impl.ForecastOptions;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.model.Immunization;
 import org.tch.forecast.core.model.PatientRecordDataBean;
 import org.tch.forecast.core.server.ForecastReportPrinter;
-import org.tch.forecast.model.VaccineModel;
-import org.tch.forecast.validator.DataSourceUnavailableException;
-import org.tch.forecast.validator.db.DatabasePool;
 
 public class ForecastServlet extends HttpServlet
 {
@@ -64,8 +58,6 @@ public class ForecastServlet extends HttpServlet
     super.init();
   }
 
-  private static Map<String, Integer> cvxToVaccineIdMap = null;
-
   public static VaccineForecastManagerInterface forecastManager = null;
 
   private void initCvxCodes() throws ServletException {
@@ -76,34 +68,7 @@ public class ForecastServlet extends HttpServlet
         throw new ServletException("Unable to initialize forecaster", e);
       }
       forecastHandlerCore = new ForecastHandlerCore(forecastManager);
-    }
 
-    if (cvxToVaccineIdMap == null) {
-
-      try {
-        Connection conn = DatabasePool.getConnection();
-        try {
-          cvxToVaccineIdMap = new HashMap<String, Integer>();
-          PreparedStatement pstmt = conn.prepareStatement("SELECT cvx_code, vaccine_id FROM vaccine_cvx");
-          ResultSet rset = pstmt.executeQuery();
-          while (rset.next()) {
-            cvxToVaccineIdMap.put(rset.getString(1), rset.getInt(2));
-          }
-          rset.close();
-          pstmt.close();
-
-          rset.close();
-          pstmt.close();
-
-        } catch (Exception e) {
-          throw new ServletException("Unable to query for CVX codes", e);
-        } finally {
-          DatabasePool.close(conn);
-        }
-      } catch (DataSourceUnavailableException e) {
-        cvxToVaccineIdMap = null;
-        throw new ServletException("Unable to connect to database", e);
-      }
     }
 
   }
@@ -180,6 +145,13 @@ public class ForecastServlet extends HttpServlet
   }
 
   protected void readRequest(HttpServletRequest req) throws ServletException {
+
+    Map<String, CvxCode> cvxToVaccineIdMap = null;
+    try {
+      cvxToVaccineIdMap = ForecastHandler.getCvxToVaccineIdMap();
+    } catch (Exception e) {
+      throw new ServletException("Unable to initialize CVX mapping", e);
+    }
     initCvxCodes();
     doseList = new ArrayList<VaccinationDoseDataBean>();
     patient = new PatientRecordDataBean();
@@ -221,14 +193,18 @@ public class ForecastServlet extends HttpServlet
           throw new ServletException("CVX code '" + vaccineCvx + "' is not recognized in parameter named 'vaccineCvx"
               + n + "'");
         }
+        CvxCode cvxCode = null;
         if (cvxToVaccineIdMap.containsKey(vaccineCvx)) {
-          vaccineId = cvxToVaccineIdMap.get(vaccineCvx);
+          cvxCode = cvxToVaccineIdMap.get(vaccineCvx);
         } else {
-          vaccineId = cvxToVaccineIdMap.get("0" + vaccineCvx);
+          cvxCode = cvxToVaccineIdMap.get("0" + vaccineCvx);
         }
-        if (vaccineId == 0) {
+
+        if (cvxCode == null) {
           throw new ServletException("CVX code '" + vaccineCvx + "' is not recognized in parameter named 'vaccineCvx"
               + n + "'");
+        } else {
+          vaccineId = cvxCode.getVaccineId();
         }
       }
       Immunization imm = new Immunization();

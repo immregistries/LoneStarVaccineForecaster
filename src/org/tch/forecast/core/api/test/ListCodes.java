@@ -1,5 +1,6 @@
 package org.tch.forecast.core.api.test;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,12 +20,47 @@ import org.tch.forecast.core.api.impl.VaccineForecastManager;
 public class ListCodes
 {
 
+  public static enum Format {
+    SPACED, STANDARD
+  }
+
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.api.test.ListCodes
   public static void main(String[] args) throws Exception {
 
+    PrintStream out = System.out;
+    Format format = Format.STANDARD;
+    if (args != null && args.length > 0) {
+      if (args[0].equals("spaced")) {
+        format = Format.SPACED;
+      }
+    }
+    ListCodes listCodes = new ListCodes();
+    listCodes.printCodes(format, out);
+  }
+
+  private List<CvxCode> cvxCodeList = null;
+  private List<String> forecastCodeList = null;
+
+  public List<CvxCode> getCvxCodeList() {
+    return cvxCodeList;
+  }
+
+  public void setCvxCodeList(List<CvxCode> cvxCodeList) {
+    this.cvxCodeList = cvxCodeList;
+  }
+
+  public List<String> getForecastCodeList() {
+    return forecastCodeList;
+  }
+
+  public void setForecastCodeList(List<String> forecastCodeList) {
+    this.forecastCodeList = forecastCodeList;
+  }
+
+  public ListCodes() throws Exception {
     Map<String, CvxCode> cvxToVaccineIdMap = ForecastHandler.getCvxToVaccineIdMap();
     VaccineForecastManager vaccineForecastManager = new VaccineForecastManager();
-    List<CvxCode> cvxCodeList = new ArrayList<CvxCode>(cvxToVaccineIdMap.values());
+    cvxCodeList = new ArrayList<CvxCode>(cvxToVaccineIdMap.values());
 
     Collections.sort(cvxCodeList, new Comparator<CvxCode>() {
       @Override
@@ -81,20 +117,36 @@ public class ListCodes
       }
     }
 
-    List<String> forecastCodeList = new ArrayList<String>(forecastCodeSet);
+    forecastCodeList = new ArrayList<String>(forecastCodeSet);
     Collections.sort(forecastCodeList);
 
-    if (args.length > 0 && args[0].equals("spaced")) {
-      System.out.println("TCH Forecaster - List Codes");
-      System.out.println();
-      System.out.print("Label              CVX  TCH  ");
+    for (CvxCode cvxCode : cvxCodeList) {
+      boolean hasLocationSet = false;
       for (String forecastCode : forecastCodeList) {
-        System.out.print(pad(forecastCode, 10));
+        Set<String> locationSet = cvxCode.getLocationMapSet().get(forecastCode);
+        if (locationSet != null && !locationSet.isEmpty()) {
+          hasLocationSet = true;
+          break;
+        }
       }
-      System.out.println();
-      System.out.println("-----------------------------------------------------------------");
+      cvxCode.setLocationSet(hasLocationSet);
+    }
+
+  }
+
+  public void printCodes(Format format, PrintStream out) throws Exception {
+
+    if (format == Format.SPACED) {
+      out.println("TCH Forecaster - List Codes");
+      out.println();
+      out.print("Label              CVX  TCH  ");
+      for (String forecastCode : forecastCodeList) {
+        out.print(pad(forecastCode, 10));
+      }
+      out.println();
+      out.println("-----------------------------------------------------------------");
       for (CvxCode cvxCode : cvxCodeList) {
-        System.out.print(pad(cvxCode.getVaccineLabel(), 18) + " " + pad(cvxCode.getCvxCode(), 4) + " "
+        out.print(pad(cvxCode.getVaccineLabel(), 18) + " " + pad(cvxCode.getCvxCode(), 4) + " "
             + pad(cvxCode.getVaccineId() == 0 ? "" : ("" + cvxCode.getVaccineId()), 4) + " ");
         for (String forecastCode : forecastCodeList) {
           Set<String> locationSet = cvxCode.getLocationMapSet().get(forecastCode);
@@ -109,54 +161,42 @@ public class ListCodes
               sb.append(location);
             }
           }
-          System.out.print(pad(sb.toString(), 10));
+          out.print(pad(sb.toString(), 10));
         }
-        System.out.println();
+        out.println();
       }
-    }
-    if (args.length > 0 && args[0].equals("html")) {
-      // list of all codes by CVX name
-      // list of all codes by CVX id
-      // list of all vaccine group types supported with associated vaccine codes
-    } else {
+    } else if (format == Format.STANDARD) {
 
-      System.out.print("CVX Label\tCVX\tTCH Label\tTCH\tUse Status\tProblem Comment");
+      out.print("CVX Label\tCVX\tTCH Label\tTCH\tUse Status\tProblem Comment");
       for (String forecastCode : forecastCodeList) {
-        System.out.print("\t" + forecastCode);
+        out.print("\t" + forecastCode);
       }
-      System.out.println();
+      out.println();
       for (CvxCode cvxCode : cvxCodeList) {
-        System.out.print("\"" + cvxCode.getCvxLabel() + "\"\t");
-        System.out.print("\"" + cvxCode.getCvxCode() + "\"\t");
-        System.out.print("\"" + cvxCode.getVaccineLabel() + "\"\t");
-        System.out.print("" + (cvxCode.getVaccineId() == 0 ? "" : "" + cvxCode.getVaccineId()) + "\t");
+        out.print("\"" + cvxCode.getCvxLabel() + "\"\t");
+        out.print("\"" + cvxCode.getCvxCode() + "\"\t");
+        out.print("\"" + cvxCode.getVaccineLabel() + "\"\t");
+        out.print("" + (cvxCode.getVaccineId() == 0 ? "" : "" + cvxCode.getVaccineId()) + "\t");
         if (cvxCode.getUseStatus() == CvxCode.UseStatus.NOT_SUPPORTED) {
-          System.out.print("\"NOT SUPPORTED\"");
+          out.print("\"NOT SUPPORTED\"");
         } else if (cvxCode.getUseStatus() == CvxCode.UseStatus.SUPPORTED) {
-          System.out.print("\"SUPPORTED\"");
+          out.print("\"SUPPORTED\"");
         } else if (cvxCode.getUseStatus() == CvxCode.UseStatus.PENDING) {
-          System.out.print("\"PENDING\"");
+          out.print("\"PENDING\"");
         } else {
-          System.out.print("\"\"");
+          out.print("\"\"");
         }
 
-        boolean hasLocationSet = false;
-        for (String forecastCode : forecastCodeList) {
-          Set<String> locationSet = cvxCode.getLocationMapSet().get(forecastCode);
-          if (locationSet != null && !locationSet.isEmpty()) {
-            hasLocationSet = true;
-            break;
-          }
-        }
-        if (hasLocationSet) {
-          System.out.print("\t");
+        
+        if (cvxCode.isLocationSet()) {
+          out.print("\t");
         } else {
           if (cvxCode.getUseStatus() == CvxCode.UseStatus.SUPPORTED) {
-            System.out.print("\t\"Problem: No forecast series references this code\"");
+            out.print("\t\"Problem: No forecast series references this code\"");
           } else if (cvxCode.getUseStatus() == CvxCode.UseStatus.PENDING) {
-            System.out.print("\t\"Code is being added to the forecaster\"");
+            out.print("\t\"Code is being added to the forecaster\"");
           } else {
-            System.out.print("\t");
+            out.print("\t");
           }
         }
         for (String forecastCode : forecastCodeList) {
@@ -173,12 +213,12 @@ public class ListCodes
             }
           }
           if (sb.length() == 0) {
-            System.out.print("\t");
+            out.print("\t");
           } else {
-            System.out.print("\t\"" + sb.toString() + "\"");
+            out.print("\t\"" + sb.toString() + "\"");
           }
         }
-        System.out.println();
+        out.println();
       }
     }
   }

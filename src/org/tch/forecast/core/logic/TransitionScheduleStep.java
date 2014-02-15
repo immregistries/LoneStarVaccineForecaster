@@ -1,5 +1,6 @@
 package org.tch.forecast.core.logic;
 
+import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.Trace;
 
 public class TransitionScheduleStep extends ActionStep
@@ -52,13 +53,22 @@ public class TransitionScheduleStep extends ActionStep
       ds.log(" + Patient is now too old to get any more doses");
       if (ds.traceBuffer != null)
       {
-        ds.traceBuffer.append("</li><li>No need for further vaccinations.");
+        ds.traceBuffer.append("No need for further vaccinations after " + ds.finished.toString("YMD") + ".");
       }
       if (ds.trace != null)
       {
         ds.trace.setFinished(true);
-        ds.traceList.append("</li><li>No need for further vaccinations.");
+        ds.traceList.append("No need for further vaccinations after " + ds.finished.toString("YMD") + ".");
       }
+      ImmunizationForecastDataBean forecastBean = new ImmunizationForecastDataBean();
+      forecastBean.setFinished(ds.finished.getDate());
+      forecastBean.setForecastName(ds.forecast.getForecastCode());
+      forecastBean.setForecastLabel(ds.forecast.getForecastLabel());
+      forecastBean.setSortOrder(ds.forecast.getSortOrder());
+      forecastBean.setImmregid(ds.patient.getImmregid());
+      forecastBean.setTraceList(ds.traceList);
+      forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED);
+      ds.resultList.add(forecastBean);
       return FinishScheduleStep.NAME;
     }
     ds.log("Going to next step");

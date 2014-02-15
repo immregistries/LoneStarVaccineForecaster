@@ -10,3 +10,8 @@ input {border-color: #747E80; background-color: #F7F3E8}
 textarea {border-color: #747E80; background-color: #F7F3E8}
 select {border-color: #747E80; background-color: #F7F3E8}
 pre {background:#F7F3E8; padding:4px; margin: 2px; }
+table {border: 1px solid black; border-collapse:collapse;}
+table, th, td {border: 1px solid black}
+.pass {background:#77BED2;}
+.fail {background:#F2583E;}
+.grey {color:#444444;}

@@ -60,7 +60,7 @@ public class LookForDoseStep extends ActionStep
         forecastBean.setSortOrder(ds.forecast.getSortOrder());
         forecastBean.setImmregid(ds.patient.getImmregid());
         forecastBean.setTraceList(ds.traceList);
-        forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED);
+        forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE);
         ds.resultList.add(forecastBean);
         if (ds.traceList != null) {
           ds.traceList.append("Vaccination series complete.");

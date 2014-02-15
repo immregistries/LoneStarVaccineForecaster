@@ -19,6 +19,7 @@
 	<property name="object.home" value="${app.home}/object" />
 	<property name="deploy.home" value="${app.home}/deploy" />
 	<property name="web.home" value="${app.home}/web" />
+	<property name="schedules.home" value="${app.home}/schedules" />
 	<property name="doc.home" value="${app.home}/doc" />
 
 	<property name="build.home" value="${app.home}/build" />
@@ -106,6 +107,7 @@
 		<mkdir dir="${build.home}/WEB-INF" />
 		<mkdir dir="${build.home}/WEB-INF/classes" />
 		<mkdir dir="${build.home}/WEB-INF/lib" />
+		<mkdir dir="${build.home}/schedules" />
 
 		<mkdir dir="${doc.home}" />
 		<mkdir dir="${doc.home}/core" />
@@ -153,6 +155,11 @@
 		<!-- Now, copy all the jar files we need -->
 		<copy todir="${build.home}/WEB-INF/lib">
 			<fileset dir="${lib.home}" />
+		</copy>
+
+		<!-- Copy all the schedules -->
+		<copy todir="${build.home}/schedules">
+			<fileset dir="${schedules.home}" />
 		</copy>
 
 		<!-- Create the <war> file -->
