@@ -117,9 +117,19 @@ public class ForecastRunner
     out.close();
     return stringOut.toString();
   }
+  
+  private ForecastOptions forecastOptions = new ForecastOptions();
+
+  public ForecastOptions getForecastOptions() {
+    return forecastOptions;
+  }
+
+  public void setForecastOptions(ForecastOptions forecastOptions) {
+    this.forecastOptions = forecastOptions;
+  }
 
   public void forecast() throws Exception {
-    ForecastOptions forecastOptions = new ForecastOptions();
+    
     ForecastHandlerCore forecastHandlerCore = new ForecastHandlerCore(vaccineForecastManager);
     String forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms, new DateTime(forecastDate),
         traceMap, resultList, forecastOptions);
