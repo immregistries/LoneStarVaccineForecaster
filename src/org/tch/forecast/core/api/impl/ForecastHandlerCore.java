@@ -139,7 +139,6 @@ public class ForecastHandlerCore
     {
 
       DateTime today = new DateTime(forecastDate.getDate());
-      StringBuffer traceBuffer = new StringBuffer();
 
       Forecaster forecaster = new Forecaster(vaccineForecastManager);
       forecaster.setPatient(patient);
@@ -147,7 +146,7 @@ public class ForecastHandlerCore
       forecaster.setForecastDate(forecastDate.getDate());
       forecaster.setForecastOptions(forecastOptions);
       try {
-        forecaster.forecast(resultList, doseList, traceBuffer, traceMap);
+        forecaster.forecast(resultList, doseList, traceMap);
         forecasterScheduleName = forecaster.getForecastSchedule().getScheduleName();
 
         DateTime sevenYearsAgo = new DateTime(today);

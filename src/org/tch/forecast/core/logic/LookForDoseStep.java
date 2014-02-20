@@ -34,18 +34,12 @@ public class LookForDoseStep extends ActionStep
     ds.log("Next action = " + ds.nextAction);
     if (ds.nextAction == null || ds.nextAction.equalsIgnoreCase(COMPLETE)
         || (ds.nextAction.equalsIgnoreCase(KEEP_LOOKING) && (ds.indicatesPos + 1) == ds.indicates.length)) {
-      if (ds.traceBuffer != null) {
-        if (ds.nextAction != null) {
-          if (ds.nextAction.equalsIgnoreCase(COMPLETE)) {
-            ds.traceBuffer.append("</li><li>Vaccination series complete, patient vaccinated.");
-          }
-        }
-      }
       if (ds.trace != null) {
         if (ds.nextAction != null) {
           if (ds.nextAction.equalsIgnoreCase(COMPLETE)) {
             ds.trace.setComplete(true);
-            ds.traceList.append("</li><li>Vaccination series complete, patient vaccinated.");
+            ds.traceList.setExplanationBulletPointStart();
+            ds.traceList.addExplanation("Vaccination series complete, patient vaccinated.");
           }
         }
       }
@@ -63,7 +57,7 @@ public class LookForDoseStep extends ActionStep
         forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE);
         ds.resultList.add(forecastBean);
         if (ds.traceList != null) {
-          ds.traceList.append("Vaccination series complete.");
+          ds.traceList.addExplanation("Vaccination series complete.");
           ds.traceList.setStatusDescription("Vaccination series complete.");
         }
       }
@@ -74,26 +68,20 @@ public class LookForDoseStep extends ActionStep
       return ChooseIndicatorStep.NAME;
     } else if (ds.nextAction.equalsIgnoreCase(CONTRA)) {
       ds.log("Schedule was contraindicated, same schedule is kept.");
-      if (ds.traceBuffer != null) {
-        ds.traceBuffer.append("</li><li>");
-      }
       if (ds.trace != null) {
         ds.trace.setContraindicated(true);
         ds.trace = new Trace();
         ds.traceList.add(ds.trace);
-        ds.traceList.append("</li><li>");
+        ds.traceList.setExplanationBulletPointStart();
       }
       return TraverseScheduleStep.NAME;
     } else if (ds.nextAction.equalsIgnoreCase(INVALID)) {
       ds.log("Dose was invalid for schedule, same schedule to be kept.");
-      if (ds.traceBuffer != null) {
-        ds.traceBuffer.append("</li><li>");
-      }
       if (ds.trace != null) {
         ds.trace.setInvalid(true);
         ds.trace = new Trace();
         ds.traceList.add(ds.trace);
-        ds.traceList.append("</li><li>");
+        ds.traceList.setExplanationBulletPointStart();
       }
       return TraverseScheduleStep.NAME;
     } else {
@@ -153,37 +141,27 @@ public class LookForDoseStep extends ActionStep
           ds.log("Season end reached");
           if (ds.seasonCompleted) {
             ds.log("Season completed.");
-            if (ds.traceBuffer != null) {
-              ds.traceBuffer.append("Season ended " + DataStore.dateFormat.format(ds.event.eventDate) + ". ");
+            if (ds.trace != null) {
+              ds.traceList.addExplanation("Season ended " + DataStore.dateFormat.format(ds.event.eventDate) + ". ");
             }
           } else if (ds.event.eventDate.before(ds.valid.getDate())) {
             ds.log("Season ended before dose could be administered");
-            if (ds.traceBuffer != null) {
-              ds.traceBuffer.append("Season ended " + DataStore.dateFormat.format(ds.event.eventDate)
-                  + " before next dose was valid to give. ");
-            }
             if (ds.trace != null) {
-              ds.traceList.append("Season ended " + DataStore.dateFormat.format(ds.event.eventDate)
+              ds.traceList.addExplanation("Season ended " + DataStore.dateFormat.format(ds.event.eventDate)
                   + " before next dose was valid to give. ");
             }
           } else {
             ds.log("Season ended before expected dose received.");
-            if (ds.traceBuffer != null) {
-              ds.traceBuffer.append("Season ended " + DataStore.dateFormat.format(ds.event.eventDate)
-                  + " without valid dose given. ");
-            }
             if (ds.trace != null) {
-              ds.traceList.append("Season ended " + DataStore.dateFormat.format(ds.event.eventDate)
+              ds.traceList.addExplanation("Season ended " + DataStore.dateFormat.format(ds.event.eventDate)
                   + " without valid dose given. ");
             }
           }
           ds.seasonCompleted = false;
-          if (ds.traceBuffer != null && !indicate.getReason().equals("")) {
-            ds.traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
-          }
           if (ds.trace != null && !indicate.getReason().equals("")) {
             ds.trace.setReason(indicate.getReason());
-            ds.traceList.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
+            ds.traceList.setExplanationRed();
+            ds.traceList.addExplanation(indicate.getReason());
           }
           ds.seasonStart = ds.seasonal.getStart().getDateTimeFrom(new DateTime(ds.event.eventDate));
           if (ds.seasonEnd == null) {
@@ -206,12 +184,10 @@ public class LookForDoseStep extends ActionStep
           addInvalidDose(ds, vaccineIds, indicate.getVaccineName() + " dose "
               + (indicate.getAge().isEmpty() ? "" : indicate.getAge().toString()));
           addPreviousDose(ds, vaccineIds);
-          if (ds.traceBuffer != null && !indicate.getReason().equals("")) {
-            ds.traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
-          }
           if (ds.trace != null) {
             ds.trace.setReason(indicate.getReason());
-            ds.traceList.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
+            ds.traceList.setExplanationRed();
+            ds.traceList.addExplanation(indicate.getReason());
           }
           ds.previousEventDate = vaccDate;
           ds.previousEventWasContra = false;
@@ -224,12 +200,10 @@ public class LookForDoseStep extends ActionStep
           addContra(ds, vaccineIds, indicate.getVaccineName() + " dose"
               + (indicate.getAge().isEmpty() ? "" : " given before " + indicate.getAge().toString()));
           addPreviousDose(ds, vaccineIds);
-          if (ds.traceBuffer != null && !indicate.getReason().equals("")) {
-            ds.traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
-          }
           if (ds.trace != null) {
             ds.trace.setReason(indicate.getReason());
-            ds.traceList.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
+            ds.traceList.setExplanationRed();
+            ds.traceList.addExplanation(indicate.getReason());
           }
           ds.previousEventDate = vaccDate;
           ds.previousEventWasContra = true;
@@ -239,17 +213,15 @@ public class LookForDoseStep extends ActionStep
         } else if (checkTransition(ds, ds.event)) {
           ds.log("Valid transition event.");
           addValidTransition(ds, vaccineIds);
-          if (ds.traceBuffer != null && !indicate.getReason().equals("")) {
-            ds.traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
-          }
           if (ds.trace != null) {
             ds.trace.setReason(indicate.getReason());
-            ds.traceList.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
+            ds.traceList.setExplanationRed();
+            ds.traceList.addExplanation(indicate.getReason());
           }
           if (ds.seasonal != null && indicate.isSeasonCompleted()) {
             ds.seasonCompleted = true;
-            if (ds.traceBuffer != null) {
-              ds.traceBuffer.append("Season completed. ");
+            if (ds.trace != null) {
+              ds.traceList.addExplanation("Season completed. ");
             }
           }
           nextEvent(ds);
@@ -259,12 +231,10 @@ public class LookForDoseStep extends ActionStep
           ds.validDoseCount++;
           addValidDose(ds, vaccineIds);
           addPreviousDose(ds, vaccineIds);
-          if (ds.traceBuffer != null && !indicate.getReason().equals("")) {
-            ds.traceBuffer.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
-          }
           if (ds.trace != null) {
             ds.trace.setReason(indicate.getReason());
-            ds.traceList.append("<font color=\"#FF0000\">" + indicate.getReason() + "</font> ");
+            ds.traceList.setExplanationRed();
+            ds.traceList.addExplanation(indicate.getReason());
           }
           ds.beforePreviousEventDate = ds.previousEventDateValid;
           ds.previousEventDateValid = vaccDate;
@@ -273,8 +243,8 @@ public class LookForDoseStep extends ActionStep
           ds.previousEventDate = vaccDate;
           if (ds.seasonal != null && indicate.isSeasonCompleted()) {
             ds.seasonCompleted = true;
-            if (ds.traceBuffer != null) {
-              ds.traceBuffer.append("Season completed. ");
+            if (ds.trace != null) {
+              ds.traceList.addExplanation("Season completed. ");
             }
           }
           nextEvent(ds);
@@ -569,12 +539,10 @@ public class LookForDoseStep extends ActionStep
                 .format(imm.getDateOfShot()))) + " is invalid " + invalidReason + "");
             dose.setWhenValidText(ds.whenValidText);
             ds.doseList.add(dose);
-            if (ds.traceBuffer != null) {
-              ds.traceBuffer.append(" <font color=\"#FF0000\">" + dose.getReason() + ".</font> ");
-            }
             if (ds.trace != null) {
               ds.trace.getDoses().add(dose);
-              ds.traceList.append(" <font color=\"#FF0000\">" + dose.getReason() + ".</font> ");
+              ds.traceList.setExplanationRed();
+              ds.traceList.addExplanation(dose.getReason());
             }
           }
         }
@@ -591,27 +559,16 @@ public class LookForDoseStep extends ActionStep
   }
 
   private void addContra(DataStore ds, ValidVaccine[] vaccineIds, String contraReason) {
-    if (ds.traceBuffer != null) {
+    if (ds.trace != null) {
       if (!getValidDose(ds, ds.schedule).equals("")) {
         for (Iterator<ImmunizationInterface> it = ds.event.immList.iterator(); it.hasNext();) {
           ImmunizationInterface imm = it.next();
           for (int i = 0; i < vaccineIds.length; i++) {
             if (vaccineIds[i].isSame(imm, ds.event)) {
-              if (ds.traceBuffer != null) {
-                ds.traceBuffer.append(" <font color=\"#FF0000\">");
-                ds.traceBuffer.append(ds.forecastManager.getVaccineName(imm.getVaccineId()) + " given "
-                    + DataStore.dateFormat.format(imm.getDateOfShot()));
-                ds.traceBuffer.append(" is a contraindicated ");
-                ds.traceBuffer.append(contraReason);
-                ds.traceBuffer.append(".</font> ");
-              }
               if (ds.trace != null) {
-                ds.traceList.append(" <font color=\"#FF0000\">");
-                ds.traceList.append(ds.forecastManager.getVaccineName(imm.getVaccineId()) + " given "
-                    + DataStore.dateFormat.format(imm.getDateOfShot()));
-                ds.traceList.append(" is a contraindicated ");
-                ds.traceList.append(contraReason);
-                ds.traceList.append(".</font> ");
+                ds.traceList.setExplanationRed();
+                ds.traceList.addExplanation(ds.forecastManager.getVaccineName(imm.getVaccineId()) + " given "
+                    + DataStore.dateFormat.format(imm.getDateOfShot()) + " is a contraindicated " + contraReason);
               }
             }
           }
@@ -639,22 +596,11 @@ public class LookForDoseStep extends ActionStep
             dose.setVaccinationId(imm.getVaccinationId());
             dose.setWhenValidText(ds.whenValidText);
             ds.doseList.add(dose);
-            if (ds.traceBuffer != null) {
-              ds.traceBuffer.append(" <font color=\"#0000FF\">");
-              ds.traceBuffer.append(ds.forecastManager.getVaccineName(imm.getVaccineId()) + " given "
-                  + DataStore.dateFormat.format(imm.getDateOfShot()));
-              ds.traceBuffer.append(" is valid (dose #");
-              ds.traceBuffer.append(ds.validDoseCount);
-              ds.traceBuffer.append(").</font> ");
-            }
             if (ds.trace != null) {
               ds.trace.getDoses().add(dose);
-              ds.traceList.append(" <font color=\"#0000FF\">");
-              ds.traceList.append(ds.forecastManager.getVaccineName(imm.getVaccineId()) + " given "
-                  + DataStore.dateFormat.format(imm.getDateOfShot()));
-              ds.traceList.append(" is valid (dose #");
-              ds.traceList.append(String.valueOf(ds.validDoseCount));
-              ds.traceList.append(").</font> ");
+              ds.traceList.setExplanationBlue();
+              ds.traceList.addExplanation(ds.forecastManager.getVaccineName(imm.getVaccineId()) + " given "
+                  + DataStore.dateFormat.format(imm.getDateOfShot()) + " is valid (dose #" + ds.validDoseCount + ")");
             }
           }
         }
@@ -669,17 +615,10 @@ public class LookForDoseStep extends ActionStep
         for (int i = 0; i < vaccineIds.length; i++) {
           if (vaccineIds[i].isSame(imm, ds.event)) {
 
-            if (ds.traceBuffer != null) {
-              ds.traceBuffer.append(" <font color=\"#0000FF\">");
-              ds.traceBuffer.append("Transitioning because patient is " + imm.getLabel() + " as of "
-                  + DataStore.dateFormat.format(imm.getDateOfShot()));
-              ds.traceBuffer.append(".</font> ");
-            }
             if (ds.trace != null) {
-              ds.traceList.append(" <font color=\"#0000FF\">");
-              ds.traceList.append("Transitioning because patient is " + imm.getLabel() + " as of "
+              ds.traceList.setExplanationBlue();
+              ds.traceList.addExplanation("Transitioning because patient is " + imm.getLabel() + " as of "
                   + DataStore.dateFormat.format(imm.getDateOfShot()));
-              ds.traceList.append(".</font> ");
             }
           }
         }

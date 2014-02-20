@@ -11,9 +11,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.tch.forecast.core.DateTime;
+import org.tch.forecast.core.DecisionProcessFormat;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.SoftwareVersion;
+import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.api.impl.CvxCode;
 import org.tch.forecast.core.api.impl.CvxCodes;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
@@ -150,7 +152,7 @@ public class CaretForecaster
   //  5 Dose Override
   private static final int FIELD_OUT_INPUT_DOSE_05_DOSE_OVERRIDE = 5;
   //  6 Reserved for future use
-  private static final int FIELD_OUT_INPUT_DOSE_06_RESERVED_FOR_FUTURE_USE = 6;
+  private static final int FIELD_OUT_INPUT_DOSE_06_INVLIAD_DOSE_AND_REASON = 6;
   //  7  Reserved for future use
   private static final int FIELD_OUT_INPUT_DOSE_07_RESERVED_FOR_FUTURE_USE = 7;
 
@@ -350,8 +352,8 @@ public class CaretForecaster
       Date forecastDate = readDate(caseDetailFieldList, FIELD_IN_CASE_DETAIL_01_DATE_USED_FOR_FORECAST);
       Date dateOfBirth = readDate(caseDetailFieldList, FIELD_IN_CASE_DETAIL_08_DATE_OF_BIRTH);
       String gender = readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_09_GENDER);
-      boolean use4DayGracePeriod =  readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_04_USE_4_DAY_GRACE_PERIOD).equals("1");
-
+      boolean use4DayGracePeriod = readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_04_USE_4_DAY_GRACE_PERIOD)
+          .equals("1");
 
       Set<String> filterSet = new HashSet<String>();
       if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_11_PERTUSSIS_CONTRAINDICATED_INDICATION).equals("1")) {
@@ -417,6 +419,7 @@ public class CaretForecaster
 
       ForecastRunner forecastRunner = new ForecastRunner(vaccineForecastManager);
       forecastRunner.getForecastOptions().setIgnoreFourDayGrace(!use4DayGracePeriod);
+      forecastRunner.getForecastOptions().setDecisionProcessFormat(DecisionProcessFormat.FORMATTED_TEXT);
       forecastRunner.getPatient().setDob(new DateTime(dateOfBirth));
       forecastRunner.getPatient().setSex(gender.toUpperCase().startsWith("M") ? "M" : "F");
       forecastRunner.setForecastDate(forecastDate);
@@ -476,14 +479,14 @@ public class CaretForecaster
       if (!forecastingMode.equals(FORECASTING_MODE_ACCEPTABLE)) {
         forecastingMode = FORECASTING_MODE_RECOMMENDED;
       }
-      
+
       // Put together response
       addValue("TCH Forecaster version " + SoftwareVersion.VERSION, FIELD_OUT_CASE_DATA_01_COPYRIGHT_NOTICE);
       addValue(today.toString("YMDHTS"), FIELD_OUT_CASE_DATA_02_RUN_DATE_AND_TIME);
       addValue((new DateTime(forecastDate)).toString("YMD"), FIELD_OUT_CASE_DATA_03_DATE_USED_FOR_FORECAST);
       addValue(forecastingMode, FIELD_OUT_CASE_DATA_04_FORECASTING_MODE);
       addValue(readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_03_VERSION), FIELD_OUT_CASE_DATA_05_VERSION);
-      
+
       // addValue(SoftwareVersion.VERSION, FIELD_OUT_06_RULE_SET_MAJOR_VERSION);
       // addValue(forecastRunner.getForecasterScheduleName(), FIELD_OUT_07_RULE_SET_MINOR_VERSION);
       // addValue(SoftwareVersion.VERSION_RELEASE, FIELD_OUT_08_RULE_SET_RELEASE_DATE);
@@ -511,6 +514,25 @@ public class CaretForecaster
           addValue(new DateTime(imm.getDateOfShot()).toString("YMD"),
               FIELD_OUT_INPUT_DOSE_04_DATE_OF_DOSE_ADMINISTRATION);
 
+          String invalidReason = "";
+          for (VaccinationDoseDataBean dose : forecastRunner.getDoseList()) {
+            if (dose.getVaccinationId() == imm.getVaccinationId()) {
+              if (dose.getStatusCode().equals(VaccinationDoseDataBean.STATUS_INVALID)) {
+                invalidReason = dose.getReason();
+                if (invalidReason == null) {
+                  invalidReason = "";
+                } else {
+                  invalidReason = invalidReason.trim();
+                }
+                if (invalidReason.length() > 70) {
+                  invalidReason = invalidReason.substring(0, 70);
+                }
+                invalidReason = "1:" + invalidReason;
+                break;
+              }
+            }
+          }
+          addValue(invalidReason, FIELD_OUT_INPUT_DOSE_06_INVLIAD_DOSE_AND_REASON);
           i++;
         }
         response.append(SECTION_SEPARATOR);
@@ -761,7 +783,7 @@ public class CaretForecaster
   }
 
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster
-  
+
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140201^R^IHS_6m26^0^0^^55^19481128^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~55079^9^19990706^0^0^0|||180404^115^20110504^0^0^0|||55078^45^19990706^0^0^0|||183899^33^20060101^0^0^0"
 

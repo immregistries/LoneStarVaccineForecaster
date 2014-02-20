@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.tch.forecast.core.DateTime;
+import org.tch.forecast.core.DecisionProcessFormat;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.Trace;
@@ -117,11 +118,9 @@ public class StepServlet extends ForecastServlet
           dataStore.setForecastOptions(forecastOptions);
           List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
           List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
-          StringBuffer traceBuffer = new StringBuffer();
           Map<String, List<Trace>> traces = new HashMap<String, List<Trace>>();
           dataStore.setResultList(resultList);
           dataStore.setDoseList(doseList);
-          dataStore.setTraceBuffer(traceBuffer);
           dataStore.setTraces(traces);
 
           vaccineNames = new HashMap<String, String>();
@@ -244,11 +243,9 @@ public class StepServlet extends ForecastServlet
             dataStore.setForecastDate(forecastDate);
             List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
             List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
-            StringBuffer traceBuffer = new StringBuffer();
             Map<String, List<Trace>> traces = new HashMap<String, List<Trace>>();
             dataStore.setResultList(resultList);
             dataStore.setDoseList(doseList);
-            dataStore.setTraceBuffer(traceBuffer);
             dataStore.setTraces(traces);
 
             rset.close();
@@ -416,11 +413,9 @@ public class StepServlet extends ForecastServlet
 
         out.println("    </td>");
         out.println("    <td valign=\"top\" class=\"layout\">");
-        if (dataStore.getTraceBuffer() != null) {
-          out.print(dataStore.getTraceBuffer());
-          if (dataStore.getTraceBuffer().toString().indexOf("</ul>") == -1) {
-            out.print("</ul>");
-          }
+        if (dataStore.getTrace() != null) {
+          String explanation = dataStore.getTraceList().getExplanation(DecisionProcessFormat.FORMATTED_TEXT);
+          out.print(explanation);
         }
 
         if (detailLog.length() > 0) {

@@ -177,7 +177,7 @@ public class EvaluateCsv
       forecaster.setForecastDate(new Date());
       List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
       List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
-      forecaster.forecast(resultList, doseList, null, null);
+      forecaster.forecast(resultList, doseList, null);
 
       SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
       for (int i = 0; i < vaxDateList.size(); i++)

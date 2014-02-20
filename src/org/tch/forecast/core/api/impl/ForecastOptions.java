@@ -1,14 +1,24 @@
 package org.tch.forecast.core.api.impl;
 
+import org.tch.forecast.core.DecisionProcessFormat;
 import org.tch.forecast.core.TimePeriod;
 
 public class ForecastOptions {
+
+  
   private TimePeriod fluSeasonStart = null;
   private TimePeriod fluSeasonDue = null;
   private TimePeriod fluSeasonOverdue = null;
   private TimePeriod fluSeasonEnd = null;
   private boolean ignoreFourDayGrace = false;
+  private DecisionProcessFormat decisionProcessFormat = DecisionProcessFormat.HTML;
   
+  public DecisionProcessFormat getDecisionProcessFormat() {
+    return decisionProcessFormat;
+  }
+  public void setDecisionProcessFormat(DecisionProcessFormat decisionProcessFormat) {
+    this.decisionProcessFormat = decisionProcessFormat;
+  }
   public boolean isIgnoreFourDayGrace() {
     return ignoreFourDayGrace;
   }

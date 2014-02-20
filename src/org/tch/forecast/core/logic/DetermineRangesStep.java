@@ -194,7 +194,11 @@ public class DetermineRangesStep extends ActionStep
       DateTime seasonDue = ds.seasonal.getDue().getDateTimeFrom(ds.seasonStart);
       if (seasonDue.isGreaterThan(ds.due)) {
         ds.due = seasonDue;
-        ds.dueReason = ds.seasonal.getDue() + " after season start";
+        if (ds.seasonal.getDue().getAmount() == 0) {
+          ds.dueReason = "season start";
+        } else {
+          ds.dueReason = ds.seasonal.getDue() + " after season start";
+        }
         ds.log("Season start is is after due date, moving due date forward to " + ds.due.toString("M/D/Y"));
       }
     }
@@ -285,9 +289,6 @@ public class DetermineRangesStep extends ActionStep
     }
     ds.whenValidText = "Dose " + getNextValidDose(ds, ds.schedule) + " valid at " + validReason + ", "
         + ds.valid.toString("M/D/Y");
-    if (ds.traceBuffer != null) {
-      ds.traceBuffer.append(ds.whenValidText + ". ");
-    }
     if (ds.trace != null) {
       ds.trace.setDueDate(ds.due);
       ds.trace.setOverdueDate(ds.overdue);
@@ -295,7 +296,7 @@ public class DetermineRangesStep extends ActionStep
       ds.trace.setFinishedDate(ds.finished);
       ds.trace.setValidReason(ds.whenValidText + ". ");
       ds.trace.setValidBecause(validBecause);
-      ds.traceList.append(ds.whenValidText + ". ");
+      ds.traceList.addExplanation(ds.whenValidText + ". ");
     }
 
   }

@@ -14,7 +14,6 @@ public class FinishStep extends ActionStep
   @Override
   public String doAction(DataStore dataStore) throws Exception
   {
-    dataStore.traceBuffer = null;
     dataStore.traces = null;
     return EndStep.NAME;
   }

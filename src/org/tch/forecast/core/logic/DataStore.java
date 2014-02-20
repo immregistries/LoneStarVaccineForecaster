@@ -86,7 +86,6 @@ public class DataStore
   protected DateTime seasonStart = null;
   protected DateTime today = null;
   protected Trace trace = null;
-  protected StringBuffer traceBuffer = null;
   protected TraceList traceList = null;
   protected Map<String, List<Trace>> traces = null;
   protected List<ImmunizationInterface> vaccinations;
@@ -299,11 +298,6 @@ public class DataStore
   public Trace getTrace()
   {
     return trace;
-  }
-
-  public StringBuffer getTraceBuffer()
-  {
-    return traceBuffer;
   }
 
   public TraceList getTraceList()
@@ -553,11 +547,6 @@ public class DataStore
   public void setTrace(Trace trace)
   {
     this.trace = trace;
-  }
-
-  public void setTraceBuffer(StringBuffer traceBuffer)
-  {
-    this.traceBuffer = traceBuffer;
   }
 
   public void setTraceList(TraceList traceList)

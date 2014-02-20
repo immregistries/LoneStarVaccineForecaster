@@ -13,14 +13,6 @@ public class FinishScheduleStep extends ActionStep
   @Override
   public String doAction(DataStore ds) throws Exception
   {
-    if (ds.traceBuffer != null)
-    {
-      ds.traceBuffer.append("</li></ul>");
-    }
-    if (ds.traces != null)
-    {
-      ds.traceList.append("</li></ul>");
-    }
     finishSeasonalAndTransitions(ds);
     ds.nextAction = null;
     // TODO Auto-generated method stub

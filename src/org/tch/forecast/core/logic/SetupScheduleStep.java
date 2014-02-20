@@ -27,9 +27,6 @@ public class SetupScheduleStep extends ActionStep {
     ds.validDoseCount = 0;
 
     setupSeasonalAndTransition(ds);
-    if (ds.traceBuffer != null) {
-      ds.traceBuffer.append("<p><b>" + ds.forecast.getForecastCode() + "</b></p><ul><li>");
-    }
     if (ds.traces != null) {
       ds.trace = new Trace();
       ds.trace.setSchedule(ds.schedule);
@@ -38,7 +35,7 @@ public class SetupScheduleStep extends ActionStep {
       ds.traceList.setForecastName(ds.forecast.getForecastCode());
       ds.traceList.setForecastLabel(ds.forecast.getForecastLabel());
       ds.traces.put(ds.forecast.getForecastCode(), ds.traceList);
-      ds.traceList.append("<ul><li>");
+      ds.traceList.setExplanationBulletPointStart();
     }
     ds.log("Looking at first event");
     ds.eventPosition = 0;

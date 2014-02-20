@@ -31,8 +31,8 @@ public class MakeForecastStep extends ActionStep
       ds.seasonEnd.addYears(1);
       DetermineRangesStep.determineRanges(ds);
     }
-    if (ds.traceBuffer != null) {
-      ds.traceBuffer.append("</li><li>");
+    if (ds.trace != null) {
+      ds.traceList.setExplanationBulletPointStart();
     }
     // Adjust around black out dates
     if (ds.blackOutDates != null && ds.blackOutDates.size() > 0) {
@@ -89,11 +89,9 @@ public class MakeForecastStep extends ActionStep
         }
       }
       if (validReason != null) {
-        if (ds.traceBuffer != null) {
-          ds.traceBuffer.append(" <font color=\"#FF0000\">Adjusted future forecast " + validReason + ".</font> ");
-        }
         if (ds.trace != null) {
-          ds.traceList.append(" <font color=\"#FF0000\">Adjusted future forecast " + validReason + ".</font> ");
+          ds.traceList.setExplanationRed();
+          ds.traceList.addExplanation("Adjusted future forecast " + validReason);
         }
       }
     }
@@ -154,11 +152,9 @@ public class MakeForecastStep extends ActionStep
     String statusDescription = "";
     if (!forecastDateTime.isLessThan(ds.finished)) {
       statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED;
-      if (ds.traceBuffer != null) {
-        ds.traceBuffer.append("</li><li>Too late to complete. Next dose was expected before " + ds.finished + ". ");
-      }
       if (ds.traceList != null) {
-        ds.traceList.append("</li><li>Too late to complete. Next dose was expected before " + ds.finished + ". ");
+        ds.traceList.setExplanationBulletPointStart();
+        ds.traceList.addExplanation("Too late to complete. Next dose was expected before " + ds.finished);
         ds.traceList.setStatusDescription("Too late to complete. Next dose was expected before " + ds.finished + ".");
       }
     } else {
@@ -174,15 +170,10 @@ public class MakeForecastStep extends ActionStep
           statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE;
         }
       }
-      if (ds.traceBuffer != null) {
-        ds.traceBuffer.append("Forecasting for dose " + DetermineRangesStep.getNextValidDose(ds, ds.schedule)
-            + " due at " + ds.dueReason + ", " + ds.due.toString("M/D/Y") + ". ");
-      }
       if (ds.trace != null) {
-        ds.traceList.append("Forecasting for dose " + DetermineRangesStep.getNextValidDose(ds, ds.schedule)
-            + " due at " + ds.dueReason + ", " + ds.due.toString("M/D/Y") + ". ");
+        ds.traceList.addExplanation("Forecasting for dose " + DetermineRangesStep.getNextValidDose(ds, ds.schedule)
+            + " due at " + ds.dueReason + ", " + ds.due.toString("M/D/Y"));
       }
-
     }
     forecastBean.setStatusDescription(statusDescription);
 
@@ -214,7 +205,8 @@ public class MakeForecastStep extends ActionStep
                 + blackOut.getAgainstContra() + " can not be given yet.");
             ds.log("Moving valid date back to after black out date " + blackOut.getEndBlackOut().toString("YMD") + ".");
             if (traceList != null) {
-              traceList.append("</li><li>Adjusting due date for " + blackOut.getAgainstContra()
+              traceList.setExplanationBulletPointStart();
+              traceList.addExplanation("Adjusting due date for " + blackOut.getAgainstContra()
                   + " to after contraindication black out date of " + blackOut.getEndBlackOut().toString("YMD"));
             }
             contraValid = blackOut.getEndBlackOut();
@@ -235,10 +227,11 @@ public class MakeForecastStep extends ActionStep
           } else if (contraValid.isLessThanOrEquals(blackOut.getStartBlackOut())
               && forecastDateTime.isGreaterThan(blackOut.getStartBlackOut())) {
             ds.log("A contraindication event starts after the valid date but before the forecast date");
-            ds.log("Moving valid date back to after black out date " + blackOut.getEndBlackOut());
+            ds.log("Moving valid date back to after black out date " + blackOut.getEndBlackOut().toString("YMD"));
             if (traceList != null) {
-              traceList.append("</li><li>Adjusting due date for " + blackOut.getAgainstContra()
-                  + "  to after contraindication black out date of " + blackOut.getEndBlackOut());
+              traceList.setExplanationBulletPointStart();
+              traceList.addExplanation("Adjusting due date for " + blackOut.getAgainstContra()
+                  + " to after contraindication black out date of " + blackOut.getEndBlackOut().toString("YMD"));
             }
             contraValid = blackOut.getEndBlackOut();
             validReason = blackOut.getReason();
@@ -295,7 +288,7 @@ public class MakeForecastStep extends ActionStep
           forecastContraindication.setStatusDescription(statusDescription);
 
           if (traceList != null) {
-            traceList.append("</li></ul>");
+            traceList.setExplanationBulletPointStart();
           }
 
           if (blackOut.getAgainstAllowed() != null && !blackOut.getAgainstAllowed().equals("")) {
