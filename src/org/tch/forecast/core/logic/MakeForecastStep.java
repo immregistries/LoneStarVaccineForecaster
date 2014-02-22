@@ -123,9 +123,7 @@ public class MakeForecastStep extends ActionStep
       }
       if (ds.due.isLessThan(seasonStart)) {
         ds.due = seasonStart;
-
       }
-
     }
 
     ImmunizationForecastDataBean forecastBean = new ImmunizationForecastDataBean();

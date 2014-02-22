@@ -73,17 +73,21 @@ public class ForecastServlet extends HttpServlet
 
   }
 
-  protected List<VaccinationDoseDataBean> doseList = null;
-  protected PatientRecordDataBean patient = null;
-  protected List<ImmunizationInterface> imms = null;
-  protected DateTime forecastDate = null;
-  protected ForecastOptions forecastOptions = new ForecastOptions();
-  protected boolean dueUseEarly = false;
+  protected static class ForecastInput 
+  {
+    protected List<VaccinationDoseDataBean> doseList = null;
+    protected PatientRecordDataBean patient = null;
+    protected List<ImmunizationInterface> imms = null;
+    protected DateTime forecastDate = null;
+    protected ForecastOptions forecastOptions = new ForecastOptions();
+    protected boolean dueUseEarly = false;
+    
+  }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    readRequest(req);
+    ForecastInput forecastInput = new ForecastInput();
+    readRequest(req, forecastInput);
     String resultFormat = req.getParameter(PARAM_RESULT_FORMAT);
     if (resultFormat == null || resultFormat.equals("")) {
       throw new ServletException("Parameter 'resultFormat' is required. ");
@@ -93,8 +97,8 @@ public class ForecastServlet extends HttpServlet
     String forecasterScheduleName = "";
     try {
       Map<String, List<Trace>> traceMap = new HashMap<String, List<Trace>>();
-      forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms, forecastDate, traceMap,
-          resultList, forecastOptions);
+      forecasterScheduleName = forecastHandlerCore.forecast(forecastInput.doseList, forecastInput.patient, forecastInput.imms, forecastInput.forecastDate, traceMap,
+          resultList, forecastInput.forecastOptions);
     } catch (Exception e) {
       throw new ServletException("Unable to forecast", e);
     }
@@ -106,21 +110,21 @@ public class ForecastServlet extends HttpServlet
       resp.setContentType("text/html");
       PrintWriter out = new PrintWriter(resp.getOutputStream());
 
-      forecastReportPrinter.printHTMLVersionOfForecast(resultList, imms, forecasterScheduleName, forecastDate,
-          dueUseEarly, doseList, out);
+      forecastReportPrinter.printHTMLVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName, forecastInput.forecastDate,
+          forecastInput.dueUseEarly, forecastInput.doseList, out);
       out.close();
 
     } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_TEXT)) {
       resp.setContentType("text/plain");
       PrintWriter out = new PrintWriter(resp.getOutputStream());
-      forecastReportPrinter.printTextVersionOfForecast(resultList, imms, forecasterScheduleName, forecastDate,
-          dueUseEarly, doseList, out);
+      forecastReportPrinter.printTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName, forecastInput.forecastDate,
+          forecastInput.dueUseEarly, forecastInput.doseList, out);
       out.close();
     } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_COMPACT)) {
       resp.setContentType("text/plain");
       PrintWriter out = new PrintWriter(resp.getOutputStream());
-      forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, imms, forecasterScheduleName, forecastDate,
-          dueUseEarly, doseList, out);
+      forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName, forecastInput.forecastDate,
+          forecastInput.dueUseEarly, forecastInput.doseList, out);
       out.close();
     } else {
       throw new ServletException("Unrecognized result format '" + resultFormat + "'");
@@ -144,7 +148,7 @@ public class ForecastServlet extends HttpServlet
     return false;
   }
 
-  protected void readRequest(HttpServletRequest req) throws ServletException {
+  protected void readRequest(HttpServletRequest req, ForecastInput forecastInput) throws ServletException {
 
     Map<String, CvxCode> cvxToVaccineIdMap = null;
     try {
@@ -153,15 +157,15 @@ public class ForecastServlet extends HttpServlet
       throw new ServletException("Unable to initialize CVX mapping", e);
     }
     initCvxCodes();
-    doseList = new ArrayList<VaccinationDoseDataBean>();
-    patient = new PatientRecordDataBean();
-    imms = new ArrayList<ImmunizationInterface>();
+    forecastInput.doseList = new ArrayList<VaccinationDoseDataBean>();
+    forecastInput.patient = new PatientRecordDataBean();
+    forecastInput.imms = new ArrayList<ImmunizationInterface>();
 
     String evalDateString = req.getParameter(PARAM_EVAL_DATE);
     if (evalDateString != null && evalDateString.length() != 8) {
       throw new ServletException("Parameter 'evalDate' is optional, but if sent must be in YYYYMMDD format. ");
     }
-    forecastDate = new DateTime(evalDateString == null ? "today" : evalDateString);
+    forecastInput.forecastDate = new DateTime(evalDateString == null ? "today" : evalDateString);
     String evalSchedule = req.getParameter(PARAM_EVAL_SCHEDULE);
     if (evalSchedule == null) {
       evalSchedule = "";
@@ -171,12 +175,12 @@ public class ForecastServlet extends HttpServlet
       throw new ServletException("Parameter 'patientDob' is required and must be in YYYYMMDD format. ");
     }
     DateTime patientDob = new DateTime(patientDobString);
-    patient.setDob(patientDob);
+    forecastInput.patient.setDob(patientDob);
     String patientSex = req.getParameter(PARAM_PATIENT_SEX);
     if (patientSex == null || (!patientSex.equalsIgnoreCase("M") && !patientSex.equalsIgnoreCase("F"))) {
       throw new ServletException("Parameter 'patientSex' is required and must have a value of 'M' or 'F'. ");
     }
-    patient.setSex(patientSex.toUpperCase());
+    forecastInput.patient.setSex(patientSex.toUpperCase());
     int n = 1;
     while (req.getParameter(PARAM_VACCINE_DATE + n) != null) {
       String vaccineDateString = req.getParameter(PARAM_VACCINE_DATE + n);
@@ -212,29 +216,29 @@ public class ForecastServlet extends HttpServlet
       imm.setDateOfShot(new DateTime(vaccineDateString).getDate());
       imm.setVaccineId(vaccineId);
       imm.setVaccinationId("" + n);
-      imms.add(imm);
+      forecastInput.imms.add(imm);
       n++;
     }
 
-    forecastOptions.setFluSeasonDue(readTimePeriod(req, PARAM_FLU_SEASON_DUE));
-    forecastOptions.setFluSeasonEnd(readTimePeriod(req, PARAM_FLU_SEASON_END));
-    forecastOptions.setFluSeasonOverdue(readTimePeriod(req, PARAM_FLU_SEASON_OVERDUE));
-    forecastOptions.setFluSeasonStart(readTimePeriod(req, PARAM_FLU_SEASON_START));
-    forecastOptions.setIgnoreFourDayGrace(readBoolean(req, PARAM_IGNORE_FOUR_DAY_GRACE));
-
-    dueUseEarly = readBoolean(req, PARAM_DUE_USE_EARLY);
+    forecastInput.forecastOptions.setFluSeasonDue(readTimePeriod(req, PARAM_FLU_SEASON_DUE));
+    forecastInput.forecastOptions.setFluSeasonEnd(readTimePeriod(req, PARAM_FLU_SEASON_END));
+    forecastInput.forecastOptions.setFluSeasonOverdue(readTimePeriod(req, PARAM_FLU_SEASON_OVERDUE));
+    forecastInput.forecastOptions.setFluSeasonStart(readTimePeriod(req, PARAM_FLU_SEASON_START));
+    forecastInput.forecastOptions.setIgnoreFourDayGrace(readBoolean(req, PARAM_IGNORE_FOUR_DAY_GRACE));
+    
+    forecastInput.dueUseEarly = readBoolean(req, PARAM_DUE_USE_EARLY);
     TimePeriod assumeDtapSeriesCompleteAtAge = readTimePeriod(req, PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE);
 
     if (assumeDtapSeriesCompleteAtAge != null) {
       DateTime assumptionAge = assumeDtapSeriesCompleteAtAge.getDateTimeFrom(patientDob);
-      if (forecastDate.isGreaterThanOrEquals(assumptionAge)) {
-        DateTime assumptionDate = new DateTime(forecastDate);
+      if (forecastInput.forecastDate.isGreaterThanOrEquals(assumptionAge)) {
+        DateTime assumptionDate = new DateTime(forecastInput.forecastDate);
         assumptionDate.addDays(1);
         Immunization imm = new Immunization();
         imm.setDateOfShot(assumptionDate.getDate());
         imm.setVaccineId(Immunization.ASSUME_DTAP_SERIES_COMPLETE);
         imm.setLabel("Assuming DTaP Series Complete");
-        imms.add(imm);
+        forecastInput.imms.add(imm);
       }
     }
   }

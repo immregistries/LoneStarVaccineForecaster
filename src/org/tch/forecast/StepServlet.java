@@ -108,14 +108,15 @@ public class StepServlet extends ForecastServlet
           out.println("</form>");
           pstmt.close();
 
-          super.readRequest(req);
+          ForecastInput forecastInput = new ForecastInput();
+          super.readRequest(req, forecastInput);
 
           dataStore = new DataStore(forecastManager);
           session.setAttribute("dataStore", dataStore);
-          dataStore.setPatient(patient);
-          dataStore.setVaccinations(imms);
-          dataStore.setForecastDate(forecastDate.getDate());
-          dataStore.setForecastOptions(forecastOptions);
+          dataStore.setPatient(forecastInput.patient);
+          dataStore.setVaccinations(forecastInput.imms);
+          dataStore.setForecastDate(forecastInput.forecastDate.getDate());
+          dataStore.setForecastOptions(forecastInput.forecastOptions);
           List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
           List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
           Map<String, List<Trace>> traces = new HashMap<String, List<Trace>>();
