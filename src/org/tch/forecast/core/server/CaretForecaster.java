@@ -95,6 +95,8 @@ public class CaretForecaster
   private static final int FIELD_IN_CASE_DETAIL_28_HPV_CONTRAINDICATED_INDICATION = 28;
   //  29  H1N1 Contraindicated Indication
   private static final int FIELD_IN_CASE_DETAIL_29_H1N1_CONTRAINDICATED_INDICATION = 29; // NOT USED YET
+  
+  private static final int FIELD_IN_CASE_DETAIL_30_ZOSTER_CONTRAINDICATION = 30;
 
   private static final String FIELD_IN_CASE_DETAIL_SEP = SECTION_SEPARATOR;
 
@@ -257,7 +259,7 @@ public class CaretForecaster
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"128"); // H1N1-09, NOS
     doseDueOutHash.put(ImmunizationForecastDataBean.PPSV, "33"); // Pneumococcal,  PCV13
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA, "88"); // Influenza, seasonal, injectable
-    doseDueOutHash.put(ImmunizationForecastDataBean.ZOSTER, "36"); // Influenza, seasonal, injectable
+    doseDueOutHash.put(ImmunizationForecastDataBean.ZOSTER, "121"); // Influenza, seasonal, injectable
 
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-10"); // Td Adult  Booster
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-12"); // Unspecified D/T
@@ -415,6 +417,10 @@ public class CaretForecaster
 
       if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_28_HPV_CONTRAINDICATED_INDICATION).equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.HPV);
+      }
+
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_30_ZOSTER_CONTRAINDICATION).equals("1")) {
+        filterSet.add(ImmunizationForecastDataBean.ZOSTER);
       }
 
       ForecastRunner forecastRunner = new ForecastRunner(vaccineForecastManager);

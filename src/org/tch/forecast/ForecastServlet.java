@@ -44,6 +44,10 @@ public class ForecastServlet extends HttpServlet
   private static final String PARAM_FLU_SEASON_END = "fluSeasonEnd";
   private static final String PARAM_DUE_USE_EARLY = "dueUseEarly";
   private static final String PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE = "assumeDtapSeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_HEPA_SERIES_COMPLETE_AT_AGE = "assumeHepASeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_HEPB_SERIES_COMPLETE_AT_AGE = "assumeHepBSeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_MMR_SERIES_COMPLETE_AT_AGE = "assumeMMRSeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_VAR_SERIES_COMPLETE_AT_AGE = "assumeVarSeriesCompleteAtAge";
   private static final String PARAM_IGNORE_FOUR_DAY_GRACE = "ignoreFourDayGrace";
 
   public static final String RESULT_FORMAT_TEXT = "text";
@@ -73,7 +77,7 @@ public class ForecastServlet extends HttpServlet
 
   }
 
-  protected static class ForecastInput 
+  protected static class ForecastInput
   {
     protected List<VaccinationDoseDataBean> doseList = null;
     protected PatientRecordDataBean patient = null;
@@ -81,7 +85,7 @@ public class ForecastServlet extends HttpServlet
     protected DateTime forecastDate = null;
     protected ForecastOptions forecastOptions = new ForecastOptions();
     protected boolean dueUseEarly = false;
-    
+
   }
 
   @Override
@@ -97,8 +101,8 @@ public class ForecastServlet extends HttpServlet
     String forecasterScheduleName = "";
     try {
       Map<String, List<Trace>> traceMap = new HashMap<String, List<Trace>>();
-      forecasterScheduleName = forecastHandlerCore.forecast(forecastInput.doseList, forecastInput.patient, forecastInput.imms, forecastInput.forecastDate, traceMap,
-          resultList, forecastInput.forecastOptions);
+      forecasterScheduleName = forecastHandlerCore.forecast(forecastInput.doseList, forecastInput.patient,
+          forecastInput.imms, forecastInput.forecastDate, traceMap, resultList, forecastInput.forecastOptions);
     } catch (Exception e) {
       throw new ServletException("Unable to forecast", e);
     }
@@ -110,21 +114,21 @@ public class ForecastServlet extends HttpServlet
       resp.setContentType("text/html");
       PrintWriter out = new PrintWriter(resp.getOutputStream());
 
-      forecastReportPrinter.printHTMLVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName, forecastInput.forecastDate,
-          forecastInput.dueUseEarly, forecastInput.doseList, out);
+      forecastReportPrinter.printHTMLVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
+          forecastInput.forecastDate, forecastInput.dueUseEarly, forecastInput.doseList, out);
       out.close();
 
     } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_TEXT)) {
       resp.setContentType("text/plain");
       PrintWriter out = new PrintWriter(resp.getOutputStream());
-      forecastReportPrinter.printTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName, forecastInput.forecastDate,
-          forecastInput.dueUseEarly, forecastInput.doseList, out);
+      forecastReportPrinter.printTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
+          forecastInput.forecastDate, forecastInput.dueUseEarly, forecastInput.doseList, out);
       out.close();
     } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_COMPACT)) {
       resp.setContentType("text/plain");
       PrintWriter out = new PrintWriter(resp.getOutputStream());
-      forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName, forecastInput.forecastDate,
-          forecastInput.dueUseEarly, forecastInput.doseList, out);
+      forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
+          forecastInput.forecastDate, forecastInput.dueUseEarly, forecastInput.doseList, out);
       out.close();
     } else {
       throw new ServletException("Unrecognized result format '" + resultFormat + "'");
@@ -225,19 +229,34 @@ public class ForecastServlet extends HttpServlet
     forecastInput.forecastOptions.setFluSeasonOverdue(readTimePeriod(req, PARAM_FLU_SEASON_OVERDUE));
     forecastInput.forecastOptions.setFluSeasonStart(readTimePeriod(req, PARAM_FLU_SEASON_START));
     forecastInput.forecastOptions.setIgnoreFourDayGrace(readBoolean(req, PARAM_IGNORE_FOUR_DAY_GRACE));
-    
-    forecastInput.dueUseEarly = readBoolean(req, PARAM_DUE_USE_EARLY);
-    TimePeriod assumeDtapSeriesCompleteAtAge = readTimePeriod(req, PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE);
 
-    if (assumeDtapSeriesCompleteAtAge != null) {
-      DateTime assumptionAge = assumeDtapSeriesCompleteAtAge.getDateTimeFrom(patientDob);
+    forecastInput.dueUseEarly = readBoolean(req, PARAM_DUE_USE_EARLY);
+
+    setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE,
+        "Assuming DTaP Series Complete", Immunization.ASSUME_DTAP_SERIES_COMPLETE);
+    setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_HEPA_SERIES_COMPLETE_AT_AGE,
+        "Assuming Hep A Series Complete", Immunization.ASSUME_HEPA_COMPLETE);
+    setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_HEPB_SERIES_COMPLETE_AT_AGE,
+        "Assuming Hep B Series Complete", Immunization.ASSUME_HEPB_COMPLETE);
+    setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_MMR_SERIES_COMPLETE_AT_AGE,
+        "Assuming MMR Series Complete", Immunization.ASSUME_MMR_COMPLETE);
+    setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_VAR_SERIES_COMPLETE_AT_AGE,
+        "Assuming Varicella Series Complete", Immunization.ASSUME_VAR_COMPLETE);
+  }
+
+  public void setAssumeParam(HttpServletRequest req, ForecastInput forecastInput, DateTime patientDob,
+      String paramName, String label, int vaccineId) {
+    TimePeriod assumeSeriesCompleteAtAge = readTimePeriod(req, paramName);
+
+    if (assumeSeriesCompleteAtAge != null) {
+      DateTime assumptionAge = assumeSeriesCompleteAtAge.getDateTimeFrom(patientDob);
       if (forecastInput.forecastDate.isGreaterThanOrEquals(assumptionAge)) {
         DateTime assumptionDate = new DateTime(forecastInput.forecastDate);
         assumptionDate.addDays(1);
         Immunization imm = new Immunization();
         imm.setDateOfShot(assumptionDate.getDate());
-        imm.setVaccineId(Immunization.ASSUME_DTAP_SERIES_COMPLETE);
-        imm.setLabel("Assuming DTaP Series Complete");
+        imm.setVaccineId(vaccineId);
+        imm.setLabel(label);
         forecastInput.imms.add(imm);
       }
     }

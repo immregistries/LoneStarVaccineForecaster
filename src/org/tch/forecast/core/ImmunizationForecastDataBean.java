@@ -44,6 +44,7 @@ public class ImmunizationForecastDataBean
   public static final String STATUS_DESCRIPTION_COMPLETE = "complete";
   public static final String STATUS_DESCRIPTION_CONTRAINDICATED = "contraindicated";
   public static final String STATUS_DESCRIPTION_COMPLETE_FOR_SEASON = "complete for season";
+  public static final String STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE = "assumed complete or immune";
 
   public static final String SCHEDULE_COMPLETED = "COMP";
 

@@ -7,6 +7,10 @@ import org.tch.forecast.core.ImmunizationInterface;
 public class Immunization implements ImmunizationInterface
 {
   public static final int ASSUME_DTAP_SERIES_COMPLETE = -110;
+  public static final int ASSUME_HEPA_COMPLETE = -145;
+  public static final int ASSUME_HEPB_COMPLETE = -137;
+  public static final int ASSUME_MMR_COMPLETE = -158;
+  public static final int ASSUME_VAR_COMPLETE = -178;
   
   private int vaccineId = 0;
   private Date dateOfShot = null;
