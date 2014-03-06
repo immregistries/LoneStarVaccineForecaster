@@ -169,6 +169,9 @@ public class VaccineForecastDataBean
       } else if (name.equals("due")) {
         schedule.setDueAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         schedule.setDueInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
+      } else if (name.equals("earlyOverdue")) {
+        schedule.setEarlyOverdueAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
+        schedule.setEarlyOverdueInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
       } else if (name.equals("overdue")) {
         schedule.setOverdueAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         schedule.setOverdueInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
@@ -270,6 +273,8 @@ public class VaccineForecastDataBean
     private TimePeriod validGrace = null;
     private TimePeriod earlyAge = null;
     private TimePeriod earlyInterval = null;
+    private TimePeriod earlyOverdueAge = null;
+    private TimePeriod earlyOverdueInterval = null;
     private TimePeriod dueAge = null;
     private TimePeriod dueInterval = null;
     private TimePeriod overdueAge = null;
@@ -291,6 +296,22 @@ public class VaccineForecastDataBean
     private int posColumn = 0;
     private int posRow = 0;
     private IndicationCriteria indicationCriteria = null;
+
+    public TimePeriod getEarlyOverdueAge() {
+      return earlyOverdueAge;
+    }
+
+    public void setEarlyOverdueAge(TimePeriod earlyOverdueAge) {
+      this.earlyOverdueAge = earlyOverdueAge;
+    }
+
+    public TimePeriod getEarlyOverdueInterval() {
+      return earlyOverdueInterval;
+    }
+
+    public void setEarlyOverdueInterval(TimePeriod earlyOverdueInterval) {
+      this.earlyOverdueInterval = earlyOverdueInterval;
+    }
 
     public IndicationCriteria getIndicationCriteria() {
       return indicationCriteria;

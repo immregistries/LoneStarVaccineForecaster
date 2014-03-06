@@ -62,9 +62,9 @@ public class ForecastServlet extends HttpServlet
     super.init();
   }
 
-  public static VaccineForecastManagerInterface forecastManager = null;
+  public static VaccineForecastManager forecastManager = null;
 
-  private void initCvxCodes() throws ServletException {
+  protected void initCvxCodes() throws ServletException {
     if (forecastHandlerCore == null) {
       try {
         forecastManager = new VaccineForecastManager();
@@ -72,9 +72,7 @@ public class ForecastServlet extends HttpServlet
         throw new ServletException("Unable to initialize forecaster", e);
       }
       forecastHandlerCore = new ForecastHandlerCore(forecastManager);
-
     }
-
   }
 
   protected static class ForecastInput
@@ -90,49 +88,73 @@ public class ForecastServlet extends HttpServlet
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    ForecastInput forecastInput = new ForecastInput();
-    readRequest(req, forecastInput);
-    String resultFormat = req.getParameter(PARAM_RESULT_FORMAT);
-    if (resultFormat == null || resultFormat.equals("")) {
-      throw new ServletException("Parameter 'resultFormat' is required. ");
-    }
-
-    List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
-    String forecasterScheduleName = "";
     try {
-      Map<String, List<Trace>> traceMap = new HashMap<String, List<Trace>>();
-      forecasterScheduleName = forecastHandlerCore.forecast(forecastInput.doseList, forecastInput.patient,
-          forecastInput.imms, forecastInput.forecastDate, traceMap, resultList, forecastInput.forecastOptions);
+      ForecastInput forecastInput = new ForecastInput();
+      readRequest(req, forecastInput);
+      String resultFormat = req.getParameter(PARAM_RESULT_FORMAT);
+      if (resultFormat == null || resultFormat.equals("")) {
+        throw new ServletException("Parameter 'resultFormat' is required. ");
+      }
+
+      List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
+      String forecasterScheduleName = "";
+      try {
+        Map<String, List<Trace>> traceMap = new HashMap<String, List<Trace>>();
+        forecasterScheduleName = forecastHandlerCore.forecast(forecastInput.doseList, forecastInput.patient,
+            forecastInput.imms, forecastInput.forecastDate, traceMap, resultList, forecastInput.forecastOptions);
+      } catch (Exception e) {
+        throw new ServletException("Unable to forecast", e);
+      }
+
+      ForecastHandlerCore.sort(resultList);
+
+      ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(forecastManager);
+      if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_HTML)) {
+        resp.setContentType("text/html");
+        PrintWriter out = new PrintWriter(resp.getOutputStream());
+
+        forecastReportPrinter.printHTMLVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
+            forecastInput.forecastDate, forecastInput.dueUseEarly, forecastInput.doseList, out);
+        out.close();
+
+      } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_TEXT)) {
+        resp.setContentType("text/plain");
+        PrintWriter out = new PrintWriter(resp.getOutputStream());
+        forecastReportPrinter.printTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
+            forecastInput.forecastDate, forecastInput.dueUseEarly, forecastInput.doseList, out);
+        out.close();
+      } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_COMPACT)) {
+        resp.setContentType("text/plain");
+        PrintWriter out = new PrintWriter(resp.getOutputStream());
+        forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
+            forecastInput.forecastDate, forecastInput.dueUseEarly, forecastInput.doseList, out);
+        out.close();
+      } else {
+        throw new ServletException("Unrecognized result format '" + resultFormat + "'");
+      }
     } catch (Exception e) {
-      throw new ServletException("Unable to forecast", e);
+      handleException(resp, e);
     }
+  }
 
-    ForecastHandlerCore.sort(resultList);
-
-    ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(forecastManager);
-    if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_HTML)) {
-      resp.setContentType("text/html");
-      PrintWriter out = new PrintWriter(resp.getOutputStream());
-
-      forecastReportPrinter.printHTMLVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
-          forecastInput.forecastDate, forecastInput.dueUseEarly, forecastInput.doseList, out);
-      out.close();
-
-    } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_TEXT)) {
-      resp.setContentType("text/plain");
-      PrintWriter out = new PrintWriter(resp.getOutputStream());
-      forecastReportPrinter.printTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
-          forecastInput.forecastDate, forecastInput.dueUseEarly, forecastInput.doseList, out);
-      out.close();
-    } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_COMPACT)) {
-      resp.setContentType("text/plain");
-      PrintWriter out = new PrintWriter(resp.getOutputStream());
-      forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
-          forecastInput.forecastDate, forecastInput.dueUseEarly, forecastInput.doseList, out);
-      out.close();
-    } else {
-      throw new ServletException("Unrecognized result format '" + resultFormat + "'");
-    }
+  protected void handleException(HttpServletResponse resp, Exception e) throws IOException {
+    resp.setContentType("text/html");
+    resp.setStatus(500);
+    PrintWriter out = new PrintWriter(resp.getOutputStream());
+    out.println("<!DOCTYPE html>");
+    out.println("<html>");
+    out.println("  <head>");
+    out.println("  </head>");
+    out.println("  <body>");
+    out.println("    <h1>Oops...</h1>");
+    out.println("    <p>The TCH Forecaster encountered a problem and was unable to return a forecast result. </p>");
+    out.println("    <h2>Technical Details</h2>");
+    out.println("    <pre>");
+    e.printStackTrace(out);
+    out.println("    </pre>");
+    out.println("  </body>");
+    out.println("</html>");
+    out.close();
   }
 
   public TimePeriod readTimePeriod(HttpServletRequest req, String key) {
@@ -233,15 +255,15 @@ public class ForecastServlet extends HttpServlet
     forecastInput.dueUseEarly = readBoolean(req, PARAM_DUE_USE_EARLY);
 
     setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE,
-        "Assuming DTaP Series Complete", Immunization.ASSUME_DTAP_SERIES_COMPLETE);
+        "Assuming DTaP series completed in childhood", Immunization.ASSUME_DTAP_SERIES_COMPLETE);
     setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_HEPA_SERIES_COMPLETE_AT_AGE,
-        "Assuming Hep A Series Complete", Immunization.ASSUME_HEPA_COMPLETE);
+        "Assuming Hep A series completed in childhood", Immunization.ASSUME_HEPA_COMPLETE);
     setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_HEPB_SERIES_COMPLETE_AT_AGE,
-        "Assuming Hep B Series Complete", Immunization.ASSUME_HEPB_COMPLETE);
+        "Assuming Hep B series completed in childhood", Immunization.ASSUME_HEPB_COMPLETE);
     setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_MMR_SERIES_COMPLETE_AT_AGE,
-        "Assuming MMR Series Complete", Immunization.ASSUME_MMR_COMPLETE);
+        "Assuming MMR series completed in childhood", Immunization.ASSUME_MMR_COMPLETE);
     setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_VAR_SERIES_COMPLETE_AT_AGE,
-        "Assuming Varicella Series Complete", Immunization.ASSUME_VAR_COMPLETE);
+        "Assuming Varicella series completed in childhood", Immunization.ASSUME_VAR_COMPLETE);
   }
 
   public void setAssumeParam(HttpServletRequest req, ForecastInput forecastInput, DateTime patientDob,
@@ -251,12 +273,12 @@ public class ForecastServlet extends HttpServlet
     if (assumeSeriesCompleteAtAge != null) {
       DateTime assumptionAge = assumeSeriesCompleteAtAge.getDateTimeFrom(patientDob);
       if (forecastInput.forecastDate.isGreaterThanOrEquals(assumptionAge)) {
-        DateTime assumptionDate = new DateTime(forecastInput.forecastDate);
-        assumptionDate.addDays(1);
+        DateTime assumptionDate = new DateTime(assumptionAge);
         Immunization imm = new Immunization();
         imm.setDateOfShot(assumptionDate.getDate());
         imm.setVaccineId(vaccineId);
         imm.setLabel(label);
+        imm.setAssumption(true);
         forecastInput.imms.add(imm);
       }
     }

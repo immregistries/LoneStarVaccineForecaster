@@ -161,6 +161,7 @@ public class DetermineRangesStep extends ActionStep
     }
     ds.log("Now determining due date");
     ds.dueReason = "";
+    ds.earlyOverdue = null;
     if (ds.schedule.getDueAge().isEmpty()) {
       ds.due = ds.schedule.getDueInterval().getDateTimeFrom(ds.previousEventDate);
       ds.dueReason = ds.schedule.getDueInterval() + " after previous dose";
@@ -229,6 +230,30 @@ public class DetermineRangesStep extends ActionStep
         }
       }
     }
+    if (ds.schedule.getEarlyOverdueAge() != null) {
+      if (ds.schedule.getEarlyOverdueAge().isEmpty()) {
+        ds.earlyOverdue = ds.schedule.getEarlyOverdueInterval().getDateTimeFrom(ds.previousEventDate);
+        ds.log("Setting early overdue date for " + ds.schedule.getEarlyOverdueInterval() + " after previous dose");
+      } else {
+        ds.earlyOverdue = ds.schedule.getEarlyOverdueAge().getDateTimeFrom(ds.patient.getDobDateTime());
+        ds.log("Setting early overdue date for " + ds.schedule.getEarlyOverdueAge() + " of age");
+        if (!ds.schedule.getEarlyOverdueInterval().isEmpty()) {
+          ds.log("Calculating at overdue interval");
+          DateTime earlyOverdueInterval = ds.schedule.getEarlyOverdueInterval().getDateTimeFrom(ds.previousEventDate);
+          if (earlyOverdueInterval.isGreaterThan(ds.overdue)) {
+            ds.earlyOverdue = earlyOverdueInterval;
+            ds.log("Setting early overdue date for " + ds.schedule.getEarlyOverdueInterval() + " after previous dose");
+          }
+        }
+      }
+      if (ds.earlyOverdue != null) {
+        // early overdue can not be after overdue
+        if (ds.earlyOverdue.isGreaterThan(ds.overdue)) {
+          ds.earlyOverdue = ds.overdue;
+        }
+      }
+    }
+
     if (ds.seasonStart != null) {
       ds.log("Season started, looking to set season overdue");
       DateTime seasonOverdue = ds.seasonal.getOverdue().getDateTimeFrom(ds.seasonStart);

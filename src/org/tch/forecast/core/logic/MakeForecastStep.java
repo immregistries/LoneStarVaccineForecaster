@@ -21,7 +21,6 @@ public class MakeForecastStep extends ActionStep
   }
 
   private void addForecastRecommendations(DataStore ds) {
-    DateTime forecastDateTime = new DateTime(ds.forecastDate);
     ds.log("Making recommendations");
     if (ds.seasonStart != null && ds.seasonCompleted) {
       ds.log("Adjusting for season start");
@@ -36,56 +35,46 @@ public class MakeForecastStep extends ActionStep
     }
     // Adjust around black out dates
     if (ds.blackOutDates != null && ds.blackOutDates.size() > 0) {
-      ds.log("Adjusting forecast for black out dates");
+      ds.log("Looking to see if forecast needs to be adjusted to after black out dates");
       String validReason = null;
       DateTime contraValid = ds.valid;
       DateTime contraEarly = ds.early;
 
       for (BlackOut blackOut : ds.blackOutDates) {
 
-        ds.log("Looking at black-out from " + blackOut.getStartBlackOut() + " to " + blackOut.getEndBlackOutGrace());
-        if (!blackOut.isAgainstSpecificVaccines()) {
-          if (ds.valid.isLessThanOrEquals(blackOut.getStartBlackOut())
-              && ds.overdue.isGreaterThan(blackOut.getEndBlackOut())) {
-            ds.log("Recommendation is valid to give but a black out period starts before vaccination is overdue");
-            ds.log("Moving valid date back to after black out date " + blackOut.getEndBlackOut());
+        ds.log("Looking at black-out from " + blackOut.getStartBlackOut().toString("M/D/Y") + " to "
+            + blackOut.getEndBlackOut().toString("M/D/Y"));
+        if (blackOut.isAgainstSpecificVaccines()) {
+          ds.log(" + Not Adjusting: Black out is for specific vaccine and not for the entire series");
+        } else {
+          DateTime start = blackOut.getStartBlackOut();
+          DateTime end = blackOut.getEndBlackOut();
+          if (ds.valid.isGreaterThan(end)) {
+            ds.log(" + Not Adjusting: Black out ends before vaccination is valid");
+          } else if (ds.forecastDateTime.isLessThan(start)) {
+            ds.log(" + Not Adjusting: Black out starts after forecast date");
+          } else {
+            ds.log(" + Adjusting: Valid date is before the end of this black out period");
             ds.valid = blackOut.getEndBlackOut();
             validReason = blackOut.getReason();
             if (ds.early.isLessThan(ds.valid)) {
               ds.early = new DateTime(ds.valid);
             }
             if (ds.due.isLessThan(ds.early)) {
-              ds.due = new DateTime(ds.early);
+              ds.due = new DateTime(ds.valid);
             }
             if (ds.overdue.isLessThan(ds.valid)) {
-              ds.overdue = new DateTime(ds.due);
+              ds.overdue = new DateTime(ds.valid);
+            }
+            if (ds.earlyOverdue != null && ds.overdue.isLessThan(ds.valid)) {
+              ds.earlyOverdue = new DateTime(ds.valid);
             }
             if (ds.finished.isLessThan(ds.valid)) {
-              ds.valid = new DateTime(ds.finished);
-              validReason = "because it is too late to administer vaccination";
-            }
-          } else if (ds.valid.isLessThanOrEquals(blackOut.getStartBlackOut())
-              && forecastDateTime.isGreaterThan(blackOut.getStartBlackOut())) {
-            ds.log("A contraindication event starts after the valid date but before the forecast date");
-            ds.log("Moving valid date back to after black out date " + blackOut.getEndBlackOut());
-            ds.valid = blackOut.getEndBlackOut();
-            validReason = blackOut.getReason();
-            if (ds.early.isLessThan(ds.valid)) {
-              ds.early = new DateTime(ds.valid);
-            }
-            if (ds.due.isLessThan(ds.early)) {
-              ds.due = new DateTime(ds.early);
-            }
-            if (ds.overdue.isLessThan(ds.valid)) {
-              ds.overdue = new DateTime(ds.due);
-            }
-            if (ds.finished.isLessThan(ds.valid)) {
+              ds.log(" + Too late to finish, not recommending");
               ds.valid = new DateTime(ds.finished);
               validReason = "because it is too late to administer vaccination";
             }
           }
-        } else {
-          ds.log("Not looking to adjust recommendations, contraindication is for only one type of vaccine");
         }
       }
       if (validReason != null) {
@@ -100,14 +89,14 @@ public class MakeForecastStep extends ActionStep
     DateTime seasonStart = null;
 
     if (ds.seasonal != null) {
-      seasonEnd = new DateTime(ds.forecastDate);
+      seasonEnd = new DateTime(ds.forecastDateTime);
       seasonEnd.setMonth(1);
       seasonEnd.setDay(1);
       seasonEnd = ds.seasonal.getEnd().getDateTimeFrom(seasonEnd);
       seasonStart = ds.seasonal.getStart().getDateTimeFrom(ds.seasonEnd);
-      if (forecastDateTime.isLessThan(seasonStart)) {
+      if (ds.forecastDateTime.isLessThan(seasonStart)) {
         // today is before start of next season
-        if (forecastDateTime.isGreaterThanOrEquals(seasonEnd)) {
+        if (ds.forecastDateTime.isGreaterThanOrEquals(seasonEnd)) {
           // today is after the end of previous season
           // send end date of the next season, which is next year
           seasonEnd.addYears(1);
@@ -131,6 +120,9 @@ public class MakeForecastStep extends ActionStep
     forecastBean.setEarly(ds.early.getDate());
     forecastBean.setDue(ds.due.getDate());
     forecastBean.setOverdue(ds.overdue.getDate());
+    if (ds.earlyOverdue != null) {
+      forecastBean.setEarlyOverdue(ds.earlyOverdue.getDate());
+    }
     forecastBean.setFinished(ds.finished.getDate());
     forecastBean.setDateDue(ds.due.getDate());
     forecastBean.setForecastName(ds.forecast.getForecastCode());
@@ -148,7 +140,7 @@ public class MakeForecastStep extends ActionStep
     }
 
     String statusDescription = "";
-    if (!forecastDateTime.isLessThan(ds.finished)) {
+    if (!ds.forecastDateTime.isLessThan(ds.finished)) {
       statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED;
       if (ds.traceList != null) {
         ds.traceList.setExplanationBulletPointStart();
@@ -160,11 +152,11 @@ public class MakeForecastStep extends ActionStep
           || (seasonEnd != null && ds.due.getDate().after(seasonEnd.getDate()))) {
         statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON;
       } else {
-        if (forecastDateTime.isLessThan(ds.due)) {
+        if (ds.forecastDateTime.isLessThan(ds.due)) {
           statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER;
-        } else if (forecastDateTime.isLessThan(ds.overdue)) {
+        } else if (ds.forecastDateTime.isLessThan(ds.overdue)) {
           statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE;
-        } else if (forecastDateTime.isLessThan(ds.finished)) {
+        } else if (ds.forecastDateTime.isLessThan(ds.finished)) {
           statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE;
         }
       }
@@ -174,6 +166,7 @@ public class MakeForecastStep extends ActionStep
       }
     }
     forecastBean.setStatusDescription(statusDescription);
+    forecastBean.getAssumptionList().addAll(ds.assumptionList);
 
     ds.resultList.add(forecastBean);
 
@@ -223,7 +216,7 @@ public class MakeForecastStep extends ActionStep
               validReason = "because it is too late to administer vaccination";
             }
           } else if (contraValid.isLessThanOrEquals(blackOut.getStartBlackOut())
-              && forecastDateTime.isGreaterThan(blackOut.getStartBlackOut())) {
+              && ds.forecastDateTime.isGreaterThan(blackOut.getStartBlackOut())) {
             ds.log("A contraindication event starts after the valid date but before the forecast date");
             ds.log("Moving valid date back to after black out date " + blackOut.getEndBlackOut().toString("YMD"));
             if (traceList != null) {
@@ -272,14 +265,14 @@ public class MakeForecastStep extends ActionStep
           }
 
           statusDescription = "";
-          if (!forecastDateTime.isLessThan(contraFinished)) {
+          if (!ds.forecastDateTime.isLessThan(contraFinished)) {
             statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED;
           } else {
-            if (forecastDateTime.isLessThan(contraDue)) {
+            if (ds.forecastDateTime.isLessThan(contraDue)) {
               statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED;
-            } else if (forecastDateTime.isLessThan(contraOverdue)) {
+            } else if (ds.forecastDateTime.isLessThan(contraOverdue)) {
               statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE;
-            } else if (forecastDateTime.isLessThan(contraFinished)) {
+            } else if (ds.forecastDateTime.isLessThan(contraFinished)) {
               statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE;
             }
           }

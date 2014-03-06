@@ -15,6 +15,7 @@ import org.tch.forecast.core.VaccineForecastManagerInterface;
 import org.tch.forecast.core.api.model.ForecastRecommendationInterface;
 import org.tch.forecast.core.api.model.ForecastResponseInterface;
 import org.tch.forecast.core.api.model.ForecastVaccinationInterface;
+import org.tch.forecast.core.model.Assumption;
 
 public class ForecastReportPrinter
 {
@@ -34,6 +35,30 @@ public class ForecastReportPrinter
     out.println("  </head>");
     out.println("  <body>");
     out.println("    <h1>TCH Immunization Forecaster Results</h1>");
+    boolean hasAssumptions = false;
+    for (ImmunizationForecastDataBean forecast : resultList) {
+      if (forecast.hasAssumptions()) {
+        hasAssumptions = true;
+        break;
+      }
+    }
+    if (hasAssumptions) {
+      out.println("    <h2>Assumptions</h2>");
+      out.println("    <table border=\"1\" cellpadding=\"2\" cellspacing=\"0\">");
+      out.println("      <tr>");
+      out.println("        <th>Vaccine</th>");
+      out.println("        <th>Assumption</th>");
+      out.println("      </tr>");
+      for (ImmunizationForecastDataBean forecast : resultList) {
+        for (Assumption assumption : forecast.getAssumptionList()) {
+          out.println("      <tr>");
+          out.println("        <td>" + forecast.getForecastLabel() + "</td>");
+          out.println("        <td>" + assumption.getDescription() + "</td>");
+          out.println("      </tr>");
+        }
+      }
+      out.println("    </table>");
+    }
     out.println("    <h2>Vaccinations Recommended For " + new DateTime(forecastDate.getDate()).toString("M/D/Y")
         + "</h2>");
 
@@ -54,7 +79,7 @@ public class ForecastReportPrinter
           || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
         DateTime validDate = new DateTime(forecast.getValid());
         DateTime dueDate = new DateTime(forecast.getDue(dueUseEarly));
-        DateTime overdueDate = new DateTime(forecast.getOverdue());
+        DateTime overdueDate = new DateTime(forecast.getOverdue(dueUseEarly));
         DateTime finishedDate = new DateTime(forecast.getFinished());
 
         String forecastDose = forecast.getDose();
@@ -91,7 +116,7 @@ public class ForecastReportPrinter
               .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)) {
         DateTime validDate = new DateTime(forecast.getValid());
         DateTime dueDate = new DateTime(forecast.getDue(dueUseEarly));
-        DateTime overdueDate = new DateTime(forecast.getOverdue());
+        DateTime overdueDate = new DateTime(forecast.getOverdue(dueUseEarly));
         DateTime finishedDate = new DateTime(forecast.getFinished());
         String forecastDose = forecast.getDose();
         out.println("      <tr>");
@@ -182,7 +207,7 @@ public class ForecastReportPrinter
           || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
         DateTime validDate = new DateTime(forecast.getValid());
         DateTime dueDate = new DateTime(forecast.getDue(dueUseEarly));
-        DateTime overdueDate = new DateTime(forecast.getOverdue());
+        DateTime overdueDate = new DateTime(forecast.getOverdue(dueUseEarly));
         DateTime finishedDate = new DateTime(forecast.getFinished());
 
         String forecastDose = forecast.getDose();
@@ -201,21 +226,40 @@ public class ForecastReportPrinter
     for (ImmunizationForecastDataBean forecast : resultList) {
       if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)
           || forecast.getStatusDescription()
-              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)
-          || forecast.getStatusDescription().equals(
-              ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
-        DateTime validDate = new DateTime(forecast.getValid());
-        DateTime dueDate = new DateTime(forecast.getDue(dueUseEarly));
-        DateTime overdueDate = new DateTime(forecast.getOverdue());
-        DateTime finishedDate = new DateTime(forecast.getFinished());
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)) {
+        DateTime validDate = null;
+        if (forecast.getValid() != null) {
+          validDate = new DateTime(forecast.getValid());
+        }
+        DateTime dueDate = null;
+        if (forecast.getDue(dueUseEarly) != null) {
+          dueDate = new DateTime(forecast.getDue(dueUseEarly));
+        }
+        DateTime overdueDate = null;
+        if (forecast.getOverdue() != null) {
+          overdueDate = new DateTime(forecast.getOverdue(dueUseEarly));
+        }
+        DateTime finishedDate = null;
+        if (forecast.getFinished() != null) {
+          finishedDate = new DateTime(forecast.getFinished());
+        }
         String forecastDose = forecast.getDose();
         out.print("Forecasting " + forecast.getForecastLabel());
         out.print(" status " + forecast.getStatusDescription());
         out.print(" dose " + forecastDose);
-        out.print(" due " + dueDate.toString("M/D/Y"));
-        out.print(" valid " + validDate.toString("M/D/Y"));
-        out.print(" overdue " + overdueDate.toString("M/D/Y"));
-        out.println(" finished " + finishedDate.toString("M/D/Y"));
+        if (dueDate != null) {
+          out.print(" due " + dueDate.toString("M/D/Y"));
+        }
+        if (validDate != null) {
+          out.print(" valid " + validDate.toString("M/D/Y"));
+        }
+        if (overdueDate != null) {
+          out.print(" overdue " + overdueDate.toString("M/D/Y"));
+        }
+        if (finishedDate != null) {
+          out.print(" finished " + finishedDate.toString("M/D/Y"));
+        }
+        out.println("");
       }
     }
     out.println();
@@ -223,7 +267,9 @@ public class ForecastReportPrinter
 
     for (ImmunizationForecastDataBean forecast : resultList) {
       if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)) {
+          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
+          || forecast.getStatusDescription().equals(
+              ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
         out.println("Forecasting " + forecast.getForecastLabel() + " status " + forecast.getStatusDescription());
       }
     }
@@ -270,7 +316,7 @@ public class ForecastReportPrinter
         out.print("<td>&nbsp;</td>");
       }
       if (forecast.getOverdue() != null) {
-        DateTime overdueDate = new DateTime(forecast.getOverdue());
+        DateTime overdueDate = new DateTime(forecast.getOverdue(dueUseEarly));
         out.print("<td>" + overdueDate.toString("M/D/Y") + "</td>");
       } else {
         out.print("<td>&nbsp;</td>");
@@ -300,6 +346,23 @@ public class ForecastReportPrinter
 
     out.println("Evaluation and Forecast Report");
     out.println();
+    boolean hasAssumptions = false;
+    for (ImmunizationForecastDataBean forecast : resultList) {
+      if (forecast.hasAssumptions()) {
+        hasAssumptions = true;
+        break;
+      }
+    }
+    if (hasAssumptions) {
+      out.println("-- ASSUMPTIONS ---------------------------------------");
+      for (ImmunizationForecastDataBean forecast : resultList) {
+        for (Assumption assumption : forecast.getAssumptionList()) {
+          out.println(pad(assumption.getDescription(), 54));
+        }
+      }
+      out.println();
+    }
+
     out.println("-- EVALUATION --------------------------------------------------------");
     out.println("DATE       CVX  FORECAST   SCHEDULE DOSE STATUS ");
     for (VaccinationDoseDataBean dose : doseList) {
@@ -334,7 +397,7 @@ public class ForecastReportPrinter
           || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
         DateTime validDate = new DateTime(forecast.getValid());
         DateTime dueDate = new DateTime(forecast.getDue(dueUseEarly));
-        DateTime overdueDate = new DateTime(forecast.getOverdue());
+        DateTime overdueDate = new DateTime(forecast.getOverdue(dueUseEarly));
         out.print(pad(forecast.getForecastLabel(), 14));
         out.print(" ");
         out.print(pad(forecast.getStatusDescription(), 16));
@@ -354,21 +417,42 @@ public class ForecastReportPrinter
       if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)
           || forecast.getStatusDescription()
               .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)
-              || forecast.getStatusDescription().equals(
-                  ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
-        DateTime validDate = new DateTime(forecast.getValid());
-        DateTime dueDate = new DateTime(forecast.getDue(dueUseEarly));
-        DateTime overdueDate = new DateTime(forecast.getOverdue());
+          || forecast.getStatusDescription().equals(
+              ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
+        DateTime validDate = null;
+        if (forecast.getValid() != null) {
+          validDate = new DateTime(forecast.getValid());
+        }
+        DateTime dueDate = null;
+        if (forecast.getDue(dueUseEarly) != null) {
+          dueDate = new DateTime(forecast.getDue(dueUseEarly));
+        }
+        DateTime overdueDate = null;
+        if (forecast.getOverdue() != null) {
+          overdueDate = new DateTime(forecast.getOverdue());
+        }
         out.print(pad(forecast.getForecastLabel(), 14));
         out.print(" ");
         out.print(pad(forecast.getStatusDescription(), 16));
         out.print(" ");
         out.print(pad(forecast.getDose(), 5));
-        out.print(validDate.toString("M/D/Y"));
+        if (validDate != null) {
+          out.print(validDate.toString("M/D/Y"));
+        } else {
+          out.print("          ");
+        }
         out.print(" ");
-        out.print(dueDate.toString("M/D/Y"));
+        if (dueDate != null) {
+          out.print(dueDate.toString("M/D/Y"));
+        } else {
+          out.print("          ");
+        }
         out.print(" ");
-        out.print(overdueDate.toString("M/D/Y"));
+        if (overdueDate != null) {
+          out.print(overdueDate.toString("M/D/Y"));
+        } else {
+          out.print("          ");
+        }
         out.print(" ");
         out.println();
       }

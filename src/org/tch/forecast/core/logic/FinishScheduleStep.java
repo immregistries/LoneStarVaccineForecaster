@@ -15,6 +15,7 @@ public class FinishScheduleStep extends ActionStep
   {
     finishSeasonalAndTransitions(ds);
     ds.nextAction = null;
+    ds.earlyOverdue = null;
     // TODO Auto-generated method stub
     return ChooseStartIndicatorStep.NAME;
   }

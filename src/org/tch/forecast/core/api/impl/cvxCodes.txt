@@ -145,7 +145,7 @@ Adenovirus types 4 and 7	143			NOT SUPPORTED
 RSV-MAb (new)	145			NOT SUPPORTED																		
 "DTaP,IPV,Hib,HepB"	146	DTaP-IPV-HIB-HepB	142	SUPPORTED		CHILD			SERIES & COMBO	SERIES DOSE								ANY & IPV				
 "meningococcal MCV4, unspecified formulation"	147	"Meningococcal,NOS"	184	SUPPORTED									MCV4									
-Meningococcal C/Y-HIB PRP	148	Meningococcal C/Y-HIB PRP		PENDING						TODO Brady: Research			TODO Brady: Research									
+Meningococcal C/Y-HIB PRP	148	Meningococcal C/Y-HIB PRP	213	SUPPORTED						SERIES & BOOSTER			SERIES & BOOSTER									
 "influenza, live, intranasal, quadrivalent"	149	Influenza LAIV4 Nasal	203	SUPPORTED							NASAL & FLU & FLU+											
 "influenza, injectable, quadrivalent, preservative free"	150	Influenza IIV4	204	SUPPORTED							FLU & FLU+											
 "influenza nasal, unspecified formulation"	151	Influenza LAIV4 Nasal	203	SUPPORTED							NASAL & FLU & FLU+											

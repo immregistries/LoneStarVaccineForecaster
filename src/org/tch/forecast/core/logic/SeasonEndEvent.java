@@ -40,5 +40,10 @@ public class SeasonEndEvent implements ImmunizationInterface
   public String getVaccinationId() {
     return "";
   }
+  
+  @Override
+  public boolean isAssumption() {
+    return false;
+  }
 
 }

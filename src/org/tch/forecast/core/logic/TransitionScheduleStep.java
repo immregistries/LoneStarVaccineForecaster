@@ -2,6 +2,7 @@ package org.tch.forecast.core.logic;
 
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.Trace;
+import org.tch.forecast.core.model.Assumption;
 
 public class TransitionScheduleStep extends ActionStep
 {
@@ -35,7 +36,7 @@ public class TransitionScheduleStep extends ActionStep
     }
     ds.log("Checking finished date");
     ds.finished = ds.schedule.getFinishedAge().getDateTimeFrom(ds.patient.getDobDateTime());
-    if (ds.today.isGreaterThan(ds.finished)) {
+    if (ds.forecastDateTime.isGreaterThan(ds.finished)) {
       ds.log(" + Patient is now too old to get any more doses");
       if (ds.trace != null) {
         ds.trace.setFinished(true);
@@ -48,7 +49,12 @@ public class TransitionScheduleStep extends ActionStep
       forecastBean.setSortOrder(ds.forecast.getSortOrder());
       forecastBean.setImmregid(ds.patient.getImmregid());
       forecastBean.setTraceList(ds.traceList);
-      forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED);
+      if (ds.assumptionList.size() > 0) {
+        forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE);
+        forecastBean.getAssumptionList().addAll(ds.assumptionList);
+      } else {
+        forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED);
+      }
       ds.resultList.add(forecastBean);
       return FinishScheduleStep.NAME;
     }

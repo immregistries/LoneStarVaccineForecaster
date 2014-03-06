@@ -1,8 +1,11 @@
 package org.tch.forecast.core;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.tch.forecast.core.DateTime;
+import org.tch.forecast.core.model.Assumption;
 
 /**
  * @author Nathan Bunker
@@ -36,7 +39,7 @@ public class ImmunizationForecastDataBean
   public static final String TDAP = "Tdap";
   public static final String TD = "Td";
   public static final String DT = "DT";
-  
+
   public static final String STATUS_DESCRIPTION_DUE_LATER = "due later";
   public static final String STATUS_DESCRIPTION_DUE = "due";
   public static final String STATUS_DESCRIPTION_OVERDUE = "overdue";
@@ -56,6 +59,7 @@ public class ImmunizationForecastDataBean
   private Date early = null;
   private Date due = null;
   private Date overdue = null;
+  private Date earlyOverdue = null;
   private Date finished = null;
   private String dose = "";
   private String schedule = "";
@@ -65,7 +69,31 @@ public class ImmunizationForecastDataBean
   private String statusDescription = "";
   private Date seasonStart = null;
   private Date seasonEnd = null;
-  
+  private List<Assumption> assumptionList = new ArrayList<Assumption>();
+
+  public Date getEarlyOverdue() {
+    return earlyOverdue;
+  }
+
+  public Date getOverdue(boolean useEarly) {
+    if (useEarly && earlyOverdue != null) {
+      return earlyOverdue;
+    }
+    return overdue;
+  }
+
+  public void setEarlyOverdue(Date earlyOverdue) {
+    this.earlyOverdue = earlyOverdue;
+  }
+
+  public List<Assumption> getAssumptionList() {
+    return assumptionList;
+  }
+
+  public boolean hasAssumptions() {
+    return assumptionList.size() > 0;
+  }
+
   public Date getSeasonStart() {
     return seasonStart;
   }
@@ -74,7 +102,6 @@ public class ImmunizationForecastDataBean
     this.seasonStart = seasonStart;
   }
 
-  
   public Date getSeasonEnd() {
     return seasonEnd;
   }
@@ -99,165 +126,134 @@ public class ImmunizationForecastDataBean
     this.statusDescription = dueDescription;
   }
 
-  public TraceList getTraceList()
-  {
+  public TraceList getTraceList() {
     return traceList;
   }
 
-  public void setTraceList(TraceList traceList)
-  {
+  public void setTraceList(TraceList traceList) {
     this.traceList = traceList;
   }
 
-  public String getComment()
-  {
+  public String getComment() {
     return comment;
   }
 
-  public void setComment(String comment)
-  {
+  public void setComment(String comment) {
     this.comment = comment;
   }
- /**
+
+  /**
    * @see java.lang.Object#toString()
    */
-  public String toString()
-  {
-    return " {" + immregid + "," + forecastName + "," + new DateTime(due == null ? 0 : due.getTime()).toString("M/D/Y") + "}";
+  public String toString() {
+    return " {" + immregid + "," + forecastName + "," + new DateTime(due == null ? 0 : due.getTime()).toString("M/D/Y")
+        + "}";
   }
 
-  public Date getDateDue()
-  {
+  public Date getDateDue() {
     return this.due;
   }
 
-  public void setDateDue(Date dateDue)
-  {
+  public void setDateDue(Date dateDue) {
     this.due = dateDue;
   }
 
-  public int getImmregid()
-  {
+  public int getImmregid() {
     return this.immregid;
   }
 
-  public void setImmregid(int immregid)
-  {
+  public void setImmregid(int immregid) {
     this.immregid = immregid;
   }
 
-  public String getForecastName()
-  {
+  public String getForecastName() {
     return this.forecastName;
   }
 
-  public void setForecastName(String forecastName)
-  {
-    if (this.forecastNameOriginal.equals(""))
-    {
+  public void setForecastName(String forecastName) {
+    if (this.forecastNameOriginal.equals("")) {
       this.forecastNameOriginal = forecastName;
     }
     this.forecastName = forecastName;
   }
 
-  public Date getValid()
-  {
+  public Date getValid() {
     return valid;
   }
 
-  public void setValid(Date valid)
-  {
+  public void setValid(Date valid) {
     this.valid = valid;
   }
-  
-  public Date getDue(boolean useEarly)
-  {
-    if (useEarly)
-    {
+
+  public Date getDue(boolean useEarly) {
+    if (useEarly) {
       return early;
     }
     return due;
   }
 
-  public Date getDue()
-  {
+  public Date getDue() {
     return due;
   }
 
-  public void setDue(Date due)
-  {
+  public void setDue(Date due) {
     this.due = due;
   }
 
-  public Date getOverdue()
-  {
+  public Date getOverdue() {
     return overdue;
   }
 
-  public void setOverdue(Date overdue)
-  {
+  public void setOverdue(Date overdue) {
     this.overdue = overdue;
   }
 
-  public Date getFinished()
-  {
+  public Date getFinished() {
     return finished;
   }
 
-  public void setFinished(Date finished)
-  {
+  public void setFinished(Date finished) {
     this.finished = finished;
   }
 
-  public String getDose()
-  {
+  public String getDose() {
     return dose;
   }
 
-  public void setDose(String dose)
-  {
+  public void setDose(String dose) {
     this.dose = dose;
   }
 
-  public String getSchedule()
-  {
+  public String getSchedule() {
     return schedule;
   }
 
-  public void setSchedule(String schedule)
-  {
+  public void setSchedule(String schedule) {
     this.schedule = schedule;
   }
 
-  public Date getEarly()
-  {
+  public Date getEarly() {
     return early;
   }
 
-  public void setEarly(Date early)
-  {
+  public void setEarly(Date early) {
     this.early = early;
   }
 
-  public String getForecastLabel()
-  {
+  public String getForecastLabel() {
     return forecastLabel;
   }
 
-  public void setForecastLabel(String forecastLabel)
-  {
+  public void setForecastLabel(String forecastLabel) {
     this.forecastLabel = forecastLabel;
   }
 
-  public int getSortOrder()
-  {
+  public int getSortOrder() {
     return sortOrder;
   }
 
-  public void setSortOrder(int sortOrder)
-  {
+  public void setSortOrder(int sortOrder) {
     this.sortOrder = sortOrder;
   }
-
 
 }

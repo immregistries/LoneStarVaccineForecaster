@@ -15,10 +15,12 @@ import org.tch.forecast.core.DecisionProcessFormat;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.SoftwareVersion;
+import org.tch.forecast.core.TimePeriod;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.api.impl.CvxCode;
 import org.tch.forecast.core.api.impl.CvxCodes;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
+import org.tch.forecast.core.model.Immunization;
 import org.tch.forecast.core.model.ImmunizationMDA;
 
 public class CaretForecaster
@@ -37,14 +39,16 @@ public class CaretForecaster
   private static final String HL7_CODE_ERROR_CODE_UNRECOGNIZED = "1";
   private static final String HL7_CODE_ERROR_CODE_UNSUPPORTED = "2";
 
+  private static final boolean USE_EARLY_DUE_AND_OVERDUE = true;
+
   //  1 Date used for forecast
   private static final int FIELD_IN_CASE_DETAIL_01_DATE_USED_FOR_FORECAST = 1;
   //  2 Forecasting Mode
   private static final int FIELD_IN_CASE_DETAIL_02_FORECASTING_MODE = 2;
   //  3 Version
-  private static final int FIELD_IN_CASE_DETAIL_03_VERSION = 3;
+  private static final int FIELD_IN_CASE_DETAIL_03_USE_4_DAY_GRACE_PERIOD = 3;
   //  4 Use 4-day Grace Period
-  private static final int FIELD_IN_CASE_DETAIL_04_USE_4_DAY_GRACE_PERIOD = 4;
+  private static final int FIELD_IN_CASE_DETAIL_04_RESERVED_FOR_FUTURE_USE = 4;
   //  5 Reserved for future use
   private static final int FIELD_IN_CASE_DETAIL_05_RESERVED_FOR_FUTURE_USE = 5;
   //  6 Personal ID - Chart#
@@ -95,7 +99,7 @@ public class CaretForecaster
   private static final int FIELD_IN_CASE_DETAIL_28_HPV_CONTRAINDICATED_INDICATION = 28;
   //  29  H1N1 Contraindicated Indication
   private static final int FIELD_IN_CASE_DETAIL_29_H1N1_CONTRAINDICATED_INDICATION = 29; // NOT USED YET
-  
+
   private static final int FIELD_IN_CASE_DETAIL_30_ZOSTER_CONTRAINDICATION = 30;
 
   private static final String FIELD_IN_CASE_DETAIL_SEP = SECTION_SEPARATOR;
@@ -215,7 +219,7 @@ public class CaretForecaster
   //  11  HPV Series Completed Indicator
   private static final int FIELD_OUT_SERIES_11_HPV_SERIES_COMPLETED_INDICATOR = 11;
   //  12  Reserved for future use
-  private static final int FIELD_OUT_SERIES_12_RESERVED_FOR_FUTURE_USE = 12;
+  private static final int FIELD_OUT_SERIES_12_ZOSTER_SERIES_COMPLETED_INDICATOR = 12;
   //  13  Reserved for future use
   private static final int FIELD_OUT_SERIES_13_RESERVED_FOR_FUTURE_USE = 13;
 
@@ -354,7 +358,7 @@ public class CaretForecaster
       Date forecastDate = readDate(caseDetailFieldList, FIELD_IN_CASE_DETAIL_01_DATE_USED_FOR_FORECAST);
       Date dateOfBirth = readDate(caseDetailFieldList, FIELD_IN_CASE_DETAIL_08_DATE_OF_BIRTH);
       String gender = readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_09_GENDER);
-      boolean use4DayGracePeriod = readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_04_USE_4_DAY_GRACE_PERIOD)
+      boolean use4DayGracePeriod = readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_03_USE_4_DAY_GRACE_PERIOD)
           .equals("1");
 
       Set<String> filterSet = new HashSet<String>();
@@ -476,6 +480,18 @@ public class CaretForecaster
         imms.add(imm);
       }
 
+      {
+        setAssumeParam(forecastRunner, "Assuming DTaP series completed in childhood",
+            Immunization.ASSUME_DTAP_SERIES_COMPLETE);
+        setAssumeParam(forecastRunner, "Assuming Hep A series completed in childhood",
+            Immunization.ASSUME_HEPA_COMPLETE);
+        setAssumeParam(forecastRunner, "Assuming Hep B series completed in childhood",
+            Immunization.ASSUME_HEPB_COMPLETE);
+        setAssumeParam(forecastRunner, "Assuming MMR series completed in childhood", Immunization.ASSUME_MMR_COMPLETE);
+        setAssumeParam(forecastRunner, "Assuming Varicella series completed in childhood",
+            Immunization.ASSUME_VAR_COMPLETE);
+      }
+
       // Run Forecast
       forecastRunner.forecast();
 
@@ -491,7 +507,7 @@ public class CaretForecaster
       addValue(today.toString("YMDHTS"), FIELD_OUT_CASE_DATA_02_RUN_DATE_AND_TIME);
       addValue((new DateTime(forecastDate)).toString("YMD"), FIELD_OUT_CASE_DATA_03_DATE_USED_FOR_FORECAST);
       addValue(forecastingMode, FIELD_OUT_CASE_DATA_04_FORECASTING_MODE);
-      addValue(readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_03_VERSION), FIELD_OUT_CASE_DATA_05_VERSION);
+      addValue("", FIELD_OUT_CASE_DATA_05_VERSION);
 
       // addValue(SoftwareVersion.VERSION, FIELD_OUT_06_RULE_SET_MAJOR_VERSION);
       // addValue(forecastRunner.getForecasterScheduleName(), FIELD_OUT_07_RULE_SET_MINOR_VERSION);
@@ -585,8 +601,10 @@ public class CaretForecaster
             } else {
               addValue(d(forecastResult.getValid()), FIELD_OUT_DOSE_DUE_04_DOSE_DUE_MINIMUM_DATE);
             }
-            addValue(d(forecastResult.getDue()), FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
-            addValue(d(forecastResult.getOverdue()), FIELD_OUT_DOSE_DUE_06_DOSE_DUE_EXCEEDS_DATE);
+            addValue(d(forecastResult.getDue(USE_EARLY_DUE_AND_OVERDUE)),
+                FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
+            addValue(d(forecastResult.getOverdue(USE_EARLY_DUE_AND_OVERDUE)),
+                FIELD_OUT_DOSE_DUE_06_DOSE_DUE_EXCEEDS_DATE);
             //        addValue(d(forecastResult.getOverdue()), FIELD_OUT_147_DOSE_DUE_MINIMUM_REMINDER_DATE + base);
             //        addValue(d(forecastResult.getOverdue()), FIELD_OUT_148_DOSE_DUE_RECOMMENDED_REMINDER_DATE + base);
             //        addValue(overdue ? "1" : "0", FIELD_OUT_149_DOSE_DUE_EXCEEDS_REMINDER_DATE + base);
@@ -650,6 +668,7 @@ public class CaretForecaster
           FIELD_OUT_SERIES_09_STREP_PNEUMOCOCCAL_SERIES_COMPLETED_INDICATOR);
       addValue(c(nc, ImmunizationForecastDataBean.MENING), FIELD_OUT_SERIES_10_MENINGOCOCCAL_SERIES_COMPLETED_INDICATOR);
       addValue(c(nc, ImmunizationForecastDataBean.HPV), FIELD_OUT_SERIES_11_HPV_SERIES_COMPLETED_INDICATOR);
+      addValue(c(nc, ImmunizationForecastDataBean.ZOSTER), FIELD_OUT_SERIES_12_ZOSTER_SERIES_COMPLETED_INDICATOR);
       addValue("", FIELD_OUT_SERIES_13_RESERVED_FOR_FUTURE_USE);
 
       description = forecastRunner.getTextReport(forecastingMode.equals(FORECASTING_MODE_ACCEPTABLE));
@@ -659,6 +678,23 @@ public class CaretForecaster
       errorCode = "Unable to Forecast, unexpected exeption occurred: " + t.getMessage();
     }
     return errorCode + "&&&" + response.toString() + "&&&" + description;
+  }
+
+  public void setAssumeParam(ForecastRunner forecastRunner, String label, int vaccineId) {
+    TimePeriod assumeSeriesCompleteAtAge = new TimePeriod("18 years");
+
+    if (assumeSeriesCompleteAtAge != null) {
+      DateTime assumptionAge = assumeSeriesCompleteAtAge.getDateTimeFrom(forecastRunner.getPatient().getDob());
+      if (forecastRunner.getForecastDate().after(assumptionAge.getDate())) {
+        DateTime assumptionDate = new DateTime(assumptionAge);
+        Immunization imm = new Immunization();
+        imm.setDateOfShot(assumptionDate.getDate());
+        imm.setVaccineId(vaccineId);
+        imm.setLabel(label);
+        imm.setAssumption(true);
+        forecastRunner.getImms().add(imm);
+      }
+    }
   }
 
   public boolean filter(Set<String> filterSet, List<ImmunizationForecastDataBean> forecastListDueTodayAdd,

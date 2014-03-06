@@ -115,6 +115,25 @@ public interface ForecastRecommendationInterface {
   public void setOverdueDate(Date overdueDate);
 
   /**
+   * An alternative overdue date that is earlier or more aggressive than 
+   * the standard overdue date. Not normally populated, but may appear on 
+   * some recommendations. 
+   * given.
+   * 
+   * @return
+   */
+  public Date getEarlyOverdueDate();
+
+  /**
+   * An alternative overdue date that is earlier or more aggressive than 
+   * the standard overdue date. Not normally populated, but may appear on 
+   * some recommendations. 
+   * 
+   * @param overdueDate
+   */
+  public void setEarlyOverdueDate(Date overdueDate);
+
+  /**
    * The date this vaccination should not longer be given or is not expected to
    * be given.
    * 

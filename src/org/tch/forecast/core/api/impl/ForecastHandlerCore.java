@@ -183,6 +183,11 @@ public class ForecastHandlerCore
             if (new DateTime(forecastDiphtheria.getEarly()).isLessThan(moveTo)) {
               forecastDiphtheria.setEarly(moveTo.getDate());
             }
+            if (forecastDiphtheria.getEarlyOverdue() != null) {
+              if (new DateTime(forecastDiphtheria.getEarlyOverdue()).isLessThan(moveTo)) {
+                forecastDiphtheria.setEarlyOverdue(moveTo.getDate());
+              }
+            }
             if (new DateTime(forecastDiphtheria.getOverdue()).isLessThan(moveTo)) {
               forecastDiphtheria.setOverdue(moveTo.getDate());
             }
@@ -194,9 +199,9 @@ public class ForecastHandlerCore
           forecastDiphtheria.setForecastName(label);
           forecastDiphtheria.setForecastLabel(label);
         }
-        
+
         remove(resultList, ImmunizationForecastDataBean.PERTUSSIS);
-        
+
         comment(resultList, ImmunizationForecastDataBean.PNEUMO, "S",
             "Supplementary dose of PCV13 is needed. Please refer to the Forecaster Reference Tool and MMWR 59(09) March 12, 2010.");
         sort(resultList);

@@ -11,6 +11,7 @@ import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
+import org.tch.forecast.core.model.Assumption;
 
 public class LookForDoseStep extends ActionStep
 {
@@ -54,7 +55,12 @@ public class LookForDoseStep extends ActionStep
         forecastBean.setSortOrder(ds.forecast.getSortOrder());
         forecastBean.setImmregid(ds.patient.getImmregid());
         forecastBean.setTraceList(ds.traceList);
-        forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE);
+        if (ds.assumptionList.size() > 0) {
+          forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE);
+          forecastBean.getAssumptionList().addAll(ds.assumptionList);
+        } else {
+          forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE);
+        }
         ds.resultList.add(forecastBean);
         if (ds.traceList != null) {
           ds.traceList.addExplanation("Vaccination series complete.");
@@ -169,6 +175,22 @@ public class LookForDoseStep extends ActionStep
           }
           nextEvent(ds);
           return indicate.getScheduleName();
+        } else if (checkTransition(ds, ds.event, indicate)) {
+          ds.log("Valid transition event.");
+          addValidTransition(ds, vaccineIds);
+          if (ds.trace != null) {
+            ds.trace.setReason(indicate.getReason());
+            ds.traceList.setExplanationRed();
+            ds.traceList.addExplanation(indicate.getReason());
+          }
+          if (ds.seasonal != null && indicate.isSeasonCompleted()) {
+            ds.seasonCompleted = true;
+            if (ds.trace != null) {
+              ds.traceList.addExplanation("Season completed. ");
+            }
+          }
+          nextEvent(ds);
+          return indicate.getScheduleName();
         } else if ((invalidReason = checkInvalid(ds, vaccDate, vaccineIds)) != null) {
           ds.log("Dose is invalid.");
           addInvalidDose(ds, vaccineIds, invalidReason);
@@ -210,22 +232,6 @@ public class LookForDoseStep extends ActionStep
           DetermineRangesStep.determineRanges(ds);
           nextEvent(ds);
           return CONTRA;
-        } else if (checkTransition(ds, ds.event)) {
-          ds.log("Valid transition event.");
-          addValidTransition(ds, vaccineIds);
-          if (ds.trace != null) {
-            ds.trace.setReason(indicate.getReason());
-            ds.traceList.setExplanationRed();
-            ds.traceList.addExplanation(indicate.getReason());
-          }
-          if (ds.seasonal != null && indicate.isSeasonCompleted()) {
-            ds.seasonCompleted = true;
-            if (ds.trace != null) {
-              ds.traceList.addExplanation("Season completed. ");
-            }
-          }
-          nextEvent(ds);
-          return indicate.getScheduleName();
         } else {
           ds.log("Valid dose.");
           ds.validDoseCount++;
@@ -426,6 +432,7 @@ public class LookForDoseStep extends ActionStep
     if (event != null && event.immList != null) {
       for (Iterator<ImmunizationInterface> it = event.immList.iterator(); it.hasNext();) {
         ImmunizationInterface imm = it.next();
+
         for (int i = 0; i < vaccineIds.length; i++) {
           if (vaccineIds[i].isSame(imm, event)) {
             return ds.forecastManager.getVaccineName(imm.getVaccineId());
@@ -449,17 +456,26 @@ public class LookForDoseStep extends ActionStep
     return false;
   }
 
-  private boolean checkTransition(DataStore ds, Event event) {
+  private boolean checkTransition(DataStore ds, Event event, VaccineForecastDataBean.Indicate indicate) {
+    boolean indicatedEvent = false;
     for (Iterator<ImmunizationInterface> it = event.immList.iterator(); it.hasNext();) {
       ImmunizationInterface imm = it.next();
       if (imm.getVaccineId() < 0) {
-        return true;
+        for (ValidVaccine validVaccine : indicate.getVaccines()) {
+          if (validVaccine.isSame(imm, event)) {
+            indicatedEvent = true;
+            if (imm.isAssumption()) {
+              ds.assumptionList.add(new Assumption(imm.getLabel()));
+            }
+          }
+        }
       }
     }
-    return false;
+    return indicatedEvent;
   }
 
   private String checkInvalid(DataStore ds, DateTime vaccDate, ValidVaccine[] vaccineIds) {
+
     if (ds.validGrace.isEmpty()) {
       if (vaccDate.isLessThan(ds.valid)) {
         return "before valid date";

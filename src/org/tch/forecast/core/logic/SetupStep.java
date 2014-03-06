@@ -21,7 +21,6 @@ public class SetupStep extends ActionStep {
 
   @Override
   public String doAction(DataStore dataStore) throws Exception {
-    dataStore.today = new DateTime(dataStore.forecastDate);
     dataStore.scheduleList = new ArrayList<VaccineForecastDataBean.Schedule>();
     dataStore.scheduleListPos = -1;
 
@@ -132,11 +131,8 @@ public class SetupStep extends ActionStep {
 
   public boolean eventIndicated(IndicationCriteria indicationCriteria, List<ImmunizationInterface> vaccinations, DataStore ds) {
     for (ImmunizationInterface vaccination : vaccinations) {
-      ds.log("     --> looking at " + vaccination.getVaccineId());
       for (ValidVaccine validVaccine : indicationCriteria.getVaccines()) {
-        ds.log("     --> comparing to " + validVaccine.getVaccineId());
         if (vaccination.getVaccineId() == validVaccine.getVaccineId()) {
-          ds.log("     --> found it! ");
           return true;
         }
       }

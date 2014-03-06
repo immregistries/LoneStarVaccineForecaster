@@ -24,8 +24,9 @@ import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.Seasonal;
 import org.tch.forecast.core.VaccineForecastDataBean.Transition;
-import org.tch.forecast.core.api.impl.ForecastOptions;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
+import org.tch.forecast.core.api.impl.ForecastOptions;
+import org.tch.forecast.core.model.Assumption;
 
 public class DataStore
 {
@@ -50,6 +51,7 @@ public class DataStore
   protected List<BlackOut> blackOutDates = null;
   protected StringBuffer detailLog = null;
   protected List<VaccinationDoseDataBean> doseList = null;
+  protected List<Assumption> assumptionList = null;
   protected DateTime due = null;
   protected String dueReason = "";
   protected DateTime early = null;
@@ -59,7 +61,7 @@ public class DataStore
   protected DateTime finished = null;
   protected VaccineForecastDataBean forecast = null;
   protected String forecastCode = null;
-  protected Date forecastDate = new Date();
+  protected DateTime forecastDateTime = new DateTime(new Date());
   protected VaccineForecastManagerInterface forecastManager = null;
   protected boolean hasHistoryOfVaricella = false;
   protected VaccineForecastDataBean.Indicate[] indicates = null;
@@ -67,6 +69,7 @@ public class DataStore
   protected String nextAction = null;
   protected List<Event> originalEventList = null;
   protected DateTime overdue = null;
+  protected DateTime earlyOverdue = null;
   protected PatientForecastRecordDataBean patient = null;
   protected TimePeriod previousAfterInvalidInterval;
   protected DateTime previousEventDate;
@@ -84,7 +87,6 @@ public class DataStore
   protected boolean seasonCompleted = false;
   protected DateTime seasonEnd = null;
   protected DateTime seasonStart = null;
-  protected DateTime today = null;
   protected Trace trace = null;
   protected TraceList traceList = null;
   protected Map<String, List<Trace>> traces = null;
@@ -94,6 +96,18 @@ public class DataStore
   protected TimePeriod validGrace = null;
   protected String whenValidText = null;
   protected ForecastOptions forecastOptions = null;
+
+  public DateTime getEarlyOverdue() {
+    return earlyOverdue;
+  }
+
+  public void setEarlyOverdue(DateTime earlyOverdue) {
+    this.earlyOverdue = earlyOverdue;
+  }
+
+  public List<Assumption> getAssumptionList() {
+    return assumptionList;
+  }
 
   public DateTime getPreviousEventDateValidNotBirth() {
     return previousEventDateValidNotBirth;
@@ -182,7 +196,7 @@ public class DataStore
 
   public Date getForecastDate()
   {
-    return forecastDate;
+    return forecastDateTime.getDate();
   }
 
   public VaccineForecastManagerInterface getForecastManager()
@@ -288,11 +302,6 @@ public class DataStore
   public DateTime getSeasonStart()
   {
     return seasonStart;
-  }
-
-  public DateTime getToday()
-  {
-    return today;
   }
 
   public Trace getTrace()
@@ -426,7 +435,7 @@ public class DataStore
 
   public void setForecastDate(Date forecastDate)
   {
-    this.forecastDate = forecastDate;
+    this.forecastDateTime = new DateTime(forecastDate);
   }
 
   public void setForecastManager(VaccineForecastManagerInterface forecastManager)
@@ -537,11 +546,6 @@ public class DataStore
   public void setSeasonStart(DateTime seasonStart)
   {
     this.seasonStart = seasonStart;
-  }
-
-  public void setToday(DateTime today)
-  {
-    this.today = today;
   }
 
   public void setTrace(Trace trace)

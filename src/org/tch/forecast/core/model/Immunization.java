@@ -11,13 +11,22 @@ public class Immunization implements ImmunizationInterface
   public static final int ASSUME_HEPB_COMPLETE = -137;
   public static final int ASSUME_MMR_COMPLETE = -158;
   public static final int ASSUME_VAR_COMPLETE = -178;
-  
+
   private int vaccineId = 0;
   private Date dateOfShot = null;
   private String label = "";
   private String cvx = "";
   private String mvx = "";
   private String vaccinationId = "";
+  private boolean assumption = false;
+
+  public boolean isAssumption() {
+    return assumption;
+  }
+
+  public void setAssumption(boolean assumption) {
+    this.assumption = assumption;
+  }
 
   public String getVaccinationId() {
     return vaccinationId;
@@ -27,53 +36,43 @@ public class Immunization implements ImmunizationInterface
     this.vaccinationId = vaccinationId;
   }
 
-  public String getLabel()
-  {
+  public String getLabel() {
     return label;
   }
 
-  public void setLabel(String label)
-  {
+  public void setLabel(String label) {
     this.label = label;
   }
 
-  public String getCvx()
-  {
+  public String getCvx() {
     return cvx;
   }
 
-  public void setCvx(String cvx)
-  {
+  public void setCvx(String cvx) {
     this.cvx = cvx;
   }
 
-  public String getMvx()
-  {
+  public String getMvx() {
     return mvx;
   }
 
-  public void setMvx(String mvx)
-  {
+  public void setMvx(String mvx) {
     this.mvx = mvx;
   }
 
-  public Date getDateOfShot()
-  {
+  public Date getDateOfShot() {
     return dateOfShot;
   }
 
-  public void setDateOfShot(Date dateOfShot)
-  {
+  public void setDateOfShot(Date dateOfShot) {
     this.dateOfShot = dateOfShot;
   }
 
-  public int getVaccineId()
-  {
+  public int getVaccineId() {
     return vaccineId;
   }
 
-  public void setVaccineId(int vaccineId)
-  {
+  public void setVaccineId(int vaccineId) {
     this.vaccineId = vaccineId;
   }
 }

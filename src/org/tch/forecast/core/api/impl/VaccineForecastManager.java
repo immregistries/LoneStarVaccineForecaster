@@ -3,6 +3,7 @@ package org.tch.forecast.core.api.impl;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,10 +89,38 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface {
     indications = VaccineForecastDataBean.getIndications();
   }
 
-  private static class ForecastAntigen {
+  public static class ForecastAntigen implements Comparable<ForecastAntigen>{
     private String forecastCode = "";
     private String forecastLabel = "";
     private int sortOrder = 0;
+
+    @Override
+    public int compareTo(ForecastAntigen o) {
+      return this.getSortOrder() - o.getSortOrder(); 
+    }
+    public String getForecastCode() {
+      return forecastCode;
+    }
+
+    public void setForecastCode(String forecastCode) {
+      this.forecastCode = forecastCode;
+    }
+
+    public String getForecastLabel() {
+      return forecastLabel;
+    }
+
+    public void setForecastLabel(String forecastLabel) {
+      this.forecastLabel = forecastLabel;
+    }
+
+    public int getSortOrder() {
+      return sortOrder;
+    }
+
+    public void setSortOrder(int sortOrder) {
+      this.sortOrder = sortOrder;
+    }
 
     private ForecastAntigen(String forecastCode, String forecastLabel, int sortOrder) {
       this.forecastCode = forecastCode;
@@ -101,6 +130,11 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface {
   }
 
   private static List<ForecastAntigen> forecastAntigenList = new ArrayList<ForecastAntigen>();
+  
+  public List<ForecastAntigen> getForecastAntigenList()
+  {
+    return forecastAntigenList;
+  }
 
   static {
     forecastAntigenList.add(new ForecastAntigen("Influenza", "Influenza", 16));
@@ -120,6 +154,7 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface {
     forecastAntigenList.add(new ForecastAntigen("HPV", "HPV", 15));
     forecastAntigenList.add(new ForecastAntigen("Zoster", "Zoster", 16));
     forecastAntigenList.add(new ForecastAntigen("PPSV", "PPSV", 18));
+    Collections.sort(forecastAntigenList);
   }
 
   private static void getVaccineForecasts() throws Exception {

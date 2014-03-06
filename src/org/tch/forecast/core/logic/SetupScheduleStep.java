@@ -1,5 +1,6 @@
 package org.tch.forecast.core.logic;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -7,8 +8,10 @@ import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.Trace;
 import org.tch.forecast.core.TraceList;
 import org.tch.forecast.core.VaccineForecastDataBean.Transition;
+import org.tch.forecast.core.model.Assumption;
 
-public class SetupScheduleStep extends ActionStep {
+public class SetupScheduleStep extends ActionStep
+{
   public static final String NAME = "Setup Schedule";
 
   @Override
@@ -37,17 +40,21 @@ public class SetupScheduleStep extends ActionStep {
       ds.traces.put(ds.forecast.getForecastCode(), ds.traceList);
       ds.traceList.setExplanationBulletPointStart();
     }
+    ds.assumptionList = new ArrayList<Assumption>();
     ds.log("Looking at first event");
     ds.eventPosition = 0;
     ds.previousAfterInvalidInterval = null;
+    ds.valid = null;
+    ds.due = null;
+    ds.earlyOverdue = null;
+    ds.overdue = null;
     LookForDoseStep.nextEvent(ds);
     return TraverseScheduleStep.NAME;
   }
 
   private void setupSeasonalAndTransition(DataStore ds) {
     ds.seasonal = ds.forecast.getSeasonal();
-    if (ds.seasonal != null && ds.forecastOptions != null)
-    {
+    if (ds.seasonal != null && ds.forecastOptions != null) {
       copyOverrideSetttings(ds);
     }
     ds.transitionList = ds.forecast.getTransitionList();
@@ -77,7 +84,7 @@ public class SetupScheduleStep extends ActionStep {
       if (ds.transitionList.size() > 0) {
         for (Transition transition : ds.transitionList) {
           DateTime transitionDate = transition.getAge().getDateTimeFrom(ds.patient.getDobDateTime());
-          if (transitionDate.isLessThanOrEquals(ds.today)) {
+          if (transitionDate.isLessThanOrEquals(ds.forecastDateTime)) {
             // Transition happens before or on forecaster test date
             TransitionEvent te = new TransitionEvent(transitionDate.getDate(), transition);
             ds.event = new Event();
@@ -97,30 +104,26 @@ public class SetupScheduleStep extends ActionStep {
   }
 
   public void copyOverrideSetttings(DataStore ds) {
-    if (ds.forecastOptions.getFluSeasonDue() != null)
-    {
+    if (ds.forecastOptions.getFluSeasonDue() != null) {
       ds.seasonal.setDue(ds.forecastOptions.getFluSeasonDue());
     }
-    if (ds.forecastOptions.getFluSeasonEnd() != null)
-    {
+    if (ds.forecastOptions.getFluSeasonEnd() != null) {
       ds.seasonal.setEnd(ds.forecastOptions.getFluSeasonEnd());
     }
-    if (ds.forecastOptions.getFluSeasonOverdue() != null)
-    {
+    if (ds.forecastOptions.getFluSeasonOverdue() != null) {
       ds.seasonal.setOverdue(ds.forecastOptions.getFluSeasonOverdue());
     }
-    if (ds.forecastOptions.getFluSeasonStart() != null)
-    {
+    if (ds.forecastOptions.getFluSeasonStart() != null) {
       ds.seasonal.setStart(ds.forecastOptions.getFluSeasonStart());
     }
   }
 
   protected static DateTime setupSeasonEnd(DataStore ds) {
-    DateTime seasonEnd = new DateTime(ds.forecastDate);
+    DateTime seasonEnd = new DateTime(ds.forecastDateTime);
     seasonEnd.setMonth(1);
     seasonEnd.setDay(1);
     seasonEnd = ds.seasonal.getEnd().getDateTimeFrom(seasonEnd);
-    if (seasonEnd.isGreaterThanOrEquals(new DateTime(ds.forecastDate))) {
+    if (seasonEnd.isGreaterThanOrEquals(new DateTime(ds.forecastDateTime))) {
       seasonEnd.addYears(-1);
     }
     return seasonEnd;
