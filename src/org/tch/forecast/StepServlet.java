@@ -1042,13 +1042,13 @@ public class StepServlet extends ForecastServlet
       if (dataStore.getEventList() != null) {
         // protected int eventPosition = 0;
         out.println("<table>");
-        out.println("      <tr>");
-        out.println("        <th class=\"bigHeader\" colspan=\"" + (dataStore.getEventList().size() + 1)
-            + "\">Event List</th>");
-        out.println("      </tr>");
+        out.println("  <tr>");
+        out.println("    <th class=\"bigHeader\" colspan=\"" + (baseLink == null ? 4 : 5) + "\">Event List</th>");
+        out.println("  </tr>");
         out.println("  <tr>");
         out.println("    <th class=\"smallHeader\">Date</th>");
         out.println("    <th class=\"smallHeader\">Vaccine</th>");
+        out.println("    <th class=\"smallHeader\">Condition</th>");
         out.println("    <th class=\"smallHeader\">Indicated Event</th>");
         if (baseLink != null) {
           out.println("    <th class=\"smallHeader\"></th>");
@@ -1071,6 +1071,22 @@ public class StepServlet extends ForecastServlet
               first = false;
             }
             out.println(imm.getVaccineId());
+          }
+          out.println("    </td>");
+          out.println("    <td" + c + ">");
+          for (ImmunizationInterface imm : event.getImmList()) {
+            if (imm.isForceValid()) {
+              out.println("Force Valid");
+            }
+            if (imm.isSubPotent()) {
+              out.println("Sub Potent");
+            }
+            if (imm.isAssumption()) {
+              out.println("Assumption");
+            }
+            if (imm instanceof Transition) {
+              out.println("Transition");
+            }
           }
           out.println("    </td>");
           if (pos == (dataStore.getEventPosition() - 1) && dataStore.getEvent() != null) {

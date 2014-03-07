@@ -10,6 +10,10 @@ public class TransitionEvent implements ImmunizationInterface {
   private int vaccineId = 0;
   private String name = "";
 
+  public boolean isSubPotent() {
+    return false;
+  }
+
   public TransitionEvent(Date date, Transition transition) {
     this.date = date;
     this.vaccineId = transition.getVaccineId();
@@ -45,6 +49,10 @@ public class TransitionEvent implements ImmunizationInterface {
     return false;
   }
 
+  @Override
+  public boolean isForceValid() {
+    return false;
+  }
 
 
 }

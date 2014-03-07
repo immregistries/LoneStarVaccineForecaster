@@ -32,6 +32,7 @@ public class ForecastServlet extends HttpServlet
 {
   private static final String PARAM_VACCINE_MVX = "vaccineMvx";
   private static final String PARAM_VACCINE_CVX = "vaccineCvx";
+  private static final String PARAM_VACCINE_CONDITION_CODE = "vaccineConditionCode";
   private static final String PARAM_VACCINE_DATE = "vaccineDate";
   private static final String PARAM_PATIENT_SEX = "patientSex";
   private static final String PARAM_PATIENT_DOB = "patientDob";
@@ -53,6 +54,9 @@ public class ForecastServlet extends HttpServlet
   public static final String RESULT_FORMAT_TEXT = "text";
   public static final String RESULT_FORMAT_HTML = "html";
   public static final String RESULT_FORMAT_COMPACT = "compact";
+
+  private static final String CONDITION_CODE_SUB_POTENT = "S";
+  private static final String CONDITION_CODE_FORCE_VALID = "F";
 
   private static ForecastHandlerCore forecastHandlerCore = null;
 
@@ -215,6 +219,7 @@ public class ForecastServlet extends HttpServlet
       }
       String vaccineCvx = req.getParameter(PARAM_VACCINE_CVX + n);
       String vaccineMvx = req.getParameter(PARAM_VACCINE_MVX + n);
+      String vaccineConditionCode = req.getParameter(PARAM_VACCINE_CONDITION_CODE + n);
       int vaccineId = 0;
       if (vaccineCvx == null) {
         throw new ServletException("Parameter 'vaccineCvx" + n + "' is required.");
@@ -242,6 +247,15 @@ public class ForecastServlet extends HttpServlet
       imm.setDateOfShot(new DateTime(vaccineDateString).getDate());
       imm.setVaccineId(vaccineId);
       imm.setVaccinationId("" + n);
+      System.out.println("--> vaccineConditionCode = " + vaccineConditionCode);
+      if (vaccineConditionCode != null) {
+        if (vaccineConditionCode.equals(CONDITION_CODE_SUB_POTENT)) {
+          imm.setSubPotent(true);
+        } else if (vaccineConditionCode.equals(CONDITION_CODE_FORCE_VALID)) {
+          System.out.println("--> Setting immunization to be forced valid");
+          imm.setForceValid(true);
+        }
+      }
       forecastInput.imms.add(imm);
       n++;
     }

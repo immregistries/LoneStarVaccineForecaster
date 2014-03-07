@@ -12,6 +12,25 @@ public class Immunization implements ImmunizationInterface
   private String cvx = "";
   private String mvx = "";
   private boolean assumption = false;
+  private boolean forceValid = false;
+  private boolean subPotent = false;
+
+  public boolean isSubPotent() {
+    return subPotent;
+  }
+
+  public void setSubPotent(boolean subPotent) {
+    this.subPotent = subPotent;
+  }
+
+
+  public boolean isForceValid() {
+    return forceValid;
+  }
+
+  public void setForceValid(boolean forceValid) {
+    this.forceValid = forceValid;
+  }
 
   public boolean isAssumption() {
     return assumption;

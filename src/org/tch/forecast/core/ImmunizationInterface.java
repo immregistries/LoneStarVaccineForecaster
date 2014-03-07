@@ -17,4 +17,8 @@ public interface ImmunizationInterface
   public String getVaccinationId();
 
   public boolean isAssumption();
+  
+  public boolean isForceValid();
+  
+  public boolean isSubPotent();
 }

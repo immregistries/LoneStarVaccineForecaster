@@ -120,6 +120,10 @@ public class LookForDoseStep extends ActionStep
         for (int j = 0; j < vaccineIds.length; j++) {
           for (Iterator<ImmunizationInterface> it = ds.event.immList.iterator(); it.hasNext();) {
             ImmunizationInterface imm = it.next();
+            if (imm.isSubPotent()) {
+              ds.log(" + Ignoring subpotent immunization " + imm.getVaccineId());
+              continue;
+            }
             ds.log(" + Looking at indicated vaccine " + vaccineIds[j] + " and given vaccine " + imm.getVaccineId());
             if (vaccineIds[j].isSame(imm, ds.event)) {
               ds.event.hasEvent = true;
@@ -140,6 +144,19 @@ public class LookForDoseStep extends ActionStep
         if (!indicatedEvent(ds, indicate, vaccineIds)) {
           ds.log("Not indicated event, must keep looking.");
           return KEEP_LOOKING;
+        }
+        boolean allowInvalid = true;
+        // if there is a shot that says to force valid, then force it to be valid
+        ds.log("Looking to see if event has force valid flag");
+        for (ImmunizationInterface imm : ds.event.immList) {
+          if (imm.isForceValid()) {
+            ds.log(" + Event has been forced to be valid");
+            if (ds.trace != null) {
+              ds.traceList.setExplanationRed();
+              ds.traceList.addExplanation("Dose is being forced valid by requester. Valid ages and interval will NOT be checked. ");
+            }
+            allowInvalid = false;
+          }
         }
         ds.log("Event is indicated, now validating");
         String invalidReason = null;
@@ -191,7 +208,7 @@ public class LookForDoseStep extends ActionStep
           }
           nextEvent(ds);
           return indicate.getScheduleName();
-        } else if ((invalidReason = checkInvalid(ds, vaccDate, vaccineIds)) != null) {
+        } else if (allowInvalid && (invalidReason = checkInvalid(ds, vaccDate, vaccineIds)) != null) {
           ds.log("Dose is invalid.");
           addInvalidDose(ds, vaccineIds, invalidReason);
           addPreviousDose(ds, vaccineIds);
@@ -201,7 +218,7 @@ public class LookForDoseStep extends ActionStep
           nextEvent(ds);
           ds.previousAfterInvalidInterval = ds.schedule.getAfterInvalidInterval();
           return INVALID;
-        } else if (indicate.isInvalid()) {
+        } else if (allowInvalid && indicate.isInvalid()) {
           ds.log("Indicator says dose is invalid");
           addInvalidDose(ds, vaccineIds, indicate.getVaccineName() + " dose "
               + (indicate.getAge().isEmpty() ? "" : indicate.getAge().toString()));

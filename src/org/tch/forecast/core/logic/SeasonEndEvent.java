@@ -45,5 +45,15 @@ public class SeasonEndEvent implements ImmunizationInterface
   public boolean isAssumption() {
     return false;
   }
+  
+  @Override
+  public boolean isForceValid() {
+    return false;
+  }
+  
+  @Override
+  public boolean isSubPotent() {
+    return false;
+  }
 
 }

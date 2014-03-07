@@ -39,6 +39,12 @@ public class CaretForecaster
   private static final String HL7_CODE_ERROR_CODE_UNRECOGNIZED = "1";
   private static final String HL7_CODE_ERROR_CODE_UNSUPPORTED = "2";
 
+  private static final String DOSE_OVERRIDE_INVALID_BAD_STORAGE = "1";
+  private static final String DOSE_OVERRIDE_INVALID_DEFECTIVE = "2";
+  private static final String DOSE_OVERRIDE_INVALID_EXPIRED = "3";
+  private static final String DOSE_OVERRIDE_INVALID_ADMIN_ERROR = "4";
+  private static final String DOSE_OVERRIDE_INVALID_FORCE_VALID = "5";
+
   private static final boolean USE_EARLY_DUE_AND_OVERDUE = true;
 
   //  1 Date used for forecast
@@ -459,13 +465,17 @@ public class CaretForecaster
         }
         Date doseAdminDate = readDate(inputDoseFieldList, FIELD_IN_INPUT_DOSE_3_DATE_OF_DOSE_ADMINISTRATION);
 
+        ImmunizationMDA imm = new ImmunizationMDA();
         String doseOveride = readField(inputDoseFieldList, FIELD_IN_INPUT_DOSE_4_DOSE_OVERRIDE);
-        if (doseOveride.equals(DOSE_OVERRIDE_EXCLUDED)) {
-          // don't add to list because dose was excluded
-          continue;
+        imm.setDoseOverride(doseOveride);
+        if (doseOveride.equals(DOSE_OVERRIDE_INVALID_BAD_STORAGE)
+            || doseOveride.equals(DOSE_OVERRIDE_INVALID_DEFECTIVE) || doseOveride.equals(DOSE_OVERRIDE_INVALID_EXPIRED)
+            || doseOveride.equals(DOSE_OVERRIDE_INVALID_ADMIN_ERROR)) {
+          imm.setSubPotent(true);
+        } else if (doseOveride.equals(DOSE_OVERRIDE_INVALID_FORCE_VALID)) {
+          imm.setForceValid(true);
         }
 
-        ImmunizationMDA imm = new ImmunizationMDA();
         imm.setVaccinationId("" + i);
         imm.setCvx(cvxCode);
         imm.setDateOfShot(doseAdminDate);
@@ -535,6 +545,7 @@ public class CaretForecaster
           addValue(imm.getHl7CodeErrorCode(), FIELD_OUT_INPUT_DOSE_03_DOSE_INPUT_HL7_CODE_ERROR_CODE);
           addValue(new DateTime(imm.getDateOfShot()).toString("YMD"),
               FIELD_OUT_INPUT_DOSE_04_DATE_OF_DOSE_ADMINISTRATION);
+          addValue(imm.getDoseOverride(), FIELD_OUT_INPUT_DOSE_05_DOSE_OVERRIDE);
 
           String invalidReason = "";
           for (VaccinationDoseDataBean dose : forecastRunner.getDoseList()) {
