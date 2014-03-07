@@ -292,8 +292,8 @@
 <forecast seriesName="Hib">
   <vaccine vaccineName="Hib Only" vaccineIds="128, 1330, 1340"/>
   <vaccine vaccineName="PRP-OMP" vaccineIds="136, 1350"/>
-  <vaccine vaccineName="Series Dose" vaccineIds="128, 1330, 1340, 136, 1350, 115, 121, 142"/>
-  <vaccine vaccineName="Booster Dose" vaccineIds="128, 1330, 1340, 136, 1350, 113, 121, 1320, 115, 121"/>
+  <vaccine vaccineName="Series Dose" vaccineIds="128, 1330, 1340, 136, 1350, 115, 121, 142, 213"/>
+  <vaccine vaccineName="Booster Dose" vaccineIds="128, 1330, 1340, 136, 1350, 113, 121, 1320, 115, 121, 213"/>
   <vaccine vaccineName="TriHIBit" vaccineIds="113"/>
   <schedule scheduleName="A1" dose="1" indication="BIRTH" label="2 months">
     <pos row="1" column="1"/>
