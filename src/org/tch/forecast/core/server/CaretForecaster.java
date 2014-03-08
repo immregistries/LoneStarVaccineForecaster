@@ -612,10 +612,8 @@ public class CaretForecaster
             } else {
               addValue(d(forecastResult.getValid()), FIELD_OUT_DOSE_DUE_04_DOSE_DUE_MINIMUM_DATE);
             }
-            addValue(d(forecastResult.getDue(USE_EARLY_DUE_AND_OVERDUE)),
-                FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
-            addValue(d(forecastResult.getOverdue(USE_EARLY_DUE_AND_OVERDUE)),
-                FIELD_OUT_DOSE_DUE_06_DOSE_DUE_EXCEEDS_DATE);
+            addValue(d(forecastResult.getDue()), FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
+            addValue(d(forecastResult.getOverdue()), FIELD_OUT_DOSE_DUE_06_DOSE_DUE_EXCEEDS_DATE);
             //        addValue(d(forecastResult.getOverdue()), FIELD_OUT_147_DOSE_DUE_MINIMUM_REMINDER_DATE + base);
             //        addValue(d(forecastResult.getOverdue()), FIELD_OUT_148_DOSE_DUE_RECOMMENDED_REMINDER_DATE + base);
             //        addValue(overdue ? "1" : "0", FIELD_OUT_149_DOSE_DUE_EXCEEDS_REMINDER_DATE + base);
@@ -766,7 +764,6 @@ public class CaretForecaster
     forecastResultAdd.setComment(forecastResult.getComment());
     forecastResultAdd.setDateDue(forecastResult.getDateDue());
     forecastResultAdd.setDose(forecastResult.getDose());
-    forecastResultAdd.setEarly(forecastResult.getEarly());
     forecastResultAdd.setFinished(forecastResult.getFinished());
     forecastResultAdd.setForecastLabel(forecastResult.getForecastLabel());
     forecastResultAdd.setForecastName(forecastResult.getForecastName());

@@ -20,13 +20,13 @@ import org.tch.forecast.core.DecisionProcessFormat;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.Trace;
+import org.tch.forecast.core.Transition;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Contraindicate;
 import org.tch.forecast.core.VaccineForecastDataBean.Indicate;
 import org.tch.forecast.core.VaccineForecastDataBean.NamedVaccine;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
-import org.tch.forecast.core.VaccineForecastDataBean.Transition;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
 import org.tch.forecast.core.api.impl.ForecastOptions;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
@@ -461,16 +461,6 @@ public class StepServlet extends ForecastServlet
             out.println("    <td>" + safe(sdf.format(result.getDue())) + "</td>");
             out.println("  </tr>");
             out.println("  <tr>");
-            out.println("    <th>Early</th>");
-            out.println("    <td>" + safe(sdf.format(result.getEarly())) + "</td>");
-            out.println("  </tr>");
-            if (result.getEarlyOverdue() != null) {
-              out.println("  <tr>");
-              out.println("    <th>Early Overdue</th>");
-              out.println("    <td>" + safe(sdf.format(result.getEarlyOverdue())) + "</td>");
-              out.println("  </tr>");
-            }
-            out.println("  <tr>");
             out.println("    <th>Overdue</th>");
             out.println("    <td>" + safe(sdf.format(result.getOverdue())) + "</td>");
             out.println("  </tr>");
@@ -846,9 +836,7 @@ public class StepServlet extends ForecastServlet
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">&nbsp;</td>");
-      out.println("        <td class=\"insideValue\">"
-          + safe((dataStore != null && dataStore.getEarly() != null ? dataStore.getEarly().toString("M/D/Y") : ""))
-          + "</td>");
+      out.println("        <td class=\"insideValue\">&nbsp;</td>");
       out.println("      </tr>");
       out.println("      <tr>");
       out.println("        <th class=\"smallHeader\">Due</th>");
@@ -883,8 +871,7 @@ public class StepServlet extends ForecastServlet
         }
         out.println("</td>");
         out.println("        <td>&nbsp;</td>");
-        out.println("        <td class=\"insideValue\">" + safe(dataStore != null ? dataStore.getEarlyOverdue() : "")
-            + "</td>");
+        out.println("        <td class=\"insideValue\">&nbsp;</td>");
         out.println("      </tr>");
       }
       out.println("      <tr>");

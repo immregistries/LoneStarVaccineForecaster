@@ -56,10 +56,8 @@ public class ImmunizationForecastDataBean
   private String forecastLabel = "";
   private int immregid = 0;
   private Date valid = null;
-  private Date early = null;
   private Date due = null;
   private Date overdue = null;
-  private Date earlyOverdue = null;
   private Date finished = null;
   private String dose = "";
   private String schedule = "";
@@ -70,21 +68,6 @@ public class ImmunizationForecastDataBean
   private Date seasonStart = null;
   private Date seasonEnd = null;
   private List<Assumption> assumptionList = new ArrayList<Assumption>();
-
-  public Date getEarlyOverdue() {
-    return earlyOverdue;
-  }
-
-  public Date getOverdue(boolean useEarly) {
-    if (useEarly && earlyOverdue != null) {
-      return earlyOverdue;
-    }
-    return overdue;
-  }
-
-  public void setEarlyOverdue(Date earlyOverdue) {
-    this.earlyOverdue = earlyOverdue;
-  }
 
   public List<Assumption> getAssumptionList() {
     return assumptionList;
@@ -185,13 +168,6 @@ public class ImmunizationForecastDataBean
     this.valid = valid;
   }
 
-  public Date getDue(boolean useEarly) {
-    if (useEarly) {
-      return early;
-    }
-    return due;
-  }
-
   public Date getDue() {
     return due;
   }
@@ -230,14 +206,6 @@ public class ImmunizationForecastDataBean
 
   public void setSchedule(String schedule) {
     this.schedule = schedule;
-  }
-
-  public Date getEarly() {
-    return early;
-  }
-
-  public void setEarly(Date early) {
-    this.early = early;
   }
 
   public String getForecastLabel() {

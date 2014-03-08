@@ -3,7 +3,7 @@ package org.tch.forecast.core.logic;
 import java.util.Date;
 
 import org.tch.forecast.core.ImmunizationInterface;
-import org.tch.forecast.core.VaccineForecastDataBean.Transition;
+import org.tch.forecast.core.Transition;
 
 public class TransitionEvent implements ImmunizationInterface {
   private Date date = null;

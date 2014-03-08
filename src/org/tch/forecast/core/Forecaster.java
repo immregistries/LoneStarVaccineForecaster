@@ -63,8 +63,10 @@ public class Forecaster
   }
 
   public List<ImmunizationForecastDataBean> forecast(List<ImmunizationForecastDataBean> resultList,
-      List<VaccinationDoseDataBean> doseList, Map<String, List<Trace>> traces)
-      throws Exception {
+      List<VaccinationDoseDataBean> doseList, Map<String, List<Trace>> traces) throws Exception {
+    if (forecastOptions == null) {
+      forecastOptions = new ForecastOptions();
+    }
     DataStore dataStore = new DataStore(forecastManager);
     dataStore.setResultList(resultList);
     dataStore.setDoseList(doseList);

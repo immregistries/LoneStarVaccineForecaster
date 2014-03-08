@@ -27,7 +27,7 @@ public class ForecastReportPrinter
   }
 
   public void printHTMLVersionOfForecast(List<ImmunizationForecastDataBean> resultList,
-      List<ImmunizationInterface> imms, String forecasterScheduleName, DateTime forecastDate, boolean dueUseEarly,
+      List<ImmunizationInterface> imms, String forecasterScheduleName, DateTime forecastDate,
       List<VaccinationDoseDataBean> doseList, PrintWriter out) {
     out.println("<html>");
     out.println("  <head>");
@@ -78,8 +78,8 @@ public class ForecastReportPrinter
           || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)
           || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
         DateTime validDate = new DateTime(forecast.getValid());
-        DateTime dueDate = new DateTime(forecast.getDue(dueUseEarly));
-        DateTime overdueDate = new DateTime(forecast.getOverdue(dueUseEarly));
+        DateTime dueDate = new DateTime(forecast.getDue());
+        DateTime overdueDate = new DateTime(forecast.getOverdue());
         DateTime finishedDate = new DateTime(forecast.getFinished());
 
         String forecastDose = forecast.getDose();
@@ -115,8 +115,8 @@ public class ForecastReportPrinter
           || forecast.getStatusDescription()
               .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)) {
         DateTime validDate = new DateTime(forecast.getValid());
-        DateTime dueDate = new DateTime(forecast.getDue(dueUseEarly));
-        DateTime overdueDate = new DateTime(forecast.getOverdue(dueUseEarly));
+        DateTime dueDate = new DateTime(forecast.getDue());
+        DateTime overdueDate = new DateTime(forecast.getOverdue());
         DateTime finishedDate = new DateTime(forecast.getFinished());
         String forecastDose = forecast.getDose();
         out.println("      <tr>");
@@ -195,7 +195,7 @@ public class ForecastReportPrinter
   }
 
   public void printTextVersionOfForecast(List<ImmunizationForecastDataBean> resultList,
-      List<ImmunizationInterface> imms, String forecasterScheduleName, DateTime forecastDate, boolean dueUseEarly,
+      List<ImmunizationInterface> imms, String forecasterScheduleName, DateTime forecastDate,
       List<VaccinationDoseDataBean> doseList, PrintWriter out) {
     out.println("TCH Immunization Forecaster");
     out.println();
@@ -206,8 +206,8 @@ public class ForecastReportPrinter
           || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)
           || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
         DateTime validDate = new DateTime(forecast.getValid());
-        DateTime dueDate = new DateTime(forecast.getDue(dueUseEarly));
-        DateTime overdueDate = new DateTime(forecast.getOverdue(dueUseEarly));
+        DateTime dueDate = new DateTime(forecast.getDue());
+        DateTime overdueDate = new DateTime(forecast.getOverdue());
         DateTime finishedDate = new DateTime(forecast.getFinished());
 
         String forecastDose = forecast.getDose();
@@ -232,12 +232,12 @@ public class ForecastReportPrinter
           validDate = new DateTime(forecast.getValid());
         }
         DateTime dueDate = null;
-        if (forecast.getDue(dueUseEarly) != null) {
-          dueDate = new DateTime(forecast.getDue(dueUseEarly));
+        if (forecast.getDue() != null) {
+          dueDate = new DateTime(forecast.getDue());
         }
         DateTime overdueDate = null;
         if (forecast.getOverdue() != null) {
-          overdueDate = new DateTime(forecast.getOverdue(dueUseEarly));
+          overdueDate = new DateTime(forecast.getOverdue());
         }
         DateTime finishedDate = null;
         if (forecast.getFinished() != null) {
@@ -310,13 +310,13 @@ public class ForecastReportPrinter
         out.print("<td>&nbsp;</td>");
       }
       if (forecast.getDue() != null) {
-        DateTime dueDate = new DateTime(forecast.getDue(dueUseEarly));
+        DateTime dueDate = new DateTime(forecast.getDue());
         out.print("<td>" + dueDate.toString("M/D/Y") + "</td>");
       } else {
         out.print("<td>&nbsp;</td>");
       }
       if (forecast.getOverdue() != null) {
-        DateTime overdueDate = new DateTime(forecast.getOverdue(dueUseEarly));
+        DateTime overdueDate = new DateTime(forecast.getOverdue());
         out.print("<td>" + overdueDate.toString("M/D/Y") + "</td>");
       } else {
         out.print("<td>&nbsp;</td>");
@@ -339,7 +339,7 @@ public class ForecastReportPrinter
   }
 
   public void printNarrowTextVersionOfForecast(List<ImmunizationForecastDataBean> resultList,
-      List<ImmunizationInterface> imms, String forecasterScheduleName, DateTime forecastDate, boolean dueUseEarly,
+      List<ImmunizationInterface> imms, String forecasterScheduleName, DateTime forecastDate,
       List<VaccinationDoseDataBean> doseList, PrintWriter out) {
 
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -396,8 +396,8 @@ public class ForecastReportPrinter
           || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)
           || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
         DateTime validDate = new DateTime(forecast.getValid());
-        DateTime dueDate = new DateTime(forecast.getDue(dueUseEarly));
-        DateTime overdueDate = new DateTime(forecast.getOverdue(dueUseEarly));
+        DateTime dueDate = new DateTime(forecast.getDue());
+        DateTime overdueDate = new DateTime(forecast.getOverdue());
         out.print(pad(forecast.getForecastLabel(), 14));
         out.print(" ");
         out.print(pad(forecast.getStatusDescription(), 16));
@@ -424,8 +424,8 @@ public class ForecastReportPrinter
           validDate = new DateTime(forecast.getValid());
         }
         DateTime dueDate = null;
-        if (forecast.getDue(dueUseEarly) != null) {
-          dueDate = new DateTime(forecast.getDue(dueUseEarly));
+        if (forecast.getDue() != null) {
+          dueDate = new DateTime(forecast.getDue());
         }
         DateTime overdueDate = null;
         if (forecast.getOverdue() != null) {

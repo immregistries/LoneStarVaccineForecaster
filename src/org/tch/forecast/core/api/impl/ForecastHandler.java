@@ -123,7 +123,6 @@ public class ForecastHandler implements ForecastHandlerInterface {
         forecastRecommendation.setDoseNumber(forecast.getDose());
         forecastRecommendation.setDueDate(forecast.getDue());
         forecastRecommendation.setValidDate(forecast.getValid());
-        forecastRecommendation.setEarlyOverdueDate(forecast.getEarlyOverdue());
         forecastRecommendation.setOverdueDate(forecast.getOverdue());
         forecastRecommendation.setFinishedDate(forecast.getFinished());
         forecastRecommendation.setDecisionProcessTextHTML(forecast.getTraceList().getExplanation().toString());

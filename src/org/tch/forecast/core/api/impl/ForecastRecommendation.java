@@ -11,20 +11,11 @@ public class ForecastRecommendation implements ForecastRecommendationInterface {
   private String doseNumber = "";
   private Date dueDate = null;
   private Date validDate = null;
-  private Date earlyOverdueDate = null;
   private Date overdueDate = null;
   private Date finishedDate = null;
   private String statusDescription = "";
   private String evaluationExplanation = "";
   private String decisionProcessTextHTML = "";
-
-  public Date getEarlyOverdueDate() {
-    return earlyOverdueDate;
-  }
-
-  public void setEarlyOverdueDate(Date earlyOverdueDate) {
-    this.earlyOverdueDate = earlyOverdueDate;
-  }
 
   public String getDecisionProcessTextHTML() {
     return decisionProcessTextHTML;

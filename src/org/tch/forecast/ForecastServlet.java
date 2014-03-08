@@ -118,20 +118,20 @@ public class ForecastServlet extends HttpServlet
         PrintWriter out = new PrintWriter(resp.getOutputStream());
 
         forecastReportPrinter.printHTMLVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
-            forecastInput.forecastDate, forecastInput.dueUseEarly, forecastInput.doseList, out);
+            forecastInput.forecastDate, forecastInput.doseList, out);
         out.close();
 
       } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_TEXT)) {
         resp.setContentType("text/plain");
         PrintWriter out = new PrintWriter(resp.getOutputStream());
         forecastReportPrinter.printTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
-            forecastInput.forecastDate, forecastInput.dueUseEarly, forecastInput.doseList, out);
+            forecastInput.forecastDate, forecastInput.doseList, out);
         out.close();
       } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_COMPACT)) {
         resp.setContentType("text/plain");
         PrintWriter out = new PrintWriter(resp.getOutputStream());
         forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
-            forecastInput.forecastDate, forecastInput.dueUseEarly, forecastInput.doseList, out);
+            forecastInput.forecastDate, forecastInput.doseList, out);
         out.close();
       } else {
         throw new ServletException("Unrecognized result format '" + resultFormat + "'");
@@ -247,12 +247,10 @@ public class ForecastServlet extends HttpServlet
       imm.setDateOfShot(new DateTime(vaccineDateString).getDate());
       imm.setVaccineId(vaccineId);
       imm.setVaccinationId("" + n);
-      System.out.println("--> vaccineConditionCode = " + vaccineConditionCode);
       if (vaccineConditionCode != null) {
         if (vaccineConditionCode.equals(CONDITION_CODE_SUB_POTENT)) {
           imm.setSubPotent(true);
         } else if (vaccineConditionCode.equals(CONDITION_CODE_FORCE_VALID)) {
-          System.out.println("--> Setting immunization to be forced valid");
           imm.setForceValid(true);
         }
       }
@@ -267,6 +265,8 @@ public class ForecastServlet extends HttpServlet
     forecastInput.forecastOptions.setIgnoreFourDayGrace(readBoolean(req, PARAM_IGNORE_FOUR_DAY_GRACE));
 
     forecastInput.dueUseEarly = readBoolean(req, PARAM_DUE_USE_EARLY);
+    forecastInput.forecastOptions.setUseEarlyDue(forecastInput.dueUseEarly);
+    forecastInput.forecastOptions.setUseEarlyOverdue(forecastInput.dueUseEarly);
 
     setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE,
         "Assuming DTaP series completed in childhood", Immunization.ASSUME_DTAP_SERIES_COMPLETE);

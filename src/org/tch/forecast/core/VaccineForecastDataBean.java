@@ -1010,76 +1010,8 @@ public class VaccineForecastDataBean
     }
   }
 
-  public class Transition
-  {
-    private String name = "";
-    private TimePeriod age = null;
-    private int vaccineId = 0;
 
-    public String getName() {
-      return name;
-    }
 
-    public void setName(String name) {
-      this.name = name;
-    }
-
-    public TimePeriod getAge() {
-      return age;
-    }
-
-    public void setAge(TimePeriod age) {
-      this.age = age;
-    }
-
-    public int getVaccineId() {
-      return vaccineId;
-    }
-
-    public void setVaccineId(int vaccineId) {
-      this.vaccineId = vaccineId;
-    }
-  }
-
-  public class Seasonal
-  {
-    private TimePeriod start = null;
-    private TimePeriod due = null;
-    private TimePeriod overdue = null;
-    private TimePeriod end = null;
-
-    public TimePeriod getStart() {
-      return start;
-    }
-
-    public void setStart(TimePeriod start) {
-      this.start = start;
-    }
-
-    public TimePeriod getDue() {
-      return due;
-    }
-
-    public void setDue(TimePeriod due) {
-      this.due = due;
-    }
-
-    public TimePeriod getOverdue() {
-      return overdue;
-    }
-
-    public void setOverdue(TimePeriod overdue) {
-      this.overdue = overdue;
-    }
-
-    public TimePeriod getEnd() {
-      return end;
-    }
-
-    public void setEnd(TimePeriod end) {
-      this.end = end;
-    }
-
-  }
+ 
 
 }

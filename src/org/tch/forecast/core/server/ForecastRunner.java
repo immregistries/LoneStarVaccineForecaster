@@ -113,7 +113,7 @@ public class ForecastRunner
     PrintWriter out = new PrintWriter(stringOut);
     ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(vaccineForecastManager);
     forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, imms, forecasterScheduleName,
-        new DateTime(forecastDate), dueUseEarly, doseList, out);
+        new DateTime(forecastDate), doseList, out);
     out.close();
     return stringOut.toString();
   }

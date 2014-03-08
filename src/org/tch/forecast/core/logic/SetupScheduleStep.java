@@ -5,9 +5,10 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import org.tch.forecast.core.DateTime;
+import org.tch.forecast.core.Seasonal;
 import org.tch.forecast.core.Trace;
 import org.tch.forecast.core.TraceList;
-import org.tch.forecast.core.VaccineForecastDataBean.Transition;
+import org.tch.forecast.core.Transition;
 import org.tch.forecast.core.model.Assumption;
 
 public class SetupScheduleStep extends ActionStep
@@ -46,15 +47,15 @@ public class SetupScheduleStep extends ActionStep
     ds.previousAfterInvalidInterval = null;
     ds.valid = null;
     ds.due = null;
-    ds.earlyOverdue = null;
     ds.overdue = null;
     LookForDoseStep.nextEvent(ds);
     return TraverseScheduleStep.NAME;
   }
 
   private void setupSeasonalAndTransition(DataStore ds) {
-    ds.seasonal = ds.forecast.getSeasonal();
-    if (ds.seasonal != null && ds.forecastOptions != null) {
+    ds.seasonal = null;
+    if (ds.forecast.getSeasonal() != null) {
+      ds.seasonal = new Seasonal(ds.forecast.getSeasonal());
       copyOverrideSetttings(ds);
     }
     ds.transitionList = ds.forecast.getTransitionList();

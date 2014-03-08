@@ -38,7 +38,6 @@ public class MakeForecastStep extends ActionStep
       ds.log("Looking to see if forecast needs to be adjusted to after black out dates");
       String validReason = null;
       DateTime contraValid = ds.valid;
-      DateTime contraEarly = ds.early;
 
       for (BlackOut blackOut : ds.blackOutDates) {
 
@@ -57,17 +56,11 @@ public class MakeForecastStep extends ActionStep
             ds.log(" + Adjusting: Valid date is before the end of this black out period");
             ds.valid = blackOut.getEndBlackOut();
             validReason = blackOut.getReason();
-            if (ds.early.isLessThan(ds.valid)) {
-              ds.early = new DateTime(ds.valid);
-            }
-            if (ds.due.isLessThan(ds.early)) {
+            if (ds.due.isLessThan(ds.valid)) {
               ds.due = new DateTime(ds.valid);
             }
             if (ds.overdue.isLessThan(ds.valid)) {
               ds.overdue = new DateTime(ds.valid);
-            }
-            if (ds.earlyOverdue != null && ds.overdue.isLessThan(ds.valid)) {
-              ds.earlyOverdue = new DateTime(ds.valid);
             }
             if (ds.finished.isLessThan(ds.valid)) {
               ds.log(" + Too late to finish, not recommending");
@@ -117,12 +110,8 @@ public class MakeForecastStep extends ActionStep
 
     ImmunizationForecastDataBean forecastBean = new ImmunizationForecastDataBean();
     forecastBean.setValid(ds.valid.getDate());
-    forecastBean.setEarly(ds.early.getDate());
     forecastBean.setDue(ds.due.getDate());
     forecastBean.setOverdue(ds.overdue.getDate());
-    if (ds.earlyOverdue != null) {
-      forecastBean.setEarlyOverdue(ds.earlyOverdue.getDate());
-    }
     forecastBean.setFinished(ds.finished.getDate());
     forecastBean.setDateDue(ds.due.getDate());
     forecastBean.setForecastName(ds.forecast.getForecastCode());
@@ -152,7 +141,7 @@ public class MakeForecastStep extends ActionStep
           || (seasonEnd != null && ds.due.getDate().after(seasonEnd.getDate()))) {
         statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON;
       } else {
-        if (ds.forecastDateTime.isLessThan(ds.due)) {
+        if (ds.due.isGreaterThan(ds.forecastDateTime)) {
           statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER;
         } else if (ds.forecastDateTime.isLessThan(ds.overdue)) {
           statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE;
@@ -176,7 +165,6 @@ public class MakeForecastStep extends ActionStep
       String validReason = null;
       ImmunizationForecastDataBean forecastContraindication = null;
       DateTime contraValid = ds.valid;
-      DateTime contraEarly = ds.early;
       DateTime contraDue = ds.due;
       DateTime contraOverdue = ds.overdue;
       DateTime contraFinished = ds.finished;
@@ -202,11 +190,8 @@ public class MakeForecastStep extends ActionStep
             }
             contraValid = blackOut.getEndBlackOut();
             validReason = blackOut.getReason();
-            if (contraEarly.isLessThan(contraValid)) {
-              contraEarly = new DateTime(contraValid);
-            }
-            if (contraDue.isLessThan(contraEarly)) {
-              contraDue = new DateTime(contraEarly);
+            if (contraDue.isLessThan(contraValid)) {
+              contraDue = new DateTime(contraValid);
             }
             if (contraOverdue.isLessThan(contraValid)) {
               contraOverdue = new DateTime(contraDue);
@@ -226,11 +211,8 @@ public class MakeForecastStep extends ActionStep
             }
             contraValid = blackOut.getEndBlackOut();
             validReason = blackOut.getReason();
-            if (contraEarly.isLessThan(contraValid)) {
-              contraEarly = new DateTime(contraValid);
-            }
-            if (contraDue.isLessThan(contraEarly)) {
-              contraDue = new DateTime(contraEarly);
+            if (contraDue.isLessThan(contraValid)) {
+              contraDue = new DateTime(contraValid);
             }
             if (contraOverdue.isLessThan(contraValid)) {
               contraOverdue = new DateTime(contraDue);
@@ -245,7 +227,6 @@ public class MakeForecastStep extends ActionStep
           forecastContraindication = new ImmunizationForecastDataBean();
 
           forecastContraindication.setValid(contraValid.getDate());
-          forecastContraindication.setEarly(contraEarly.getDate());
           forecastContraindication.setDue(contraDue.getDate());
           forecastContraindication.setOverdue(contraOverdue.getDate());
           forecastContraindication.setFinished(contraFinished.getDate());

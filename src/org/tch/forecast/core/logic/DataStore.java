@@ -16,14 +16,14 @@ import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.PatientForecastRecordDataBean;
+import org.tch.forecast.core.Seasonal;
 import org.tch.forecast.core.TimePeriod;
 import org.tch.forecast.core.Trace;
 import org.tch.forecast.core.TraceList;
+import org.tch.forecast.core.Transition;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
-import org.tch.forecast.core.VaccineForecastDataBean.Seasonal;
-import org.tch.forecast.core.VaccineForecastDataBean.Transition;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
 import org.tch.forecast.core.api.impl.ForecastOptions;
 import org.tch.forecast.core.model.Assumption;
@@ -54,7 +54,6 @@ public class DataStore
   protected List<Assumption> assumptionList = null;
   protected DateTime due = null;
   protected String dueReason = "";
-  protected DateTime early = null;
   protected Event event = null;
   protected List<Event> eventList = null;
   protected int eventPosition = 0;
@@ -69,7 +68,6 @@ public class DataStore
   protected String nextAction = null;
   protected List<Event> originalEventList = null;
   protected DateTime overdue = null;
-  protected DateTime earlyOverdue = null;
   protected PatientForecastRecordDataBean patient = null;
   protected TimePeriod previousAfterInvalidInterval;
   protected DateTime previousEventDate;
@@ -96,14 +94,6 @@ public class DataStore
   protected TimePeriod validGrace = null;
   protected String whenValidText = null;
   protected ForecastOptions forecastOptions = null;
-
-  public DateTime getEarlyOverdue() {
-    return earlyOverdue;
-  }
-
-  public void setEarlyOverdue(DateTime earlyOverdue) {
-    this.earlyOverdue = earlyOverdue;
-  }
 
   public List<Assumption> getAssumptionList() {
     return assumptionList;
@@ -157,11 +147,6 @@ public class DataStore
   public String getDueReason()
   {
     return dueReason;
-  }
-
-  public DateTime getEarly()
-  {
-    return early;
   }
 
   public Event getEvent()
@@ -396,11 +381,6 @@ public class DataStore
   public void setDueReason(String dueReason)
   {
     this.dueReason = dueReason;
-  }
-
-  public void setEarly(DateTime early)
-  {
-    this.early = early;
   }
 
   public void setEvent(Event event)

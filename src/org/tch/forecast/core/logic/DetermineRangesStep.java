@@ -3,6 +3,7 @@ package org.tch.forecast.core.logic;
 import java.util.ArrayList;
 
 import org.tch.forecast.core.DateTime;
+import org.tch.forecast.core.TimePeriod;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Contraindicate;
 
@@ -161,25 +162,36 @@ public class DetermineRangesStep extends ActionStep
     }
     ds.log("Now determining due date");
     ds.dueReason = "";
-    ds.earlyOverdue = null;
     if (ds.schedule.getDueAge().isEmpty()) {
       ds.due = ds.schedule.getDueInterval().getDateTimeFrom(ds.previousEventDate);
       ds.dueReason = ds.schedule.getDueInterval() + " after previous dose";
       ds.log("Setting due date to interval since last dose.");
     } else {
       ds.log("Calculating and setting due date from birth");
-      ds.due = ds.schedule.getDueAge().getDateTimeFrom(ds.patient.getDobDateTime());
-      if (ds.schedule.getDueAge().getAmount() == 0) {
+      TimePeriod dueAge;
+      TimePeriod dueInterval;
+      if (ds.forecastOptions.isUseEarlyDue()
+          && (!ds.schedule.getEarlyAge().isEmpty() || !ds.schedule.getEarlyInterval().isEmpty())) {
+        dueAge = ds.schedule.getEarlyAge();
+        ds.log("Using early due age " + dueAge);
+        dueInterval = ds.schedule.getEarlyInterval();
+        ds.log("Using early due interval " + dueInterval);
+      } else {
+        dueAge = ds.schedule.getDueAge();
+        dueInterval = ds.schedule.getDueInterval();
+      }
+      ds.due = dueAge.getDateTimeFrom(ds.patient.getDobDateTime());
+      if (dueAge.getAmount() == 0) {
         ds.dueReason = "birth";
       } else {
-        ds.dueReason = ds.schedule.getDueAge() + " of age";
+        ds.dueReason = dueAge + " of age";
       }
-      if (!ds.schedule.getDueInterval().isEmpty()) {
+      if (!dueInterval.isEmpty()) {
         ds.log("Calculating due date from interval");
-        DateTime dueInterval = ds.schedule.getDueInterval().getDateTimeFrom(ds.previousEventDate);
-        if (dueInterval.isLessThan(ds.due)) {
-          ds.due = dueInterval;
-          ds.dueReason = ds.schedule.getDueInterval() + " after previous dose";
+        DateTime dueIntervalDate = dueInterval.getDateTimeFrom(ds.previousEventDate);
+        if (dueIntervalDate.isLessThan(ds.due)) {
+          ds.due = dueIntervalDate;
+          ds.dueReason = dueInterval + " after previous dose";
           ds.log("Interval date is after age date, selecting interval date");
         }
       }
@@ -215,41 +227,28 @@ public class DetermineRangesStep extends ActionStep
       }
     }
 
-    if (ds.schedule.getOverdueAge().isEmpty()) {
-      ds.overdue = ds.schedule.getOverdueInterval().getDateTimeFrom(ds.previousEventDate);
-      ds.log("Setting overdue date for " + ds.schedule.getOverdueInterval() + " after previous dose");
+    TimePeriod overdueInterval;
+    TimePeriod overdueAge;
+    if (ds.forecastOptions.isUseEarlyOverdue() && ds.schedule.getEarlyOverdueAge() != null) {
+      overdueInterval = ds.schedule.getEarlyOverdueInterval();
+      overdueAge = ds.schedule.getEarlyOverdueAge();
+      ds.log("Using early overdue dates instead of standard overdue dates");
     } else {
-      ds.overdue = ds.schedule.getOverdueAge().getDateTimeFrom(ds.patient.getDobDateTime());
-      ds.log("Setting overdue date for " + ds.schedule.getOverdueAge() + " of age");
-      if (!ds.schedule.getOverdueInterval().isEmpty()) {
-        ds.log("Calculating at overdue interval");
-        DateTime overdueInterval = ds.schedule.getOverdueInterval().getDateTimeFrom(ds.previousEventDate);
-        if (overdueInterval.isGreaterThan(ds.overdue)) {
-          ds.overdue = overdueInterval;
-          ds.log("Setting overdue date for " + ds.schedule.getOverdueInterval() + " after previous dose");
-        }
-      }
+      overdueInterval = ds.schedule.getOverdueInterval();
+      overdueAge = ds.schedule.getOverdueAge();
     }
-    if (ds.schedule.getEarlyOverdueAge() != null) {
-      if (ds.schedule.getEarlyOverdueAge().isEmpty()) {
-        ds.earlyOverdue = ds.schedule.getEarlyOverdueInterval().getDateTimeFrom(ds.previousEventDate);
-        ds.log("Setting early overdue date for " + ds.schedule.getEarlyOverdueInterval() + " after previous dose");
-      } else {
-        ds.earlyOverdue = ds.schedule.getEarlyOverdueAge().getDateTimeFrom(ds.patient.getDobDateTime());
-        ds.log("Setting early overdue date for " + ds.schedule.getEarlyOverdueAge() + " of age");
-        if (!ds.schedule.getEarlyOverdueInterval().isEmpty()) {
-          ds.log("Calculating at overdue interval");
-          DateTime earlyOverdueInterval = ds.schedule.getEarlyOverdueInterval().getDateTimeFrom(ds.previousEventDate);
-          if (earlyOverdueInterval.isGreaterThan(ds.overdue)) {
-            ds.earlyOverdue = earlyOverdueInterval;
-            ds.log("Setting early overdue date for " + ds.schedule.getEarlyOverdueInterval() + " after previous dose");
-          }
-        }
-      }
-      if (ds.earlyOverdue != null) {
-        // early overdue can not be after overdue
-        if (ds.earlyOverdue.isGreaterThan(ds.overdue)) {
-          ds.earlyOverdue = ds.overdue;
+    if (overdueAge.isEmpty()) {
+      ds.overdue = overdueInterval.getDateTimeFrom(ds.previousEventDate);
+      ds.log("Setting overdue date for " + overdueInterval + " after previous dose");
+    } else {
+      ds.overdue = overdueAge.getDateTimeFrom(ds.patient.getDobDateTime());
+      ds.log("Setting overdue date for " + overdueAge + " of age");
+      if (!overdueInterval.isEmpty()) {
+        ds.log("Calculating at overdue interval");
+        DateTime overdueIntervalDate = overdueInterval.getDateTimeFrom(ds.previousEventDate);
+        if (overdueIntervalDate.isGreaterThan(ds.overdue)) {
+          ds.overdue = overdueIntervalDate;
+          ds.log("Setting overdue date for " + overdueInterval + " after previous dose");
         }
       }
     }
@@ -262,32 +261,10 @@ public class DetermineRangesStep extends ActionStep
         ds.log("Setting overdue to the end of the season");
       }
     }
-    if (!ds.schedule.getEarlyAge().isEmpty()) {
-      ds.log("Setting early date to " + ds.schedule.getEarlyAge() + " of age");
-      ds.early = ds.schedule.getEarlyAge().getDateTimeFrom(ds.patient.getDobDateTime());
-    } else {
-      ds.early = ds.due;
-    }
-    if (!ds.schedule.getEarlyInterval().isEmpty()) {
-      ds.log("Looking at early interval of " + ds.schedule.getEarlyInterval() + " to see if it is earlier");
-      DateTime earlyInterval = ds.schedule.getEarlyInterval().getDateTimeFrom(ds.previousEventDate);
-      if (earlyInterval.isLessThan(ds.early)) {
-        ds.log("Setting early to " + ds.early.toString("M/D/Y"));
-        ds.early = earlyInterval;
-      }
-    }
-    if (ds.early.isLessThan(ds.valid)) {
-      ds.early = new DateTime(ds.valid);
-      ds.log("Adjusting early to not be before valid date");
-    }
     if (ds.due.isLessThan(ds.valid)) {
       ds.due = new DateTime(ds.valid);
       ds.dueReason = "same time as valid";
       ds.log("Adjusting due to not be before valid date");
-    }
-    if (ds.early.isGreaterThan(ds.due)) {
-      ds.early = ds.due;
-      ds.log("Adjusting early to not be past due date");
     }
     if (ds.overdue.isLessThan(ds.due)) {
       ds.overdue = new DateTime(ds.due);
@@ -301,14 +278,10 @@ public class DetermineRangesStep extends ActionStep
         ds.due = new DateTime(ds.overdue);
         ds.dueReason = "same time as over due";
         ds.log("Adjusting due date to not be after the over due date");
-        if (ds.due.isLessThan(ds.early)) {
-          ds.early = new DateTime(ds.due);
-          ds.log("Adjusting early date to not be after the due date");
-          if (ds.valid.isLessThan(ds.early)) {
-            ds.valid = new DateTime(ds.early);
-            ds.log("Vaccination is not valid to be administered before time has finished for vaccinating");
-            validReason = "vaccine does not need to be administered";
-          }
+        if (ds.due.isLessThan(ds.valid)) {
+          ds.valid = new DateTime(ds.due);
+          ds.log("Vaccination is not valid to be administered before time has finished for vaccinating");
+          validReason = "vaccine does not need to be administered";
         }
       }
     }

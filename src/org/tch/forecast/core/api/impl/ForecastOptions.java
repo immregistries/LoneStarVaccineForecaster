@@ -12,7 +12,21 @@ public class ForecastOptions {
   private TimePeriod fluSeasonEnd = null;
   private boolean ignoreFourDayGrace = false;
   private DecisionProcessFormat decisionProcessFormat = DecisionProcessFormat.HTML;
+  private boolean useEarlyDue = false;
+  private boolean useEarlyOverdue = false;
   
+  public boolean isUseEarlyDue() {
+    return useEarlyDue;
+  }
+  public void setUseEarlyDue(boolean useEarlyDue) {
+    this.useEarlyDue = useEarlyDue;
+  }
+  public boolean isUseEarlyOverdue() {
+    return useEarlyOverdue;
+  }
+  public void setUseEarlyOverdue(boolean useEarlyOverdue) {
+    this.useEarlyOverdue = useEarlyOverdue;
+  }
   public DecisionProcessFormat getDecisionProcessFormat() {
     return decisionProcessFormat;
   }

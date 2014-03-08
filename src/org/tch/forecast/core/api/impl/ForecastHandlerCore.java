@@ -180,14 +180,6 @@ public class ForecastHandlerCore
             if (new DateTime(forecastDiphtheria.getValid()).isLessThan(moveTo)) {
               forecastDiphtheria.setValid(moveTo.getDate());
             }
-            if (new DateTime(forecastDiphtheria.getEarly()).isLessThan(moveTo)) {
-              forecastDiphtheria.setEarly(moveTo.getDate());
-            }
-            if (forecastDiphtheria.getEarlyOverdue() != null) {
-              if (new DateTime(forecastDiphtheria.getEarlyOverdue()).isLessThan(moveTo)) {
-                forecastDiphtheria.setEarlyOverdue(moveTo.getDate());
-              }
-            }
             if (new DateTime(forecastDiphtheria.getOverdue()).isLessThan(moveTo)) {
               forecastDiphtheria.setOverdue(moveTo.getDate());
             }
