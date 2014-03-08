@@ -1,8 +1,8 @@
 package org.tch.forecast.core.logic;
 
+import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.Trace;
-import org.tch.forecast.core.model.Assumption;
 
 public class TransitionScheduleStep extends ActionStep
 {
@@ -36,7 +36,14 @@ public class TransitionScheduleStep extends ActionStep
     }
     ds.log("Checking finished date");
     ds.finished = ds.schedule.getFinishedAge().getDateTimeFrom(ds.patient.getDobDateTime());
-    if (ds.forecastDateTime.isGreaterThan(ds.finished)) {
+    DateTime referenceDate = ds.forecastDateTime;
+    if (ds.event != null) {
+      DateTime eventDateTime = new DateTime(ds.event.eventDate);
+      if (eventDateTime.isLessThan(referenceDate)) {
+        referenceDate = eventDateTime;
+      }
+    }
+    if (referenceDate.isGreaterThan(ds.finished)) {
       ds.log(" + Patient is now too old to get any more doses");
       if (ds.trace != null) {
         ds.trace.setFinished(true);
@@ -62,5 +69,4 @@ public class TransitionScheduleStep extends ActionStep
     LookForDoseStep.setHasEvent(ds);
     return TraverseScheduleStep.NAME;
   }
-
 }

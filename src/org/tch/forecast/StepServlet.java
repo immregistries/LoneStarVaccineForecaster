@@ -159,10 +159,10 @@ public class StepServlet extends ForecastServlet
             out.println("  <tr>");
             out.println("    <td class=\"insideValue\">" + safe(result.getForecastLabel()) + "</td>");
             out.println("    <td class=\"insideValue\">" + safe(result.getDose()) + "</td>");
-            out.println("    <td class=\"insideValue\">" + safe(sdf.format(result.getValid())) + "</td>");
-            out.println("    <td class=\"insideValue\">" + safe(sdf.format(result.getDue())) + "</td>");
-            out.println("    <td class=\"insideValue\">" + safe(sdf.format(result.getOverdue())) + "</td>");
-            out.println("    <td class=\"insideValue\">" + safe(sdf.format(result.getFinished())) + "</td>");
+            out.println("    <td class=\"insideValue\">" + safe(result.getValid()) + "</td>");
+            out.println("    <td class=\"insideValue\">" + safe(result.getDue()) + "</td>");
+            out.println("    <td class=\"insideValue\">" + safe(result.getOverdue()) + "</td>");
+            out.println("    <td class=\"insideValue\">" + safe(result.getFinished()) + "</td>");
             out.println("    <td class=\"insideValue\">" + safe(result.getComment()) + "</td>");
             out.println("  </tr>");
           }
@@ -446,7 +446,7 @@ public class StepServlet extends ForecastServlet
             out.println("  </tr>");
             out.println("  <tr>");
             out.println("    <th>Date Due</th>");
-            out.println("    <td>" + safe(sdf.format(result.getDateDue())) + "</td>");
+            out.println("    <td>" + safe(result.getDateDue()) + "</td>");
             out.println("  </tr>");
             out.println("  <tr>");
             out.println("    <th>Dose</th>");
@@ -454,19 +454,19 @@ public class StepServlet extends ForecastServlet
             out.println("  </tr>");
             out.println("  <tr>");
             out.println("    <th>Valid</th>");
-            out.println("    <td>" + safe(sdf.format(result.getValid())) + "</td>");
+            out.println("    <td>" + safe(result.getValid()) + "</td>");
             out.println("  </tr>");
             out.println("  <tr>");
             out.println("    <th>Due</th>");
-            out.println("    <td>" + safe(sdf.format(result.getDue())) + "</td>");
+            out.println("    <td>" + safe(result.getDue()) + "</td>");
             out.println("  </tr>");
             out.println("  <tr>");
             out.println("    <th>Overdue</th>");
-            out.println("    <td>" + safe(sdf.format(result.getOverdue())) + "</td>");
+            out.println("    <td>" + safe(result.getOverdue()) + "</td>");
             out.println("  </tr>");
             out.println("  <tr>");
             out.println("    <th>Finished</th>");
-            out.println("    <td>" + safe(sdf.format(result.getFinished())) + "</td>");
+            out.println("    <td>" + safe(result.getFinished()) + "</td>");
             out.println("  </tr>");
             out.println("  <tr>");
             out.println("    <th>Sort Order</th>");
@@ -1049,7 +1049,7 @@ public class StepServlet extends ForecastServlet
             c = " class=\"pass\"";
           }
           out.println("  <tr>");
-          out.println("    <td" + c + ">" + safe(sdf.format(event.getEventDate())) + " </td>");
+          out.println("    <td" + c + ">" + safe(event.getEventDate()) + " </td>");
           out.println("    <td" + c + ">");
           boolean first = true;
           for (ImmunizationInterface imm : event.getImmList()) {
