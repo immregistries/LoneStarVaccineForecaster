@@ -534,39 +534,41 @@ public class CaretForecaster
         boolean first = true;
         i = 0;
         for (ImmunizationInterface immInterface : imms) {
-          if (!first) {
-            response.append(DOSE_SEPARATOR);
-          }
-          first = false;
-          currentPosition = 1;
-          ImmunizationMDA imm = (ImmunizationMDA) immInterface;
-          addValue(imm.getDoseNote(), FIELD_OUT_INPUT_DOSE_01_DOSE_NOTE);
-          addValue(imm.getCvx(), FIELD_OUT_INPUT_DOSE_02_DOSE_INPUT_HL7_CODE);
-          addValue(imm.getHl7CodeErrorCode(), FIELD_OUT_INPUT_DOSE_03_DOSE_INPUT_HL7_CODE_ERROR_CODE);
-          addValue(new DateTime(imm.getDateOfShot()).toString("YMD"),
-              FIELD_OUT_INPUT_DOSE_04_DATE_OF_DOSE_ADMINISTRATION);
-          addValue(imm.getDoseOverride(), FIELD_OUT_INPUT_DOSE_05_DOSE_OVERRIDE);
+          if (immInterface instanceof ImmunizationMDA) {
+            ImmunizationMDA imm = (ImmunizationMDA) immInterface;
+            if (!first) {
+              response.append(DOSE_SEPARATOR);
+            }
+            first = false;
+            currentPosition = 1;
+            addValue(imm.getDoseNote(), FIELD_OUT_INPUT_DOSE_01_DOSE_NOTE);
+            addValue(imm.getCvx(), FIELD_OUT_INPUT_DOSE_02_DOSE_INPUT_HL7_CODE);
+            addValue(imm.getHl7CodeErrorCode(), FIELD_OUT_INPUT_DOSE_03_DOSE_INPUT_HL7_CODE_ERROR_CODE);
+            addValue(new DateTime(imm.getDateOfShot()).toString("YMD"),
+                FIELD_OUT_INPUT_DOSE_04_DATE_OF_DOSE_ADMINISTRATION);
+            addValue(imm.getDoseOverride(), FIELD_OUT_INPUT_DOSE_05_DOSE_OVERRIDE);
 
-          String invalidReason = "";
-          for (VaccinationDoseDataBean dose : forecastRunner.getDoseList()) {
-            if (dose.getVaccinationId() == imm.getVaccinationId()) {
-              if (dose.getStatusCode().equals(VaccinationDoseDataBean.STATUS_INVALID)) {
-                invalidReason = dose.getReason();
-                if (invalidReason == null) {
-                  invalidReason = "";
-                } else {
-                  invalidReason = invalidReason.trim();
+            String invalidReason = "";
+            for (VaccinationDoseDataBean dose : forecastRunner.getDoseList()) {
+              if (dose.getVaccinationId() == imm.getVaccinationId()) {
+                if (dose.getStatusCode().equals(VaccinationDoseDataBean.STATUS_INVALID)) {
+                  invalidReason = dose.getReason();
+                  if (invalidReason == null) {
+                    invalidReason = "";
+                  } else {
+                    invalidReason = invalidReason.trim();
+                  }
+                  if (invalidReason.length() > 70) {
+                    invalidReason = invalidReason.substring(0, 70);
+                  }
+                  invalidReason = "1:" + invalidReason;
+                  break;
                 }
-                if (invalidReason.length() > 70) {
-                  invalidReason = invalidReason.substring(0, 70);
-                }
-                invalidReason = "1:" + invalidReason;
-                break;
               }
             }
+            addValue(invalidReason, FIELD_OUT_INPUT_DOSE_06_INVLIAD_DOSE_AND_REASON);
+            i++;
           }
-          addValue(invalidReason, FIELD_OUT_INPUT_DOSE_06_INVLIAD_DOSE_AND_REASON);
-          i++;
         }
         response.append(SECTION_SEPARATOR);
       }
@@ -836,6 +838,7 @@ public class CaretForecaster
 
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140201^R^IHS_6m26^0^0^^55^19481128^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~55079^9^19990706^0^0^0|||180404^115^20110504^0^0^0|||55078^45^19990706^0^0^0|||183899^33^20060101^0^0^0"
+  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140306^0^1^0^0^BERLASA,ERIN GEORGE  Chart#: 00-00-25^25^19881225^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3367^21^20120415^0^0^0|||3366^141^20131001^0^0^0|||"
 
   public static void main(String[] args) throws Exception {
     String request = ForecastServer.TEST[0];

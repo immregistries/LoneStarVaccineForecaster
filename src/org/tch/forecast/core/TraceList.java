@@ -143,12 +143,12 @@ public class TraceList extends ArrayList<Trace>
         if (needBullPointStarted) {
           stringBuffer.append(" + ");
           appendWrapLine(explanation, stringBuffer, 69);
-          stringBuffer.append(" \n");
+          stringBuffer.append(" \r");
           needBullPointStarted = false;
         } else {
           stringBuffer.append("   ");
           appendWrapLine(explanation, stringBuffer, 69);
-          stringBuffer.append(" \n");
+          stringBuffer.append(" \r");
         }
       }
     }
@@ -165,7 +165,7 @@ public class TraceList extends ArrayList<Trace>
       }
       String leftOver = explanation.substring(canPrint.length()).trim();
       stringBuffer.append(canPrint);
-      stringBuffer.append("\n   ");
+      stringBuffer.append("\r   ");
       appendWrapLine(leftOver, stringBuffer, lineLengthMax);
     }
   }
