@@ -112,12 +112,12 @@ public class ForecastRunner
     StringWriter stringOut = new StringWriter();
     PrintWriter out = new PrintWriter(stringOut);
     ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(vaccineForecastManager);
-    forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, imms, forecasterScheduleName,
-        new DateTime(forecastDate), doseList, out);
+    forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, imms, forecasterScheduleName, new DateTime(
+        forecastDate), doseList, out);
     out.close();
     return stringOut.toString();
   }
-  
+
   private ForecastOptions forecastOptions = new ForecastOptions();
 
   public ForecastOptions getForecastOptions() {
@@ -129,7 +129,7 @@ public class ForecastRunner
   }
 
   public void forecast() throws Exception {
-    
+
     ForecastHandlerCore forecastHandlerCore = new ForecastHandlerCore(vaccineForecastManager);
     String forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms, new DateTime(forecastDate),
         traceMap, resultList, forecastOptions);
@@ -150,7 +150,8 @@ public class ForecastRunner
         traceMap.remove(ImmunizationForecastDataBean.DIPHTHERIA);
       }
 
-      if (forecastExamine.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)) {
+      if (forecastExamine.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)
+          || forecastExamine.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)) {
         forecastListDueToday.add(forecastExamine);
         traceMap.remove(forecastExamine.getForecastName());
       } else if (forecastExamine.getStatusDescription().equals(
