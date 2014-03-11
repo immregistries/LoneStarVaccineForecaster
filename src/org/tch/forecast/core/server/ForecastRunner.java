@@ -128,10 +128,11 @@ public class ForecastRunner
     this.forecastOptions = forecastOptions;
   }
 
+
   public void forecast() throws Exception {
 
     ForecastHandlerCore forecastHandlerCore = new ForecastHandlerCore(vaccineForecastManager);
-    String forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms, new DateTime(forecastDate),
+    forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms, new DateTime(forecastDate),
         traceMap, resultList, forecastOptions);
 
     forecastListDueToday = new ArrayList<ImmunizationForecastDataBean>();

@@ -1,5 +1,7 @@
 package org.tch.forecast.core;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,17 +57,24 @@ public class TraceList extends ArrayList<Trace>
   }
 
   public String getExplanation(DecisionProcessFormat decisionProcessFormat) {
-    StringBuffer stringBuffer = new StringBuffer();
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter printWriter = new PrintWriter(stringWriter);
     if (decisionProcessFormat == DecisionProcessFormat.HTML) {
-      getExplanationInHtml(stringBuffer);
+      getExplanationInHtml(printWriter);
     } else {
-      getExplanationInText(stringBuffer);
+      getExplanationInText(printWriter);
     }
-    return stringBuffer.toString();
+    printWriter.close();
+    return stringWriter.toString();
+  }
+  
+  public void printExplanation(PrintWriter out, DecisionProcessFormat decisionProcessFormat)
+  {
+    
   }
 
-  public void getExplanationInHtml(StringBuffer stringBuffer) {
-    stringBuffer.append("<ul>");
+  public void getExplanationInHtml(PrintWriter out) {
+    out.print("<ul>");
     boolean bulletPointStarted = false;
     boolean colorRed = false;
     boolean colorBlue = false;
@@ -80,30 +89,30 @@ public class TraceList extends ArrayList<Trace>
       } else {
         if (needToStartBullet) {
           if (bulletPointStarted) {
-            stringBuffer.append("</li>");
+            out.print("</li>");
           }
-          stringBuffer.append("<li>");
+          out.print("<li>");
           bulletPointStarted = true;
           needToStartBullet = false;
         }
         if (colorRed) {
-          stringBuffer.append("<font color=\"#FF0000\">");
+          out.print("<font color=\"#FF0000\">");
         } else if (colorBlue) {
-          stringBuffer.append("<font color=\"#0000FF\">");
+          out.print("<font color=\"#0000FF\">");
         }
-        stringBuffer.append(explanation);
-        stringBuffer.append(" ");
+        out.print(explanation);
+        out.print(" ");
         if (colorRed || colorBlue) {
-          stringBuffer.append("</font>");
+          out.print("</font>");
           colorRed = false;
           colorBlue = false;
         }
       }
     }
     if (bulletPointStarted) {
-      stringBuffer.append("</li>");
+      out.print("</li>");
     }
-    stringBuffer.append("</ul>");
+    out.print("</ul>");
   }
 
   public void setExplanationRed() {
@@ -130,7 +139,7 @@ public class TraceList extends ArrayList<Trace>
     }
   }
 
-  public void getExplanationInText(StringBuffer stringBuffer) {
+  public void getExplanationInText(PrintWriter out) {
     boolean needBullPointStarted = true;
     for (String explanation : explanationList) {
       if (explanation.equals(BULLET_POINT_START)) {
@@ -141,22 +150,22 @@ public class TraceList extends ArrayList<Trace>
         // do nothing
       } else {
         if (needBullPointStarted) {
-          stringBuffer.append(" + ");
-          appendWrapLine(explanation, stringBuffer, 69);
-          stringBuffer.append(" \r");
+          out.print(" + ");
+          appendWrapLine(explanation, out, 69);
+          out.println();
           needBullPointStarted = false;
         } else {
-          stringBuffer.append("   ");
-          appendWrapLine(explanation, stringBuffer, 69);
-          stringBuffer.append(" \r");
+          out.print("   ");
+          appendWrapLine(explanation, out, 69);
+          out.println();
         }
       }
     }
   }
 
-  private void appendWrapLine(String explanation, StringBuffer stringBuffer, int lineLengthMax) {
+  private void appendWrapLine(String explanation, PrintWriter out, int lineLengthMax) {
     if (explanation.length() <= lineLengthMax) {
-      stringBuffer.append(explanation);
+      out.print(explanation);
     } else {
       String canPrint = explanation.substring(0, lineLengthMax);
       int lastSpace = canPrint.lastIndexOf(' ');
@@ -164,9 +173,9 @@ public class TraceList extends ArrayList<Trace>
         canPrint = canPrint.substring(0, lastSpace);
       }
       String leftOver = explanation.substring(canPrint.length()).trim();
-      stringBuffer.append(canPrint);
-      stringBuffer.append("\r   ");
-      appendWrapLine(leftOver, stringBuffer, lineLengthMax);
+      out.println(canPrint);
+      out.print("   ");
+      appendWrapLine(leftOver, out, lineLengthMax);
     }
   }
 
