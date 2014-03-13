@@ -20,7 +20,7 @@ import org.tch.forecast.core.server.ForecastReportPrinter;
 public class TestForecaster {
   // To run this simply:
   // 1. run: ant jar-dist
-  // 2. from deploy directory, run: java -classpath tch-forecaster.jar org.tch.forecast.core.api.test.TestForecaster
+  // 2. from project directory, run: java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.api.test.TestForecaster
   public static void main(String[] args) throws Exception {
     System.out.println("TCH Forecaster");
     System.out.println("------------------------------------------------------------------------------");
@@ -178,6 +178,44 @@ public class TestForecaster {
       forecastAndPrintResults(forecastHandler, request);
     }
     System.out.println();
+
+    {
+      System.out.println("Test 7: CVX Codes");
+      ForecastRequestInterface request = new ForecastRequest();
+      SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
+      request.setEvaluationDate(new Date());
+      ForecastPatient patient = new ForecastPatient();
+      patient.setBirthDate(sdf.parse("07/27/2008"));
+      patient.setSex("M");
+      request.setPatient(patient);
+      List<ForecastVaccinationInterface> vaccinationList = new ArrayList<ForecastVaccinationInterface>();
+      request.setVaccinationList(vaccinationList);
+
+      ForecastVaccination vaccination = new ForecastVaccination();
+      vaccinationList.add(vaccination);
+      vaccination.setAdminDate(sdf.parse("08/02/2009"));
+      vaccination.setCvxCode("08");
+
+      vaccination = new ForecastVaccination();
+      vaccinationList.add(vaccination);
+      vaccination.setAdminDate(sdf.parse("08/21/2009"));
+      vaccination.setCvxCode("116");
+
+      vaccination = new ForecastVaccination();
+      vaccinationList.add(vaccination);
+      vaccination.setAdminDate(sdf.parse("10/27/2009"));
+      vaccination.setCvxCode("83");
+
+      vaccination = new ForecastVaccination();
+      vaccinationList.add(vaccination);
+      vaccination.setAdminDate(sdf.parse("10/27/2009"));
+      vaccination.setCvxCode("8");
+
+      forecastAndPrintResults(forecastHandler, request);
+    }
+    System.out.println();
+
     System.out.println("Tests complete");
 
   }

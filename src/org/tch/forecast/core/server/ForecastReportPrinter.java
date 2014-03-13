@@ -513,13 +513,29 @@ public class ForecastReportPrinter
       out.print(pad(recommendation.getAntigenName(), 10));
       out.print(pad(recommendation.getStatusDescription(), 9));
       out.print(pad(recommendation.getDoseNumber(), 6));
-      out.print(sdf.format(recommendation.getDueDate()));
+      if (recommendation.getDueDate() != null) {
+        out.print(sdf.format(recommendation.getDueDate()));
+      } else {
+        out.print("          ");
+      }
       out.print(" ");
-      out.print(sdf.format(recommendation.getValidDate()));
+      if (recommendation.getValidDate() != null) {
+        out.print(sdf.format(recommendation.getValidDate()));
+      } else {
+        out.print("          ");
+      }
       out.print(" ");
-      out.print(sdf.format(recommendation.getOverdueDate()));
+      if (recommendation.getOverdueDate() != null) {
+        out.print(sdf.format(recommendation.getOverdueDate()));
+      } else {
+        out.print("          ");
+      }
       out.print(" ");
-      out.print(sdf.format(recommendation.getFinishedDate()));
+      if (recommendation.getFinishedDate() != null) {
+        out.print(sdf.format(recommendation.getFinishedDate()));
+      } else {
+        out.print("          ");
+      }
       out.print(" ");
       //      out.print(" [" + recommendation.getEvaluationExplanation() + "]");
       out.println();

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.tch.forecast.core.DateTime;
+import org.tch.forecast.core.DecisionProcessFormat;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.VaccinationDoseDataBean;
@@ -115,9 +116,6 @@ public class ForecastHandler implements ForecastHandlerInterface {
         ImmunizationForecastDataBean forecast = it.next();
         ForecastRecommendationInterface forecastRecommendation = new ForecastRecommendation();
 
-        setStatusDescription(forecastDate, forecast, forecastRecommendation);
-
-        
         forecastRecommendation.setAntigenName(forecast.getForecastNameOriginal());
         forecastRecommendation.setDisplayLabel(forecast.getForecastLabel());
         forecastRecommendation.setDoseNumber(forecast.getDose());
@@ -125,8 +123,8 @@ public class ForecastHandler implements ForecastHandlerInterface {
         forecastRecommendation.setValidDate(forecast.getValid());
         forecastRecommendation.setOverdueDate(forecast.getOverdue());
         forecastRecommendation.setFinishedDate(forecast.getFinished());
-        forecastRecommendation.setDecisionProcessTextHTML(forecast.getTraceList().getExplanation().toString());
-
+        forecastRecommendation.setDecisionProcessTextHTML(forecast.getTraceList().getExplanation(DecisionProcessFormat.HTML).toString());
+        forecastRecommendation.setStatusDescription(forecast.getStatusDescription());
         forecastRecommendationList.add(forecastRecommendation);
       }
     }
@@ -148,22 +146,6 @@ public class ForecastHandler implements ForecastHandlerInterface {
     }
     forecastResponse.setVaccinationList(forecastVaccinationList);
     return forecastResponse;
-  }
-
-  private void setStatusDescription(DateTime forecastDate, ImmunizationForecastDataBean forecast,
-      ForecastRecommendationInterface forecastRecommendation) {
-    DateTime dueDate = new DateTime(forecast.getDue());
-    DateTime overdueDate = new DateTime(forecast.getOverdue());
-    DateTime finishedDate = new DateTime(forecast.getFinished());
-    if (forecastDate.isLessThan(dueDate)) {
-      forecastRecommendation.setStatusDescription("");
-    } else if (forecastDate.isLessThan(overdueDate)) {
-      forecastRecommendation.setStatusDescription("due");
-    } else if (forecastDate.isLessThan(finishedDate)) {
-      forecastRecommendation.setStatusDescription("overdue");
-    } else {
-      forecastRecommendation.setStatusDescription("finished");
-    }
   }
 
 }
