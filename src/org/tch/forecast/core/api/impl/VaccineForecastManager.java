@@ -1,6 +1,7 @@
 package org.tch.forecast.core.api.impl;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,11 +14,19 @@ import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
 
-public class VaccineForecastManager implements VaccineForecastManagerInterface {
-  private static Map<String, List<Schedule>> indications = null;
-  private static ForecastSchedule forecastSchedule = null;
+public class VaccineForecastManager implements VaccineForecastManagerInterface
+{
+  private boolean initialized = false;
+  private Map<String, List<Schedule>> indications = new HashMap<String, List<Schedule>>();
+  private ForecastSchedule forecastSchedule = null;
+  private String forecastScheduleLocation = "ForecastSchedule.xml";
 
   public VaccineForecastManager() throws Exception {
+    init();
+  }
+
+  public VaccineForecastManager(String forecastScheduleLocation) throws Exception {
+    this.forecastScheduleLocation = forecastScheduleLocation;
     init();
   }
 
@@ -36,9 +45,8 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface {
   public ForecastSchedule getForecastSchedule() {
     return forecastSchedule;
   }
-  
-  public Map<String, List<Schedule>> getIndicationsMap()
-  {
+
+  public Map<String, List<Schedule>> getIndicationsMap() {
     return indications;
   }
 
@@ -57,11 +65,16 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface {
 
   private static HashMap<Integer, String> vaccineIdToLabelMap = null;
 
-  private static void init() throws Exception {
-    if (indications == null) {
-      String forecastScheduleLocation = "ForecastSchedule.xml";
+  private void init() throws Exception {
+    if (!initialized) {
       init(forecastScheduleLocation);
+      initialized = true;
+    }
+    initVaccineIdToLabelMap();
+  }
 
+  private void initVaccineIdToLabelMap() throws Exception {
+    if (vaccineIdToLabelMap == null) {
       try {
         vaccineIdToLabelMap = new HashMap<Integer, String>();
         BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -78,26 +91,30 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface {
       } catch (Exception e) {
         throw new Exception("Unable to read from vaccineIdToLabel.txt", e);
       }
-
     }
   }
 
-  public static void init(String forecastScheduleLocation) throws Exception {
+  public void init(String forecastScheduleLocation) throws Exception {
     forecastSchedule = new ForecastSchedule();
-    forecastSchedule.init(VaccineForecastManager.class.getResourceAsStream(forecastScheduleLocation));
+    InputStream is = VaccineForecastManager.class.getResourceAsStream(forecastScheduleLocation);
+    if (is == null) {
+      is = VaccineForecastManager.class.getResourceAsStream("/" + forecastScheduleLocation);
+    }
+    forecastSchedule.init(is, this);
     getVaccineForecasts();
-    indications = VaccineForecastDataBean.getIndications();
   }
 
-  public static class ForecastAntigen implements Comparable<ForecastAntigen>{
+  public static class ForecastAntigen implements Comparable<ForecastAntigen>
+  {
     private String forecastCode = "";
     private String forecastLabel = "";
     private int sortOrder = 0;
 
     @Override
     public int compareTo(ForecastAntigen o) {
-      return this.getSortOrder() - o.getSortOrder(); 
+      return this.getSortOrder() - o.getSortOrder();
     }
+
     public String getForecastCode() {
       return forecastCode;
     }
@@ -130,9 +147,8 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface {
   }
 
   private static List<ForecastAntigen> forecastAntigenList = new ArrayList<ForecastAntigen>();
-  
-  public List<ForecastAntigen> getForecastAntigenList()
-  {
+
+  public List<ForecastAntigen> getForecastAntigenList() {
     return forecastAntigenList;
   }
 
@@ -157,7 +173,7 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface {
     Collections.sort(forecastAntigenList);
   }
 
-  private static void getVaccineForecasts() throws Exception {
+  private void getVaccineForecasts() throws Exception {
     for (ForecastAntigen forecastAntigen : forecastAntigenList) {
       for (VaccineForecastDataBean vaccineForecast : forecastSchedule.getVaccineForecastList()) {
         if (vaccineForecast.getForecastCode().equals(forecastAntigen.forecastCode)) {

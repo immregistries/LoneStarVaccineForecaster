@@ -48,11 +48,11 @@ public class ForecastSchedule
     // default
   }
   
-  public ForecastSchedule initFromText(String text) throws Exception
+  public ForecastSchedule initFromText(String text, VaccineForecastManagerInterface forecastManager) throws Exception
   {
     InputStream is = new ByteArrayInputStream(text.getBytes());
     try {
-      init(is);
+      init(is, forecastManager);
     } catch (Exception exception)
     {
       throw new Exception("Unable to read XML definition ", exception);
@@ -60,7 +60,7 @@ public class ForecastSchedule
     return this;
   }
   
-  public ForecastSchedule initFromResource(String resource) throws Exception
+  public ForecastSchedule initFromResource(String resource, VaccineForecastManagerInterface forecastManager) throws Exception
   {
     InputStream is = this.getClass().getClassLoader().getResourceAsStream(resource);
     if (is == null)
@@ -69,7 +69,7 @@ public class ForecastSchedule
     }
     
     try {
-      init(is);
+      init(is, forecastManager);
     } catch (Exception exception)
     {
       throw new Exception("Unable to read XML definition " + resource, exception);
@@ -77,7 +77,7 @@ public class ForecastSchedule
     return this;
   }
 
-  public void init(InputStream is) throws ParserConfigurationException, Exception, SAXException, IOException
+  public void init(InputStream is, VaccineForecastManagerInterface forecastManager) throws ParserConfigurationException, Exception, SAXException, IOException
   {
     DocumentBuilderFactory factory;
     DocumentBuilder builder;
@@ -86,20 +86,20 @@ public class ForecastSchedule
     factory.setIgnoringElementContentWhitespace(true);
     factory.setNamespaceAware(true);
     builder = factory.newDocumentBuilder();
-    processDocument(builder.parse(new InputSource(is)));
+    processDocument(builder.parse(new InputSource(is)), forecastManager);
   }
 
-  protected Object processDocument(Document node) throws Exception
+  protected Object processDocument(Document node, VaccineForecastManagerInterface forecastManager) throws Exception
   {
     Node n = node.getFirstChild();
     if (n != null)
     {
-      processNode(n);
+      processNode(n, forecastManager);
     }
     return null;
   }
 
-  private void processNode(Node n) throws Exception
+  private void processNode(Node n, VaccineForecastManagerInterface forecastManager) throws Exception
   {
     String name = n.getNodeName();
     if (!name.equals("schedule"))
@@ -120,7 +120,7 @@ public class ForecastSchedule
       {
         VaccineForecastDataBean vaccineForecast = new VaccineForecastDataBean();
         vaccineForecastList.add(vaccineForecast);
-        vaccineForecast.processNode(n);
+        vaccineForecast.processNode(n, forecastManager);
       }
     }
   }

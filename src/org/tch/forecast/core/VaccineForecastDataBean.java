@@ -19,7 +19,7 @@ import org.xml.sax.InputSource;
 
 public class VaccineForecastDataBean
 {
-  private static Map<String, List<Schedule>> indications = new HashMap<String, List<Schedule>>();
+  // private static Map<String, List<Schedule>> indications = new HashMap<String, List<Schedule>>();
 
   private String forecastCode = "";
   private String forecastLabel = "";
@@ -33,7 +33,7 @@ public class VaccineForecastDataBean
     // default for ForecastSchedule to build object
   }
 
-  public VaccineForecastDataBean(String source) throws Exception {
+  public VaccineForecastDataBean(String source, VaccineForecastManagerInterface forecastManager) throws Exception {
     try {
       DocumentBuilderFactory factory;
       DocumentBuilder builder;
@@ -43,21 +43,21 @@ public class VaccineForecastDataBean
       factory.setNamespaceAware(true);
       builder = factory.newDocumentBuilder();
       InputStream is = this.getClass().getClassLoader().getResourceAsStream(source);
-      processDocument(builder.parse(new InputSource(is)));
+      processDocument(builder.parse(new InputSource(is)), forecastManager);
     } catch (Exception exception) {
       throw new Exception("Unable to read XML definition " + source, exception);
     }
   }
 
-  protected Object processDocument(Document node) throws Exception {
+  protected Object processDocument(Document node, VaccineForecastManagerInterface forecastManager) throws Exception {
     Node n = node.getFirstChild();
     if (n != null) {
-      processNode(n);
+      processNode(n, forecastManager);
     }
     return null;
   }
 
-  protected void processNode(Node n) throws Exception {
+  protected void processNode(Node n, VaccineForecastManagerInterface forecastManager) throws Exception {
     String name = n.getNodeName();
     if (!name.equals("forecast")) {
       throw new Exception("Root node in definition xml should be 'forecast', instead found '" + name + "'");
@@ -70,11 +70,11 @@ public class VaccineForecastDataBean
     for (int i = 0, icount = l.getLength(); i < icount; i++) {
       n = l.item(i);
       name = n.getNodeName();
-      processScheduleOrVaccine(n, name, forecastCode);
+      processScheduleOrVaccine(n, name, forecastCode, forecastManager);
     }
   }
 
-  private void processScheduleOrVaccine(Node n, String name, String forecastCode) throws Exception {
+  private void processScheduleOrVaccine(Node n, String name, String forecastCode, VaccineForecastManagerInterface forecastManager) throws Exception {
     if (name != null) {
       if (name.equals("schedule")) {
         Schedule schedule = new Schedule();
@@ -83,7 +83,7 @@ public class VaccineForecastDataBean
         schedule.setLabel(DomUtils.getAttributeValue(n, "label"));
         schedule.setDose(DomUtils.getAttributeValue(n, "dose"));
         schedule.setIndication(DomUtils.getAttributeValue(n, "indication"));
-        addToIndicationList(schedule);
+        addToIndicationList(schedule, forecastManager);
         schedules.put(schedule.getScheduleName(), schedule);
         NodeList l = n.getChildNodes();
         for (int i = 0, icount = l.getLength(); i < icount; i++) {
@@ -138,12 +138,13 @@ public class VaccineForecastDataBean
     }
   }
 
-  private void addToIndicationList(Schedule schedule) {
+  private void addToIndicationList(Schedule schedule, VaccineForecastManagerInterface forecastManager) {
     if (schedule.getIndication() != null && !schedule.getIndication().equals("")) {
-      List<Schedule> indicationList = indications.get(schedule.getIndication());
+      Map<String, List<Schedule>> indicationsMap = forecastManager.getIndicationsMap();
+      List<Schedule> indicationList = indicationsMap.get(schedule.getIndication());
       if (indicationList == null) {
         indicationList = new ArrayList<Schedule>();
-        indications.put(schedule.getIndication(), indicationList);
+        indicationsMap.put(schedule.getIndication(), indicationList);
       }
       indicationList.add(schedule);
     }
@@ -898,10 +899,6 @@ public class VaccineForecastDataBean
 
   public void setForecastLabel(String forecastLabel) {
     this.forecastLabel = forecastLabel;
-  }
-
-  public static Map<String, List<Schedule>> getIndications() {
-    return indications;
   }
 
   public int getSortOrder() {

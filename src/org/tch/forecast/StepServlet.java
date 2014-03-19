@@ -55,7 +55,7 @@ public class StepServlet extends ForecastServlet
     if (nextActionName == null) {
       nextActionName = StartStep.NAME;
     }
-    initCvxCodes();
+    initSchedule(SCHEDULE_NAME_DEFAULT);
 
     resp.setContentType("text/html");
     PrintWriter out = new PrintWriter(resp.getOutputStream());
@@ -666,11 +666,11 @@ public class StepServlet extends ForecastServlet
     out.println("     </table>");
   }
 
-  public static void printSchedule(PrintWriter out, Schedule schedule) {
+  public void printSchedule(PrintWriter out, Schedule schedule) {
     printSchedule(out, null, schedule, null);
   }
 
-  private static void printSchedule(PrintWriter out, DataStore dataStore, Schedule schedule, String baseLink) {
+  private void printSchedule(PrintWriter out, DataStore dataStore, Schedule schedule, String baseLink) {
 
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
     out.println("      <table>");

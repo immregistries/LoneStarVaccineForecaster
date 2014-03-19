@@ -50,6 +50,7 @@ public class ForecastServlet extends HttpServlet
   private static final String PARAM_ASSUME_MMR_SERIES_COMPLETE_AT_AGE = "assumeMMRSeriesCompleteAtAge";
   private static final String PARAM_ASSUME_VAR_SERIES_COMPLETE_AT_AGE = "assumeVarSeriesCompleteAtAge";
   private static final String PARAM_IGNORE_FOUR_DAY_GRACE = "ignoreFourDayGrace";
+  private static final String PARAM_SCHEDULE_NAME = "scheduleName";
 
   public static final String RESULT_FORMAT_TEXT = "text";
   public static final String RESULT_FORMAT_HTML = "html";
@@ -58,7 +59,7 @@ public class ForecastServlet extends HttpServlet
   private static final String CONDITION_CODE_SUB_POTENT = "S";
   private static final String CONDITION_CODE_FORCE_VALID = "F";
 
-  private static ForecastHandlerCore forecastHandlerCore = null;
+  protected static final String SCHEDULE_NAME_DEFAULT = "default";
 
   @Override
   public void init() throws ServletException {
@@ -66,17 +67,30 @@ public class ForecastServlet extends HttpServlet
     super.init();
   }
 
-  public static VaccineForecastManager forecastManager = null;
+  private static Map<String, VaccineForecastManager> forecastManagerMap = new HashMap<String, VaccineForecastManager>();
+  private static Map<String, ForecastHandlerCore> forecastHandlerCoreMap = new HashMap<String, ForecastHandlerCore>();
 
-  protected void initCvxCodes() throws ServletException {
+  protected VaccineForecastManager forecastManager = null;
+  protected ForecastHandlerCore forecastHandlerCore = null;
+
+  protected void initSchedule(String scheduleName) throws ServletException {
+    forecastHandlerCore = forecastHandlerCoreMap.get(scheduleName);
+    forecastManager = forecastManagerMap.get(scheduleName);
     if (forecastHandlerCore == null) {
       try {
-        forecastManager = new VaccineForecastManager();
+        if (scheduleName.equals(SCHEDULE_NAME_DEFAULT)) {
+          forecastManager = new VaccineForecastManager();
+        } else {
+          forecastManager = new VaccineForecastManager(scheduleName + ".xml");
+        }
+        forecastManagerMap.put(scheduleName, forecastManager);
       } catch (Exception e) {
         throw new ServletException("Unable to initialize forecaster", e);
       }
       forecastHandlerCore = new ForecastHandlerCore(forecastManager);
+      forecastHandlerCoreMap.put(scheduleName, forecastHandlerCore);
     }
+
   }
 
   protected static class ForecastInput
@@ -186,7 +200,11 @@ public class ForecastServlet extends HttpServlet
     } catch (Exception e) {
       throw new ServletException("Unable to initialize CVX mapping", e);
     }
-    initCvxCodes();
+    String scheduleName = req.getParameter(PARAM_SCHEDULE_NAME);
+    if (scheduleName == null || scheduleName.equals("")) {
+      scheduleName = SCHEDULE_NAME_DEFAULT;
+    }
+    initSchedule(scheduleName);
     forecastInput.doseList = new ArrayList<VaccinationDoseDataBean>();
     forecastInput.patient = new PatientRecordDataBean();
     forecastInput.imms = new ArrayList<ImmunizationInterface>();
