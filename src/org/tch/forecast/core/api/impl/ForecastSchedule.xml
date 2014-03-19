@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2013-12">
+<schedule scheduleName="TCH-2014-03-19">
 
 
 <forecast seriesName="Varicella">
@@ -425,7 +425,7 @@
     <pos row="1" column="2"/>
     <valid age="109 months" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
-    <due age="" interval="2 months" grace=""/>
+    <due age="" interval="1 month" grace=""/>
     <overdue age="" interval="3 months" grace=""/>
     <finished age="27 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
@@ -434,13 +434,13 @@
   </schedule>
   <schedule scheduleName="F3" dose="3" indication="" label="3rd">
     <pos row="1" column="3"/>
-    <valid age="114 months" interval="12 weeks" grace="4 days"/>
+    <valid age="114 months" interval="16 weeks" grace="4 weeks 4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="4 months" grace=""/>
     <overdue age="" interval="5 months" grace=""/>
     <finished age="27 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
+    <before-previous interval="24 weeks"/>
     <indicate vaccineName="HPV" schedule="COMPLETE" age="" reason=""/>
   </schedule>
   <schedule scheduleName="M1" dose="1" indication="MALE" label="1st">
@@ -851,6 +851,7 @@
     <indicate vaccineName="Child" schedule="B10" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="B5" age="4 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="B6" age="7 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
+    <indicate vaccineName="Td" schedule="B10" age="" reason="" historyOfVaccineName="Tdap"/>
     <indicate vaccineName="Td" schedule="T10" age="" reason="Tdap should be administered as soon as possible." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
@@ -868,6 +869,7 @@
     <indicate vaccineName="Child" schedule="B10" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
     <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
+    <indicate vaccineName="Td" schedule="B10" age="" reason="" historyOfVaccineName="Tdap"/>
     <indicate vaccineName="Td" schedule="T10" age="" reason="Tdap should be administered as soon as possible." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
@@ -885,6 +887,7 @@
     <indicate vaccineName="Child" schedule="B10" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
     <indicate vaccineName="Td" schedule="B10" age="7 years" reason="Td should not be given before 7 years of age." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
+    <indicate vaccineName="Td" schedule="B10" age="" reason="" historyOfVaccineName="Tdap"/>
     <indicate vaccineName="Td" schedule="T10" age="" reason="Tdap should be administered as soon as possible." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
@@ -894,8 +897,8 @@
     <pos row="3" column="5"/>
     <valid age="7 years" interval="0 days" grace=""/>
     <early age="" interval="" grace=""/>
-    <due age="11 years" interval="" grace=""/>
-    <overdue age="13 years" interval="" grace=""/>
+    <due age="7 years" interval="" grace=""/>
+    <overdue age="7 years" interval="" grace=""/>
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
@@ -920,15 +923,16 @@
   <vaccine vaccineName="Menactra" vaccineIds="183"/>
   <schedule scheduleName="A1" dose="1" indication="BIRTH" label="1st">
     <pos row="1" column="1"/>
-    <valid age="2 months" interval="8 weeks" grace="4 days"/>
+    <valid age="6 weeks" interval="8 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="11 years" interval="" grace=""/>
     <overdue age="13 years" interval="" grace=""/>
     <finished age="55 years" interval="" grace=""/>
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
-    <indicate vaccineName="Menactra" schedule="INVALID" age="9 months -4 days" reason=""/>
-    <indicate vaccineName="MCV4" schedule="A1" age="11 years" reason="Received dose of MCV4 before 11 years, not counting towards completion."/>
+    <indicate vaccineName="Menactra" schedule="INVALID" age="9 months -4 days" reason="Menactra not licensed before 9 months."/>
+    <indicate vaccineName="MPSV4" schedule="INVALID" age="2 years" reason="MPSV4 not licensed before 2 years."/>
+    <indicate vaccineName="MCV4" schedule="A1" age="10 years" reason="Received dose of MCV4 before 10 years, not counting towards completion."/>
     <indicate vaccineName="MPSV4" schedule="B1" age="" reason=""/>
     <indicate vaccineName="MCV4" schedule="A2" age="16 years" reason=""/>
     <indicate vaccineName="MCV4" schedule="COMPLETE" age="" reason="Only one dose needed if administered after 15 years of age."/>
