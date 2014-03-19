@@ -37,7 +37,6 @@ public class ForecastServlet extends HttpServlet
   private static final String PARAM_PATIENT_SEX = "patientSex";
   private static final String PARAM_PATIENT_DOB = "patientDob";
   private static final String PARAM_RESULT_FORMAT = "resultFormat";
-  private static final String PARAM_EVAL_SCHEDULE = "evalSchedule";
   private static final String PARAM_EVAL_DATE = "evalDate";
   private static final String PARAM_FLU_SEASON_START = "fluSeasonStart";
   private static final String PARAM_FLU_SEASON_DUE = "fluSeasonDue";
@@ -214,10 +213,6 @@ public class ForecastServlet extends HttpServlet
       throw new ServletException("Parameter 'evalDate' is optional, but if sent must be in YYYYMMDD format. ");
     }
     forecastInput.forecastDate = new DateTime(evalDateString == null ? "today" : evalDateString);
-    String evalSchedule = req.getParameter(PARAM_EVAL_SCHEDULE);
-    if (evalSchedule == null) {
-      evalSchedule = "";
-    }
     String patientDobString = req.getParameter(PARAM_PATIENT_DOB);
     if (patientDobString == null || patientDobString.length() != 8) {
       throw new ServletException("Parameter 'patientDob' is required and must be in YYYYMMDD format. ");
