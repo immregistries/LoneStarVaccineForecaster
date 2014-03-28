@@ -456,7 +456,7 @@ public class ForecastReportPrinter
           || forecast.getStatusDescription().equals(
               ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
         if (suppressionDate != null) {
-          if (suppressionDate.before(forecast.getDateDue())) {
+          if (forecast.getDateDue() == null || suppressionDate.before(forecast.getDateDue())) {
             continue;
           }
         }
