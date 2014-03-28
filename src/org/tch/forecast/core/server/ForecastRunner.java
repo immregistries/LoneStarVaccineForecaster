@@ -113,7 +113,7 @@ public class ForecastRunner
     PrintWriter out = new PrintWriter(stringOut);
     ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(vaccineForecastManager);
     forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, imms, forecasterScheduleName, new DateTime(
-        forecastDate), doseList, out);
+        forecastDate), doseList, out, true, patient.getDob());
     out.close();
     return stringOut.toString();
   }
@@ -127,7 +127,6 @@ public class ForecastRunner
   public void setForecastOptions(ForecastOptions forecastOptions) {
     this.forecastOptions = forecastOptions;
   }
-
 
   public void forecast() throws Exception {
 

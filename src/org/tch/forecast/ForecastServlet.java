@@ -144,7 +144,7 @@ public class ForecastServlet extends HttpServlet
         resp.setContentType("text/plain");
         PrintWriter out = new PrintWriter(resp.getOutputStream());
         forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
-            forecastInput.forecastDate, forecastInput.doseList, out);
+            forecastInput.forecastDate, forecastInput.doseList, out, true, forecastInput.patient.getDob());
         out.close();
       } else {
         throw new ServletException("Unrecognized result format '" + resultFormat + "'");

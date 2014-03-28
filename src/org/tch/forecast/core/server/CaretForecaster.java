@@ -263,6 +263,7 @@ public class CaretForecaster
     doseDueOutHash.put(ImmunizationForecastDataBean.HPV, "137"); // HPV,  quadrivalent
     doseDueOutHash.put(ImmunizationForecastDataBean.POLIO, "89"); // Unspecified Polio
     doseDueOutHash.put(ImmunizationForecastDataBean.MCV4, "147"); // Meningococcal (MCV4)
+    doseDueOutHash.put(ImmunizationForecastDataBean.MENING, "147"); // Meningococcal (MCV4)
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"116"); // Rotavirus, pentavalent
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"119"); // Rotavirus,monovalent
     doseDueOutHash.put(ImmunizationForecastDataBean.ROTAVIRUS, "122"); // Rotavirus, NOS
@@ -435,6 +436,8 @@ public class CaretForecaster
 
       ForecastRunner forecastRunner = new ForecastRunner(vaccineForecastManager);
       forecastRunner.getForecastOptions().setIgnoreFourDayGrace(!use4DayGracePeriod);
+      forecastRunner.getForecastOptions().setUseEarlyOverdue(true);
+      forecastRunner.getForecastOptions().setUseEarlyDue(true);
       forecastRunner.getForecastOptions().setDecisionProcessFormat(DecisionProcessFormat.FORMATTED_TEXT);
       forecastRunner.getPatient().setDob(new DateTime(dateOfBirth));
       forecastRunner.getPatient().setSex(gender.toUpperCase().startsWith("M") ? "M" : "F");
@@ -840,7 +843,9 @@ public class CaretForecaster
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140201^R^IHS_6m26^0^0^^55^19481128^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~55079^9^19990706^0^0^0|||180404^115^20110504^0^0^0|||55078^45^19990706^0^0^0|||183899^33^20060101^0^0^0"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140306^0^1^0^0^BERLASA,ERIN GEORGE  Chart#: 00-00-25^25^19881225^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3367^21^20120415^0^0^0|||3366^141^20131001^0^0^0|||"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140310^0^1^0^0^UVARECKAR,ROSE ANNA  Chart#: 00-01-04^104^20131104^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~"
-
+  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140328^0^1^0^0^UVARECKAR,TEST^104^20100307^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~^20^20100601^0^0^|||^110^20100801^0^0^|||^20^20110901^0^0^|||^20^20120101^0^0^"
+  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140328^0^1^0^0^UVARECKAR,TEST 2^104^20000307^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~^20^20000601^0^0^|||^110^20000801^0^0^|||^20^20010901^0^0^|||^20^20120001^0^0^"
+  
   public static void main(String[] args) throws Exception {
     String request = ForecastServer.TEST[0];
     if (args.length > 0) {
