@@ -397,6 +397,19 @@ public class StepServlet extends ForecastServlet
             out.println("    <td>True</td>");
             out.println("  </tr>");
           }
+          out.println("  <tr>");
+          out.println("    <th>Assume Complete</th>");
+          out.println("    <td>");
+          boolean first = true;
+          for (String s : forecastOptions.getAssumeCompleteScheduleNameSet()) {
+            if (!first) {
+              out.print(", ");
+            }
+            out.print(s);
+            first = false;
+          }
+          out.println("    </td>");
+          out.println("  </tr>");
           out.println("</table>");
         }
         if (dataStore.getTransitionList() != null) {

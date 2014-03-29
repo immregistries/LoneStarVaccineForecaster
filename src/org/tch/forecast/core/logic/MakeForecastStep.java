@@ -4,6 +4,7 @@ import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.TraceList;
 import org.tch.forecast.core.VaccineForecastDataBean;
+import org.tch.forecast.core.model.Assumption;
 
 public class MakeForecastStep extends ActionStep
 {
@@ -136,6 +137,16 @@ public class MakeForecastStep extends ActionStep
         ds.traceList.addExplanation("Too late to complete. Next dose was expected before " + ds.finished);
         ds.traceList.setStatusDescription("Too late to complete. Next dose was expected before " + ds.finished + ".");
       }
+    } else if (isAssumeComplete(ds)) {
+      statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE;
+      if (ds.traceList != null) {
+        ds.traceList.setExplanationBulletPointStart();
+        ds.traceList.setExplanationRed();
+        ds.traceList.addExplanation(ds.schedule.getAssumeCompleteReason());
+        ds.traceList.addExplanation("Assumed to be complete after " + ds.finished);
+        ds.traceList.setStatusDescription("Assumed to be complete after  " + ds.finished + ".");
+      }
+      ds.assumptionList.add(new Assumption(ds.schedule.getAssumeCompleteReason()));
     } else {
       if ((ds.seasonal != null && ds.seasonCompleted)
           || (seasonEnd != null && ds.due.getDate().after(seasonEnd.getDate()))) {
@@ -260,6 +271,15 @@ public class MakeForecastStep extends ActionStep
       }
     }
 
+  }
+
+  private boolean isAssumeComplete(DataStore ds) {
+    if (!ds.forecastOptions.getAssumeCompleteScheduleNameSet().contains(ds.schedule.getForecastCode())
+        || ds.schedule.getAssumeCompleteAge() == null) {
+      return false;
+    }
+    ds.finished = ds.schedule.getAssumeCompleteAge().getDateTimeFrom(ds.patient.getDobDateTime());
+    return !ds.forecastDateTime.isLessThan(ds.finished);
   }
 
   private String getValidDose(DataStore ds, VaccineForecastDataBean.Schedule schedule) {

@@ -179,6 +179,9 @@ public class VaccineForecastDataBean
       } else if (name.equals("finished")) {
         schedule.setFinishedAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         schedule.setFinishedInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
+      } else if (name.equals("assumeComplete")) {
+        schedule.setAssumeCompleteAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
+        schedule.setAssumeCompleteReason(DomUtils.getAttributeValue(n, "reason"));
       } else if (name.equals("after-invalid")) {
         schedule.setAfterInvalidInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
         schedule.setAfterInvalidGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
@@ -281,6 +284,8 @@ public class VaccineForecastDataBean
     private TimePeriod overdueAge = null;
     private TimePeriod overdueInterval = null;
     private TimePeriod finishedAge = null;
+    private TimePeriod assumeCompleteAge = null;
+    private String assumeCompleteReason = "";
     private TimePeriod finishedInterval = null;
     private TimePeriod afterInvalidInterval = null;
     private TimePeriod afterInvalidGrace = null;
@@ -297,6 +302,22 @@ public class VaccineForecastDataBean
     private int posColumn = 0;
     private int posRow = 0;
     private IndicationCriteria indicationCriteria = null;
+
+    public TimePeriod getAssumeCompleteAge() {
+      return assumeCompleteAge;
+    }
+
+    public void setAssumeCompleteAge(TimePeriod assumeCompleteAge) {
+      this.assumeCompleteAge = assumeCompleteAge;
+    }
+
+    public String getAssumeCompleteReason() {
+      return assumeCompleteReason;
+    }
+
+    public void setAssumeCompleteReason(String assumeCompleteReason) {
+      this.assumeCompleteReason = assumeCompleteReason;
+    }
 
     public TimePeriod getEarlyOverdueAge() {
       return earlyOverdueAge;

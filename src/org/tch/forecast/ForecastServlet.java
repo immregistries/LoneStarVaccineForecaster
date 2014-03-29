@@ -50,6 +50,7 @@ public class ForecastServlet extends HttpServlet
   private static final String PARAM_ASSUME_VAR_SERIES_COMPLETE_AT_AGE = "assumeVarSeriesCompleteAtAge";
   private static final String PARAM_IGNORE_FOUR_DAY_GRACE = "ignoreFourDayGrace";
   private static final String PARAM_SCHEDULE_NAME = "scheduleName";
+  private static final String PARAM_ASSUME_SERIES_COMPLETED = "assumeSeriesCompleted";
 
   public static final String RESULT_FORMAT_TEXT = "text";
   public static final String RESULT_FORMAT_HTML = "html";
@@ -282,15 +283,28 @@ public class ForecastServlet extends HttpServlet
     forecastInput.forecastOptions.setUseEarlyOverdue(forecastInput.dueUseEarly);
 
     setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE,
-        "Assuming DTaP series completed in childhood", Immunization.ASSUME_DTAP_SERIES_COMPLETE);
+        "Adult assumed to have completed DTaP series.", Immunization.ASSUME_DTAP_SERIES_COMPLETE);
     setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_HEPA_SERIES_COMPLETE_AT_AGE,
-        "Assuming Hep A series completed in childhood", Immunization.ASSUME_HEPA_COMPLETE);
+        "Adult assumed to have completed Hep A series.", Immunization.ASSUME_HEPA_COMPLETE);
     setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_HEPB_SERIES_COMPLETE_AT_AGE,
-        "Assuming Hep B series completed in childhood", Immunization.ASSUME_HEPB_COMPLETE);
+        "Adult assumed to have completed Hep B series.", Immunization.ASSUME_HEPB_COMPLETE);
     setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_MMR_SERIES_COMPLETE_AT_AGE,
-        "Assuming MMR series completed in childhood", Immunization.ASSUME_MMR_COMPLETE);
+        "Adult assumed to have completed MMR series.", Immunization.ASSUME_MMR_COMPLETE);
     setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_VAR_SERIES_COMPLETE_AT_AGE,
-        "Assuming Varicella series completed in childhood", Immunization.ASSUME_VAR_COMPLETE);
+        "Adult assumed to have completed Varicella series.", Immunization.ASSUME_VAR_COMPLETE);
+
+    String assumeSeriesCompleted = req.getParameter(PARAM_ASSUME_SERIES_COMPLETED);
+    if (assumeSeriesCompleted != null) {
+      String[] assumeSeriesCompleteds = assumeSeriesCompleted.split("\\,");
+      for (String asc : assumeSeriesCompleteds) {
+        if (asc != null) {
+          asc = asc.trim();
+          if (asc.length() > 0) {
+            forecastInput.forecastOptions.setAssumeCompleteScheduleName(asc);
+          }
+        }
+      }
+    }
   }
 
   public void setAssumeParam(HttpServletRequest req, ForecastInput forecastInput, DateTime patientDob,

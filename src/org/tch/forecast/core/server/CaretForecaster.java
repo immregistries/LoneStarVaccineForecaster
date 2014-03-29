@@ -494,15 +494,13 @@ public class CaretForecaster
       }
 
       {
-        setAssumeParam(forecastRunner, "Assuming DTaP series completed in childhood",
+        setAssumeParam(forecastRunner, "Adult assumed to have copmleted DTaP series.",
             Immunization.ASSUME_DTAP_SERIES_COMPLETE);
-        setAssumeParam(forecastRunner, "Assuming Hep A series completed in childhood",
-            Immunization.ASSUME_HEPA_COMPLETE);
-        setAssumeParam(forecastRunner, "Assuming Hep B series completed in childhood",
-            Immunization.ASSUME_HEPB_COMPLETE);
-        setAssumeParam(forecastRunner, "Assuming MMR series completed in childhood", Immunization.ASSUME_MMR_COMPLETE);
-        setAssumeParam(forecastRunner, "Assuming Varicella series completed in childhood",
+        setAssumeParam(forecastRunner, "Adult assumed to have copmleted MMR series.", Immunization.ASSUME_MMR_COMPLETE);
+        setAssumeParam(forecastRunner, "Adult assumed to have copmleted Varicella series.",
             Immunization.ASSUME_VAR_COMPLETE);
+        forecastRunner.getForecastOptions().setAssumeCompleteScheduleName("HepA");
+        forecastRunner.getForecastOptions().setAssumeCompleteScheduleName("HepB");
       }
 
       // Run Forecast
@@ -846,7 +844,7 @@ public class CaretForecaster
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140328^0^1^0^0^UVARECKAR,TEST^104^20100307^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~^20^20100601^0^0^|||^110^20100801^0^0^|||^20^20110901^0^0^|||^20^20120101^0^0^"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140328^0^1^0^0^UVARECKAR,TEST 2^104^20000307^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~^20^20000601^0^0^|||^110^20000801^0^0^|||^20^20010901^0^0^|||^20^20120001^0^0^"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140328^0^0^0^0^HUEMS,SHEILA LYNN  Chart#: 174226^27654^19620922^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^"
-  
+
   public static void main(String[] args) throws Exception {
     String request = ForecastServer.TEST[0];
     if (args.length > 0) {

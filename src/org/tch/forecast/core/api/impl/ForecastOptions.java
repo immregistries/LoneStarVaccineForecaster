@@ -1,5 +1,10 @@
 package org.tch.forecast.core.api.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.tch.forecast.core.DecisionProcessFormat;
 import org.tch.forecast.core.TimePeriod;
 
@@ -14,7 +19,16 @@ public class ForecastOptions {
   private DecisionProcessFormat decisionProcessFormat = DecisionProcessFormat.HTML;
   private boolean useEarlyDue = false;
   private boolean useEarlyOverdue = false;
+  private Set<String> assumeCompleteScheduleNameSet = new HashSet<String>();
   
+  public void setAssumeCompleteScheduleName(String scheduleName)
+  {
+    assumeCompleteScheduleNameSet.add(scheduleName);
+  }
+  
+  public Set<String> getAssumeCompleteScheduleNameSet() {
+    return assumeCompleteScheduleNameSet;
+  }
   public boolean isUseEarlyDue() {
     return useEarlyDue;
   }

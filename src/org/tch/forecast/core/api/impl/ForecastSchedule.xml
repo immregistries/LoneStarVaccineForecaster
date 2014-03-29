@@ -620,7 +620,7 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
-    <assumeComplete age="18 years"reason="Adult assumed to have completed Hep A series. "/>
+    <assumeComplete age="18 years" reason="Adult assumed to have completed Hep A series. "/>
     <indicate vaccineName="Child" schedule="P2" age="19 years" reason=""/>
     <indicate vaccineName="Child" schedule="INVALID" age="" reason=""/>
     <indicate vaccineName="Twinrix" schedule="INVALID" age="18 years" reason=""/>
