@@ -55,14 +55,14 @@ public class DetermineRangesStep extends ActionStep
             String contraindicationDoseLabel = LookForDoseStep.createIndicatedEventVaccineLabel(
                 contraindicate.getVaccines(), ds, event);
             if (contraindicationDoseLabel != null) {
-              blackOut.setReason(contraindicate.getAfterInterval() + " after contraindicated dose of "
+              blackOut.setReason(" - must be given at least " + contraindicate.getAfterInterval() + " after previous dose of "
                   + contraindicationDoseLabel + " given " + new DateTime(event.eventDate).toString("M/D/Y"));
             } else {
-              blackOut.setReason(contraindicate.getAfterInterval() + " after contraindicated dose given "
+              blackOut.setReason(" - must be given at least " + contraindicate.getAfterInterval() + " after previous dose given "
                   + new DateTime(event.eventDate).toString("M/D/Y"));
             }
             ds.blackOutDates.add(blackOut);
-            ds.log("Contraindicated event found, setting black out dates from " + startBlackOut.toString("M/D/Y")
+            ds.log("Contraindicating event found, setting black out dates from " + startBlackOut.toString("M/D/Y")
                 + " to " + endBlackOut.toString("M/D/Y"));
           }
         }
@@ -113,7 +113,7 @@ public class DetermineRangesStep extends ActionStep
         DateTime validInterval = ds.schedule.getAfterContraInterval().getDateTimeFrom(ds.previousEventDate);
         if (validInterval.isGreaterThan(ds.valid)) {
           ds.valid = validInterval;
-          validReason = ds.schedule.getAfterContraInterval() + " after contraindicated dose";
+          validReason = "Must be given at least " + ds.schedule.getAfterContraInterval() + " after previous contraindicating dose";
           validBecause = "CONTRA";
           ds.log("Contraindication indication pushes validity date back by " + ds.schedule.getAfterContraInterval());
         }

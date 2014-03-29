@@ -153,7 +153,8 @@ public class LookForDoseStep extends ActionStep
             ds.log(" + Event has been forced to be valid");
             if (ds.trace != null) {
               ds.traceList.setExplanationRed();
-              ds.traceList.addExplanation("Dose is being forced valid by requester. Valid ages and interval will NOT be checked. ");
+              ds.traceList
+                  .addExplanation("Dose is being forced valid by requester. Valid ages and interval will NOT be checked. ");
             }
             allowInvalid = false;
           }
@@ -524,9 +525,10 @@ public class LookForDoseStep extends ActionStep
           ds.log("Black out date is general so it blocks all vaccines");
         }
         if (shouldBlackOut) {
-          ds.log("The blackout is being applied, the vaccination is not valid");
-          if (vaccDate.isGreaterThan(blackOut.getStartBlackOut())
+          ds.log("The blackout should be checked");
+          if (blackOut.getStartBlackOut().isLessThanOrEquals(vaccDate)
               && vaccDate.isLessThan(blackOut.getEndBlackOutGrace())) {
+            ds.log("The blackout is being applied, vaccination is not valid");
             return blackOut.getReason();
           }
         } else {
