@@ -87,7 +87,9 @@ public class MakeForecastStep extends ActionStep
       seasonEnd.setMonth(1);
       seasonEnd.setDay(1);
       seasonEnd = ds.seasonal.getEnd().getDateTimeFrom(seasonEnd);
-      seasonStart = ds.seasonal.getStart().getDateTimeFrom(ds.seasonEnd);
+      DateTime dt = new DateTime(ds.seasonEnd);
+      dt.addDays(1);
+      seasonStart = ds.seasonal.getStart().getDateTimeFrom(dt);
       if (ds.forecastDateTime.isLessThan(seasonStart)) {
         // today is before start of next season
         if (ds.forecastDateTime.isGreaterThanOrEquals(seasonEnd)) {

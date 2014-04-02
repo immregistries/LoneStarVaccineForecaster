@@ -78,7 +78,9 @@ public class SetupScheduleStep extends ActionStep
         if (count == 0) {
           // If no seasonal events were added then put in a season start for
           // this year so that first forecast is good
-          ds.seasonStart = ds.seasonal.getStart().getDateTimeFrom(ds.seasonEnd);
+          DateTime dt = new DateTime(ds.seasonEnd);
+          dt.addDays(1);
+          ds.seasonStart = ds.seasonal.getStart().getDateTimeFrom(dt);
         }
 
       }
@@ -127,6 +129,7 @@ public class SetupScheduleStep extends ActionStep
     if (seasonEnd.isGreaterThanOrEquals(new DateTime(ds.forecastDateTime))) {
       seasonEnd.addYears(-1);
     }
+    seasonEnd.addDays(-1);
     return seasonEnd;
   }
 

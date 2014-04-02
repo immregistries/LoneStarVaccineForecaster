@@ -187,7 +187,9 @@ public class LookForDoseStep extends ActionStep
             ds.traceList.setExplanationRed();
             ds.traceList.addExplanation(indicate.getReason());
           }
-          ds.seasonStart = ds.seasonal.getStart().getDateTimeFrom(new DateTime(ds.event.eventDate));
+          DateTime dt = new DateTime(ds.event.eventDate);
+          dt.addDays(1);
+          ds.seasonStart = ds.seasonal.getStart().getDateTimeFrom(dt);
           if (ds.seasonEnd == null) {
             ds.seasonEnd = SetupScheduleStep.setupSeasonEnd(ds);
           }
