@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2014-03-28">
+<schedule scheduleName="TCH-2014-04-02">
 
 
 <forecast seriesName="Varicella">
@@ -931,7 +931,7 @@
     <early age="" interval="" grace=""/>
     <due age="11 years" interval="" grace=""/>
     <overdue age="13 years" interval="" grace=""/>
-    <finished age="55 years" interval="" grace=""/>
+    <finished age="19 years" interval="" grace=""/>
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
     <indicate vaccineName="Menactra" schedule="INVALID" age="9 months -4 days" reason="Menactra not licensed before 9 months."/>
@@ -947,7 +947,7 @@
     <early age="" interval="" grace=""/>
     <due age="16 years" interval="" grace=""/>
     <overdue age="17 years" interval="" grace=""/>
-    <finished age="55 years" interval="" grace=""/>
+    <finished age="19 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Menactra" schedule="INVALID" age="9 months" reason=""/>
@@ -961,7 +961,7 @@
     <early age="" interval="" grace=""/>
     <due age="11 years" interval="" grace=""/>
     <overdue age="13 years" interval="" grace=""/>
-    <finished age="55 years" interval="" grace=""/>
+    <finished age="19 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="MCV4" schedule="B2" age="16 years" reason=""/>
@@ -974,7 +974,7 @@
     <early age="" interval="" grace=""/>
     <due age="16 years" interval="" grace=""/>
     <overdue age="17 years" interval="" grace=""/>
-    <finished age="55 years" interval="" grace=""/>
+    <finished age="19 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Menactra" schedule="INVALID" age="9 months" reason=""/>
