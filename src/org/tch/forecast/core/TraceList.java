@@ -68,6 +68,14 @@ public class TraceList extends ArrayList<Trace>
     return stringWriter.toString();
   }
   
+  public void printExplanation(DecisionProcessFormat decisionProcessFormat, PrintWriter printWriter) {
+    if (decisionProcessFormat == DecisionProcessFormat.HTML) {
+      getExplanationInHtml(printWriter);
+    } else {
+      getExplanationInText(printWriter);
+    }
+  }
+  
   public void printExplanation(PrintWriter out, DecisionProcessFormat decisionProcessFormat)
   {
     

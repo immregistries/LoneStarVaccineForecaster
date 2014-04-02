@@ -516,7 +516,7 @@ public class ForecastReportPrinter
     out.println("-- EXPLANATION OF DECISION PROCESS -----------------------------------");
     for (ImmunizationForecastDataBean forecast : resultList) {
       out.println(forecast.getForecastLabel());
-      out.print(forecast.getTraceList().getExplanation(DecisionProcessFormat.FORMATTED_TEXT));
+      forecast.getTraceList().getExplanationInText(out);
     }
 
     out.println();

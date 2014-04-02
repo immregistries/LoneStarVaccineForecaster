@@ -19,6 +19,15 @@ public class ForecastOptions {
   private DecisionProcessFormat decisionProcessFormat = DecisionProcessFormat.HTML;
   private boolean useEarlyDue = false;
   private boolean useEarlyOverdue = false;
+  private boolean recommendWhenValid = false;
+
+  public boolean isRecommendWhenValid() {
+    return recommendWhenValid;
+  }
+
+  public void setRecommendWhenValid(boolean recommendWhenValid) {
+    this.recommendWhenValid = recommendWhenValid;
+  }
   private Set<String> assumeCompleteScheduleNameSet = new HashSet<String>();
   
   public void setAssumeCompleteScheduleName(String scheduleName)

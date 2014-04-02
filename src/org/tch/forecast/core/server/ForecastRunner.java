@@ -2,6 +2,7 @@ package org.tch.forecast.core.server;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -116,6 +117,13 @@ public class ForecastRunner
         forecastDate), doseList, out, true, patient.getDob());
     out.close();
     return stringOut.toString();
+  }
+
+  public void printTextReport( PrintWriter out) {
+    ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(vaccineForecastManager);
+    forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, imms, forecasterScheduleName, new DateTime(
+        forecastDate), doseList, out, true, patient.getDob());
+    out.close();
   }
 
   private ForecastOptions forecastOptions = new ForecastOptions();

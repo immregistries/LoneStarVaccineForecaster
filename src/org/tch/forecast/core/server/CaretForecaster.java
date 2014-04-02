@@ -1,5 +1,8 @@
 package org.tch.forecast.core.server;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,18 +35,15 @@ public class CaretForecaster
   private static final String DOSE_OVERRIDE_INCLUDED = "1";
   private static final String DOSE_OVERRIDE_DEFAULT = "0";
 
-  private static final String FORECASTING_MODE_ACCEPTABLE = "A";
-  private static final String FORECASTING_MODE_RECOMMENDED = "R";
+  private static final String FORECASTING_MODE_ACCEPTABLE = "1";
+  private static final String FORECASTING_MODE_RECOMMENDED = "0";
 
   private static final String HL7_CODE_ERROR_CODE_NONE = "0";
   private static final String HL7_CODE_ERROR_CODE_UNRECOGNIZED = "1";
   private static final String HL7_CODE_ERROR_CODE_UNSUPPORTED = "2";
 
-  private static final String DOSE_OVERRIDE_INVALID_BAD_STORAGE = "1";
-  private static final String DOSE_OVERRIDE_INVALID_DEFECTIVE = "2";
-  private static final String DOSE_OVERRIDE_INVALID_EXPIRED = "3";
-  private static final String DOSE_OVERRIDE_INVALID_ADMIN_ERROR = "4";
-  private static final String DOSE_OVERRIDE_INVALID_FORCE_VALID = "5";
+  private static final String DOSE_OVERRIDE_FORCE_VALID = "1";
+  private static final String DOSE_OVERRIDE_FORCE_INVALID = "2";
 
   private static final boolean USE_EARLY_DUE_AND_OVERDUE = true;
 
@@ -471,11 +471,9 @@ public class CaretForecaster
         ImmunizationMDA imm = new ImmunizationMDA();
         String doseOveride = readField(inputDoseFieldList, FIELD_IN_INPUT_DOSE_4_DOSE_OVERRIDE);
         imm.setDoseOverride(doseOveride);
-        if (doseOveride.equals(DOSE_OVERRIDE_INVALID_BAD_STORAGE)
-            || doseOveride.equals(DOSE_OVERRIDE_INVALID_DEFECTIVE) || doseOveride.equals(DOSE_OVERRIDE_INVALID_EXPIRED)
-            || doseOveride.equals(DOSE_OVERRIDE_INVALID_ADMIN_ERROR)) {
+        if (doseOveride.equals(DOSE_OVERRIDE_FORCE_INVALID)) {
           imm.setSubPotent(true);
-        } else if (doseOveride.equals(DOSE_OVERRIDE_INVALID_FORCE_VALID)) {
+        } else if (doseOveride.equals(DOSE_OVERRIDE_FORCE_VALID)) {
           imm.setForceValid(true);
         }
 
@@ -494,24 +492,27 @@ public class CaretForecaster
       }
 
       {
-        setAssumeParam(forecastRunner, "Adult assumed to have copmleted DTaP series.",
+        setAssumeParam(forecastRunner, "Adult assumed to have completed DTaP series.",
             Immunization.ASSUME_DTAP_SERIES_COMPLETE);
-        setAssumeParam(forecastRunner, "Adult assumed to have copmleted MMR series.", Immunization.ASSUME_MMR_COMPLETE);
-        setAssumeParam(forecastRunner, "Adult assumed to have copmleted Varicella series.",
+        setAssumeParam(forecastRunner, "Adult assumed to have completed MMR series.", Immunization.ASSUME_MMR_COMPLETE);
+        setAssumeParam(forecastRunner, "Adult assumed to have completed Varicella series.",
             Immunization.ASSUME_VAR_COMPLETE);
         forecastRunner.getForecastOptions().setAssumeCompleteScheduleName("HepA");
         forecastRunner.getForecastOptions().setAssumeCompleteScheduleName("HepB");
+      }
+
+      String forecastingMode = readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_02_FORECASTING_MODE);
+      if (forecastingMode.equals(FORECASTING_MODE_ACCEPTABLE)) {
+        forecastRunner.getForecastOptions().setRecommendWhenValid(true);
+      } else {
+        forecastingMode = FORECASTING_MODE_RECOMMENDED;
+        forecastRunner.getForecastOptions().setRecommendWhenValid(false);
       }
 
       // Run Forecast
       forecastRunner.forecast();
 
       DateTime today = new DateTime();
-
-      String forecastingMode = readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_02_FORECASTING_MODE);
-      if (!forecastingMode.equals(FORECASTING_MODE_ACCEPTABLE)) {
-        forecastingMode = FORECASTING_MODE_RECOMMENDED;
-      }
 
       // Put together response
       addValue("TCH Forecaster version " + SoftwareVersion.VERSION, FIELD_OUT_CASE_DATA_01_COPYRIGHT_NOTICE);
@@ -610,12 +611,12 @@ public class CaretForecaster
             addValue(forecastResult.getDose(), FIELD_OUT_DOSE_DUE_02_DOSE_DUE_DOSE_NUMBER);
             boolean overdue = forecastResult.getStatusDescription().equals("overdue");
             addValue(overdue ? "1" : "0", FIELD_OUT_DOSE_DUE_03_DOSE_DUE_PAST_DUE_INDICATOR);
+            addValue(d(forecastResult.getValid()), FIELD_OUT_DOSE_DUE_04_DOSE_DUE_MINIMUM_DATE);
             if (forecastingMode.equals(FORECASTING_MODE_ACCEPTABLE)) {
-              addValue(d(forecastResult.getDue()), FIELD_OUT_DOSE_DUE_04_DOSE_DUE_MINIMUM_DATE);
+              addValue(d(forecastResult.getValid()), FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
             } else {
-              addValue(d(forecastResult.getValid()), FIELD_OUT_DOSE_DUE_04_DOSE_DUE_MINIMUM_DATE);
+              addValue(d(forecastResult.getDue()), FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
             }
-            addValue(d(forecastResult.getDue()), FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
             addValue(d(forecastResult.getOverdue()), FIELD_OUT_DOSE_DUE_06_DOSE_DUE_EXCEEDS_DATE);
             //        addValue(d(forecastResult.getOverdue()), FIELD_OUT_147_DOSE_DUE_MINIMUM_REMINDER_DATE + base);
             //        addValue(d(forecastResult.getOverdue()), FIELD_OUT_148_DOSE_DUE_RECOMMENDED_REMINDER_DATE + base);
@@ -683,7 +684,10 @@ public class CaretForecaster
       addValue(c(nc, ImmunizationForecastDataBean.ZOSTER), FIELD_OUT_SERIES_12_ZOSTER_SERIES_COMPLETED_INDICATOR);
       addValue("", FIELD_OUT_SERIES_13_RESERVED_FOR_FUTURE_USE);
 
-      description = forecastRunner.getTextReport(forecastingMode.equals(FORECASTING_MODE_ACCEPTABLE));
+      StringWriter stringWriter = new StringWriter();
+      PrintWriter out = new RpmsWriter(stringWriter);
+      forecastRunner.printTextReport(out);
+      description = stringWriter.toString();
 
     } catch (Throwable t) {
       t.printStackTrace();
@@ -847,6 +851,8 @@ public class CaretForecaster
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140328^0^0^0^0^HUEMS,TEST 2  Chart#: 174226^27654^20020701^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~^138^20140320^0^0^"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140401^0^1^0^0^ORR,ALBERT JOSEPH  Chart#: 105237^1745^19490331^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^~~~43177^9^19970424^0^0^0|||137440^115^20080820^0^0^0|||183911^121^19980331^1^0^0|||57611^88^19991116^0^0^0|||183909^33^20070410^0^0^0"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140401^0^1^0^0^ORR,ALBERT JOSEPH  Chart#: 105237^1745^19490331^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^~~~43177^9^19970424^0^0^0|||137440^115^20080820^0^0^0|||183911^121^19980331^5^0^0|||57611^88^19991116^0^0^0|||183909^33^20070410^0^0^0"
+  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140402^0^1^0^0^DEMO, BABYMALE  Chart#: 105237^1745^20140219^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^"
+  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140402^1^1^0^0^DEMO, BABYMALE  Chart#: 105237^1745^20140219^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^"
 
   public static void main(String[] args) throws Exception {
     String request = ForecastServer.TEST[0];
@@ -861,6 +867,35 @@ public class CaretForecaster
       cvxToVaccineIdMap.put(cvxCode.getCvxCode(), cvxCode.getVaccineId());
     }
     String response = cf.forecast(vaccineForecastManager, cvxToVaccineIdMap);
+    System.out.println();
     System.out.println(response);
+    System.out.println();
+    int pos;
+    while ((pos = response.indexOf("|||")) != -1) {
+      System.out.println(response.substring(0, pos));
+      response = response.substring(pos + 3);
+    }
+    System.out.println(response);
+
+  }
+
+  private static class RpmsWriter extends PrintWriter
+  {
+
+    public RpmsWriter(Writer out) {
+      super(out);
+    }
+
+    @Override
+    public void println() {
+      super.print("|||");
+    }
+
+    @Override
+    public void println(String x) {
+      super.print(x);
+      println();
+    }
+
   }
 }
