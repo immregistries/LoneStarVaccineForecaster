@@ -41,6 +41,7 @@ public class ImmunizationForecastDataBean
   public static final String DT = "DT";
 
   public static final String STATUS_DESCRIPTION_DUE_LATER = "due later";
+  public static final String STATUS_DESCRIPTION_DUE_MUCH_LATER = "due much later";
   public static final String STATUS_DESCRIPTION_DUE = "due";
   public static final String STATUS_DESCRIPTION_OVERDUE = "overdue";
   public static final String STATUS_DESCRIPTION_FINISHED = "finished";

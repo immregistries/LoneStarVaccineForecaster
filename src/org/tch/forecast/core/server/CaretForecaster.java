@@ -416,6 +416,8 @@ public class CaretForecaster
 
       if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_25_S_PN_CONTRAINDICATED_INDICATION).equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.PNEUMO);
+        filterSet.add(ImmunizationForecastDataBean.PCV13);
+        filterSet.add(ImmunizationForecastDataBean.PPSV);
       }
 
       if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_26_INFLUENZA_CONTRAINDICATED_INDICATION).equals("1")) {
@@ -435,6 +437,10 @@ public class CaretForecaster
       }
 
       ForecastRunner forecastRunner = new ForecastRunner(vaccineForecastManager);
+      forecastRunner.getForecastOptions().setFluSeasonDue(new TimePeriod("1 month"));
+      forecastRunner.getForecastOptions().setFluSeasonEnd(new TimePeriod("6 months"));
+      forecastRunner.getForecastOptions().setFluSeasonOverdue(new TimePeriod("4 months"));
+      forecastRunner.getForecastOptions().setFluSeasonStart(new TimePeriod("0 months"));
       forecastRunner.getForecastOptions().setIgnoreFourDayGrace(!use4DayGracePeriod);
       forecastRunner.getForecastOptions().setUseEarlyOverdue(true);
       forecastRunner.getForecastOptions().setUseEarlyDue(true);

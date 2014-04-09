@@ -346,7 +346,7 @@ public class ForecastReportPrinter
 
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
-    out.println("Evaluation and Forecast Report");
+    out.println("Texas Children's Hospital Forecaster v" + SoftwareVersion.VERSION);
     out.println();
     boolean hasAssumptions = false;
     for (ImmunizationForecastDataBean forecast : resultList) {
@@ -520,7 +520,6 @@ public class ForecastReportPrinter
     }
 
     out.println();
-
     out.println("Texas Children's Hospital Forecaster v" + SoftwareVersion.VERSION);
     out.println(" + run date: " + new DateTime().toString("M/D/Y"));
     out.println(" + schedule: " + forecasterScheduleName);

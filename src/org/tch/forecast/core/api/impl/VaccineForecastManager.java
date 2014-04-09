@@ -20,14 +20,36 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
   private Map<String, List<Schedule>> indications = new HashMap<String, List<Schedule>>();
   private ForecastSchedule forecastSchedule = null;
   private String forecastScheduleLocation = "ForecastSchedule.xml";
+  private String forecastScheduleText = null;
+
+  public String getForecastScheduleLocation() {
+    return forecastScheduleLocation;
+  }
+
+  public void setForecastScheduleLocation(String forecastScheduleLocation) {
+    this.forecastScheduleLocation = forecastScheduleLocation;
+  }
+
+
+  public String getForecastScheduleText() {
+    return forecastScheduleText;
+  }
+
+  public void setForecastScheduleText(String forecastScheduleText) {
+    this.forecastScheduleText = forecastScheduleText;
+  }
 
   public VaccineForecastManager() throws Exception {
-    init();
+    // default;
   }
 
   public VaccineForecastManager(String forecastScheduleLocation) throws Exception {
     this.forecastScheduleLocation = forecastScheduleLocation;
-    init();
+  }
+
+  public void reset() {
+    initialized = false;
+    indications = new HashMap<String, List<Schedule>>();
   }
 
   public Schedule getSchedule(String lineCode) throws Exception {
@@ -67,7 +89,11 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
 
   private void init() throws Exception {
     if (!initialized) {
-      init(forecastScheduleLocation);
+      if (forecastScheduleText != null) {
+        initFromText();
+      } else {
+        initFromResource();
+      }
       initialized = true;
     }
     initVaccineIdToLabelMap();
@@ -94,13 +120,23 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
     }
   }
 
-  public void init(String forecastScheduleLocation) throws Exception {
+  private void initFromResource() throws Exception {
     forecastSchedule = new ForecastSchedule();
     InputStream is = VaccineForecastManager.class.getResourceAsStream(forecastScheduleLocation);
     if (is == null) {
       is = VaccineForecastManager.class.getResourceAsStream("/" + forecastScheduleLocation);
     }
     forecastSchedule.init(is, this);
+    getVaccineForecasts();
+  }
+
+  private void initFromText() throws Exception {
+    forecastSchedule = new ForecastSchedule();
+    InputStream is = VaccineForecastManager.class.getResourceAsStream(forecastScheduleLocation);
+    if (is == null) {
+      is = VaccineForecastManager.class.getResourceAsStream("/" + forecastScheduleLocation);
+    }
+    forecastSchedule.initFromText(forecastScheduleText, this);
     getVaccineForecasts();
   }
 
@@ -173,7 +209,7 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
     Collections.sort(forecastAntigenList);
   }
 
-  private void getVaccineForecasts() throws Exception {
+  protected void getVaccineForecasts() throws Exception {
     for (ForecastAntigen forecastAntigen : forecastAntigenList) {
       for (VaccineForecastDataBean vaccineForecast : forecastSchedule.getVaccineForecastList()) {
         if (vaccineForecast.getForecastCode().equals(forecastAntigen.forecastCode)) {

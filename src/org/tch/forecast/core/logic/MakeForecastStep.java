@@ -156,7 +156,6 @@ public class MakeForecastStep extends ActionStep
       } else {
         if ((ds.forecastOptions.isRecommendWhenValid() ? ds.valid : ds.due).isGreaterThan(ds.forecastDateTime)) {
           statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER;
-          System.out.println("--> statusDescription = " + statusDescription);
         } else if (ds.forecastDateTime.isLessThan(ds.overdue)) {
           statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE;
         } else if (ds.forecastDateTime.isLessThan(ds.finished)) {

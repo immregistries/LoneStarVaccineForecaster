@@ -46,7 +46,7 @@ public class ForecastSchedule
     // default
   }
   
-  public ForecastSchedule initFromText(String text, VaccineForecastManagerInterface forecastManager) throws Exception
+  public void initFromText(String text, VaccineForecastManagerInterface forecastManager) throws Exception
   {
     InputStream is = new ByteArrayInputStream(text.getBytes());
     try {
@@ -55,7 +55,6 @@ public class ForecastSchedule
     {
       throw new Exception("Unable to read XML definition ", exception);
     }
-    return this;
   }
   
   public ForecastSchedule initFromResource(String resource, VaccineForecastManagerInterface forecastManager) throws Exception

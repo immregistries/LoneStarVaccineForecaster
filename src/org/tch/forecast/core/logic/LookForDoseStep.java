@@ -516,10 +516,12 @@ public class LookForDoseStep extends ActionStep
           ds.log("Checking validity against specific vaccine types, this black out does not apply to all vaccinations");
           shouldBlackOut = false;
           for (ValidVaccine cvi : blackOut.getAgainstVaccineIds()) {
-            for (ValidVaccine vi : vaccineIds) {
-              if (cvi.getVaccineId() == vi.getVaccineId()) {
-                ds.log("This black out applies to this event");
+            ds.log("  + looking at black out against vaccine " + cvi.getVaccineId());
+            for (ImmunizationInterface imm : ds.event.getImmList()) {
+              if (cvi.getVaccineId() == imm.getVaccineId()) {
+                ds.log("      - should black out ");
                 shouldBlackOut = true;
+                break;
               }
             }
           }
