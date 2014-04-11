@@ -270,6 +270,8 @@ public class CaretForecaster
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"128"); // H1N1-09, NOS
     doseDueOutHash.put(ImmunizationForecastDataBean.PPSV, "33"); // Pneumococcal,  PCV13
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA, "88"); // Influenza, seasonal, injectable
+    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "141"); // Influenza, seasonal, injectable
+    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_LAIV, "151"); // Influenza, seasonal, injectable
     doseDueOutHash.put(ImmunizationForecastDataBean.ZOSTER, "121"); // Influenza, seasonal, injectable
 
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-10"); // Td Adult  Booster
