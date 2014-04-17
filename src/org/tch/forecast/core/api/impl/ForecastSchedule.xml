@@ -1,10 +1,10 @@
-<schedule scheduleName="TCH-2014-04-02">
+<schedule scheduleName="TCH-2014-04-17">
 
 
 <forecast seriesName="Varicella">
   <vaccine vaccineName="Single" vaccineIds="178"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Same Live" vaccineIds="160, 161, 158, 162, 171, 175, 180, 2020, 1990, 148"/>
+  <vaccine vaccineName="Same Live" vaccineIds="160, 161, 158, 162, 171, 175, 180, 2020, 1990, 148, 203"/>
   <vaccine vaccineName="Other Live" vaccineIds="1690, 1700, 210"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-178"/>
   <schedule scheduleName="P1" dose="1" indication="NO-VAR-HIS" label="1 year">
@@ -62,13 +62,14 @@
 
 
 
+
 <forecast seriesName="Rubella">
   <vaccine vaccineName="Measles" vaccineIds="158, 159, 1560, 160, 161"/>
   <vaccine vaccineName="Mumps" vaccineIds="158, 159, 1560, 162, 175"/>
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
   <vaccine vaccineName="Same Live" vaccineIds="178, 161, 162"/>
-  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 1690, 1700, 210"/>
+  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 1690, 1700, 210, 203"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-158"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
@@ -115,7 +116,7 @@
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
   <vaccine vaccineName="Same Live" vaccineIds="178, 162, 171, 175"/>
-  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 1690, 1700, 210"/>
+  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 1690, 1700, 210, 203"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-158"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
@@ -152,6 +153,7 @@
     <indicate vaccineName="Assume Comp" schedule="COMPLETE" age="" reason="Assuming adult received full MMR series as a child." previousVaccineName="" minInterval=""/>
   </schedule>
 </forecast>
+
 
 
 
@@ -997,7 +999,7 @@
   <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
   <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
   <vaccine vaccineName="Same Live" vaccineIds="178, 160, 161, 171"/>
-  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 1690, 1700, 210"/>
+  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 1690, 1700, 210, 203"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-158"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
@@ -1034,6 +1036,7 @@
     <indicate vaccineName="Assume Comp" schedule="COMPLETE" age="" reason="Assuming adult received full MMR series as a child." previousVaccineName="" minInterval=""/>
   </schedule>
 </forecast>
+
 
 
 
@@ -1320,7 +1323,7 @@
 
 <forecast seriesName="Zoster">
   <vaccine vaccineName="Single" vaccineIds="2010, 2110"/>
-  <vaccine vaccineName="Live" vaccineIds="160, 161, 158, 162, 171, 175, 180, 2020, 1990, 148, 1690, 1700, 210"/>
+  <vaccine vaccineName="Live" vaccineIds="160, 161, 158, 162, 171, 175, 180, 2020, 1990, 148, 1690, 1700, 210, 203"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
     <valid age="50 years" interval="" grace=""/>
