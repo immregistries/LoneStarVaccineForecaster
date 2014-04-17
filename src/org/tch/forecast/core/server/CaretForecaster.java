@@ -590,7 +590,7 @@ public class CaretForecaster
       startSuppressDate.setMonth(4);
       startSuppressDate.setDay(1);
       DateTime endSuppressDate = new DateTime(forecastDate);
-      endSuppressDate.setMonth(7);
+      endSuppressDate.setMonth(8);
       endSuppressDate.setDay(1);
       DateTime suppressDate = new DateTime(forecastDate);
       if (suppressDate.isGreaterThanOrEquals(startSuppressDate) && suppressDate.isLessThan(endSuppressDate)) {
