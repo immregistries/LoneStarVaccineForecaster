@@ -121,10 +121,15 @@ public class VaccineForecastDataBean
         String seasonalDue = DomUtils.getAttributeValue(n, "due");
         String seasonalOverdue = DomUtils.getAttributeValue(n, "overdue");
         String seasonalEnd = DomUtils.getAttributeValue(n, "end");
+        String seasonalFinished = DomUtils.getAttributeValue(n, "finished");
         seasonal.setStart(new TimePeriod(seasonalStart));
         seasonal.setDue(new TimePeriod(seasonalDue));
         seasonal.setOverdue(new TimePeriod(seasonalOverdue));
         seasonal.setEnd(new TimePeriod(seasonalEnd));
+        if (seasonalFinished != null && !seasonalFinished.equals(""))
+        {
+          seasonal.setFinished(new TimePeriod(seasonalFinished));
+        }
       } else if (name.equals("transition")) {
         Transition transition = new Transition();
         String transitionName = DomUtils.getAttributeValue(n, "name");

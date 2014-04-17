@@ -443,6 +443,7 @@ public class CaretForecaster
       forecastRunner.getForecastOptions().setFluSeasonEnd(new TimePeriod("6 months"));
       forecastRunner.getForecastOptions().setFluSeasonOverdue(new TimePeriod("4 months"));
       forecastRunner.getForecastOptions().setFluSeasonStart(new TimePeriod("0 months"));
+      // forecastRunner.getForecastOptions().setFluSeasonFinished(new TimePeriod("9 months"));
       forecastRunner.getForecastOptions().setIgnoreFourDayGrace(!use4DayGracePeriod);
       forecastRunner.getForecastOptions().setUseEarlyOverdue(true);
       forecastRunner.getForecastOptions().setUseEarlyDue(true);
@@ -583,6 +584,19 @@ public class CaretForecaster
         response.append(SECTION_SEPARATOR);
       }
 
+      boolean inInfluenzaSuppressRange = false;
+      // special suppress flu forecast for first dose between 04/01 and 07/01 of this year
+      DateTime startSuppressDate = new DateTime(forecastDate);
+      startSuppressDate.setMonth(4);
+      startSuppressDate.setDay(1);
+      DateTime endSuppressDate = new DateTime(forecastDate);
+      endSuppressDate.setMonth(7);
+      endSuppressDate.setDay(1);
+      DateTime suppressDate = new DateTime(forecastDate);
+      if (suppressDate.isGreaterThanOrEquals(startSuppressDate) && suppressDate.isLessThan(endSuppressDate)) {
+        inInfluenzaSuppressRange = true;
+      }
+
       // #3 Doses Due Segment
       Set<String> nc = new HashSet<String>();
       {
@@ -603,6 +617,12 @@ public class CaretForecaster
         {
           boolean first = true;
           for (ImmunizationForecastDataBean forecastResult : forecastListDueToday) {
+            if (inInfluenzaSuppressRange
+                && (forecastResult.getForecastName().equals(ImmunizationForecastDataBean.INFLUENZA) || forecastResult
+                    .getForecastName().equals(ImmunizationForecastDataBean.INFLUENZA_IIV))
+                && forecastResult.getDose().equals("1")) {
+              continue;
+            }
             if (!first) {
               response.append(DOSE_SEPARATOR);
             }
@@ -858,7 +878,7 @@ public class CaretForecaster
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140328^0^0^0^0^HUEMS,SHEILA LYNN  Chart#: 174226^27654^19620922^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140328^0^0^0^0^HUEMS,TEST 2  Chart#: 174226^27654^20020701^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~^138^20140320^0^0^"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140401^0^1^0^0^ORR,ALBERT JOSEPH  Chart#: 105237^1745^19490331^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^~~~43177^9^19970424^0^0^0|||137440^115^20080820^0^0^0|||183911^121^19980331^1^0^0|||57611^88^19991116^0^0^0|||183909^33^20070410^0^0^0"
-  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140401^0^1^0^0^ORR,ALBERT JOSEPH  Chart#: 105237^1745^19490331^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^~~~43177^9^19970424^0^0^0|||137440^115^20080820^0^0^0|||183911^121^19980331^5^0^0|||57611^88^19991116^0^0^0|||183909^33^20070410^0^0^0"
+  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140401^0^1^0^0^ORR,ALBERT JOSEPH  Chart#: 105237^1745^19490331^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~43177^9^19970424^0^0^0|||137440^115^20080820^0^0^0|||183911^121^19980331^5^0^0|||57611^88^19991116^0^0^0|||183909^33^20070410^0^0^0"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140402^0^1^0^0^DEMO, BABYMALE  Chart#: 105237^1745^20140219^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140402^1^1^0^0^DEMO, BABYMALE  Chart#: 105237^1745^20140219^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^"
 

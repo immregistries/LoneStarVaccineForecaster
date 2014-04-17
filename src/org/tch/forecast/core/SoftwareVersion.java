@@ -5,8 +5,8 @@ public class SoftwareVersion
 
   public static final String VERSION_MAJOR = "3";
   public static final String VERSION_MINOR = "8";
-  public static final String VERSION_PATCH = "1";
-  public static final String VERSION_RELEASE = "20140409";
+  public static final String VERSION_PATCH = "2";
+  public static final String VERSION_RELEASE = "20140417";
 
   public static final String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
 

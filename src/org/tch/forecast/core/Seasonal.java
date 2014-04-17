@@ -7,6 +7,7 @@ public class Seasonal
   private TimePeriod due = null;
   private TimePeriod overdue = null;
   private TimePeriod end = null;
+  private TimePeriod finished = null;
 
   public Seasonal() {
     // default;
@@ -50,5 +51,15 @@ public class Seasonal
   public void setEnd(TimePeriod end) {
     this.end = end;
   }
+  
+  public TimePeriod getFinished() {
+    return finished;
+  }
+
+  public void setFinished(TimePeriod finished) {
+    this.finished = finished;
+  }
+
+
 
 }

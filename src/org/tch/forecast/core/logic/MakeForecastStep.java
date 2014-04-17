@@ -87,6 +87,15 @@ public class MakeForecastStep extends ActionStep
       seasonEnd.setMonth(1);
       seasonEnd.setDay(1);
       seasonEnd = ds.seasonal.getEnd().getDateTimeFrom(seasonEnd);
+//      DateTime seasonFinished = null;
+//      if (ds.seasonal.getFinished() != null)
+//      {
+//        DateTime previousSeasonEnd = new DateTime(ds.seasonEnd);
+//        previousSeasonEnd.addYears(-1);
+//        seasonFinished = ds.seasonal.getFinished().getDateTimeBefore(previousSeasonEnd);
+//      }
+
+      
       DateTime dt = new DateTime(ds.seasonEnd);
       dt.addDays(1);
       seasonStart = ds.seasonal.getStart().getDateTimeFrom(dt);
@@ -109,6 +118,13 @@ public class MakeForecastStep extends ActionStep
       if (ds.due.isLessThan(seasonStart)) {
         ds.due = seasonStart;
       }
+//      if (seasonFinished != null)
+//      {
+//        if (ds.due.isGreaterThanOrEquals(seasonFinished) && ds.due.isLessThanOrEquals(seasonEnd))
+//        {
+//          ds.due = ds.seasonal.getStart().getDateTimeFrom(dt);
+//        }
+//      }
     }
 
     ImmunizationForecastDataBean forecastBean = new ImmunizationForecastDataBean();
@@ -154,6 +170,7 @@ public class MakeForecastStep extends ActionStep
           || (seasonEnd != null && ds.due.getDate().after(seasonEnd.getDate()))) {
         statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON;
       } else {
+        
         if ((ds.forecastOptions.isRecommendWhenValid() ? ds.valid : ds.due).isGreaterThan(ds.forecastDateTime)) {
           statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER;
         } else if (ds.forecastDateTime.isLessThan(ds.overdue)) {

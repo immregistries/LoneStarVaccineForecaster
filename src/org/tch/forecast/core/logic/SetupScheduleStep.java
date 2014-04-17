@@ -119,6 +119,9 @@ public class SetupScheduleStep extends ActionStep
     if (ds.forecastOptions.getFluSeasonStart() != null) {
       ds.seasonal.setStart(ds.forecastOptions.getFluSeasonStart());
     }
+    if (ds.forecastOptions.getFluSeasonFinished() != null) {
+      ds.seasonal.setFinished(ds.forecastOptions.getFluSeasonFinished());
+    }
   }
 
   protected static DateTime setupSeasonEnd(DataStore ds) {
