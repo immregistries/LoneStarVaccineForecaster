@@ -563,6 +563,13 @@ public class CaretForecaster
             for (VaccinationDoseDataBean dose : forecastRunner.getDoseList()) {
               if (dose.getVaccinationId() == imm.getVaccinationId()) {
                 if (dose.getStatusCode().equals(VaccinationDoseDataBean.STATUS_INVALID)) {
+                  // adding special rule to skip marking a Hep B as invalid for third dose that is
+                  // pediatric
+                  if (dose.getForecastCode().equals(ImmunizationForecastDataBean.HEPB)
+                      && dose.getDoseCode().equals("3") && imm.getCvx().equals("110")) {
+                    continue;
+                  }
+
                   invalidReason = dose.getReason();
                   if (invalidReason == null) {
                     invalidReason = "";
@@ -881,6 +888,8 @@ public class CaretForecaster
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140401^0^1^0^0^ORR,ALBERT JOSEPH  Chart#: 105237^1745^19490331^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~43177^9^19970424^0^0^0|||137440^115^20080820^0^0^0|||183911^121^19980331^5^0^0|||57611^88^19991116^0^0^0|||183909^33^20070410^0^0^0"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140402^0^1^0^0^DEMO, BABYMALE  Chart#: 105237^1745^20140219^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140402^1^1^0^0^DEMO, BABYMALE  Chart#: 105237^1745^20140219^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^"
+  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20100527^1^1^0^0^DEMO, PATIENT BILL^1745^20100527^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^~~~^8^20100527^0^0^|||^110^20100714^0^0^|||^110^20100914^0^0^"
+  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140421^0^0^0^0^CREYG,ALLISON RAE  Chart#: 00-00-30^30^19840216^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3477^21^20140328^0^0^0|||3478^149^20140404^0^0^0|||"
 
   public static void main(String[] args) throws Exception {
     String request = ForecastServer.TEST[0];

@@ -378,10 +378,12 @@ public class ForecastReportPrinter
       out.println();
       if (dose.getReason().length() > 0) {
         out.print("     Reason: ");
-        out.print(pad(dose.getReason(), 59));
+        String s = printFirstWords(out, dose.getReason(), 59);
         out.println();
-        if (dose.getReason().length() > 59) {
-          out.println("     " + pad(dose.getReason().substring(59), 61));
+        while (s != null) {
+          out.print("             ");
+          s = printFirstWords(out, s, 59);
+          out.println();
         }
       }
       //      out.print("     ");
@@ -628,6 +630,34 @@ public class ForecastReportPrinter
       out.println(recommendation.getDecisionProcessTextHTML());
     }
     out.println("------------------------------------------------------------------------------");
+  }
+
+  private static String printFirstWords(PrintWriter out, String s, int length) {
+    if (s == null) {
+      return null;
+    }
+    s = s.trim();
+    if (s.length() <= length) {
+      out.print(s);
+      return null;
+    }
+    boolean notFirst = false;
+    while (s.length() > 0 && length > 0) {
+      int i = s.indexOf(' ');
+      length--;
+      if (notFirst) {
+        out.print(' ');
+      }
+      notFirst = true;
+      if (i < length) {
+        out.print(s.substring(0, i));
+        s = s.substring(i + 1).trim();
+        length = length - i;
+      } else {
+        return s;
+      }
+    }
+    return s;
   }
 
 }
