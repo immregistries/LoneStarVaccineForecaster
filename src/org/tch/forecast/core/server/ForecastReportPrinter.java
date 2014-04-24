@@ -644,9 +644,12 @@ public class ForecastReportPrinter
     boolean notFirst = false;
     while (s.length() > 0 && length > 0) {
       int i = s.indexOf(' ');
-      length--;
+      if (i == -1) {
+        i = s.length();
+      }
       if (notFirst) {
         out.print(' ');
+        length--;
       }
       notFirst = true;
       if (i < length) {
