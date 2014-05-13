@@ -247,7 +247,7 @@ public class CaretForecaster
     doseDueOutHash.put(ImmunizationForecastDataBean.MEASLES, "5"); // Measles
     doseDueOutHash.put(ImmunizationForecastDataBean.MUMPS, "07"); // Mumps
     doseDueOutHash.put(ImmunizationForecastDataBean.RUBELLA, "06"); // Rubella
-    doseDueOutHash.put(ImmunizationForecastDataBean.HEPB, "8"); // Hep B adolescent or pediatric
+    doseDueOutHash.put(ImmunizationForecastDataBean.HEPB, "45"); // Hep B adolescent or pediatric
     doseDueOutHash.put(ImmunizationForecastDataBean.TD, "9"); // Td adult
     doseDueOutHash.put(ImmunizationForecastDataBean.TDAP, "115"); // Tdap
     doseDueOutHash.put(ImmunizationForecastDataBean.HIB, "17"); // Hib  unspecified

@@ -475,7 +475,7 @@
     <overdue age="" interval="5 months" grace=""/>
     <finished age="22 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
+    <before-previous interval="24 weeks"/>
     <indicate vaccineName="HPV" schedule="COMPLETE" age="" reason=""/>
   </schedule>
   <schedule scheduleName="S1" dose="1" indication="MALE" label="At Risk 1st">
@@ -509,7 +509,7 @@
     <overdue age="" interval="5 months" grace=""/>
     <finished age="27 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
+    <before-previous interval="24 weeks"/>
     <indicate vaccineName="HPV" schedule="COMPLETE" age="" reason=""/>
   </schedule>
 </forecast>
@@ -566,7 +566,7 @@
     <due age="6 months" interval="" grace=""/>
     <overdue age="19 months" interval="" grace=""/>
     <finished age="200 years" interval="" grace=""/>
-    <after-invalid interval="8 weeks" grace="4 days"/>
+    <after-invalid interval="8 weeks" grace="7 weeks"/>
     <before-previous interval="16 weeks"/>
     <indicate vaccineName="Series" schedule="COMPLETE" age="" reason=""/>
     <indicate vaccineName="Adult" schedule="COMPLETE" age="" reason=""/>
