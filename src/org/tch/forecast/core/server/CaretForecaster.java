@@ -636,6 +636,7 @@ public class CaretForecaster
             first = false;
             currentPosition = 1;
             String doseDueCode = doseDueOutHash.get(forecastResult.getForecastName());
+            boolean isMeningRecommendation = forecastResult.getForecastName().equals(ImmunizationForecastDataBean.MCV4);
             //        String doseHL7Code = doseDueOutHash.get(forecastResult.getForecastName());
             //        if (doseHL7Code == null) {
             //          doseHL7Code = "";
@@ -647,10 +648,19 @@ public class CaretForecaster
             boolean overdue = forecastResult.getStatusDescription().equals("overdue");
             addValue(overdue ? "1" : "0", FIELD_OUT_DOSE_DUE_03_DOSE_DUE_PAST_DUE_INDICATOR);
             addValue(d(forecastResult.getValid()), FIELD_OUT_DOSE_DUE_04_DOSE_DUE_MINIMUM_DATE);
-            if (forecastingMode.equals(FORECASTING_MODE_ACCEPTABLE)) {
-              addValue(d(forecastResult.getValid()), FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
+            // Temporary fix for Mening, needs to be removed long term
+            if (isMeningRecommendation) {
+              if (!forecastResult.getDose().equals("1") && forecastingMode.equals(FORECASTING_MODE_ACCEPTABLE)) {
+                addValue(d(forecastResult.getValid()), FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
+              } else {
+                addValue(d(forecastResult.getDue()), FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
+              }
             } else {
-              addValue(d(forecastResult.getDue()), FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
+              if (forecastingMode.equals(FORECASTING_MODE_ACCEPTABLE)) {
+                addValue(d(forecastResult.getValid()), FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
+              } else {
+                addValue(d(forecastResult.getDue()), FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
+              }
             }
             addValue(d(forecastResult.getOverdue()), FIELD_OUT_DOSE_DUE_06_DOSE_DUE_EXCEEDS_DATE);
             //        addValue(d(forecastResult.getOverdue()), FIELD_OUT_147_DOSE_DUE_MINIMUM_REMINDER_DATE + base);
