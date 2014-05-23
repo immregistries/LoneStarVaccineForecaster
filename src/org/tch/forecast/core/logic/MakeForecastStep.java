@@ -170,8 +170,8 @@ public class MakeForecastStep extends ActionStep
           || (seasonEnd != null && ds.due.getDate().after(seasonEnd.getDate()))) {
         statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON;
       } else {
-        
-        if ((ds.forecastOptions.isRecommendWhenValid() ? ds.valid : ds.due).isGreaterThan(ds.forecastDateTime)) {
+        boolean recommendWhenValid = ds.forecastOptions.isRecommendWhenValid(forecastBean);
+        if ((recommendWhenValid ? ds.valid : ds.due).isGreaterThan(ds.forecastDateTime)) {
           statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER;
         } else if (ds.forecastDateTime.isLessThan(ds.overdue)) {
           statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE;

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.tch.forecast.core.DecisionProcessFormat;
+import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.TimePeriod;
 
 public class ForecastOptions
@@ -22,8 +23,24 @@ public class ForecastOptions
   private boolean useEarlyDue = false;
   private boolean useEarlyOverdue = false;
   private boolean recommendWhenValid = false;
+  private Set<String> recommendWhenValidSet = null;
+
+  public Set<String> getRecommendWhenValidSet() {
+    return recommendWhenValidSet;
+  }
+
+  public void setRecommendWhenValidSet(Set<String> recommendWhenValidSet) {
+    this.recommendWhenValidSet = recommendWhenValidSet;
+  }
 
   public boolean isRecommendWhenValid() {
+    return recommendWhenValid;
+  }
+
+  public boolean isRecommendWhenValid(ImmunizationForecastDataBean forecastBean) {
+    if (recommendWhenValid && recommendWhenValidSet != null) {
+      return recommendWhenValidSet.contains(forecastBean.getForecastName() + "-" + forecastBean.getDose());
+    }
     return recommendWhenValid;
   }
 

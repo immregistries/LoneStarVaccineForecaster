@@ -90,8 +90,8 @@ public class DataStore
   protected Map<String, List<Trace>> traces = null;
   protected List<ImmunizationInterface> vaccinations;
   protected DateTime valid = null;
+  protected DateTime validGrace = null;
   protected int validDoseCount = 0;
-  protected TimePeriod validGrace = null;
   protected String whenValidText = null;
   protected ForecastOptions forecastOptions = null;
 
@@ -319,7 +319,7 @@ public class DataStore
     return validDoseCount;
   }
 
-  public TimePeriod getValidGrace()
+  public DateTime getValidGrace()
   {
     return validGrace;
   }
@@ -583,7 +583,7 @@ public class DataStore
     this.validDoseCount = validDoseCount;
   }
 
-  public void setValidGrace(TimePeriod validGrace)
+  public void setValidGrace(DateTime validGrace)
   {
     this.validGrace = validGrace;
   }

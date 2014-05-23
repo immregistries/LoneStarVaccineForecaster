@@ -17,5 +17,7 @@ public interface VaccineForecastManagerInterface
   public String getVaccineName(int id);
   
   public ForecastSchedule getForecastSchedule();
+  
+  public void init() throws Exception;
 
 }

@@ -76,18 +76,20 @@ public class ListCodes
     Set<String> forecastCodeSet = new HashSet<String>();
 
     VaccineForecastManager vacccineForecastManager = new VaccineForecastManager();
-
+    vaccineForecastManager.init();
     Map<String, List<Schedule>> indicationsMap = vaccineForecastManager.getIndicationsMap();
 
     for (String key : indicationsMap.keySet()) {
       List<Schedule> scheduleList = indicationsMap.get(key);
       for (Schedule schedule : scheduleList) {
+        System.out.println("--> " + schedule.getScheduleName());
         for (String vaccineName : schedule.getVaccines().keySet()) {
           NamedVaccine namedVaccine = schedule.getVaccines().get(vaccineName);
           String vaccineString = namedVaccine.getVaccineIds();
           if (vaccineString == null) {
             throw new Exception("Unrecognized vaccine name '" + vaccineName + "'");
           }
+          System.out.println("-->  + " + vaccineString);
           String[] vaccNames = vaccineString.split("\\,");
           ValidVaccine[] validVaccines = new ValidVaccine[vaccNames.length];
           for (int i = 0; i < vaccNames.length; i++) {

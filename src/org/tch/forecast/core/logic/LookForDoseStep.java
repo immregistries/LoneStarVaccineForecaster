@@ -496,15 +496,8 @@ public class LookForDoseStep extends ActionStep
 
   private String checkInvalid(DataStore ds, DateTime vaccDate, ValidVaccine[] vaccineIds) {
 
-    if (ds.validGrace.isEmpty()) {
-      if (vaccDate.isLessThan(ds.valid)) {
-        return "before valid date";
-      }
-    } else {
-      DateTime dt = ds.schedule.getValidGrace().getDateTimeFrom(vaccDate);
-      if (dt.isLessThan(ds.valid)) {
-        return "before valid date";
-      }
+    if (vaccDate.isLessThan(ds.validGrace)) {
+      return "before valid date";
     }
     // Adjust around black out dates
     if (ds.blackOutDates != null && ds.blackOutDates.size() > 0) {

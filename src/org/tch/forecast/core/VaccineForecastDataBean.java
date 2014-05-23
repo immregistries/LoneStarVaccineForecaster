@@ -143,7 +143,7 @@ public class VaccineForecastDataBean
     }
   }
 
-  private void addToIndicationList(Schedule schedule, VaccineForecastManagerInterface forecastManager) {
+  private void addToIndicationList(Schedule schedule, VaccineForecastManagerInterface forecastManager) throws Exception {
     if (schedule.getIndication() != null && !schedule.getIndication().equals("")) {
       Map<String, List<Schedule>> indicationsMap = forecastManager.getIndicationsMap();
       List<Schedule> indicationList = indicationsMap.get(schedule.getIndication());

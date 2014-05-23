@@ -828,7 +828,7 @@ public class StepServlet extends ForecastServlet
       out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getValidInterval()));
       if (dataStore != null && !schedule.getValidInterval().isEmpty() && dataStore.getPreviousEventDate() != null) {
-        out.println(schedule.getValidInterval().getDateTimeFrom(dataStore.getPreviousEventDate()).toString("M/D/Y"));
+        out.println(schedule.getValidInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getValidGrace()) + "</td>");
@@ -844,8 +844,8 @@ public class StepServlet extends ForecastServlet
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getEarlyInterval()));
-      if (dataStore != null && !schedule.getEarlyInterval().isEmpty() && dataStore.getPreviousEventDate() != null) {
-        out.println(schedule.getEarlyInterval().getDateTimeFrom(dataStore.getPreviousEventDate()).toString("M/D/Y"));
+      if (dataStore != null && !schedule.getEarlyInterval().isEmpty() && dataStore.getPreviousEventDateValid() != null) {
+        out.println(schedule.getEarlyInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">&nbsp;</td>");
@@ -859,8 +859,8 @@ public class StepServlet extends ForecastServlet
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getDueInterval()));
-      if (dataStore != null && !schedule.getDueInterval().isEmpty() && dataStore.getPreviousEventDate() != null) {
-        out.println(schedule.getDueInterval().getDateTimeFrom(dataStore.getPreviousEventDate()).toString("M/D/Y"));
+      if (dataStore != null && !schedule.getDueInterval().isEmpty() && dataStore.getPreviousEventDateValid() != null) {
+        out.println(schedule.getDueInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td>&nbsp;</td>");
@@ -878,8 +878,8 @@ public class StepServlet extends ForecastServlet
         out.println("</td>");
         out.println("        <td class=\"insideValue\">" + safe(schedule.getEarlyOverdueInterval()));
         if (dataStore != null && !schedule.getEarlyOverdueInterval().isEmpty()
-            && dataStore.getPreviousEventDate() != null) {
-          out.println(schedule.getEarlyOverdueInterval().getDateTimeFrom(dataStore.getPreviousEventDate())
+            && dataStore.getPreviousEventDateValid() != null) {
+          out.println(schedule.getEarlyOverdueInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid())
               .toString("M/D/Y"));
         }
         out.println("</td>");
@@ -895,8 +895,8 @@ public class StepServlet extends ForecastServlet
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getOverdueInterval()));
-      if (dataStore != null && !schedule.getOverdueInterval().isEmpty() && dataStore.getPreviousEventDate() != null) {
-        out.println(schedule.getOverdueInterval().getDateTimeFrom(dataStore.getPreviousEventDate()).toString("M/D/Y"));
+      if (dataStore != null && !schedule.getOverdueInterval().isEmpty() && dataStore.getPreviousEventDateValid() != null) {
+        out.println(schedule.getOverdueInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td>&nbsp;</td>");
@@ -911,8 +911,8 @@ public class StepServlet extends ForecastServlet
             .toString("M/D/Y"));
       }
       out.println("        <td class=\"insideValue\">" + safe(schedule.getFinishedInterval()));
-      if (dataStore != null && !schedule.getFinishedInterval().isEmpty() && dataStore.getPreviousEventDate() != null) {
-        out.println(schedule.getFinishedInterval().getDateTimeFrom(dataStore.getPreviousEventDate()).toString("M/D/Y"));
+      if (dataStore != null && !schedule.getFinishedInterval().isEmpty() && dataStore.getPreviousEventDateValid() != null) {
+        out.println(schedule.getFinishedInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td>&nbsp;</td>");
@@ -950,7 +950,7 @@ public class StepServlet extends ForecastServlet
       out.println("        <td class=\"insideValue\">" + safe(schedule.getBeforePreviousInterval()));
       if (dataStore != null && schedule.getBeforePreviousInterval() != null
           && !schedule.getBeforePreviousInterval().isEmpty() && dataStore.getPreviousEventDate() != null) {
-        out.println(schedule.getBeforePreviousInterval().getDateTimeFrom(dataStore.getPreviousEventDate())
+        out.println(schedule.getBeforePreviousInterval().getDateTimeFrom(dataStore.getBeforePreviousEventDate())
             .toString("M/D/Y"));
       }
       out.println("</td>");

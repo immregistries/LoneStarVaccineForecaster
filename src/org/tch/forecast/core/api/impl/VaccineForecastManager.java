@@ -87,7 +87,7 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
 
   private static HashMap<Integer, String> vaccineIdToLabelMap = null;
 
-  private void init() throws Exception {
+  public void init() throws Exception {
     if (!initialized) {
       if (forecastScheduleText != null) {
         initFromText();
