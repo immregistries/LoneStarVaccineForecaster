@@ -825,7 +825,7 @@ public class CaretForecaster
     Calendar eighteenYears = Calendar.getInstance();
     eighteenYears.setTime(dateOfBirth);
     eighteenYears.add(Calendar.YEAR, 18);
-    return !eighteenYears.after(doseAdminDate);
+    return !eighteenYears.getTime().after(doseAdminDate);
   }
 
   public String cleanupHepA(boolean adultRecord, String cvxCode) {
