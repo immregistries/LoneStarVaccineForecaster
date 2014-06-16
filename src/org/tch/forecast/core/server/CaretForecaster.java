@@ -1003,6 +1003,8 @@ public class CaretForecaster
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20100527^1^1^0^0^DEMO, PATIENT BILL^1745^20100527^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^~~~^8^20100527^0^0^|||^110^20100714^0^0^|||^110^20100914^0^0^"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140421^0^0^0^0^CREYG,ALLISON RAE  Chart#: 00-00-30^30^19840216^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3477^21^20140328^0^0^0|||3478^149^20140404^0^0^0|||"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^149^20140414^0^0^0|||3482^111^20140421^0^0^0|||"
+  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^52^20140414^0^0^0|||"
+  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^03^20140414^0^0^0|||"
 
   public static void main(String[] args) throws Exception {
     String request = ForecastServer.TEST[0];

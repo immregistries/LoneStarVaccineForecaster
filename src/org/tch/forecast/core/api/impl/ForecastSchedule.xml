@@ -26,7 +26,7 @@
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="4 years">
     <pos row="1" column="2"/>
-    <valid age="15 months" interval="12 weeks" grace="8 weeks"/>
+    <valid age="" interval="12 weeks" grace="8 weeks"/>
     <early age="" interval="" grace=""/>
     <due age="4 years" interval="" grace=""/>
     <overdue age="7 years" interval="" grace=""/>
@@ -56,6 +56,7 @@
     <indicate vaccineName="Assume Comp" schedule="COMPLETE" age="" reason="Assuming adult received full Varicella series as a child or is immune."/>
   </schedule>
 </forecast>
+
 
 
 
@@ -638,7 +639,7 @@
     <due age="18 months" interval="" grace=""/>
     <overdue age="42 months" interval="" grace=""/>
     <finished age="150 years" interval="" grace=""/>
-    <after-invalid interval="6 months" grace="4 days"/>
+    <after-invalid interval="6 months" grace="6 months"/>
     <before-previous interval=""/>
     <indicate vaccineName="Child" schedule="COMPLETE" age="19 years" reason=""/>
     <indicate vaccineName="Child" schedule="INVALID" age="" reason=""/>
@@ -676,6 +677,8 @@
     <indicate vaccineName="Assume Comp" schedule="COMPLETE" age="" reason="Assuming adult received full Hep A series."/>
   </schedule>
 </forecast>
+
+
 
 
 
