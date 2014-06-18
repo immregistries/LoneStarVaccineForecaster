@@ -29,7 +29,7 @@ public class ForecastHandler extends Thread
       BufferedReader in = new BufferedReader(new InputStreamReader(input));
       String request = in.readLine();
       if (forecastServer.isDebug()) {
-        forecastServer.log("  Request: " + request);
+        forecastServer.logStartupLn("  Request: " + request);
       }
       String response = "";
       try {
@@ -40,11 +40,11 @@ public class ForecastHandler extends Thread
         e.printStackTrace();
       }
       if (forecastServer.isDebug()) {
-        forecastServer.log("  Response: " + response);
+        forecastServer.logStartupLn("  Response: " + response);
       }
       output.println(response);
     } catch (IOException ioe) {
-      forecastServer.log("Unable to process request: " + ioe.getMessage());
+      forecastServer.logStartupLn("Unable to process request: " + ioe.getMessage());
       ioe.printStackTrace();
     } finally {
       close();
@@ -57,7 +57,7 @@ public class ForecastHandler extends Thread
       input.close();
       socket.close();
     } catch (IOException ioe) {
-      forecastServer.log("Unable to close outputs: " + ioe.getMessage());
+      forecastServer.logStartupLn("Unable to close outputs: " + ioe.getMessage());
       ioe.printStackTrace();
     }
   }
@@ -66,13 +66,13 @@ public class ForecastHandler extends Thread
     try {
       input = new DataInputStream(socket.getInputStream());
     } catch (IOException ioe) {
-      forecastServer.log("Unable to create input stream: " + ioe.getMessage());
+      forecastServer.logStartupLn("Unable to create input stream: " + ioe.getMessage());
       ioe.printStackTrace();
     }
     try {
       output = new PrintStream(socket.getOutputStream());
     } catch (IOException ioe) {
-      forecastServer.log("Unable to create output stream: " + ioe.getMessage());
+      forecastServer.logStartupLn("Unable to create output stream: " + ioe.getMessage());
       ioe.printStackTrace();
     }
   }

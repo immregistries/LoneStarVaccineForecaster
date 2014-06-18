@@ -1,8 +1,12 @@
 package org.tch.forecast.core.server;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +26,7 @@ public class ForecastServer extends Thread
       "20131126^A^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||^",
       "20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^149^20131018^0^0^0|||",
       "20120905^R^^^^TEST123^^20020101^M^^^^^^^^^^^^^^^^^^^^^~~~TEST456^50^20120313^^^^|||",
-      "20140201^R^IHS_6m26^0^0^^55^19481128^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~55079^9^19990706^0^0^0|||180404^115^20110504^0^0^0|||55078^45^19990706^0^0^0|||183899^33^20060101^0^0^0"};
+      "20140201^R^IHS_6m26^0^0^^55^19481128^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~55079^9^19990706^0^0^0|||180404^115^20110504^0^0^0|||55078^45^19990706^0^0^0|||183899^33^20060101^0^0^0" };
   // java -classpath tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster
 
   protected static VaccineForecastManager vaccineForecastManager = null;
@@ -30,6 +34,12 @@ public class ForecastServer extends Thread
 
   private int port = DEFAULT_PORT;
   private boolean debug = false;
+  private StringBuilder startupProcessLog = new StringBuilder();
+  private StringBuilder runningProcessLog = new StringBuilder();
+
+  public String getProcessLog() {
+    return startupProcessLog.toString();
+  }
 
   public boolean isDebug() {
     return debug;
@@ -51,54 +61,108 @@ public class ForecastServer extends Thread
 
   @Override
   public void run() {
-    System.out.println(LOG_PRE + "Starting");
+    logStartupLn("Starting");
 
     try {
-      System.out.println(LOG_PRE + "  + loading forecaster core");
+      logStartupLn("  + loading forecaster core");
       vaccineForecastManager = new VaccineForecastManager();
-      System.out.println(LOG_PRE + "  + loading cvx codes");
+      logStartupLn("  + loading cvx codes");
       Map<String, CvxCode> cvxToCvxCodeMap = CvxCodes.getCvxToCvxCodeMap();
       cvxToVaccineIdMap = new HashMap<String, Integer>();
       for (CvxCode cvxCode : cvxToCvxCodeMap.values()) {
         cvxToVaccineIdMap.put(cvxCode.getCvxCode(), cvxCode.getVaccineId());
       }
-      System.out.println(LOG_PRE + "Testing");
+      logStartupLn("Testing");
 
       for (int i = 0; i < TEST.length; i++) {
-        System.out.print(LOG_PRE + "  + Test " + (i + 1) + ": ");
+        logStartup(LOG_PRE + "  + Test " + (i + 1) + ": ");
         CaretForecaster caretForecaster = new CaretForecaster(TEST[i]);
         String response = caretForecaster.forecast(vaccineForecastManager, cvxToVaccineIdMap);
         if (response.length() > 20) {
-          System.out.println("pass");
+          logStartupLn("pass");
         } else {
-          System.out.println("fail");
+          logStartupLn("fail");
         }
       }
     } catch (Exception e) {
-      System.out.println("fail");
-      System.out.println(LOG_PRE + "Unable to start forecaster because " + e.getMessage());
-      e.printStackTrace();
+      logStartupLn("fail");
+      logStartupLn("Unable to start forecaster because " + e.getMessage());
+      logStartup(e);
       return;
     }
     try {
       serverSocket = new ServerSocket(port);
-      System.out.println("Connected on port " + port);
+      logStartupLn("Connected on port " + port);
       while (true) {
         Socket socket = serverSocket.accept();
         if (debug) {
-          System.out.println(LOG_PRE + "Received request from local port " + socket.getLocalPort());
+          logRunningLn("Received request from local port " + socket.getLocalPort());
         }
         ForecastHandler forecastHandler = new ForecastHandler(socket, this);
         forecastHandler.start();
       }
     } catch (IOException e) {
-      System.out.println("Unable to listen on port " + port + ", shutting down TCH Foreacast Server");
-      e.printStackTrace();
+      logStartupLn("Unable to listen on port " + port + ", shutting down TCH Foreacast Server");
+      logStartup(e);
+    } catch (Throwable e)
+    {
+      logStartupLn("Unable to listen on port " + port + ", shutting down TCH Foreacast Server");
+      logStartup(e);
+    }
+    finally
+    {
+      logStartupLn("Shutting down forecater");
     }
   }
 
-  protected void log(String message) {
+  protected void logStartupLn(String message) {
     System.out.println(LOG_PRE + message);
+    startupProcessLog.append(message);
+    startupProcessLog.append("\n");
+  }
+
+  protected void logStartup(String message) {
+    System.out.print(LOG_PRE + message);
+    startupProcessLog.append(message);
+  }
+
+  protected void logStartup(Throwable throwable) {
+    throwable.printStackTrace(System.out);
+    throwable.printStackTrace();
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter printWriter = new PrintWriter(stringWriter);
+    throwable.printStackTrace(printWriter);
+    startupProcessLog.append(printWriter.toString());
+  }
+  
+  private long lastClearTime = 0;
+  private static final long ONE_HOUR = 1000 * 60 * 60;
+  
+  protected void logRunningLn(String message) {
+    System.out.print(LOG_PRE + message);
+    resetProcessingLog();
+    runningProcessLog.append(message);
+    runningProcessLog.append("\n");
+  }
+
+  private void resetProcessingLog() {
+    if (System.currentTimeMillis() - lastClearTime > ONE_HOUR)
+    {
+      runningProcessLog = new StringBuilder();
+      lastClearTime = System.currentTimeMillis();
+      SimpleDateFormat sdf = new SimpleDateFormat("M/d/y h:m:s");
+      runningProcessLog.append("Running process log reset at " + sdf.format(new Date()));
+      runningProcessLog.append("\n");
+    }
+  }
+
+  protected void logRunning(Throwable throwable) {
+    throwable.printStackTrace(System.out);
+    throwable.printStackTrace();
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter printWriter = new PrintWriter(stringWriter);
+    throwable.printStackTrace(printWriter);
+    runningProcessLog.append(printWriter.toString());
   }
 
   public static final int DEFAULT_PORT = 6708;
