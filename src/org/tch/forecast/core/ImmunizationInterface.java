@@ -21,4 +21,5 @@ public interface ImmunizationInterface
   public boolean isForceValid();
   
   public boolean isSubPotent();
+  
 }

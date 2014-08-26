@@ -21,6 +21,16 @@ public class Immunization implements ImmunizationInterface
   private boolean assumption = false;
   private boolean forceValid = false;
   private boolean subPotent = false;
+  private boolean inSeason = false;
+
+  public boolean isInSeason() {
+    return inSeason;
+  }
+
+  public void setInSeason(boolean inSeason) {
+    this.inSeason = inSeason;
+  }
+
 
   public boolean isSubPotent() {
     return subPotent;

@@ -23,14 +23,10 @@ public class MakeForecastStep extends ActionStep
 
   private void addForecastRecommendations(DataStore ds) {
     ds.log("Making recommendations");
-    if (ds.seasonStart != null && ds.seasonCompleted) {
-      ds.log("Adjusting for season start");
-      ds.seasonStart = new DateTime(ds.seasonStart);
-      ds.seasonStart.addYears(1);
-      ds.seasonEnd = new DateTime(ds.seasonEnd);
-      ds.seasonEnd.addYears(1);
-      DetermineRangesStep.determineRanges(ds);
-    }
+//    if (ds.seasonStartThis != null && ds.seasonCompleted) {
+//      ds.log("Adjusting for season start");
+//      DetermineRangesStep.determineRanges(ds);
+//    }
     if (ds.trace != null) {
       ds.traceList.setExplanationBulletPointStart();
     }
@@ -80,51 +76,15 @@ public class MakeForecastStep extends ActionStep
     }
 
     DateTime seasonEnd = null;
-    DateTime seasonStart = null;
+    DateTime seasonDue = null;
 
     if (ds.seasonal != null) {
-      seasonEnd = new DateTime(ds.forecastDateTime);
-      seasonEnd.setMonth(1);
-      seasonEnd.setDay(1);
-      seasonEnd = ds.seasonal.getEnd().getDateTimeFrom(seasonEnd);
-//      DateTime seasonFinished = null;
-//      if (ds.seasonal.getFinished() != null)
-//      {
-//        DateTime previousSeasonEnd = new DateTime(ds.seasonEnd);
-//        previousSeasonEnd.addYears(-1);
-//        seasonFinished = ds.seasonal.getFinished().getDateTimeBefore(previousSeasonEnd);
-//      }
-
+      seasonEnd = new DateTime(ds.seasonEndDateTime);
+      seasonDue = ds.seasonal.getDue().getDateTimeFrom(ds.seasonStartDateTime);
       
-      DateTime dt = new DateTime(ds.seasonEnd);
-      dt.addDays(1);
-      seasonStart = ds.seasonal.getStart().getDateTimeFrom(dt);
-      if (ds.forecastDateTime.isLessThan(seasonStart)) {
-        // today is before start of next season
-        if (ds.forecastDateTime.isGreaterThanOrEquals(seasonEnd)) {
-          // today is after the end of previous season
-          // send end date of the next season, which is next year
-          seasonEnd.addYears(1);
-        } else {
-          // today is before end of current season
-          // change startDate to last year
-          seasonStart.addYears(-1);
-        }
-      } else {
-        // today is in season
-        // sent end date to next year
-        seasonEnd.addYears(1);
+      if (ds.due.isLessThan(seasonDue)) {
+        ds.due = seasonDue;
       }
-      if (ds.due.isLessThan(seasonStart)) {
-        ds.due = seasonStart;
-      }
-//      if (seasonFinished != null)
-//      {
-//        if (ds.due.isGreaterThanOrEquals(seasonFinished) && ds.due.isLessThanOrEquals(seasonEnd))
-//        {
-//          ds.due = ds.seasonal.getStart().getDateTimeFrom(dt);
-//        }
-//      }
     }
 
     ImmunizationForecastDataBean forecastBean = new ImmunizationForecastDataBean();
@@ -140,8 +100,8 @@ public class MakeForecastStep extends ActionStep
     forecastBean.setSchedule(ds.schedule.getScheduleName());
     forecastBean.setImmregid(ds.patient.getImmregid());
     forecastBean.setTraceList(ds.traceList);
-    if (seasonStart != null) {
-      forecastBean.setSeasonStart(seasonStart.getDate());
+    if (seasonDue != null) {
+      forecastBean.setSeasonStart(seasonDue.getDate());
     }
     if (seasonEnd != null) {
       forecastBean.setSeasonEnd(seasonEnd.getDate());
@@ -166,18 +126,13 @@ public class MakeForecastStep extends ActionStep
       }
       ds.assumptionList.add(new Assumption(ds.schedule.getAssumeCompleteReason()));
     } else {
-      if ((ds.seasonal != null && ds.seasonCompleted)
-          || (seasonEnd != null && ds.due.getDate().after(seasonEnd.getDate()))) {
-        statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON;
-      } else {
-        boolean recommendWhenValid = ds.forecastOptions.isRecommendWhenValid(forecastBean);
-        if ((recommendWhenValid ? ds.valid : ds.due).isGreaterThan(ds.forecastDateTime)) {
-          statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER;
-        } else if (ds.forecastDateTime.isLessThan(ds.overdue)) {
-          statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE;
-        } else if (ds.forecastDateTime.isLessThan(ds.finished)) {
-          statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE;
-        }
+      boolean recommendWhenValid = ds.forecastOptions.isRecommendWhenValid(forecastBean);
+      if ((recommendWhenValid ? ds.valid : ds.due).isGreaterThan(ds.forecastDateTime)) {
+        statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER;
+      } else if (ds.forecastDateTime.isLessThan(ds.overdue)) {
+        statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE;
+      } else if (ds.forecastDateTime.isLessThan(ds.finished)) {
+        statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE;
       }
       if (ds.trace != null) {
         ds.traceList.addExplanation("Forecasting for dose " + DetermineRangesStep.getNextValidDose(ds, ds.schedule)
@@ -253,8 +208,8 @@ public class MakeForecastStep extends ActionStep
             forecastContraindication.setSchedule(ds.schedule.getScheduleName());
             forecastContraindication.setImmregid(ds.patient.getImmregid());
             forecastContraindication.setTraceList(traceList);
-            if (seasonStart != null) {
-              forecastContraindication.setSeasonStart(seasonStart.getDate());
+            if (seasonDue != null) {
+              forecastContraindication.setSeasonStart(seasonDue.getDate());
             }
             if (seasonEnd != null) {
               forecastContraindication.setSeasonEnd(seasonEnd.getDate());

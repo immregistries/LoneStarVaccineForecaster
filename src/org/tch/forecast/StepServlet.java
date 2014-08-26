@@ -279,20 +279,12 @@ public class StepServlet extends ForecastServlet
           out.println("    <td>" + safe(dataStore.getSeasonal().getOverdue()) + "</td>");
           out.println("  </tr>");
           out.println("  <tr>");
-          out.println("    <th>Start</th>");
-          out.println("    <td>" + safe(dataStore.getSeasonal().getStart()) + "</td>");
-          out.println("  </tr>");
-          out.println("  <tr>");
           out.println("    <th>Season Start</th>");
-          out.println("    <td>" + safe(dataStore.getSeasonStart()) + "</td>");
+          out.println("    <td>" + safe(dataStore.getSeasonStartDateTime()) + "</td>");
           out.println("  </tr>");
           out.println("  <tr>");
           out.println("    <th>Season End</th>");
-          out.println("    <td>" + safe(dataStore.getSeasonEnd()) + "</td>");
-          out.println("  </tr>");
-          out.println("  <tr>");
-          out.println("    <th>Season Completed</th>");
-          out.println("    <td>" + safe(dataStore.isSeasonCompleted()) + "</td>");
+          out.println("    <td>" + safe(dataStore.getSeasonEndDateTime()) + "</td>");
           out.println("  </tr>");
           out.println("</table>");
         }
@@ -367,12 +359,6 @@ public class StepServlet extends ForecastServlet
           out.println("<h3>Forecast Options</h3>");
           out.println("<table>");
           ForecastOptions forecastOptions = dataStore.getForecastOptions();
-          if (forecastOptions.getFluSeasonStart() != null) {
-            out.println("  <tr>");
-            out.println("    <th>Flu Season Start</th>");
-            out.println("    <td>" + safe(forecastOptions.getFluSeasonStart()) + "</td>");
-            out.println("  </tr>");
-          }
           if (forecastOptions.getFluSeasonDue() != null) {
             out.println("  <tr>");
             out.println("    <th>Flu Season  Due</th>");

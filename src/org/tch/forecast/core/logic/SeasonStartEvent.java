@@ -4,11 +4,11 @@ import java.util.Date;
 
 import org.tch.forecast.core.ImmunizationInterface;
 
-public class SeasonEndEvent implements ImmunizationInterface
+public class SeasonStartEvent implements ImmunizationInterface
 {
   private Date date = null;
 
-  public SeasonEndEvent(Date date) {
+  public SeasonStartEvent(Date date) {
     this.date = date;
   }
 
@@ -19,7 +19,7 @@ public class SeasonEndEvent implements ImmunizationInterface
 
   public int getVaccineId()
   {
-    return -504;
+    return -503;
   }
   
   public String getCvx()
@@ -29,7 +29,7 @@ public class SeasonEndEvent implements ImmunizationInterface
   
   public String getLabel()
   {
-    return "Season End";
+    return "Flu Season Start";
   }
   
   public String getMvx()

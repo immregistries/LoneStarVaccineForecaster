@@ -531,7 +531,6 @@ public class CaretForecaster
       forecastRunner.getForecastOptions().setFluSeasonDue(new TimePeriod("1 month"));
       forecastRunner.getForecastOptions().setFluSeasonEnd(new TimePeriod("6 months"));
       forecastRunner.getForecastOptions().setFluSeasonOverdue(new TimePeriod("4 months"));
-      forecastRunner.getForecastOptions().setFluSeasonStart(new TimePeriod("0 months"));
       // forecastRunner.getForecastOptions().setFluSeasonFinished(new TimePeriod("9 months"));
       forecastRunner.getForecastOptions().setIgnoreFourDayGrace(!use4DayGracePeriod);
       forecastRunner.getForecastOptions().setUseEarlyOverdue(true);

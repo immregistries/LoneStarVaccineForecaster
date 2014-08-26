@@ -45,6 +45,7 @@ public class ImmunizationForecastDataBean
   public static final String STATUS_DESCRIPTION_DUE = "due";
   public static final String STATUS_DESCRIPTION_OVERDUE = "overdue";
   public static final String STATUS_DESCRIPTION_FINISHED = "finished";
+  public static final String STATUS_DESCRIPTION_FINISHED_FOR_SEASON = "finished for season";
   public static final String STATUS_DESCRIPTION_COMPLETE = "complete";
   public static final String STATUS_DESCRIPTION_CONTRAINDICATED = "contraindicated";
   public static final String STATUS_DESCRIPTION_COMPLETE_FOR_SEASON = "complete for season";

@@ -113,9 +113,7 @@ public class ForecastReportPrinter
     out.println("        <th>Finished</th>");
     out.println("      </tr>");
     for (ImmunizationForecastDataBean forecast : resultList) {
-      if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)
-          || forecast.getStatusDescription()
-              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)) {
+      if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)) {
         DateTime validDate = new DateTime(forecast.getValid());
         DateTime dueDate = new DateTime(forecast.getDue());
         DateTime overdueDate = new DateTime(forecast.getOverdue());
@@ -144,6 +142,8 @@ public class ForecastReportPrinter
     for (ImmunizationForecastDataBean forecast : resultList) {
       if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)
           || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)
           || forecast.getStatusDescription().equals(
               ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
         out.println("      <tr>");

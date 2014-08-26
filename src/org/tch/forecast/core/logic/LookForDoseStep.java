@@ -1,6 +1,7 @@
 package org.tch.forecast.core.logic;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
+import org.tch.forecast.core.decisionLogic.DecisionLogic;
 import org.tch.forecast.core.model.Assumption;
 
 public class LookForDoseStep extends ActionStep
@@ -59,7 +61,11 @@ public class LookForDoseStep extends ActionStep
           forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE);
           forecastBean.getAssumptionList().addAll(ds.assumptionList);
         } else {
-          forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE);
+          if (ds.seasonal != null) {
+            forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON);
+          } else {
+            forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE);
+          }
         }
         ds.resultList.add(forecastBean);
         if (ds.traceList != null) {
@@ -67,6 +73,7 @@ public class LookForDoseStep extends ActionStep
           ds.traceList.setStatusDescription("Vaccination series complete.");
         }
       }
+
       ds.log("Schedule is finished, no more recommendations.");
       return FinishScheduleStep.NAME;
     } else if (ds.nextAction.equalsIgnoreCase(KEEP_LOOKING)) {
@@ -159,43 +166,10 @@ public class LookForDoseStep extends ActionStep
             allowInvalid = false;
           }
         }
+
         ds.log("Event is indicated, now validating");
         String invalidReason = null;
-        if (checkSeasonEnd(ds, ds.event)) {
-          ds.log("Season end reached");
-          if (ds.seasonCompleted) {
-            ds.log("Season completed.");
-            if (ds.trace != null) {
-              ds.traceList.addExplanation("Season ended " + DataStore.dateFormat.format(ds.event.eventDate) + ". ");
-            }
-          } else if (ds.event.eventDate.before(ds.valid.getDate())) {
-            ds.log("Season ended before dose could be administered");
-            if (ds.trace != null) {
-              ds.traceList.addExplanation("Season ended " + DataStore.dateFormat.format(ds.event.eventDate)
-                  + " before next dose was valid to give. ");
-            }
-          } else {
-            ds.log("Season ended before expected dose received.");
-            if (ds.trace != null) {
-              ds.traceList.addExplanation("Season ended " + DataStore.dateFormat.format(ds.event.eventDate)
-                  + " without valid dose given. ");
-            }
-          }
-          ds.seasonCompleted = false;
-          if (ds.trace != null && !indicate.getReason().equals("")) {
-            ds.trace.setReason(indicate.getReason());
-            ds.traceList.setExplanationRed();
-            ds.traceList.addExplanation(indicate.getReason());
-          }
-          DateTime dt = new DateTime(ds.event.eventDate);
-          dt.addDays(1);
-          ds.seasonStart = ds.seasonal.getStart().getDateTimeFrom(dt);
-          if (ds.seasonEnd == null) {
-            ds.seasonEnd = SetupScheduleStep.setupSeasonEnd(ds);
-          }
-          nextEvent(ds);
-          return indicate.getScheduleName();
-        } else if (checkTransition(ds, ds.event, indicate)) {
+        if (checkTransition(ds, ds.event, indicate)) {
           ds.log("Valid transition event.");
           addValidTransition(ds, vaccineIds);
           if (ds.trace != null) {
@@ -203,14 +177,8 @@ public class LookForDoseStep extends ActionStep
             ds.traceList.setExplanationRed();
             ds.traceList.addExplanation(indicate.getReason());
           }
-          if (ds.seasonal != null && indicate.isSeasonCompleted()) {
-            ds.seasonCompleted = true;
-            if (ds.trace != null) {
-              ds.traceList.addExplanation("Season completed. ");
-            }
-          }
           nextEvent(ds);
-          return indicate.getScheduleName();
+          return getNextScheduleName(ds, indicate);
         } else if (allowInvalid && (invalidReason = checkInvalid(ds, vaccDate, vaccineIds)) != null) {
           ds.log("Dose is invalid.");
           addInvalidDose(ds, vaccineIds, invalidReason);
@@ -267,14 +235,8 @@ public class LookForDoseStep extends ActionStep
           ds.previousEventDateValidNotBirth = vaccDate;
           ds.previousEventWasContra = true;
           ds.previousEventDate = vaccDate;
-          if (ds.seasonal != null && indicate.isSeasonCompleted()) {
-            ds.seasonCompleted = true;
-            if (ds.trace != null) {
-              ds.traceList.addExplanation("Season completed. ");
-            }
-          }
           nextEvent(ds);
-          return indicate.getScheduleName();
+          return getNextScheduleName(ds, indicate);
         }
       } else {
         ds.log("This event was not indicated for in this schedule. Skipping event and going to next.");
@@ -282,6 +244,17 @@ public class LookForDoseStep extends ActionStep
       nextEvent(ds);
     }
     return null;
+  }
+
+  public String getNextScheduleName(DataStore ds, VaccineForecastDataBean.Indicate indicate) {
+    String nextScheduleName = indicate.getScheduleName();
+    if (nextScheduleName.startsWith("DL")) {
+      DecisionLogic decisionLogic = ds.forecast.getDecisionLogic(nextScheduleName);
+      if (decisionLogic != null) {
+        nextScheduleName = decisionLogic.getTransition(ds);
+      }
+    }
+    return nextScheduleName;
   }
 
   protected boolean indicatedEvent(DataStore ds, VaccineForecastDataBean.Indicate indicate, ValidVaccine[] vaccineIds) {
@@ -345,8 +318,17 @@ public class LookForDoseStep extends ActionStep
         for (int previousVaccineId : ds.getPreviousVaccineIdList()) {
           for (ValidVaccine indicatedVaccineId : indicate.getPreviousVaccines()) {
             if (indicatedVaccineId.isSame(previousVaccineId, ds.previousEventDate.getDate())) {
-              foundPreviousMatch = true;
-              break;
+              if (indicatedVaccineId.getValidAge() != null) {
+                DateTime validAgeDate = indicatedVaccineId.getValidAge().getDateTimeFrom(
+                    ds.getPatient().getDobDateTime());
+                if (validAgeDate.isGreaterThanOrEquals(ds.previousEventDate)) {
+                  foundPreviousMatch = true;
+                  break;
+                }
+              } else {
+                foundPreviousMatch = true;
+                break;
+              }
             }
           }
         }
@@ -461,19 +443,6 @@ public class LookForDoseStep extends ActionStep
       }
     }
     return null;
-  }
-
-  private boolean checkSeasonEnd(DataStore ds, Event event) {
-    if (ds.seasonal != null) {
-      for (Iterator<ImmunizationInterface> it = event.immList.iterator(); it.hasNext();) {
-        ImmunizationInterface imm = it.next();
-        if (imm instanceof SeasonEndEvent) {
-          ds.seasonCompleted = false;
-          return true;
-        }
-      }
-    }
-    return false;
   }
 
   private boolean checkTransition(DataStore ds, Event event, VaccineForecastDataBean.Indicate indicate) {
@@ -649,8 +618,13 @@ public class LookForDoseStep extends ActionStep
 
             if (ds.trace != null) {
               ds.traceList.setExplanationBlue();
-              ds.traceList.addExplanation("Transitioning because patient is " + imm.getLabel() + " as of "
-                  + DataStore.dateFormat.format(imm.getDateOfShot()));
+              if (ds.seasonal == null) {
+                ds.traceList.addExplanation("Transitioning because patient is " + imm.getLabel() + " as of "
+                    + DataStore.dateFormat.format(imm.getDateOfShot()));
+              } else {
+                ds.traceList.addExplanation("Transitioning because of " + imm.getLabel() + " on "
+                    + DataStore.dateFormat.format(imm.getDateOfShot()));
+              }
             }
           }
         }

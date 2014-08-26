@@ -11,6 +11,8 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.tch.forecast.core.decisionLogic.DecisionLogic;
+import org.tch.forecast.core.decisionLogic.DecisionLogicFactory;
 import org.tch.forecast.core.logic.Event;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -28,6 +30,7 @@ public class VaccineForecastDataBean
   private Map<String, Schedule> schedules = new HashMap<String, Schedule>();
   private Seasonal seasonal = null;
   private List<Transition> transitionList = new ArrayList<Transition>();
+  private Map<String, DecisionLogic> decisionLogicMap = new HashMap<String, DecisionLogic>();
 
   protected VaccineForecastDataBean() {
     // default for ForecastSchedule to build object
@@ -47,6 +50,10 @@ public class VaccineForecastDataBean
     } catch (Exception exception) {
       throw new Exception("Unable to read XML definition " + source, exception);
     }
+  }
+
+  public DecisionLogic getDecisionLogic(String name) {
+    return decisionLogicMap.get(name);
   }
 
   protected Object processDocument(Document node, VaccineForecastManagerInterface forecastManager) throws Exception {
@@ -74,7 +81,8 @@ public class VaccineForecastDataBean
     }
   }
 
-  private void processScheduleOrVaccine(Node n, String name, String forecastCode, VaccineForecastManagerInterface forecastManager) throws Exception {
+  private void processScheduleOrVaccine(Node n, String name, String forecastCode,
+      VaccineForecastManagerInterface forecastManager) throws Exception {
     if (name != null) {
       if (name.equals("schedule")) {
         Schedule schedule = new Schedule();
@@ -114,20 +122,21 @@ public class VaccineForecastDataBean
           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
           namedVaccine.setValidStartDate(sdf.parse(validStartDate));
         }
+        String validAge = DomUtils.getAttributeValue(n, "validAge");
+        if (validAge != null && validAge.length() > 0) {
+          namedVaccine.setValidAge(new TimePeriod(validAge));
+        }
         vaccines.put(vaccineName.toUpperCase(), namedVaccine);
       } else if (name.equals("seasonal")) {
         seasonal = new Seasonal();
-        String seasonalStart = DomUtils.getAttributeValue(n, "start");
         String seasonalDue = DomUtils.getAttributeValue(n, "due");
         String seasonalOverdue = DomUtils.getAttributeValue(n, "overdue");
         String seasonalEnd = DomUtils.getAttributeValue(n, "end");
         String seasonalFinished = DomUtils.getAttributeValue(n, "finished");
-        seasonal.setStart(new TimePeriod(seasonalStart));
         seasonal.setDue(new TimePeriod(seasonalDue));
         seasonal.setOverdue(new TimePeriod(seasonalOverdue));
         seasonal.setEnd(new TimePeriod(seasonalEnd));
-        if (seasonalFinished != null && !seasonalFinished.equals(""))
-        {
+        if (seasonalFinished != null && !seasonalFinished.equals("")) {
           seasonal.setFinished(new TimePeriod(seasonalFinished));
         }
       } else if (name.equals("transition")) {
@@ -139,6 +148,18 @@ public class VaccineForecastDataBean
         transition.setAge(new TimePeriod(transitionAge));
         transition.setVaccineId(transitionVaccineId);
         transitionList.add(transition);
+      } else if (name.equals("decisionLogic")) {
+        String decisionLogicName = DomUtils.getAttributeValue(n, "name");
+        DecisionLogic decisionLogic = DecisionLogicFactory.getDecisionLogic(decisionLogicName);
+        if (decisionLogic != null) {
+          NodeList l = n.getChildNodes();
+          for (int i = 0, icount = l.getLength(); i < icount; i++) {
+            n = l.item(i);
+            name = n.getNodeName();
+            processDecisionLogicItem(n, name, decisionLogic);
+          }
+          decisionLogicMap.put(decisionLogicName, decisionLogic);
+        }
       }
     }
   }
@@ -152,6 +173,18 @@ public class VaccineForecastDataBean
         indicationsMap.put(schedule.getIndication(), indicationList);
       }
       indicationList.add(schedule);
+    }
+  }
+
+  private void processDecisionLogicItem(Node n, String name, DecisionLogic decisionLogic) throws Exception {
+    if (name != null) {
+      String mapName = DomUtils.getAttributeValue(n, "name");
+      String mapValue = DomUtils.getAttributeValue(n, "value");
+      if (name.equals("constant")) {
+        decisionLogic.getConstantMap().put(mapName, mapValue);
+      } else if (name.equals("transition")) {
+        decisionLogic.getTransitionMap().put(mapName, mapValue);
+      }
     }
   }
 
@@ -241,7 +274,7 @@ public class VaccineForecastDataBean
     }
   }
 
-  private ValidVaccine[] convertToVaccineIds(String vaccineName) throws Exception {
+  public ValidVaccine[] convertToVaccineIds(String vaccineName) throws Exception {
     if (vaccineName == null || vaccineName.length() == 0) {
       return new ValidVaccine[0];
     }
@@ -268,6 +301,7 @@ public class VaccineForecastDataBean
         throw new IllegalArgumentException("Unrecognized vaccine '" + vaccName + "', must be vaccine id");
       }
       validVaccine.setValidStartDate(namedVaccine.getValidStartDate());
+      validVaccine.setValidAge(namedVaccine.getValidAge());
     }
     return validVaccines;
   }
@@ -764,6 +798,7 @@ public class VaccineForecastDataBean
     public String SCHEDULE_INVALID = "INVALID";
     public String SCHEDULE_CONTRA = "CONTRA";
     public String SCHEDULE_COMPLETE = "COMPLETE";
+    public String SCHEDULE_FINISHED = "FINISHED";
 
     public ValidVaccine[] getHasHadVaccines() {
       return hasHadVaccines;
@@ -944,6 +979,15 @@ public class VaccineForecastDataBean
     private String vaccineIds = "";
     private String vaccineName = "";
     private Date validStartDate = null;
+    private TimePeriod validAge = null;
+
+    public TimePeriod getValidAge() {
+      return validAge;
+    }
+
+    public void setValidAge(TimePeriod validAge) {
+      this.validAge = validAge;
+    }
 
     public String getVaccineIds() {
       return vaccineIds;
@@ -975,6 +1019,15 @@ public class VaccineForecastDataBean
     private int vaccineId = 0;
     private Date validStartDate = null;
     private Date validEndDate = null;
+    private TimePeriod validAge = null;
+
+    public TimePeriod getValidAge() {
+      return validAge;
+    }
+
+    public void setValidAge(TimePeriod validAge) {
+      this.validAge = validAge;
+    }
 
     @Override
     public String toString() {
@@ -1032,9 +1085,5 @@ public class VaccineForecastDataBean
       return true;
     }
   }
-
-
-
- 
 
 }

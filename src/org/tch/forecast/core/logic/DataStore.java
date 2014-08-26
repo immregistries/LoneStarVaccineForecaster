@@ -82,9 +82,8 @@ public class DataStore
   protected int scheduleListPos = -1;
   protected Seasonal seasonal = null;
   protected List<Transition> transitionList = null;
-  protected boolean seasonCompleted = false;
-  protected DateTime seasonEnd = null;
-  protected DateTime seasonStart = null;
+  protected DateTime seasonEndDateTime = null;
+  protected DateTime seasonStartDateTime = null;
   protected Trace trace = null;
   protected TraceList traceList = null;
   protected Map<String, List<Trace>> traces = null;
@@ -279,14 +278,14 @@ public class DataStore
     return transitionList;
   }
 
-  public DateTime getSeasonEnd()
+  public DateTime getSeasonEndDateTime()
   {
-    return seasonEnd;
+    return seasonEndDateTime;
   }
 
-  public DateTime getSeasonStart()
+  public DateTime getSeasonStartDateTime()
   {
-    return seasonStart;
+    return seasonStartDateTime;
   }
 
   public Trace getTrace()
@@ -332,11 +331,6 @@ public class DataStore
   public boolean isPreviousEventWasContra()
   {
     return previousEventWasContra;
-  }
-
-  public boolean isSeasonCompleted()
-  {
-    return seasonCompleted;
   }
 
   public void log(String s)
@@ -513,19 +507,14 @@ public class DataStore
     this.seasonal = seasonal;
   }
 
-  public void setSeasonCompleted(boolean seasonCompleted)
+  public void setSeasonEndDateTime(DateTime seasonEnd)
   {
-    this.seasonCompleted = seasonCompleted;
+    this.seasonEndDateTime = seasonEnd;
   }
 
-  public void setSeasonEnd(DateTime seasonEnd)
+  public void setSeasonStartDateTime(DateTime seasonStart)
   {
-    this.seasonEnd = seasonEnd;
-  }
-
-  public void setSeasonStart(DateTime seasonStart)
-  {
-    this.seasonStart = seasonStart;
+    this.seasonStartDateTime = seasonStart;
   }
 
   public void setTrace(Trace trace)

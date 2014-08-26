@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2014-06-16">
+<schedule scheduleName="TCH-2014-08-20">
 
 
 <forecast seriesName="Varicella">
@@ -163,17 +163,15 @@
 
 <forecast seriesName="Influenza">
   <vaccine vaccineName="Flu" vaccineIds="2050, 180, 181, 1430, 1440, 179, 200, 201, 185, 204, 203"/>
-  <vaccine vaccineName="Flu+" vaccineIds="2050, 180, 181, 1430, 1440, 179, 200, 201, 185, 204, 203" validStartDate="2010-07-31"/>
   <vaccine vaccineName="Nasal" vaccineIds="180, 203"/>
   <vaccine vaccineName="Live" vaccineIds="158, 159, 160, 161, 162, 171, 175, 178, 2020"/>
   <vaccine vaccineName="H1N1" vaccineIds="186, 187, 188, 189"/>
-  <vaccine vaccineName="Season End" vaccineIds="-504"/>
-  <vaccine vaccineName="9 Years Old" vaccineIds="-9"/>
-  <seasonal start="1 month" due="0 month" overdue="4 months" end="6 months"/>
-  <transition name="9 Years Old" age="9 Years" vaccineId="-9"/>
-  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1st">
+  <vaccine vaccineName="Season Start" vaccineIds="-503"/>
+  <seasonal due="1 month" overdue="4 months" end="6 months"/>
+  <transition name="" age="" vaccineId=""/>
+  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="season">
     <pos row="1" column="1"/>
-    <valid age="6 months" interval="" grace="4 days"/>
+    <valid age="6 months" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="6 months" interval="" grace=""/>
     <overdue age="150 years" interval="" grace=""/>
@@ -182,78 +180,12 @@
     <before-previous interval=""/>
     <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" seasonCompleted=""/>
-    <indicate vaccineName="Flu+" schedule="P2" age="9 years" reason="" seasonCompleted=""/>
-    <indicate vaccineName="Flu" schedule="H1" age="9 years" reason="" seasonCompleted=""/>
-    <indicate vaccineName="Flu" schedule="S1" age="" reason="" seasonCompleted="Yes"/>
-    <indicate vaccineName="Season End" schedule="P1" age="9 years" reason="" seasonCompleted=""/>
-    <indicate vaccineName="Season End" schedule="S1" age="" reason="" seasonCompleted=""/>
-    <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" seasonCompleted=""/>
+    <indicate vaccineName="Flu" schedule="P1" age="" reason="" seasonCompleted=""/>
+    <indicate vaccineName="Season Start" schedule="S1" age="" reason="" seasonCompleted=""/>
   </schedule>
-  <schedule scheduleName="S1" dose="1" indication="" label="seasonal">
+  <schedule scheduleName="S1" dose="1" indication="" label="current season">
     <pos row="1" column="3"/>
-    <valid age="" interval="4 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="7 months" interval="" grace=""/>
-    <overdue age="150 years" interval="" grace=""/>
-    <finished age="150 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
-    <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" seasonCompleted=""/>
-    <indicate vaccineName="Flu" schedule="S1" age="" reason="" seasonCompleted="Yes"/>
-    <indicate vaccineName="Season End" schedule="S1" age="" reason="" seasonCompleted=""/>
-  </schedule>
-  <schedule scheduleName="P2" dose="2" indication="" label="2nd">
-    <pos row="1" column="2"/>
-    <valid age="" interval="4 weeks" grace=""/>
-    <early age="" interval="" grace=""/>
-    <due age="" interval="1 month" grace=""/>
-    <overdue age="" interval="2 months" grace=""/>
-    <finished age="150 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
-    <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
-    <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
-    <indicate vaccineName="Season End" schedule="R1" age="9 years" reason="" minInterval="" seasonCompleted=""/>
-    <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
-    <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
-  </schedule>
-  <schedule scheduleName="R1" dose="1" indication="" label="1st repeat">
-    <pos row="1" column="2"/>
-    <valid age="" interval="4 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="7 months" interval="" grace=""/>
-    <overdue age="150 years" interval="" grace=""/>
-    <finished age="150 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
-    <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
-    <indicate vaccineName="Flu" schedule="R2" age="9 years" reason="" minInterval="" seasonCompleted=""/>
-    <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
-    <indicate vaccineName="Season End" schedule="R1" age="9 years" reason="" minInterval="" seasonCompleted=""/>
-    <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
-    <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
-  </schedule>
-  <schedule scheduleName="R2" dose="2" indication="" label="2nd repeat">
-    <pos row="2" column="2"/>
-    <valid age="" interval="4 weeks" grace=""/>
-    <early age="" interval="" grace=""/>
-    <due age="" interval="1 month" grace=""/>
-    <overdue age="" interval="2 months" grace=""/>
-    <finished age="150 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
-    <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
-    <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
-    <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
-    <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
-  </schedule>
-  <schedule scheduleName="H1" dose="1" indication="" label="1st Containing H1N1">
-    <pos row="3" column="1"/>
-    <valid age="" interval="4 weeks" grace="4 days"/>
+    <valid age="6 months" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="6 months" interval="" grace=""/>
     <overdue age="150 years" interval="" grace=""/>
@@ -261,17 +193,18 @@
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
-    <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted="" hasHad=""/>
-    <indicate vaccineName="Flu" schedule="S1" age="9 years" reason="" minInterval="" seasonCompleted="Yes" hasHad="H1N1"/>
-    <indicate vaccineName="Flu+" schedule="H2" age="9 years" reason="" minInterval="" seasonCompleted="" hasHad=""/>
-    <indicate vaccineName="Flu" schedule="H1" age="9 years" reason="" minInterval="" seasonCompleted="" hasHad=""/>
-    <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes" hasHad=""/>
-    <indicate vaccineName="Season End" schedule="H1" age="9 years" reason="" minInterval="" seasonCompleted="" hasHad=""/>
-    <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted="" hasHad=""/>
-    <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" minInterval="" seasonCompleted="" hasHad=""/>
+    <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" seasonCompleted=""/>
+    <indicate vaccineName="Flu" schedule="DL FLU 2014" age="" reason="" seasonCompleted="Yes"/>
   </schedule>
-  <schedule scheduleName="H2" dose="2" indication="" label="2nd Containing H1N1">
-    <pos row="3" column="2"/>
+  <decisionLogic name="DL FLU 2014">
+    <constant name="Season 2013 Start" value="07/01/2013"/>
+    <constant name="Season 2010 Start" value="07/01/2010"/>
+    <constant name="Valid Vaccine" value="Flu"/>
+    <transition name="Second Dose Needed" value="S2"/>
+    <transition name="No More Doses Needed" value="COMPLETE"/>
+  </decisionLogic>
+  <schedule scheduleName="S2" dose="2" indication="" label="2nd seasonal">
+    <pos row="1" column="2"/>
     <valid age="" interval="4 weeks" grace=""/>
     <early age="" interval="" grace=""/>
     <due age="" interval="1 month" grace=""/>
@@ -281,9 +214,7 @@
     <before-previous interval=""/>
     <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" minInterval="" seasonCompleted=""/>
-    <indicate vaccineName="Flu" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
-    <indicate vaccineName="Season End" schedule="S1" age="" reason="" minInterval="" seasonCompleted=""/>
-    <indicate vaccineName="9 Years Old" schedule="S1" age="" reason="" minInterval="" seasonCompleted="Yes"/>
+    <indicate vaccineName="Flu" schedule="COMPLETE" age="" reason="" minInterval="" seasonCompleted=""/>
   </schedule>
 </forecast>
 
@@ -292,13 +223,22 @@
 
 
 
+
+
+
+
 <forecast seriesName="Hib">
-  <vaccine vaccineName="Hib Only" vaccineIds="128, 1330, 1340"/>
   <vaccine vaccineName="PRP-OMP" vaccineIds="136, 1350"/>
   <vaccine vaccineName="Series Dose" vaccineIds="128, 1330, 1340, 136, 1350, 115, 121, 142, 213"/>
   <vaccine vaccineName="Booster Dose" vaccineIds="128, 1330, 1340, 136, 1350, 113, 121, 1320, 115, 121, 213"/>
   <vaccine vaccineName="TriHIBit" vaccineIds="113"/>
-  <schedule scheduleName="A1" dose="1" indication="BIRTH" label="2 months">
+  <vaccine vaccineName="7 Months Old" vaccineIds="-7"/>
+  <vaccine vaccineName="12 Months Old" vaccineIds="-12"/>
+  <vaccine vaccineName="15 Months Old" vaccineIds="-15"/>
+  <transition name="7 Months Old" age="7 months" vaccineId="-7"/>
+  <transition name="12 Months Old" age="12 months" vaccineId="-12"/>
+  <transition name="15 Months Old" age="15 months" vaccineId="-15"/>
+  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
     <pos row="1" column="1"/>
     <valid age="6 weeks" interval="" grace="4 days"/>
     <early age="6 weeks" interval="" grace=""/>
@@ -307,53 +247,12 @@
     <finished age="5 years" interval="" grace=""/>
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
-    <indicate vaccineName="Hib Only" schedule="A2" age="7 months" reason=""/>
-    <indicate vaccineName="PRP-OMP" schedule="P2" age="7 months" reason="Switching to 3 dose PRP-OMP schedule."/>
-    <indicate vaccineName="Series Dose" schedule="A2" age="7 months" reason=""/>
-    <indicate vaccineName="Series Dose" schedule="B2" age="12 months" reason="Started late, switching to 3 dose schedule."/>
-    <indicate vaccineName="Series Dose" schedule="C2" age="15 months" reason="Started late, switching to 2 dose schedule."/>
+    <indicate vaccineName="PRP-OMP" schedule="R2" age="" reason="Switching to 3 dose PRP-OMP schedule."/>
+    <indicate vaccineName="Series Dose" schedule="P2" age="" reason=""/>
     <indicate vaccineName="TriHIBit" schedule="INVALID" age="" reason="TriHIBit invalid as first dose."/>
-    <indicate vaccineName="Booster Dose" schedule="INVALID" age="15 months" reason="Booster dose can not be given before 15 months."/>
-    <indicate vaccineName="Booster Dose" schedule="COMPLETE" age="" reason=""/>
+    <indicate vaccineName="7 Months Old" schedule="C1" age="" reason="Did not receive first dose before 7 months of age, switching to 3 dose schedule."/>
   </schedule>
-  <schedule scheduleName="C2" dose="B" indication="" label="12 month catch-up">
-    <pos row="3" column="2"/>
-    <valid age="12 months" interval="8 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="14 months" interval="" grace=""/>
-    <overdue age="16 months" interval="" grace=""/>
-    <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="8 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="Booster Dose" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-  <schedule scheduleName="A3" dose="3" indication="" label="6 months">
-    <pos row="1" column="3"/>
-    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="6 months" interval="" grace=""/>
-    <overdue age="7 months" interval="" grace=""/>
-    <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="Series Dose" schedule="A4" age="15 months" reason=""/>
-    <indicate vaccineName="Booster Dose" schedule="INVALID" age="12 months" reason=""/>
-    <indicate vaccineName="Booster Dose" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-  <schedule scheduleName="B2" dose="2" indication="" label="7-11 month catch-up">
-    <pos row="2" column="2"/>
-    <valid age="10 weeks" interval="4 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="" interval="4 weeks" grace=""/>
-    <overdue age="" interval="3 months" grace=""/>
-    <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="Series Dose" schedule="B3" age="15 months" reason=""/>
-    <indicate vaccineName="Booster Dose" schedule="INVALID" age="12 months" reason=""/>
-    <indicate vaccineName="Booster Dose" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-  <schedule scheduleName="A2" dose="2" indication="" label="4 months">
+  <schedule scheduleName="P2" dose="2" indication="" label="4 months">
     <pos row="1" column="2"/>
     <valid age="10 weeks" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
@@ -362,26 +261,25 @@
     <finished age="5 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="Series Dose" schedule="A3" age="12 months" reason=""/>
-    <indicate vaccineName="Series Dose" schedule="B3" age="15 months" reason="Dose received after 12 months of age, switching to catchup schedule. Only one more dose needed."/>
-    <indicate vaccineName="Booster Dose" schedule="INVALID" age="12 months" reason=""/>
-    <indicate vaccineName="Booster Dose" schedule="COMPLETE" age="" reason=""/>
+    <indicate vaccineName="Series Dose" schedule="P3" age="" reason=""/>
+    <indicate vaccineName="Booster Dose" schedule="INVALID" age="" reason=""/>
+    <indicate vaccineName="12 Months Old" schedule="P3" age="15 months" reason="Did not receive second dose before 12 months of age, now only two more doses needed."/>
   </schedule>
-  <schedule scheduleName="P2" dose="2" indication="" label="4 month PRP-OMP">
-    <pos row="4" column="2"/>
-    <valid age="10 weeks" interval="4 weeks" grace="4 days"/>
+  <schedule scheduleName="P3" dose="3" indication="" label="6 months">
+    <pos row="1" column="3"/>
+    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
-    <due age="4 months" interval="" grace=""/>
-    <overdue age="5 months" interval="" grace=""/>
+    <due age="6 months" interval="" grace=""/>
+    <overdue age="7 months" interval="" grace=""/>
     <finished age="5 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="PRP-OMP" schedule="A4" age="15 months" reason=""/>
-    <indicate vaccineName="Hib Only" schedule="A3" age="15 months" reason=""/>
-    <indicate vaccineName="Booster Dose" schedule="A3" age="12 months" reason="Booster dose should not be given before 12 months of age."/>
-    <indicate vaccineName="Booster Dose" schedule="COMPLETE" age="" reason=""/>
+    <indicate vaccineName="Series Dose" schedule="P4" age="" reason=""/>
+    <indicate vaccineName="Booster Dose" schedule="INVALID" age="12 months" reason="Booster dose should not be given before 12 months of age."/>
+    <indicate vaccineName="Booster Dose" schedule="P4" age="" reason=""/>
+    <indicate vaccineName="15 Months Old" schedule="P4" age="" reason="Did not receive third dose before 15 months of age, now only one more dose needed."/>
   </schedule>
-  <schedule scheduleName="A4" dose="B" indication="" label="12 months">
+  <schedule scheduleName="P4" dose="B" indication="" label="12 months">
     <pos row="1" column="4"/>
     <valid age="12 months" interval="8 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
@@ -392,18 +290,62 @@
     <before-previous interval=""/>
     <indicate vaccineName="Booster Dose" schedule="COMPLETE" age="" reason=""/>
   </schedule>
-  <schedule scheduleName="B3" dose="B" indication="" label="catch-up booster">
-    <pos row="2" column="3"/>
-    <valid age="12 months" interval="8 weeks" grace="4 days"/>
+  <schedule scheduleName="R2" dose="2" indication="" label="4 month PRP-OMP">
+    <pos row="4" column="2"/>
+    <valid age="10 weeks" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
-    <due age="12 months" interval="" grace=""/>
-    <overdue age="16 months" interval="" grace=""/>
+    <due age="4 months" interval="" grace=""/>
+    <overdue age="5 months" interval="" grace=""/>
     <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="8 weeks" grace="4 days"/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="Booster Dose" schedule="COMPLETE" age="" reason=""/>
+    <indicate vaccineName="PRP-OMP" schedule="P4" age="" reason=""/>
+    <indicate vaccineName="Series Dose" schedule="P3" age="" reason="Did not receive second dose of PMP-OMP, switching back to standard 4 dose schedule."/>
+    <indicate vaccineName="Booster Dose" schedule="INVALID" age="" reason="Booster dose should not be given before 12 months of age."/>
+    <indicate vaccineName="12 Months Old" schedule="P3" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="C1" dose="1" indication="" label="7-11 month catch-up first">
+    <pos row="2" column="1"/>
+    <valid age="6 weeks" interval="" grace="4 days"/>
+    <early age="6 weeks" interval="" grace=""/>
+    <due age="2 months" interval="" grace=""/>
+    <overdue age="3 months" interval="" grace=""/>
+    <finished age="5 years" interval="" grace=""/>
+    <after-invalid interval="0 days" grace=""/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Series Dose" schedule="C2" age="" reason=""/>
+    <indicate vaccineName="TriHIBit" schedule="INVALID" age="" reason="TriHIBit invalid as first dose."/>
+    <indicate vaccineName="12 Months Old" schedule="D1" age="" reason="Did not receive first dose before 12 months of age, switching to 2 dose schedule."/>
+  </schedule>
+  <schedule scheduleName="C2" dose="2" indication="" label="7-11 month catch-up second">
+    <pos row="2" column="2"/>
+    <valid age="10 weeks" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="4 weeks" grace=""/>
+    <overdue age="" interval="3 months" grace=""/>
+    <finished age="5 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Series Dose" schedule="P4" age="" reason=""/>
+    <indicate vaccineName="Booster Dose" schedule="INVALID" age="12 months" reason="Booster dose should not be given before 12 months of age."/>
+    <indicate vaccineName="15 Months Old" schedule="P4" age="" reason="Did not receive second dose before 15 months of age, now only one more dose needed."/>
+  </schedule>
+  <schedule scheduleName="D1" dose="1" indication="" label="12-14 month catch-up">
+    <pos row="2" column="3"/>
+    <valid age="6 weeks" interval="" grace="4 days"/>
+    <early age="6 weeks" interval="" grace=""/>
+    <due age="2 months" interval="" grace=""/>
+    <overdue age="3 months" interval="" grace=""/>
+    <finished age="5 years" interval="" grace=""/>
+    <after-invalid interval="0 days" grace=""/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Series Dose" schedule="P4" age="" reason=""/>
+    <indicate vaccineName="TriHIBit" schedule="INVALID" age="" reason="TriHIBit invalid as first dose."/>
+    <indicate vaccineName="Booster Dose" schedule="INVALID" age="12 months" reason="Booster dose should not be given before 12 months of age."/>
+    <indicate vaccineName="15 Months Old" schedule="P4" age="" reason="Did not receive first dose before 15 months of age, now only one more dose needed."/>
   </schedule>
 </forecast>
+
 
 
 
@@ -687,8 +629,14 @@
   <vaccine vaccineName="Child" vaccineIds="110, 112, 114, 115, 116, 2060, 111, 2070, 113, 121, 1150, 142"/>
   <vaccine vaccineName="Adult" vaccineIds="122, 124, 123"/>
   <vaccine vaccineName="Td" vaccineIds="122, 124"/>
-  <vaccine vaccineName="Tdap" vaccineIds="123"/>
+  <vaccine vaccineName="Tdap" vaccineIds="123" validAge="7 years"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-110"/>
+  <vaccine vaccineName="12 Months Old" vaccineIds="-12"/>
+  <vaccine vaccineName="4 Years Old" vaccineIds="-4"/>
+  <vaccine vaccineName="7 Years Old" vaccineIds="-7"/>
+  <transition name="12 Months Old" age="12 months" vaccineId="-12"/>
+  <transition name="4 Years Old" age="4 years" vaccineId="-4"/>
+  <transition name="7 Years Old" age="7 years" vaccineId="-7"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
     <pos row="1" column="1"/>
     <valid age="6 weeks" interval="" grace="4 days"/>
@@ -698,15 +646,9 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
-    <indicate vaccineName="Child" schedule="P2" age="12 months" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="R2" age="7 years" reason="Series started late, moving to accelerated schedule." historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="A2" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="INVALID" age="12 months" reason="Td should not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="A2" age="" reason="Starting adult series without indication of childhood vaccination." historyOfVaccineName=""/>
-    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
-    <indicate vaccineName="Assume Comp" schedule="T10" age="" reason="Assuming adult received full DTaP series as a child but did not receive Tdap." historyOfVaccineName=""/>
+    <indicate vaccineName="12 Months Old" schedule="P1a" age="" reason="Patient reached 12 months of age without receiving first DTaP, moving to alternate schedule." historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="P2" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="Adult" schedule="INVALID" age="" reason="Td or Tdap should not be given before 7 years of age. " historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="4 months">
     <pos row="1" column="2"/>
@@ -717,13 +659,9 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="Child" schedule="P3" age="7 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="A2" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="A2" age="" reason="Changing to adult vaccine schedule." historyOfVaccineName=""/>
-    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
-    <indicate vaccineName="Assume Comp" schedule="T10" age="" reason="Assuming adult received full DTaP series as a child but did not receive Tdap." historyOfVaccineName=""/>
+    <indicate vaccineName="7 Years Old" schedule="A1" age="" reason="Patient reached 7 years of age without receiving first DTaP, moving adult catchup schedule. " historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="P3" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="Adult" schedule="INVALID" age="" reason="Td or Tdap should not be given before 7 years of age. " historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="P3" dose="3" indication="" label="6 months">
     <pos row="1" column="3"/>
@@ -734,13 +672,9 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="Child" schedule="P4" age="7 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="A3" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="A3" age="" reason="Changing to adult vaccine schedule." historyOfVaccineName=""/>
-    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
-    <indicate vaccineName="Assume Comp" schedule="T10" age="" reason="Assuming adult received full DTaP series as a child but did not receive Tdap." historyOfVaccineName=""/>
+    <indicate vaccineName="7 Years Old" schedule="A2" age="" reason="Patient reached 7 years of age, only receiving only one valid dose of DTaP after 12 months, moving to 2nd dose in adult catchup schedule. " historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="P4" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="Adult" schedule="INVALID" age="" reason="" historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="P4" dose="4" indication="" label="15-18 months">
     <pos row="1" column="4"/>
@@ -751,54 +685,51 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="6 months" grace="2 months"/>
     <before-previous interval=""/>
-    <indicate vaccineName="Child" schedule="INVALID" age="12 months" reason="4th dose is not valid if given before 12 months of age" historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="B5" age="4 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="B6" age="7 years" reason="Received 4th dose on or after 4 years of age, 5th dose not required." historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="B6" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="INVALID" age="12 months" reason="4th dose is not valid if given before 12 months of age" historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="B5" age="4 years" reason="Adult dose should not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="B6" age="7 years" reason="Adult dose should not be given before 7 years of age. Received 4th dose on or after 4 years of age, 5th dose not required." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="B6" age="" reason="Changing to adult vaccine schedule." historyOfVaccineName=""/>
-    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
-    <indicate vaccineName="Assume Comp" schedule="T10" age="" reason="Assuming adult received full DTaP series as a child but did not receive Tdap." historyOfVaccineName=""/>
+    <indicate vaccineName="4 Years Old" schedule="K5" age="" reason="Patient reached 4 years of age without receiving 4th valid dose in primary series, moving to dose expected for kindergarten. " historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="INVALID" age="12 months" reason="4th dose is not valid if given before 12 months of age." historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="K5" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="Adult" schedule="INVALID" age="" reason="" historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="R2" dose="2" indication="" label="2nd catchup">
-    <pos row="2" column="2"/>
-    <valid age="12 months" interval="4 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="14 months" interval="" grace=""/>
-    <overdue age="15 months" interval="" grace=""/>
+  <schedule scheduleName="P1a" dose="1" indication="" label="1st catchup">
+    <pos row="2" column="1"/>
+    <valid age="6 weeks" interval="" grace="4 days"/>
+    <early age="6 weeks" interval="" grace=""/>
+    <due age="2 months" interval="" grace=""/>
+    <overdue age="3 months" interval="" grace=""/>
     <finished age="150 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
+    <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
-    <indicate vaccineName="Child" schedule="R3" age="7 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="A3" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="A3" age="" reason="Changing to adult vaccine schedule." historyOfVaccineName=""/>
-    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
-    <indicate vaccineName="Assume Comp" schedule="T10" age="" reason="Assuming adult received full DTaP series as a child but did not receive Tdap." historyOfVaccineName=""/>
+    <indicate vaccineName="7 Years Old" schedule="A1" age="" reason="Patient reached 7 years of age without receiving one valid dose of DTaP, moving to adult catchup schedule. " historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="P2a" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="Adult" schedule="INVALID" age="" reason="Td or Tdap should not be given before 7 years of age. " historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="R3" dose="3" indication="" label="3rd catchup">
-    <pos row="2" column="3"/>
-    <valid age="14 months" interval="4 weeks" grace="4 days"/>
+  <schedule scheduleName="P2a" dose="2" indication="" label="2nd catchup">
+    <pos row="2" column="2"/>
+    <valid age="" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="4 weeks" grace=""/>
     <overdue age="" interval="4 weeks" grace=""/>
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="Child" schedule="R4" age="6 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="A3" age="7 years" reason="Too late to complete childhood series, switching to adult schedule." historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="A3" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="INVALID" age="6 years" reason="Td should not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="B6" age="" reason="Changing to adult vaccine schedule." historyOfVaccineName=""/>
-    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
-    <indicate vaccineName="Assume Comp" schedule="T10" age="" reason="Assuming adult received full DTaP series as a child but did not receive Tdap." historyOfVaccineName=""/>
+    <indicate vaccineName="7 Years Old" schedule="A2" age="" reason="Patient reached 7 years of age, only receiving only one valid dose of DTaP after 12 months, moving to 2nd dose in adult catchup schedule. " historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="P3a" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="Adult" schedule="INVALID" age="" reason="" historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="B5" dose="5" indication="" label="booster (5th)">
+  <schedule scheduleName="P3a" dose="3" indication="" label="3rd catchup">
+    <pos row="2" column="3"/>
+    <valid age="" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="4 weeks" grace=""/>
+    <overdue age="" interval="4 weeks" grace=""/>
+    <finished age="150 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="7 Years Old" schedule="A3" age="" reason="Patient reached 7 years of age, only receiving only two valid doses of DTaP after 12 months, moving to 3rd dose in adult catchup schedule. " historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="P4" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="Adult" schedule="INVALID" age="" reason="" historyOfVaccineName=""/>
+  </schedule>
+  <schedule scheduleName="K5" dose="5" indication="" label="kindegarten booster">
     <pos row="1" column="5"/>
     <valid age="4 years" interval="6 months" grace=""/>
     <early age="" interval="" grace=""/>
@@ -808,31 +739,39 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="6 months" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="Child" schedule="B6" age="7 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="B6" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="B6" age="7 years" reason="Adult vaccine should not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="B6" age="11 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
-    <indicate vaccineName="Assume Comp" schedule="T10" age="" reason="Assuming adult received full DTaP series as a child but did not receive Tdap." historyOfVaccineName=""/>
+    <indicate vaccineName="7 Years Old" schedule="A3" age="" reason="Patient reached 7 years of age without receiving kindergarten booster after age 4 years, moving to 3rd dose in adult catchup schedule. " historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="T1" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="Adult" schedule="INVALID" age="" reason="" historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="B10" dose="B" indication="" label="10-year booster">
-    <pos row="4" column="5"/>
-    <valid age="11 years" interval="5 years" grace="3 years"/>
+    <pos row="4" column="1"/>
+    <valid age="" interval="5 years" grace="5 years"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="10 years" grace=""/>
     <overdue age="" interval="11 years" grace=""/>
     <finished age="150 years" interval="" grace=""/>
-    <after-invalid interval="2 years" grace="4 days"/>
+    <after-invalid interval="5 years" grace="5 years"/>
     <before-previous interval=""/>
     <indicate vaccineName="Child" schedule="B10" age="" reason="Child vaccine should not be given has booster." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="B10" age="7 years" reason="Td should not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName=""/>
+  </schedule>
+  <schedule scheduleName="A1" dose="2" indication="" label="1st adult">
+    <pos row="3" column="1"/>
+    <valid age="7 years" interval="" grace="0 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="7 years" interval="" grace=""/>
+    <overdue age="7 years" interval="" grace=""/>
+    <finished age="150 years" interval="" grace=""/>
+    <after-invalid interval="0 days" grace=""/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Child" schedule="A2" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
+    <indicate vaccineName="Adult" schedule="A2" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to 10 year booster schedule." historyOfVaccineName="Tdap"/>
+    <indicate vaccineName="Assume Comp" schedule="TN" age="" reason="Assuming adult received full DTaP series as a child but now needs to receive Tdap." historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="A2" dose="2" indication="" label="2nd adult">
     <pos row="3" column="2"/>
-    <valid age="7 years" interval="4 weeks" grace="4 days"/>
+    <valid age="" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="4 weeks" grace=""/>
     <overdue age="" interval="4 weeks" grace=""/>
@@ -840,30 +779,9 @@
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Child" schedule="A3" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="A3" age="" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
-    <indicate vaccineName="Assume Comp" schedule="T10" age="" reason="Assuming adult received full DTaP series as a child but did not receive Tdap." historyOfVaccineName=""/>
-  </schedule>
-  <schedule scheduleName="R4" dose="4" indication="" label="4th catchup">
-    <pos row="2" column="4"/>
-    <valid age="16 months" interval="6 months" grace="2 months"/>
-    <early age="" interval="" grace=""/>
-    <due age="15 months" interval="" grace=""/>
-    <overdue age="19 months" interval="" grace=""/>
-    <finished age="150 years" interval="" grace=""/>
-    <after-invalid interval="6 months" grace="2 months"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="Child" schedule="B5" age="4 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="B6" age="7 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="B10" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="B5" age="4 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="B6" age="7 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="T10" age="" reason="Tdap should be administered as soon as possible." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
-    <indicate vaccineName="Assume Comp" schedule="T10" age="" reason="Assuming adult received full DTaP series as a child but did not receive Tdap." historyOfVaccineName=""/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to 10 year booster schedule." historyOfVaccineName="Tdap"/>
+    <indicate vaccineName="Assume Comp" schedule="TN" age="" reason="Assuming adult received full DTaP series as a child but now needs to receive Tdap." historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="A3" dose="3" indication="" label="3rd adult">
     <pos row="3" column="3"/>
@@ -874,34 +792,15 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="6 months" grace="2 months"/>
     <before-previous interval=""/>
-    <indicate vaccineName="Child" schedule="B10" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="INVALID" age="7 years" reason="Td should not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="T10" age="" reason="Tdap should be administered as soon as possible." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
-    <indicate vaccineName="Assume Comp" schedule="T10" age="" reason="Assuming adult received full DTaP series as a child but did not receive Tdap." historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="B10" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName="Tdap"/>
+    <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName="Tdap"/>
+    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Assuming adult received full DTaP series as a child, moving to 10 year booster schedule." historyOfVaccineName="Tdap"/>
+    <indicate vaccineName="Child" schedule="TN" age="" reason="Child vaccine should not be given after 7 years of age, Tdap should be administered as soon as possible." historyOfVaccineName=""/>
+    <indicate vaccineName="Adult" schedule="TN" age="" reason="Tdap should be administered as soon as possible." historyOfVaccineName=""/>
+    <indicate vaccineName="Assume Comp" schedule="TN" age="" reason="Assuming adult received full DTaP series as a child but now needs to receive Tdap." historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="B6" dose="B" indication="" label="6th">
-    <pos row="2" column="5"/>
-    <valid age="11 years" interval="5 years" grace="3 years"/>
-    <early age="" interval="" grace=""/>
-    <due age="11 years" interval="" grace=""/>
-    <overdue age="13 years" interval="" grace=""/>
-    <finished age="150 years" interval="" grace=""/>
-    <after-invalid interval="5 years" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="Child" schedule="B10" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="B10" age="7 years" reason="Td should not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="INVALID" age="7 years" reason="Adult vaccine can not be given before 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="B10" age="" reason="" historyOfVaccineName="Tdap"/>
-    <indicate vaccineName="Td" schedule="T10" age="" reason="Tdap should be administered as soon as possible." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
-    <indicate vaccineName="Assume Comp" schedule="T10" age="" reason="Assuming adult received full DTaP series as a child but did not receive Tdap." historyOfVaccineName=""/>
-  </schedule>
-  <schedule scheduleName="T10" dose="B" indication="" label="1st Tdap">
-    <pos row="3" column="5"/>
+  <schedule scheduleName="TN" dose="B" indication="" label="Tdap Now">
+    <pos row="3" column="4"/>
     <valid age="7 years" interval="0 days" grace=""/>
     <early age="" interval="" grace=""/>
     <due age="7 years" interval="" grace=""/>
@@ -909,11 +808,22 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
-    <indicate vaccineName="Child" schedule="B10" age="" reason="Child vaccine should not be given after 7 years of age." historyOfVaccineName=""/>
-    <indicate vaccineName="Td" schedule="T10" age="" reason="Tdap should be administered as soon as possible." historyOfVaccineName=""/>
-    <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Assume Comp" schedule="B10" age="" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to regular 10 year booster schedule." historyOfVaccineName="Tdap"/>
-    <indicate vaccineName="Assume Comp" schedule="T10" age="" reason="Assuming adult received full DTaP series as a child but did not receive Tdap." historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="TN" age="" reason="Child vaccine should not be given after 7 years of age, Tdap should be administered as soon as possible." historyOfVaccineName=""/>
+    <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName="Tdap"/>
+    <indicate vaccineName="Adult" schedule="TN" age="" reason="Tdap should be administered as soon as possible." historyOfVaccineName=""/>
+  </schedule>
+  <schedule scheduleName="T1" dose="B" indication="" label="Tdap Now">
+    <pos row="3" column="5"/>
+    <valid age="7 years" interval="0 days" grace=""/>
+    <early age="" interval="" grace=""/>
+    <due age="11 years" interval="" grace=""/>
+    <overdue age="13 years" interval="" grace=""/>
+    <finished age="150 years" interval="" grace=""/>
+    <after-invalid interval="0 days" grace=""/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Child" schedule="TN" age="" reason="Child vaccine should not be given after 7 years of age, Tdap should be administered as soon as possible." historyOfVaccineName=""/>
+    <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName="Tdap"/>
+    <indicate vaccineName="Adult" schedule="TN" age="" reason="Tdap should be administered as soon as possible." historyOfVaccineName=""/>
   </schedule>
 </forecast>
 
@@ -1072,97 +982,85 @@
 
 
 
-<forecast seriesName="Pneumo">	
-  <vaccine vaccineName="PCV7" vaccineIds="154, 156"/>	
-  <vaccine vaccineName="PCV13" vaccineIds="3143"/>	
-  <vaccine vaccineName="PCV" vaccineIds="154, 156, 3143"/>	
-  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">	
-    <pos row="1" column="1"/>	
-    <valid age="6 weeks" interval="" grace="4 days"/>	
-    <early age="6 weeks" interval="" grace=""/>	
-    <due age="2 months" interval="" grace=""/>	
-    <overdue age="3 months" interval="" grace=""/>	
-    <finished age="5 years" interval="" grace=""/>	
-    <after-invalid interval="0 days" grace=""/>	
-    <before-previous interval=""/>	
-    <indicate vaccineName="PCV" schedule="P2" age="12 m -4 w" reason="" historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV" schedule="R2" age="24 months" reason="Only 3 doses needed because first dose was received after 1 year of age." historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, one more dose of PCV13 recommended" historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="Series finished, patient is too old for further doses" historyOfVaccineName=""/>	
-  </schedule>	
-  <schedule scheduleName="P2" dose="2" indication="" label="4 months">	
-    <pos row="1" column="2"/>	
-    <valid age="10 weeks" interval="4 weeks" grace="4 days"/>	
-    <early age="" interval="" grace=""/>	
-    <due age="4 months" interval="" grace=""/>	
-    <overdue age="5 months" interval="" grace=""/>	
-    <finished age="5 years" interval="" grace=""/>	
-    <after-invalid interval="4 weeks" grace="4 days"/>	
-    <before-previous interval=""/>	
-    <indicate vaccineName="PCV" schedule="P3" age="12 m -4 w" reason="" historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV" schedule="P4" age="24 months" reason="" historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="" historyOfVaccineName="PCV13"/>	
-    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, supplemental dose of PCV13 needed." historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV7" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
-  </schedule>	
-  <schedule scheduleName="P3" dose="3" indication="" label="6 months">	
-    <pos row="1" column="3"/>	
-    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>	
-    <early age="" interval="" grace=""/>	
-    <due age="6 months" interval="" grace=""/>	
-    <overdue age="7 months" interval="" grace=""/>	
-    <finished age="5 years" interval="" grace=""/>	
-    <after-invalid interval="4 weeks" grace="4 days"/>	
-    <before-previous interval=""/>	
-    <indicate vaccineName="PCV" schedule="P4" age="12 months" reason="" historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="PCV completes series if administered after 1 year of age." historyOfVaccineName="PCV13"/>	
-    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, supplemental dose of PCV13 needed." historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV7" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
-  </schedule>	
-  <schedule scheduleName="P4" dose="B" indication="" label="booster">	
-    <pos row="1" column="4"/>	
-    <valid age="12 months" interval="8 weeks" grace="4 days"/>	
-    <early age="" interval="" grace=""/>	
-    <due age="12 months" interval="" grace=""/>	
-    <overdue age="16 months" interval="" grace=""/>	
-    <finished age="5 years" interval="" grace=""/>	
-    <after-invalid interval="8 weeks" grace="4 days"/>	
-    <before-previous interval=""/>	
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="" historyOfVaccineName="PCV13"/>	
-    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, supplemental dose of PCV13 needed." historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV7" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
-  </schedule>	
-  <schedule scheduleName="R2" dose="2" indication="" label="12 month catchup">	
-    <pos row="2" column="2"/>	
-    <valid age="14 months" interval="8 weeks" grace="4 days"/>	
-    <early age="" interval="" grace=""/>	
-    <due age="14 months" interval="" grace=""/>	
-    <overdue age="" interval="3 months" grace=""/>	
-    <finished age="5 years" interval="" grace=""/>	
-    <after-invalid interval="8 weeks" grace="4 days"/>	
-    <before-previous interval=""/>	
-    <indicate vaccineName="PCV" schedule="P4" age="24 months" reason="" historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="PCV completes series if administered after 2 years of age." historyOfVaccineName="PCV13"/>	
-    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV7" schedule="P5" age="59 months" reason="PCV7 series is complete, supplemental dose of PCV13 needed." historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV7" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
-  </schedule>	
-  <schedule scheduleName="P5" dose="S" indication="" label="supplemental PCV13">	
-    <pos row="2" column="5"/>	
-    <valid age="" interval="8 weeks" grace="4 days"/>	
-    <early age="" interval="" grace=""/>	
-    <due age="" interval="8 weeks" grace=""/>	
-    <overdue age="" interval="8 weeks" grace=""/>	
-    <finished age="5 years" interval="" grace=""/>	
-    <after-invalid interval="8 weeks" grace="4 days"/>	
-    <before-previous interval=""/>	
-    <indicate vaccineName="PCV7" schedule="P5" age="" reason="PCV7 series is complete, supplemental dose of PCV13 needed." historyOfVaccineName=""/>	
-    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>	
-  </schedule>	
-</forecast>	
+<forecast seriesName="Pneumo">
+  <transition name="12 Months Old" age="12 months" vaccineId="-12"/>
+  <transition name="24 Months Old" age="24 months" vaccineId="-24"/>
+  <vaccine vaccineName="PCV" vaccineIds="154, 156, 3143"/>
+  <vaccine vaccineName="12 Months Old" vaccineIds="-12"/>
+  <vaccine vaccineName="24 Months Old" vaccineIds="-24"/>
+  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
+    <pos row="1" column="1"/>
+    <valid age="6 weeks" interval="" grace="4 days"/>
+    <early age="6 weeks" interval="" grace=""/>
+    <due age="2 months" interval="" grace=""/>
+    <overdue age="3 months" interval="" grace=""/>
+    <finished age="5 years" interval="" grace=""/>
+    <after-invalid interval="0 days" grace=""/>
+    <before-previous interval=""/>
+    <indicate vaccineName="PCV" schedule="P2" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="12 Months Old" schedule="C1" age="" reason="First valid dose not received by 12 months of age, only 3 doses needed now" historyOfVaccineName=""/>
+  </schedule>
+  <schedule scheduleName="P2" dose="2" indication="" label="4 months">
+    <pos row="1" column="2"/>
+    <valid age="10 weeks" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="4 months" interval="" grace=""/>
+    <overdue age="5 months" interval="" grace=""/>
+    <finished age="5 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="PCV" schedule="P3" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="12 Months Old" schedule="C2" age="" reason="Second valid dose was not received by 12 months of age, only 2 more doses needed now" historyOfVaccineName=""/>
+  </schedule>
+  <schedule scheduleName="P3" dose="3" indication="" label="6 months">
+    <pos row="1" column="3"/>
+    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="6 months" interval="" grace=""/>
+    <overdue age="7 months" interval="" grace=""/>
+    <finished age="5 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="PCV" schedule="P4" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="12 Months Old" schedule="P4" age="" reason="Third valid dose was not received by 12 months of age, only 1 more dose needed now" historyOfVaccineName=""/>
+  </schedule>
+  <schedule scheduleName="P4" dose="B" indication="" label="booster">
+    <pos row="1" column="4"/>
+    <valid age="12 months" interval="8 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="12 months" interval="" grace=""/>
+    <overdue age="16 months" interval="" grace=""/>
+    <finished age="5 years" interval="" grace=""/>
+    <after-invalid interval="8 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
+  </schedule>
+  <schedule scheduleName="C1" dose="1" indication="" label="12 month catchup">
+    <pos row="1" column="1"/>
+    <valid age="6 weeks" interval="" grace="4 days"/>
+    <early age="6 weeks" interval="" grace=""/>
+    <due age="2 months" interval="" grace=""/>
+    <overdue age="3 months" interval="" grace=""/>
+    <finished age="5 years" interval="" grace=""/>
+    <after-invalid interval="0 days" grace=""/>
+    <before-previous interval=""/>
+    <indicate vaccineName="PCV" schedule="C2" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="24 Months Old" schedule="P4" age="" reason="First valid dose not received by 24 months of age, only 1 dose needed now" historyOfVaccineName=""/>
+  </schedule>
+  <schedule scheduleName="C2" dose="2" indication="" label="14 month catchup">
+    <pos row="2" column="2"/>
+    <valid age="14 months" interval="8 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="14 months" interval="" grace=""/>
+    <overdue age="" interval="3 months" grace=""/>
+    <finished age="5 years" interval="" grace=""/>
+    <after-invalid interval="8 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="PCV" schedule="P4" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="24 Months Old" schedule="P4" age="" reason="Second valid dose not received by 24 months of age, only 1 more dose needed now" historyOfVaccineName=""/>
+  </schedule>
+</forecast>
+
 
 
 
@@ -1173,6 +1071,8 @@
   <vaccine vaccineName="IPV" vaccineIds="147, 114, 115, 153, 116, 142"/>
   <vaccine vaccineName="OPV" vaccineIds="148"/>
   <vaccine vaccineName="Any" vaccineIds="147, 114, 115, 153, 148, 116, 142"/>
+  <vaccine vaccineName="4 Years Old" vaccineIds="-4"/>
+  <transition name="4 Years Old" age="7 months" vaccineId="-7"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
     <pos row="1" column="1"/>
     <valid age="6 weeks" interval="" grace="4 days"/>
@@ -1183,7 +1083,7 @@
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
     <indicate vaccineName="IPV" schedule="P2" age="" reason=""/>
-    <indicate vaccineName="OPV" schedule="R2" age="" reason="Oral vaccine given, switching to OPV only schedule."/>
+    <indicate vaccineName="OPV" schedule="R2" age="" reason="Oral vaccine given, switching to OPV schedule."/>
   </schedule>
   <schedule scheduleName="P3" dose="3" indication="" label="6-18 months">
     <pos row="1" column="3"/>
@@ -1194,10 +1094,8 @@
     <finished age="18 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="IPV" schedule="P4" age="4 years" reason=""/>
-    <indicate vaccineName="IPV" minInterval="6 months" schedule="COMPLETE" age="" reason="Vaccine given after 4 years of age completes the series, if 6 or more months have passed since previous dose."/>
-    <indicate vaccineName="IPV" schedule="P4" age="" reason="Given too soon after previous dose, six month interval required for final dose."/>
-    <indicate vaccineName="OPV" schedule="P4" age="" reason=""/>
+    <indicate vaccineName="Any" schedule="P4" age="" reason=""/>
+    <indicate vaccineName="4 Years Old" minInterval="" schedule="P4" age="" reason="Did not receive third dose of IPV by 4 years of age, now expecting 4 year old booster"/>
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="4 months">
     <pos row="1" column="2"/>
@@ -1209,7 +1107,7 @@
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="IPV" schedule="P3" age="" reason=""/>
-    <indicate vaccineName="OPV" schedule="M3" age="" reason="Oral vaccine given, switching to mixed IPV/OPV schedule."/>
+    <indicate vaccineName="OPV" schedule="R3" age="" reason="Oral vaccine given, switching to OPV schedule"/>
   </schedule>
   <schedule scheduleName="P4" dose="4" indication="" label="4-6 years">
     <pos row="1" column="4"/>
@@ -1222,17 +1120,6 @@
     <before-previous interval=""/>
     <indicate vaccineName="Any" schedule="COMPLETE" age="" reason=""/>
   </schedule>
-  <schedule scheduleName="M3" dose="3" indication="" label="6-18 months OPV or IPV">
-    <pos row="3" column="3"/>
-    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="6 months" interval="" grace=""/>
-    <overdue age="19 months" interval="" grace=""/>
-    <finished age="18 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="Any" schedule="P4" age="" reason=""/>
-  </schedule>
   <schedule scheduleName="R3" dose="3" indication="" label="6-18 months OPV">
     <pos row="2" column="3"/>
     <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
@@ -1242,9 +1129,7 @@
     <finished age="18 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="OPV" schedule="P4" age="4 years" reason=""/>
-    <indicate vaccineName="OPV" schedule="COMPLETE" age="" reason="Vaccine given after 4 years of age completes the series."/>
-    <indicate vaccineName="IPV" schedule="P4" age="" reason=""/>
+    <indicate vaccineName="Any" schedule="P4" age="" reason=""/>
   </schedule>
   <schedule scheduleName="R2" dose="2" indication="" label="4 months OPV">
     <pos row="2" column="2"/>
@@ -1255,8 +1140,7 @@
     <finished age="18 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="OPV" schedule="R3" age="" reason=""/>
-    <indicate vaccineName="IPV" schedule="M3" age="" reason="Inactivate polio dose given, switching to mixed IPV/OPV schedule."/>
+    <indicate vaccineName="Any" schedule="R3" age="" reason=""/>
   </schedule>
 </forecast>
 

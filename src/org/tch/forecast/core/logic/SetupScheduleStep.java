@@ -59,51 +59,50 @@ public class SetupScheduleStep extends ActionStep
       copyOverrideSetttings(ds);
     }
     ds.transitionList = ds.forecast.getTransitionList();
-    if (ds.seasonal != null || ds.transitionList.size() > 0) {
-      ds.originalEventList = ds.eventList;
-      if (ds.seasonal != null) {
-        ds.seasonCompleted = false;
-        ds.seasonEnd = setupSeasonEnd(ds);
-
-        int count = 0;
-        while (ds.seasonEnd.isGreaterThanOrEquals(ds.patient.getDobDateTime()) && count < 10) {
-          SeasonEndEvent se = new SeasonEndEvent(ds.seasonEnd.getDate());
-          ds.event = new Event();
-          ds.event.eventDate = se.getDateOfShot();
-          ds.event.immList.add(se);
-          ds.eventList.add(ds.event);
-          count++;
-          ds.seasonEnd.addYears(-1);
-        }
-        if (count == 0) {
-          // If no seasonal events were added then put in a season start for
-          // this year so that first forecast is good
-          DateTime dt = new DateTime(ds.seasonEnd);
-          dt.addDays(1);
-          ds.seasonStart = ds.seasonal.getStart().getDateTimeFrom(dt);
-        }
-
+    if (ds.seasonal != null) {
+      ds.seasonEndDateTime = setupLastSeasonEnd(ds);
+      ds.log("Setting season end = " + ds.seasonEndDateTime.toString("M/D/Y"));
+      ds.seasonStartDateTime = new DateTime(ds.seasonEndDateTime);
+      ds.seasonStartDateTime.addDays(1);
+      ds.originalEventList = new ArrayList<Event>(ds.eventList);
+      {
+        SeasonStartEvent se = new SeasonStartEvent(ds.seasonStartDateTime.getDate());
+        ds.event = new Event();
+        ds.event.eventDate = se.getDateOfShot();
+        ds.event.immList.add(se);
+        ds.eventList.add(ds.event);
       }
-      if (ds.transitionList.size() > 0) {
-        for (Transition transition : ds.transitionList) {
-          DateTime transitionDate = transition.getAge().getDateTimeFrom(ds.patient.getDobDateTime());
-          if (transitionDate.isLessThanOrEquals(ds.forecastDateTime)) {
-            // Transition happens before or on forecaster test date
-            TransitionEvent te = new TransitionEvent(transitionDate.getDate(), transition);
-            ds.event = new Event();
-            ds.event.eventDate = te.getDateOfShot();
-            ds.event.immList.add(te);
-            ds.eventList.add(ds.event);
+      Collections.sort(ds.eventList, new Comparator<Event>() {
+        public int compare(Event event1, Event event2) {
+          if (event1.eventDate.equals(event2.eventDate)) {
+            Integer vaccineId1 = event1.getImmList().size() > 0 ? event1.getImmList().get(0).getVaccineId() : 0;
+            Integer vaccineId2 = event2.getImmList().size() > 0 ? event2.getImmList().get(0).getVaccineId() : 0;
+            return vaccineId1.compareTo(vaccineId2);
           }
+          return event1.eventDate.compareTo(event2.eventDate);
+        }
+      });
+    }
+    if (ds.transitionList.size() > 0) {
+      ds.originalEventList = new ArrayList<Event>(ds.eventList);
+      for (Transition transition : ds.transitionList) {
+        DateTime transitionDate = transition.getAge().getDateTimeFrom(ds.patient.getDobDateTime());
+        if (transitionDate.isLessThanOrEquals(ds.forecastDateTime)) {
+          // Transition happens before or on forecaster test date
+          TransitionEvent te = new TransitionEvent(transitionDate.getDate(), transition);
+          ds.event = new Event();
+          ds.event.eventDate = te.getDateOfShot();
+          ds.event.immList.add(te);
+          ds.eventList.add(ds.event);
         }
       }
-
       Collections.sort(ds.eventList, new Comparator<Event>() {
         public int compare(Event event1, Event event2) {
           return event1.eventDate.compareTo(event2.eventDate);
         }
       });
     }
+
   }
 
   public void copyOverrideSetttings(DataStore ds) {
@@ -116,15 +115,12 @@ public class SetupScheduleStep extends ActionStep
     if (ds.forecastOptions.getFluSeasonOverdue() != null) {
       ds.seasonal.setOverdue(ds.forecastOptions.getFluSeasonOverdue());
     }
-    if (ds.forecastOptions.getFluSeasonStart() != null) {
-      ds.seasonal.setStart(ds.forecastOptions.getFluSeasonStart());
-    }
     if (ds.forecastOptions.getFluSeasonFinished() != null) {
       ds.seasonal.setFinished(ds.forecastOptions.getFluSeasonFinished());
     }
   }
 
-  protected static DateTime setupSeasonEnd(DataStore ds) {
+  protected static DateTime setupLastSeasonEnd(DataStore ds) {
     DateTime seasonEnd = new DateTime(ds.forecastDateTime);
     seasonEnd.setMonth(1);
     seasonEnd.setDay(1);

@@ -275,7 +275,6 @@ public class ForecastServlet extends HttpServlet
     forecastInput.forecastOptions.setFluSeasonDue(readTimePeriod(req, PARAM_FLU_SEASON_DUE));
     forecastInput.forecastOptions.setFluSeasonEnd(readTimePeriod(req, PARAM_FLU_SEASON_END));
     forecastInput.forecastOptions.setFluSeasonOverdue(readTimePeriod(req, PARAM_FLU_SEASON_OVERDUE));
-    forecastInput.forecastOptions.setFluSeasonStart(readTimePeriod(req, PARAM_FLU_SEASON_START));
     forecastInput.forecastOptions.setIgnoreFourDayGrace(readBoolean(req, PARAM_IGNORE_FOUR_DAY_GRACE));
 
     forecastInput.dueUseEarly = readBoolean(req, PARAM_DUE_USE_EARLY);

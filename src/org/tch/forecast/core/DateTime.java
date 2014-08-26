@@ -216,7 +216,10 @@ public class DateTime implements Serializable
 
   public DateTime(Date d)
   {
-    set(d);
+    if (d != null)
+    {      
+      set(d);
+    }
   }
 
   public DateTime(DateTime dt)

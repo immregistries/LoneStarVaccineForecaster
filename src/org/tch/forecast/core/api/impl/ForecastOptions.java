@@ -1,8 +1,6 @@
 package org.tch.forecast.core.api.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.tch.forecast.core.DecisionProcessFormat;
@@ -12,7 +10,6 @@ import org.tch.forecast.core.TimePeriod;
 public class ForecastOptions
 {
 
-  private TimePeriod fluSeasonStart = null;
   private TimePeriod fluSeasonDue = null;
   private TimePeriod fluSeasonOverdue = null;
   private TimePeriod fluSeasonEnd = null;
@@ -88,14 +85,6 @@ public class ForecastOptions
 
   public void setIgnoreFourDayGrace(boolean ignoreFourDayGrace) {
     this.ignoreFourDayGrace = ignoreFourDayGrace;
-  }
-
-  public TimePeriod getFluSeasonStart() {
-    return fluSeasonStart;
-  }
-
-  public void setFluSeasonStart(TimePeriod fluSeasonStart) {
-    this.fluSeasonStart = fluSeasonStart;
   }
 
   public TimePeriod getFluSeasonDue() {

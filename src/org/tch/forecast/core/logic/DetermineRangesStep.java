@@ -188,15 +188,15 @@ public class DetermineRangesStep extends ActionStep
         }
       }
     }
-    if (ds.seasonStart != null) {
+    if (ds.seasonStartDateTime != null) {
       ds.log("Calculating season rules");
-      if (ds.seasonStart.isGreaterThan(ds.valid)) {
-        ds.valid = new DateTime(ds.seasonStart);
-        validReason = "start of next season";
-        validBecause = "SEASON";
-        ds.log("Season start is is after valid date, moving valid date forward to " + ds.valid.toString("M/D/Y"));
-      }
-      DateTime seasonDue = ds.seasonal.getDue().getDateTimeFrom(ds.seasonStart);
+//      if (ds.seasonStartThis.isGreaterThan(ds.valid)) {
+//        ds.valid = new DateTime(ds.seasonStartThis);
+//        validReason = "start of next season";
+//        validBecause = "SEASON";
+//        ds.log("Season start is is after valid date, moving valid date forward to " + ds.valid.toString("M/D/Y"));
+//      }
+      DateTime seasonDue = ds.seasonal.getDue().getDateTimeFrom(ds.seasonStartDateTime);
       if (seasonDue.isGreaterThan(ds.due)) {
         ds.due = seasonDue;
         if (ds.seasonal.getDue().getAmount() == 0) {
@@ -245,9 +245,9 @@ public class DetermineRangesStep extends ActionStep
       }
     }
 
-    if (ds.seasonStart != null) {
+    if (ds.seasonStartDateTime != null) {
       ds.log("Season started, looking to set season overdue");
-      DateTime seasonOverdue = ds.seasonal.getOverdue().getDateTimeFrom(ds.seasonStart);
+      DateTime seasonOverdue = ds.seasonal.getOverdue().getDateTimeFrom(ds.seasonStartDateTime);
       if (seasonOverdue.isLessThan(ds.overdue)) {
         ds.overdue = seasonOverdue;
         ds.log("Setting overdue to the end of the season");

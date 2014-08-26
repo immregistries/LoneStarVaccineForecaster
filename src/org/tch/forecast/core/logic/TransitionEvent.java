@@ -9,6 +9,16 @@ public class TransitionEvent implements ImmunizationInterface {
   private Date date = null;
   private int vaccineId = 0;
   private String name = "";
+  private boolean inSeason = false;
+
+  public boolean isInSeason() {
+    return inSeason;
+  }
+
+  public void setInSeason(boolean inSeason) {
+    this.inSeason = inSeason;
+  }
+
 
   public boolean isSubPotent() {
     return false;
