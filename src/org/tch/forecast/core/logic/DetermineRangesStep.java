@@ -190,12 +190,12 @@ public class DetermineRangesStep extends ActionStep
     }
     if (ds.seasonStartDateTime != null) {
       ds.log("Calculating season rules");
-//      if (ds.seasonStartThis.isGreaterThan(ds.valid)) {
-//        ds.valid = new DateTime(ds.seasonStartThis);
-//        validReason = "start of next season";
-//        validBecause = "SEASON";
-//        ds.log("Season start is is after valid date, moving valid date forward to " + ds.valid.toString("M/D/Y"));
-//      }
+      //      if (ds.seasonStartThis.isGreaterThan(ds.valid)) {
+      //        ds.valid = new DateTime(ds.seasonStartThis);
+      //        validReason = "start of next season";
+      //        validBecause = "SEASON";
+      //        ds.log("Season start is is after valid date, moving valid date forward to " + ds.valid.toString("M/D/Y"));
+      //      }
       DateTime seasonDue = ds.seasonal.getDue().getDateTimeFrom(ds.seasonStartDateTime);
       if (seasonDue.isGreaterThan(ds.due)) {
         ds.due = seasonDue;
@@ -212,10 +212,18 @@ public class DetermineRangesStep extends ActionStep
       ds.log("Looking to see if valid and due dates need to be adjusted around black out dates");
       BlackOut blackOut = ds.blackOutDates.get(i);
 
-      if (ds.due.isGreaterThan(blackOut.getStartBlackOut()) && ds.due.isLessThan(blackOut.getEndBlackOutGrace())) {
-        ds.due = blackOut.getEndBlackOutGrace();
-        ds.dueReason = blackOut.getReason();
-        ds.log("Moving due date to end of blackOut period, setting to " + ds.due.toString("M/D/Y"));
+      if (blackOut.isAgainstSpecificVaccines()) {
+        ds.log("Black out is against specific dates so not changing the due or valid dates");
+      } else {
+        if (ds.valid.isGreaterThan(blackOut.getStartBlackOut()) && ds.valid.isLessThan(blackOut.getEndBlackOutGrace())) {
+          ds.valid = blackOut.getEndBlackOutGrace();
+          ds.log("Moving valid date to end of blackOut period, setting to " + ds.due.toString("M/D/Y"));
+        }
+        if (ds.due.isGreaterThan(blackOut.getStartBlackOut()) && ds.due.isLessThan(blackOut.getEndBlackOutGrace())) {
+          ds.due = blackOut.getEndBlackOutGrace();
+          ds.dueReason = blackOut.getReason();
+          ds.log("Moving due date to end of blackOut period, setting to " + ds.due.toString("M/D/Y"));
+        }
       }
     }
 

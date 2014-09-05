@@ -80,8 +80,11 @@ public class MakeForecastStep extends ActionStep
 
     if (ds.seasonal != null) {
       seasonEnd = new DateTime(ds.seasonEndDateTime);
+      if (ds.valid.isLessThan(ds.seasonStartDateTime))
+      {
+        ds.valid = new DateTime(ds.seasonStartDateTime);
+      }
       seasonDue = ds.seasonal.getDue().getDateTimeFrom(ds.seasonStartDateTime);
-      
       if (ds.due.isLessThan(seasonDue)) {
         ds.due = seasonDue;
       }

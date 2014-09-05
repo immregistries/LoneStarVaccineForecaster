@@ -226,9 +226,7 @@ public class ForecastReportPrinter
     out.println("VACCCINATIONS RECOMMENDED AFTER " + new DateTime(forecastDate.getDate()).toString("M/D/Y"));
 
     for (ImmunizationForecastDataBean forecast : resultList) {
-      if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)
-          || forecast.getStatusDescription()
-              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)) {
+      if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)) {
         DateTime validDate = null;
         if (forecast.getValid() != null) {
           validDate = new DateTime(forecast.getValid());
@@ -270,6 +268,8 @@ public class ForecastReportPrinter
     for (ImmunizationForecastDataBean forecast : resultList) {
       if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)
           || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)
           || forecast.getStatusDescription().equals(
               ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
         out.println("Forecasting " + forecast.getForecastLabel() + " status " + forecast.getStatusDescription());

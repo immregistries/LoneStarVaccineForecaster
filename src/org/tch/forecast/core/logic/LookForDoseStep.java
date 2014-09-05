@@ -345,13 +345,7 @@ public class LookForDoseStep extends ActionStep
   private boolean indicatedHasHistory(DataStore ds, VaccineForecastDataBean.Indicate indicate) {
     boolean foundHistory = true;
     if (indicate.getHistoryOfVaccineName() != null && indicate.getHistoryOfVaccineName().length() > 0) {
-      foundHistory = false;
-      for (ValidVaccine indicatedVaccineId : indicate.getPreviousVaccines()) {
-        if (ds.getPreviousVaccineIdHistory().contains(indicatedVaccineId)) {
-          foundHistory = true;
-          break;
-        }
-      }
+      foundHistory = findHistory(ds, indicate);
       if (foundHistory) {
         ds.log("Indicated event has history of " + indicate.getHistoryOfVaccineName());
       } else {
@@ -359,6 +353,33 @@ public class LookForDoseStep extends ActionStep
       }
     }
     return foundHistory;
+  }
+
+  public boolean findHistory(DataStore ds, VaccineForecastDataBean.Indicate indicate) {
+    DateTime givenOnOrAfter = null;
+    if (indicate.getHistoryOfVaccineValidAge() != null) {
+      givenOnOrAfter = indicate.getHistoryOfVaccineValidAge().getDateTimeFrom(ds.getPatient().getDobDateTime());
+      ds.log("Vaccine given on or after " + givenOnOrAfter.toString("M/D/Y"));
+    }
+    for (Event event : ds.eventList) {
+      if (ds.event == event)
+      {
+        return false;
+      }
+      DateTime eventDateTime = new DateTime(event.eventDate);
+      ds.log("  + Looking at event on " + eventDateTime.toString("M/D/Y"));
+      for (ValidVaccine indicatedVaccineId : indicate.getHistoryOfVaccines()) {
+        for (ImmunizationInterface imm : event.immList) {
+          if (imm.getVaccineId() == indicatedVaccineId.getVaccineId()) {
+            ds.log("  + looking where indicatedVaccineId = " + indicatedVaccineId.getVaccineId());
+            if (givenOnOrAfter == null || givenOnOrAfter.isLessThanOrEquals(eventDateTime)) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
   }
 
   private DateTime figureMinDate(DataStore ds, VaccineForecastDataBean.Indicate indicate) {

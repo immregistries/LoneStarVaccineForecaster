@@ -157,5 +157,8 @@ Rho(D)-IG	156			NOT SUPPORTED
 Rho(D) -IG IM	157			NOT SUPPORTED																		
 "influenza, injectable, quadrivalent"	158	"influenza, injectable, quadrivalent"	204	SUPPORTED							FLU & FLU+											
 Rho(D) - Unspecified formulation	159			NOT SUPPORTED																		
+"Influenza A monovalent (H5N1), ADJUVANTED-2013"	160			PENDING																		
+"Influenza, injectable,quadrivalent, preservative free, pediatric"	161			PENDING																		
+AS03 Adjuvant	801			NOT SUPPORTED																		
 no vaccine administered	998			NOT SUPPORTED																		
 unknown	999	Unknown	9999	NOT SUPPORTED																		

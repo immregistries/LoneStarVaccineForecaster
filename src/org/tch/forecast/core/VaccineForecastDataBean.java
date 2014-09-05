@@ -259,6 +259,7 @@ public class VaccineForecastDataBean
         String historyOfVaccineName = DomUtils.getAttributeValue(n, "historyOfVaccineName");
         indicate.setHistoryOfVaccines(convertToVaccineIds(historyOfVaccineName));
         indicate.setHistoryOfVaccineName(historyOfVaccineName);
+        indicate.setHistoryOfVaccineValidAge(readValidAge(historyOfVaccineName));
         indicate.setScheduleName(DomUtils.getAttributeValue(n, "schedule"));
         indicate.setAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         indicate.setMinInterval(new TimePeriod(DomUtils.getAttributeValue(n, "minInterval")));
@@ -272,6 +273,18 @@ public class VaccineForecastDataBean
         schedule.getIndicateList().add(indicate);
       }
     }
+  }
+
+  public TimePeriod readValidAge(String vaccineName) throws Exception {
+    if (vaccineName == null || vaccineName.equals("")) {
+      return null;
+    }
+    NamedVaccine namedVaccine = vaccines.get(vaccineName.toUpperCase());
+    if (namedVaccine == null) {
+      throw new Exception("Unrecognized vaccine name '" + vaccineName + "'");
+    }
+    return namedVaccine.getValidAge();
+
   }
 
   public ValidVaccine[] convertToVaccineIds(String vaccineName) throws Exception {
@@ -788,6 +801,7 @@ public class VaccineForecastDataBean
     private String vaccineName = "";
     private String previousVaccineName = "";
     private String historyOfVaccineName = "";
+    private TimePeriod historyOfVaccineValidAge = null;
     private ValidVaccine[] previousVaccines = new ValidVaccine[0];
     private ValidVaccine[] historyOfVaccines = new ValidVaccine[0];
     private String reason = "";
@@ -799,6 +813,14 @@ public class VaccineForecastDataBean
     public String SCHEDULE_CONTRA = "CONTRA";
     public String SCHEDULE_COMPLETE = "COMPLETE";
     public String SCHEDULE_FINISHED = "FINISHED";
+
+    public TimePeriod getHistoryOfVaccineValidAge() {
+      return historyOfVaccineValidAge;
+    }
+
+    public void setHistoryOfVaccineValidAge(TimePeriod historyOfVaccineValidAge) {
+      this.historyOfVaccineValidAge = historyOfVaccineValidAge;
+    }
 
     public ValidVaccine[] getHasHadVaccines() {
       return hasHadVaccines;

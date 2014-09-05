@@ -136,7 +136,7 @@ public class ListCodesServlet extends HttpServlet
               String scheduleName = scheduleNameMap.get(forecastCode);
               if (scheduleName != null) {
                 out.println("  <td><a href=\"schedules/" + scheduleName + ".pdf\">PDF</a> <a href=\"schedules/"
-                    + scheduleName + ".xls\">Excel</a></td>");
+                    + scheduleName + ".xlsx\">Excel</a></td>");
               } else {
                 out.println("  <td>&nbsp;</td>");
               }

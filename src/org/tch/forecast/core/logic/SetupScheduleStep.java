@@ -72,16 +72,7 @@ public class SetupScheduleStep extends ActionStep
         ds.event.immList.add(se);
         ds.eventList.add(ds.event);
       }
-      Collections.sort(ds.eventList, new Comparator<Event>() {
-        public int compare(Event event1, Event event2) {
-          if (event1.eventDate.equals(event2.eventDate)) {
-            Integer vaccineId1 = event1.getImmList().size() > 0 ? event1.getImmList().get(0).getVaccineId() : 0;
-            Integer vaccineId2 = event2.getImmList().size() > 0 ? event2.getImmList().get(0).getVaccineId() : 0;
-            return vaccineId1.compareTo(vaccineId2);
-          }
-          return event1.eventDate.compareTo(event2.eventDate);
-        }
-      });
+      Collections.sort(ds.eventList, eventComparator);
     }
     if (ds.transitionList.size() > 0) {
       ds.originalEventList = new ArrayList<Event>(ds.eventList);
@@ -96,11 +87,7 @@ public class SetupScheduleStep extends ActionStep
           ds.eventList.add(ds.event);
         }
       }
-      Collections.sort(ds.eventList, new Comparator<Event>() {
-        public int compare(Event event1, Event event2) {
-          return event1.eventDate.compareTo(event2.eventDate);
-        }
-      });
+      Collections.sort(ds.eventList, eventComparator);
     }
 
   }
@@ -131,5 +118,18 @@ public class SetupScheduleStep extends ActionStep
     seasonEnd.addDays(-1);
     return seasonEnd;
   }
+
+  private static Comparator<Event> eventComparator = new Comparator<Event>() {
+    public int compare(Event event1, Event event2) {
+      DateTime dt1 = new DateTime(event1.getEventDate());
+      DateTime dt2 = new DateTime(event2.getEventDate());
+      if (dt1.getYear() == dt2.getYear() && dt1.getDay() == dt2.getDay() && dt1.getMonth() == dt2.getMonth()) {
+        Integer vaccineId1 = event1.getImmList().size() > 0 ? event1.getImmList().get(0).getVaccineId() : 0;
+        Integer vaccineId2 = event2.getImmList().size() > 0 ? event2.getImmList().get(0).getVaccineId() : 0;
+        return vaccineId1.compareTo(vaccineId2);
+      }
+      return event1.eventDate.compareTo(event2.eventDate);
+    }
+  };
 
 }
