@@ -167,7 +167,7 @@ public class CaretForecaster
   //  6 Reserved for future use
   private static final int FIELD_OUT_INPUT_DOSE_06_INVLIAD_DOSE_AND_REASON = 6;
   //  7  Reserved for future use
-  private static final int FIELD_OUT_INPUT_DOSE_07_RESERVED_FOR_FUTURE_USE = 7;
+  private static final int FIELD_OUT_INPUT_DOSE_07_INVALID_CVX_LIST = 7;
 
   //  1 Dose Due IMM/Serve Series Code
   private static final int FIELD_OUT_DOSE_DUE_1_DOSE_DUE_IMM_SERVE_SERIES_CODE = 1;
@@ -652,6 +652,8 @@ public class CaretForecaster
             addValue(imm.getDoseOverride(), FIELD_OUT_INPUT_DOSE_05_DOSE_OVERRIDE);
 
             String invalidReason = "";
+            String invalidCVXList = "";
+            boolean foundReason = false;
             for (VaccinationDoseDataBean dose : forecastRunner.getDoseList()) {
               if (dose.getVaccinationId() == imm.getVaccinationId()) {
                 if (dose.getStatusCode().equals(VaccinationDoseDataBean.STATUS_INVALID)) {
@@ -662,21 +664,33 @@ public class CaretForecaster
                     continue;
                   }
 
-                  invalidReason = dose.getReason();
-                  if (invalidReason == null) {
-                    invalidReason = "";
-                  } else {
-                    invalidReason = invalidReason.trim();
+                  if (!foundReason) {
+                    invalidReason = dose.getReason();
+                    if (invalidReason == null) {
+                      invalidReason = "";
+                    } else {
+                      invalidReason = invalidReason.trim();
+                    }
+                    if (invalidReason.length() > 70) {
+                      invalidReason = invalidReason.substring(0, 70);
+                    }
+                    invalidReason = "1:" + invalidReason;
+                    foundReason = true;
                   }
-                  if (invalidReason.length() > 70) {
-                    invalidReason = invalidReason.substring(0, 70);
+
+                  String cvxCode = doseDueOutHash.get(dose.getForecastCode());
+                  if (cvxCode != null) {
+                    if (invalidCVXList.length() > 0) {
+                      invalidCVXList = invalidCVXList + "," + cvxCode;
+                    } else {
+                      invalidCVXList = cvxCode;
+                    }
                   }
-                  invalidReason = "1:" + invalidReason;
-                  break;
                 }
               }
             }
             addValue(invalidReason, FIELD_OUT_INPUT_DOSE_06_INVLIAD_DOSE_AND_REASON);
+            addValue(invalidCVXList, FIELD_OUT_INPUT_DOSE_07_INVALID_CVX_LIST);
             i++;
           }
         }

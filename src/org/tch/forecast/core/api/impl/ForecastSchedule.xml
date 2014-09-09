@@ -344,18 +344,21 @@
     <indicate vaccineName="TriHIBit" schedule="INVALID" age="" reason="TriHIBit invalid as first dose."/>
     <indicate vaccineName="Booster Dose" schedule="INVALID" age="12 months" reason="Booster dose should not be given before 12 months of age."/>
   </schedule>
-  <schedule scheduleName="CB" dose="1" indication="" label="catch-up booster">
+  <schedule scheduleName="CB" dose="B" indication="" label="catch-up booster">
     <pos row="2" column="3"/>
     <valid age="12 months" interval="8 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="12 months" interval="" grace=""/>
-    <overdue age="" interval="" grace=""/>
+    <overdue age="12 months" interval="" grace=""/>
     <finished age="5 years" interval="" grace=""/>
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
     <indicate vaccineName="Booster Dose" schedule="COMPLETE" age="" reason=""/>
   </schedule>
 </forecast>
+
+
+
 
 
 
@@ -641,7 +644,7 @@
   <vaccine vaccineName="Child" vaccineIds="110, 112, 114, 115, 116, 2060, 111, 2070, 113, 121, 1150, 142"/>
   <vaccine vaccineName="Adult" vaccineIds="122, 124, 123"/>
   <vaccine vaccineName="Td" vaccineIds="122, 124"/>
-  <vaccine vaccineName="Tdap" vaccineIds="123" validAge="7 years"/>
+  <vaccine vaccineName="Tdap" vaccineIds="123, 110, 114, 113, 115, 116, 121, 2060, 111, 2070" validAge="7 years"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-110"/>
   <vaccine vaccineName="12 Months Old" vaccineIds="-12"/>
   <vaccine vaccineName="4 Years Old" vaccineIds="-4"/>
@@ -813,7 +816,7 @@
     <valid age="7 years" interval="6 months" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="6 months" grace=""/>
-    <overdue age="" interval="13 months" grace=""/>
+    <overdue age="" interval="6 months" grace=""/>
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="6 months" grace="2 months"/>
     <before-previous interval=""/>
