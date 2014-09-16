@@ -235,9 +235,9 @@
   <vaccine vaccineName="7 Months Old" vaccineIds="-7"/>
   <vaccine vaccineName="12 Months Old" vaccineIds="-12"/>
   <vaccine vaccineName="15 Months Old" vaccineIds="-15"/>
-  <transition name="7 Months Old" age="7 months" vaccineId="-7"/>
-  <transition name="12 Months Old" age="12 months" vaccineId="-12"/>
-  <transition name="15 Months Old" age="15 months" vaccineId="-15"/>
+  <transition name="7 Months Old" age="7 months -4 d" vaccineId="-7"/>
+  <transition name="12 Months Old" age="12 months -4 d" vaccineId="-12"/>
+  <transition name="15 Months Old" age="15 months -4 d" vaccineId="-15"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
     <pos row="1" column="1"/>
     <valid age="6 weeks" interval="" grace="4 days"/>
@@ -649,9 +649,9 @@
   <vaccine vaccineName="12 Months Old" vaccineIds="-12"/>
   <vaccine vaccineName="4 Years Old" vaccineIds="-4"/>
   <vaccine vaccineName="7 Years Old" vaccineIds="-7"/>
-  <transition name="12 Months Old" age="12 months" vaccineId="-12"/>
-  <transition name="4 Years Old" age="4 years" vaccineId="-4"/>
-  <transition name="7 Years Old" age="7 years" vaccineId="-7"/>
+  <transition name="12 Months Old" age="12 months -4 d" vaccineId="-12"/>
+  <transition name="4 Years Old" age="4 years -4 days" vaccineId="-4"/>
+  <transition name="7 Years Old" age="7 years -4 days" vaccineId="-7"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
     <pos row="1" column="1"/>
     <valid age="6 weeks" interval="" grace="4 days"/>
@@ -1025,7 +1025,7 @@
 
 
 <forecast seriesName="Pneumo">
-  <transition name="12 Months Old" age="12 months" vaccineId="-12"/>
+  <transition name="12 Months Old" age="12 months -4 d" vaccineId="-12"/>
   <vaccine vaccineName="PCV" vaccineIds="154, 156, 3143"/>
   <vaccine vaccineName="12 Months Old" vaccineIds="-12"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
@@ -1084,7 +1084,7 @@
     <finished age="5 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="PCV" schedule="C4" age="24 months" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="PCV" schedule="C4" age="24 months -4 d" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="Second valid dose received after 24 months of age, no more doses needed." historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="C3" dose="3" indication="" label="3rd dose 12 month catchup">
@@ -1127,7 +1127,7 @@
   <vaccine vaccineName="OPV" vaccineIds="148"/>
   <vaccine vaccineName="Any" vaccineIds="147, 114, 115, 153, 148, 116, 142"/>
   <vaccine vaccineName="4 Years Old" vaccineIds="-4"/>
-  <transition name="4 Years Old" age="4 years" vaccineId="-4"/>
+  <transition name="4 Years Old" age="4 years -4 d" vaccineId="-4"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
     <pos row="1" column="1"/>
     <valid age="6 weeks" interval="" grace="4 days"/>
@@ -1139,18 +1139,6 @@
     <before-previous interval=""/>
     <indicate vaccineName="IPV" schedule="P2" age="" reason=""/>
     <indicate vaccineName="OPV" schedule="R2" age="" reason="Oral vaccine given, switching to OPV schedule."/>
-  </schedule>
-  <schedule scheduleName="P3" dose="3" indication="" label="6-18 months">
-    <pos row="1" column="3"/>
-    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="6 months" interval="" grace=""/>
-    <overdue age="19 months" interval="" grace=""/>
-    <finished age="18 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="Any" schedule="P4" age="" reason=""/>
-    <indicate vaccineName="4 Years Old" minInterval="" schedule="CB" age="" reason="Did not receive third dose of IPV by 4 years of age, now expecting 4 year old catch-up booster"/>
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="4 months">
     <pos row="1" column="2"/>
@@ -1164,6 +1152,18 @@
     <indicate vaccineName="IPV" schedule="P3" age="" reason=""/>
     <indicate vaccineName="OPV" schedule="R3" age="" reason="Oral vaccine given, switching to OPV schedule"/>
   </schedule>
+  <schedule scheduleName="P3" dose="3" indication="" label="6-18 months">
+    <pos row="1" column="3"/>
+    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="6 months" interval="" grace=""/>
+    <overdue age="19 months" interval="" grace=""/>
+    <finished age="18 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="4 Years Old" schedule="CB" age="" reason="Did not receive third dose of IPV by 4 years of age, now expecting 4 year old catch-up booster"/>
+    <indicate vaccineName="Any" minInterval="" schedule="P4" age="" reason=""/>
+  </schedule>
   <schedule scheduleName="P4" dose="B" indication="" label="4-6 years">
     <pos row="1" column="4"/>
     <valid age="4 years" interval="6 months" grace="4 days"/>
@@ -1174,17 +1174,6 @@
     <after-invalid interval="6 months" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Any" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-  <schedule scheduleName="R3" dose="3" indication="" label="6-18 months OPV">
-    <pos row="2" column="3"/>
-    <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="6 months" interval="" grace=""/>
-    <overdue age="19 months" interval="" grace=""/>
-    <finished age="18 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="Any" schedule="P4" age="" reason=""/>
   </schedule>
   <schedule scheduleName="R2" dose="2" indication="" label="4 months OPV">
     <pos row="2" column="2"/>
