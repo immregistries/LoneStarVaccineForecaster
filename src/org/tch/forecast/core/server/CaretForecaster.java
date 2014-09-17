@@ -754,17 +754,17 @@ public class CaretForecaster
             addValue(invalidReason, FIELD_OUT_INPUT_DOSE_06_INVLIAD_DOSE_AND_REASON);
             if (foundReason) {
               Map<String, String> invalidParts = combinationInvalidParts.get(imm.getCvx());
-              String s = "";
-              for (String invalidForecastCode : invalidForecastCodeList) {
-                String cvxCode = invalidParts.get(invalidForecastCode);
-                if (cvxCode != null) {
-                  if (!s.equals("")) {
-                    s = s + ",";
-                  }
-                  s = s + cvxCode;
-                }
-              }
               if (invalidParts != null) {
+                String s = "";
+                for (String invalidForecastCode : invalidForecastCodeList) {
+                  String cvxCode = invalidParts.get(invalidForecastCode);
+                  if (cvxCode != null) {
+                    if (!s.equals("")) {
+                      s = s + ",";
+                    }
+                    s = s + cvxCode;
+                  }
+                }
                 addValue(s, FIELD_OUT_INPUT_DOSE_07_INVALID_CVX_LIST);
               }
             }
