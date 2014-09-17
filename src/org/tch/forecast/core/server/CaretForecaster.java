@@ -240,6 +240,75 @@ public class CaretForecaster
   private StringBuilder response = new StringBuilder();
   private int currentPosition = 1;
 
+  private static HashMap<String, Map<String, String>> combinationInvalidParts = new HashMap<String, Map<String, String>>();
+  static {
+    {
+      Map<String, String> invalidPartsMap = new HashMap<String, String>();
+      combinationInvalidParts.put("22", invalidPartsMap);
+      invalidPartsMap.put(ImmunizationForecastDataBean.DIPHTHERIA, "1");
+      invalidPartsMap.put(ImmunizationForecastDataBean.HIB, "47");
+    }
+    {
+      Map<String, String> invalidPartsMap = new HashMap<String, String>();
+      combinationInvalidParts.put("50", invalidPartsMap);
+      invalidPartsMap.put(ImmunizationForecastDataBean.DIPHTHERIA, "20");
+      invalidPartsMap.put(ImmunizationForecastDataBean.HIB, "48");
+    }
+    {
+      Map<String, String> invalidPartsMap = new HashMap<String, String>();
+      combinationInvalidParts.put("51", invalidPartsMap);
+      invalidPartsMap.put(ImmunizationForecastDataBean.HEPB, "8");
+      invalidPartsMap.put(ImmunizationForecastDataBean.HIB, "49");
+    }
+    {
+      Map<String, String> invalidPartsMap = new HashMap<String, String>();
+      combinationInvalidParts.put("94", invalidPartsMap);
+      invalidPartsMap.put(ImmunizationForecastDataBean.MMR, "3");
+      invalidPartsMap.put(ImmunizationForecastDataBean.VARICELLA, "21");
+    }
+    {
+      Map<String, String> invalidPartsMap = new HashMap<String, String>();
+      combinationInvalidParts.put("102", invalidPartsMap);
+      invalidPartsMap.put(ImmunizationForecastDataBean.DIPHTHERIA, "1");
+      invalidPartsMap.put(ImmunizationForecastDataBean.HIB, "48");
+      invalidPartsMap.put(ImmunizationForecastDataBean.HEPB, "8");
+    }
+    {
+      Map<String, String> invalidPartsMap = new HashMap<String, String>();
+      combinationInvalidParts.put("104", invalidPartsMap);
+      invalidPartsMap.put(ImmunizationForecastDataBean.HEPB, "43");
+      invalidPartsMap.put(ImmunizationForecastDataBean.HEPA, "52");
+    }
+    {
+      Map<String, String> invalidPartsMap = new HashMap<String, String>();
+      combinationInvalidParts.put("110", invalidPartsMap);
+      invalidPartsMap.put(ImmunizationForecastDataBean.DIPHTHERIA, "20");
+      invalidPartsMap.put(ImmunizationForecastDataBean.HEPB, "8");
+      invalidPartsMap.put(ImmunizationForecastDataBean.POLIO, "10");
+    }
+    {
+      Map<String, String> invalidPartsMap = new HashMap<String, String>();
+      combinationInvalidParts.put("120", invalidPartsMap);
+      invalidPartsMap.put(ImmunizationForecastDataBean.DIPHTHERIA, "20");
+      invalidPartsMap.put(ImmunizationForecastDataBean.HIB, "48");
+      invalidPartsMap.put(ImmunizationForecastDataBean.POLIO, "10");
+    }
+    {
+      Map<String, String> invalidPartsMap = new HashMap<String, String>();
+      combinationInvalidParts.put("130", invalidPartsMap);
+      invalidPartsMap.put(ImmunizationForecastDataBean.DIPHTHERIA, "20");
+      invalidPartsMap.put(ImmunizationForecastDataBean.POLIO, "10");
+    }
+    {
+      Map<String, String> invalidPartsMap = new HashMap<String, String>();
+      combinationInvalidParts.put("132", invalidPartsMap);
+      invalidPartsMap.put(ImmunizationForecastDataBean.DIPHTHERIA, "20");
+      invalidPartsMap.put(ImmunizationForecastDataBean.POLIO, "10");
+      invalidPartsMap.put(ImmunizationForecastDataBean.HIB, "17");
+      invalidPartsMap.put(ImmunizationForecastDataBean.HEPB, "45");
+    }
+  }
+
   private static HashMap<String, String> doseDueOutHash = new HashMap<String, String>();
   static {
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"1"); // DTP
@@ -652,7 +721,7 @@ public class CaretForecaster
             addValue(imm.getDoseOverride(), FIELD_OUT_INPUT_DOSE_05_DOSE_OVERRIDE);
 
             String invalidReason = "";
-            String invalidCVXList = "";
+            List<String> invalidForecastCodeList = new ArrayList<String>();
             boolean foundReason = false;
             for (VaccinationDoseDataBean dose : forecastRunner.getDoseList()) {
               if (dose.getVaccinationId() == imm.getVaccinationId()) {
@@ -678,19 +747,27 @@ public class CaretForecaster
                     foundReason = true;
                   }
 
-                  String cvxCode = doseDueOutHash.get(dose.getForecastCode());
-                  if (cvxCode != null) {
-                    if (invalidCVXList.length() > 0) {
-                      invalidCVXList = invalidCVXList + "," + cvxCode;
-                    } else {
-                      invalidCVXList = cvxCode;
-                    }
-                  }
+                  invalidForecastCodeList.add(dose.getForecastCode());
                 }
               }
             }
             addValue(invalidReason, FIELD_OUT_INPUT_DOSE_06_INVLIAD_DOSE_AND_REASON);
-            addValue(invalidCVXList, FIELD_OUT_INPUT_DOSE_07_INVALID_CVX_LIST);
+            if (foundReason) {
+              Map<String, String> invalidParts = combinationInvalidParts.get(imm.getCvx());
+              String s = "";
+              for (String invalidForecastCode : invalidForecastCodeList) {
+                String cvxCode = invalidParts.get(invalidForecastCode);
+                if (cvxCode != null) {
+                  if (!s.equals("")) {
+                    s = s + ",";
+                  }
+                  s = s + cvxCode;
+                }
+              }
+              if (invalidParts != null) {
+                addValue(s, FIELD_OUT_INPUT_DOSE_07_INVALID_CVX_LIST);
+              }
+            }
             i++;
           }
         }
@@ -1018,6 +1095,9 @@ public class CaretForecaster
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^149^20140414^0^0^0|||3482^111^20140421^0^0^0|||"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^52^20140414^0^0^0|||"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^03^20140414^0^0^0|||"
+  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^110^19830215^0^0^0|||"
+
+  //  110 
 
   public static void main(String[] args) throws Exception {
     String request = ForecastServer.TEST[0];

@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2014-09-16">
+<schedule scheduleName="TCH-2014-09-17">
 
 
 <forecast seriesName="Varicella">
@@ -327,7 +327,7 @@
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="12 Months Old" schedule="D1" age="" reason="Did not receive second dose by 12 months of age, next dose due immediately."/>
-    <indicate vaccineName="Series Dose" schedule="P4" age="" reason="Received 2nd dose at 15 months of age or older, no more doses needed."/>
+    <indicate vaccineName="Series Dose" schedule="CB" age="" reason="Received 2nd dose at 15 months of age or older, one more dose needed."/>
     <indicate vaccineName="Booster Dose" schedule="INVALID" age="12 months" reason="Booster dose should not be given before 12 months of age."/>
   </schedule>
   <schedule scheduleName="D1" dose="1" indication="" label="12-14 month catch-up">
@@ -337,7 +337,7 @@
     <due age="12 months" interval="" grace=""/>
     <overdue age="12 months" interval="" grace=""/>
     <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="0 days" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="15 Months Old" schedule="CB" age="" reason="Did not receive first or next dose before 15 months, final dose due immediately."/>
     <indicate vaccineName="Series Dose" schedule="CB" age="" reason=""/>
@@ -351,7 +351,7 @@
     <due age="12 months" interval="" grace=""/>
     <overdue age="12 months" interval="" grace=""/>
     <finished age="5 years" interval="" grace=""/>
-    <after-invalid interval="0 days" grace=""/>
+    <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Booster Dose" schedule="COMPLETE" age="" reason=""/>
   </schedule>
@@ -1149,7 +1149,8 @@
     <finished age="18 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="IPV" schedule="P3" age="" reason=""/>
+    <indicate vaccineName="IPV" schedule="P3" age="4 years" reason=""/>
+    <indicate vaccineName="IPV" schedule="CB" age="" reason=""/>
     <indicate vaccineName="OPV" schedule="R3" age="" reason="Oral vaccine given, switching to OPV schedule"/>
   </schedule>
   <schedule scheduleName="P3" dose="3" indication="" label="6-18 months">
@@ -1162,7 +1163,7 @@
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="4 Years Old" schedule="CB" age="" reason="Did not receive third dose of IPV by 4 years of age, now expecting 4 year old catch-up booster"/>
-    <indicate vaccineName="Any" minInterval="" schedule="P4" age="" reason=""/>
+    <indicate vaccineName="Any" minInterval="" schedule="CB" age="" reason=""/>
   </schedule>
   <schedule scheduleName="P4" dose="B" indication="" label="4-6 years">
     <pos row="1" column="4"/>
