@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2014-09-17">
+<schedule scheduleName="TCH-2014-09-18">
 
 
 <forecast seriesName="Varicella">
@@ -330,7 +330,7 @@
     <indicate vaccineName="Series Dose" schedule="CB" age="" reason="Received 2nd dose at 15 months of age or older, one more dose needed."/>
     <indicate vaccineName="Booster Dose" schedule="INVALID" age="12 months" reason="Booster dose should not be given before 12 months of age."/>
   </schedule>
-  <schedule scheduleName="D1" dose="1" indication="" label="12-14 month catch-up">
+  <schedule scheduleName="D1" dose="*" indication="" label="12-14 month catch-up">
     <pos row="2" column="3"/>
     <valid age="12 months" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
@@ -741,15 +741,15 @@
     <before-previous interval=""/>
     <indicate vaccineName="7 Years Old" schedule="A3" age="" reason="Patient reached 7 years of age, only receiving two valid doses of DTaP after 12 months, moving to 3rd dose in adult catchup schedule. " historyOfVaccineName=""/>
     <indicate vaccineName="Child" schedule="P4" age="4 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="Child" schedule="K5" age="" reason="Patient received 3rd valid dose after 4 years of age, now expecting final DTaP booster. " historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="K4" age="" reason="Patient received 3rd valid dose after 4 years of age, now expecting final DTaP booster. " historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="INVALID" age="" reason="" historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="K4" dose="B" indication="" label="catchup kindegarten booster">
     <pos row="1" column="4"/>
-    <valid age="12 months" interval="6 months" grace="2 months"/>
-    <early age="12 months" interval="" grace=""/>
-    <due age="15 months" interval="" grace=""/>
-    <overdue age="19 months" interval="" grace=""/>
+    <valid age="4 years" interval="6 months" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="4 years" interval="" grace=""/>
+    <overdue age="4 years" interval="" grace=""/>
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="6 months" grace="4 days"/>
     <before-previous interval=""/>
@@ -1075,12 +1075,12 @@
     <before-previous interval=""/>
     <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="C2" dose="2" indication="" label="2nd dose 12 month catchup">
+  <schedule scheduleName="C2" dose="*" indication="" label="2nd dose 12 month catchup">
     <pos row="2" column="2"/>
-    <valid age="6 weeks" interval="4 weeks" grace="4 days"/>
-    <early age="6 weeks" interval="" grace=""/>
-    <due age="2 months" interval="4 weeks" grace=""/>
-    <overdue age="3 months" interval="4 weeks" grace=""/>
+    <valid age="12 months" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="12 months" interval="4 weeks" grace=""/>
+    <overdue age="12 months" interval="4 weeks" grace=""/>
     <finished age="5 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
@@ -1089,10 +1089,10 @@
   </schedule>
   <schedule scheduleName="C3" dose="3" indication="" label="3rd dose 12 month catchup">
     <pos row="" column="1"/>
-    <valid age="14 weeks" interval="8 weeks" grace="4 days"/>
+    <valid age="12 months" interval="8 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
-    <due age="6 months" interval="" grace=""/>
-    <overdue age="7 months" interval="" grace=""/>
+    <due age="12 months" interval="" grace=""/>
+    <overdue age="12 months" interval="" grace=""/>
     <finished age="5 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
@@ -1110,6 +1110,7 @@
     <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
   </schedule>
 </forecast>
+
 
 	
 
