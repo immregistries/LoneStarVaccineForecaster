@@ -262,7 +262,7 @@ public class MakeForecastStep extends ActionStep
   private String getValidDose(DataStore ds, VaccineForecastDataBean.Schedule schedule) {
     String dose = schedule.getDose();
     if (dose.equals("*")) {
-      dose = Integer.toString(ds.validDoseCount);
+      dose = Integer.toString(ds.validDoseCount + 1);
     }
     return dose;
   }
