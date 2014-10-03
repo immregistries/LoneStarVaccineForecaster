@@ -249,9 +249,15 @@ public class LookForDoseStep extends ActionStep
   public String getNextScheduleName(DataStore ds, VaccineForecastDataBean.Indicate indicate) {
     String nextScheduleName = indicate.getScheduleName();
     if (nextScheduleName.startsWith("DL")) {
-      DecisionLogic decisionLogic = ds.forecast.getDecisionLogic(nextScheduleName);
+      ds.log("Schedule transition is a decision logic dependent one. Calling logic " + nextScheduleName + ".");
+      DecisionLogic decisionLogic = ds.forecast.getDecisionLogic(nextScheduleName); 
       if (decisionLogic != null) {
         nextScheduleName = decisionLogic.getTransition(ds);
+        ds.log(" + nextScheduleName = " + nextScheduleName);
+      }
+      else
+      {
+        ds.log(" + logic not found, not recognized");
       }
     }
     return nextScheduleName;
