@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2014-10-03">
+<schedule scheduleName="TCH-2014-11-19">
 
 
 <forecast seriesName="Varicella">
@@ -162,7 +162,7 @@
 
 
 <forecast seriesName="Influenza">
-  <vaccine vaccineName="Flu" vaccineIds="2050, 180, 181, 1430, 1440, 179, 200, 201, 185, 204, 203, 186, 187, 188, 189, 202"/>
+  <vaccine vaccineName="Flu" vaccineIds="2050, 180, 181, 1430, 1440, 179, 200, 201, 185, 204, 203, 202"/>
   <vaccine vaccineName="Nasal" vaccineIds="180, 203"/>
   <vaccine vaccineName="Live" vaccineIds="158, 159, 160, 161, 162, 171, 175, 178, 2020"/>
   <vaccine vaccineName="H1N1" vaccineIds="186, 187, 188, 189"/>
@@ -181,6 +181,7 @@
     <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" seasonCompleted=""/>
     <indicate vaccineName="Flu" schedule="P1" age="" reason="" seasonCompleted=""/>
+    <indicate vaccineName="H1N1" schedule="P1" age="" reason="" seasonCompleted=""/>
     <indicate vaccineName="Season Start" schedule="S1" age="" reason="" seasonCompleted=""/>
   </schedule>
   <schedule scheduleName="S1" dose="1" indication="" label="current season">
@@ -218,6 +219,7 @@
     <indicate vaccineName="Flu" schedule="COMPLETE" age="" reason="" minInterval="" seasonCompleted=""/>
   </schedule>
 </forecast>
+
 
 
 
@@ -761,7 +763,7 @@
   </schedule>
   <schedule scheduleName="K5" dose="B" indication="" label="kindegarten booster">
     <pos row="2" column="5"/>
-    <valid age="4 years" interval="6 months" grace=""/>
+    <valid age="4 years" interval="6 months" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="4 years" interval="" grace=""/>
     <earlyOverdue age="6 years" interval="" grace=""/>
@@ -839,9 +841,9 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
-    <indicate vaccineName="Child" schedule="TN" age="" reason="Child vaccine should not be given after 7 years of age, Tdap should be administered as soon as possible." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName="Tdap"/>
     <indicate vaccineName="Tdap" schedule="B10" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="TN" age="" reason="Child vaccine should not be given after 7 years of age, Tdap should be administered as soon as possible." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="TN" age="" reason="Tdap should be administered as soon as possible." historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="T1" dose="B" indication="" label="First Tdap">
@@ -853,9 +855,9 @@
     <finished age="150 years" interval="" grace=""/>
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
-    <indicate vaccineName="Child" schedule="TN" age="" reason="Child vaccine should not be given after 7 years of age, Tdap should be administered as soon as possible." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName="Tdap"/>
     <indicate vaccineName="Tdap" schedule="B10" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="TN" age="" reason="Child vaccine should not be given after 7 years of age, Tdap should be administered as soon as possible." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="TN" age="" reason="Tdap should be administered as soon as possible." historyOfVaccineName=""/>
   </schedule>
 </forecast>

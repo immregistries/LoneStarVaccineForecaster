@@ -250,13 +250,11 @@ public class LookForDoseStep extends ActionStep
     String nextScheduleName = indicate.getScheduleName();
     if (nextScheduleName.startsWith("DL")) {
       ds.log("Schedule transition is a decision logic dependent one. Calling logic " + nextScheduleName + ".");
-      DecisionLogic decisionLogic = ds.forecast.getDecisionLogic(nextScheduleName); 
+      DecisionLogic decisionLogic = ds.forecast.getDecisionLogic(nextScheduleName);
       if (decisionLogic != null) {
         nextScheduleName = decisionLogic.getTransition(ds);
         ds.log(" + nextScheduleName = " + nextScheduleName);
-      }
-      else
-      {
+      } else {
         ds.log(" + logic not found, not recognized");
       }
     }
@@ -368,8 +366,7 @@ public class LookForDoseStep extends ActionStep
       ds.log("Vaccine given on or after " + givenOnOrAfter.toString("M/D/Y"));
     }
     for (Event event : ds.eventList) {
-      if (ds.event == event)
-      {
+      if (ds.event == event) {
         return false;
       }
       DateTime eventDateTime = new DateTime(event.eventDate);
@@ -563,7 +560,7 @@ public class LookForDoseStep extends ActionStep
             dose.setCvxCode(imm.getCvx());
             dose.setMvxCode(imm.getMvx());
             dose.setVaccinationId(imm.getVaccinationId());
-            dose.setReason((ds.forecastManager.getVaccineName(imm.getVaccineId()) + (" given " + DataStore.dateFormat
+            dose.setReason((ds.forecastManager.getVaccineName(imm.getVaccineId()) + (" given " + ds.dateFormat
                 .format(imm.getDateOfShot()))) + " is invalid " + invalidReason + "");
             dose.setWhenValidText(ds.whenValidText);
             ds.doseList.add(dose);
@@ -596,7 +593,7 @@ public class LookForDoseStep extends ActionStep
               if (ds.trace != null) {
                 ds.traceList.setExplanationRed();
                 ds.traceList.addExplanation(ds.forecastManager.getVaccineName(imm.getVaccineId()) + " given "
-                    + DataStore.dateFormat.format(imm.getDateOfShot()) + " is a contraindicated " + contraReason);
+                    + ds.dateFormat.format(imm.getDateOfShot()) + " is a contraindicated " + contraReason);
               }
             }
           }
@@ -628,7 +625,7 @@ public class LookForDoseStep extends ActionStep
               ds.trace.getDoses().add(dose);
               ds.traceList.setExplanationBlue();
               ds.traceList.addExplanation(ds.forecastManager.getVaccineName(imm.getVaccineId()) + " given "
-                  + DataStore.dateFormat.format(imm.getDateOfShot()) + " is valid (dose #" + ds.validDoseCount + ")");
+                  + ds.dateFormat.format(imm.getDateOfShot()) + " is valid (dose #" + ds.validDoseCount + ")");
             }
           }
         }
@@ -647,10 +644,10 @@ public class LookForDoseStep extends ActionStep
               ds.traceList.setExplanationBlue();
               if (ds.seasonal == null) {
                 ds.traceList.addExplanation("Transitioning because patient is " + imm.getLabel() + " as of "
-                    + DataStore.dateFormat.format(imm.getDateOfShot()));
+                    + ds.dateFormat.format(imm.getDateOfShot()));
               } else {
                 ds.traceList.addExplanation("Transitioning because of " + imm.getLabel() + " on "
-                    + DataStore.dateFormat.format(imm.getDateOfShot()));
+                    + ds.dateFormat.format(imm.getDateOfShot()));
               }
             }
           }

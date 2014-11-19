@@ -33,18 +33,18 @@ public class DataStore
 
   public static final TimePeriod NO_GRACE_PERIOD = new TimePeriod("");
   
-  protected static DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+  protected DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
   public static final int VARICELLA_HISTORY = 378;
 
-  public static DateFormat getDateFormat()
+  public DateFormat getDateFormat()
   {
     return dateFormat;
   }
 
-  public static void setDateFormat(DateFormat dateFormat)
+  public void setDateFormat(DateFormat dateFormat)
   {
-    DataStore.dateFormat = dateFormat;
+    this.dateFormat = dateFormat;
   }
 
   protected DateTime beforePreviousEventDate;

@@ -905,6 +905,7 @@ public class CaretForecaster
       description = stringWriter.toString();
 
     } catch (Throwable t) {
+      System.err.println("Unable to forecast. Received this request: " + request);
       t.printStackTrace();
       errorCode = "Unable to Forecast, unexpected exeption occurred: " + t.getMessage();
     }

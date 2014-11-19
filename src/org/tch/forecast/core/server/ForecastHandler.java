@@ -14,6 +14,7 @@ public class ForecastHandler extends Thread
   private PrintStream output = null;
   private ForecastServer forecastServer = null;
 
+  
   public ForecastHandler(Socket socket, ForecastServer forecastServer) {
     this.socket = socket;
     this.forecastServer = forecastServer;
@@ -48,6 +49,9 @@ public class ForecastHandler extends Thread
       ioe.printStackTrace();
     } finally {
       close();
+    }
+    if (ForecastServer.isRunGarbageCollectionWhenDone()) {
+      Runtime.getRuntime().gc();
     }
   }
 

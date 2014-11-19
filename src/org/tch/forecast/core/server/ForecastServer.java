@@ -3,6 +3,7 @@ package org.tch.forecast.core.server;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.management.GarbageCollectorMXBean;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
@@ -36,6 +37,18 @@ public class ForecastServer extends Thread
   private boolean debug = false;
   private StringBuilder startupProcessLog = new StringBuilder();
   private StringBuilder runningProcessLog = new StringBuilder();
+  
+  private static boolean runGarbageCollectionWhenDone = false;
+
+  public static boolean isRunGarbageCollectionWhenDone() {
+    return runGarbageCollectionWhenDone;
+  }
+
+  public static void setRunGarbageCollectionWhenDone(boolean runGarbageCollectionWhenDone) {
+    ForecastServer.runGarbageCollectionWhenDone = runGarbageCollectionWhenDone;
+  }
+
+
 
   public String getProcessLog() {
     return startupProcessLog.toString();
@@ -104,13 +117,10 @@ public class ForecastServer extends Thread
     } catch (IOException e) {
       logStartupLn("Unable to listen on port " + port + ", shutting down TCH Foreacast Server");
       logStartup(e);
-    } catch (Throwable e)
-    {
+    } catch (Throwable e) {
       logStartupLn("Unable to listen on port " + port + ", shutting down TCH Foreacast Server");
       logStartup(e);
-    }
-    finally
-    {
+    } finally {
       logStartupLn("Shutting down forecater");
     }
   }
@@ -134,10 +144,10 @@ public class ForecastServer extends Thread
     throwable.printStackTrace(printWriter);
     startupProcessLog.append(printWriter.toString());
   }
-  
+
   private long lastClearTime = 0;
   private static final long ONE_HOUR = 1000 * 60 * 60;
-  
+
   protected void logRunningLn(String message) {
     System.out.print(LOG_PRE + message);
     resetProcessingLog();
@@ -146,8 +156,7 @@ public class ForecastServer extends Thread
   }
 
   private void resetProcessingLog() {
-    if (System.currentTimeMillis() - lastClearTime > ONE_HOUR)
-    {
+    if (System.currentTimeMillis() - lastClearTime > ONE_HOUR) {
       runningProcessLog = new StringBuilder();
       lastClearTime = System.currentTimeMillis();
       SimpleDateFormat sdf = new SimpleDateFormat("M/d/y h:m:s");
@@ -190,6 +199,10 @@ public class ForecastServer extends Thread
       if (port <= 0 || port > 65535) {
         System.err.println("Invalid port number " + args[0]);
         port = DEFAULT_PORT;
+      }
+      if (args.length > 1 && args[1].equalsIgnoreCase("gc"))
+      {
+        runGarbageCollectionWhenDone = true;
       }
     }
     ForecastServer forecastServer = new ForecastServer(port);
