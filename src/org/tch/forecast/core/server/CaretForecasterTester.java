@@ -13,6 +13,7 @@ public class CaretForecasterTester
   private static int threadCount = 1;
   private static int portNumber = 6708;
   private static int repeatCount = 100000;
+  private static String versionString = null;
 
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecasterTester 100 5
   public static void main(String[] args) throws Exception {
@@ -94,6 +95,14 @@ public class CaretForecasterTester
           String line;
           while ((line = in.readLine()) != null) {
             if (line.indexOf("&&&TCH Forecaster version") != -1) {
+              if (CaretForecasterTester.versionString == null) {
+                int startPos = line.indexOf("&&&TCH Forecaster version") + 3;
+                int endPos = line.indexOf("^", startPos);
+                if (endPos != -1) {
+                  CaretForecasterTester.versionString = line.substring(startPos, endPos);
+                  System.out.println("Connecting to " + CaretForecasterTester.versionString);
+                }
+              }
               goodToRun = true;
               break;
             } else {
