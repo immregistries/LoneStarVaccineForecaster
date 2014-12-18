@@ -11,7 +11,8 @@ import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
 import org.tch.forecast.core.DateTime;
 
-public class SetupStep extends ActionStep {
+public class SetupStep extends ActionStep
+{
   public static final String NAME = "Setup";
 
   @Override
@@ -25,6 +26,7 @@ public class SetupStep extends ActionStep {
     dataStore.scheduleListPos = -1;
 
     setupAll("BIRTH", dataStore);
+    setupAll("AGE", dataStore);
     if (dataStore.patient.getSex() == null || !dataStore.patient.getSex().equals("M")) {
       setupAll("FEMALE", dataStore);
     }
@@ -47,6 +49,16 @@ public class SetupStep extends ActionStep {
         ds.log("Forecast code = '" + ds.forecastCode + "' (Only forecasts for this code will be added)");
       }
       for (Schedule schedule : vaccineForecastList) {
+        if (schedule.getIndicationAge() != null) {
+          ds.log("Not indicated until patient is " + schedule.getIndicationAge() + " old");
+          DateTime indicatedDateTime = schedule.getIndicationAge().getDateTimeFrom(ds.getPatient().getDobDateTime());
+          ds.log("  + indicatedDateTime: " + indicatedDateTime);
+          if (indicatedDateTime.isGreaterThan(ds.forecastDateTime)) {
+            ds.log("Because of patient's age this schedule is NOT indicated");
+            continue;
+          }
+          ds.log("Schedule is indicated for age");
+        }
         if (ds.forecastCode == null || schedule.getForecastCode().equals(ds.forecastCode)) {
           if (schedule.getIndicationCriteria() != null) {
             IndicationCriteria indicationCriteria = schedule.getIndicationCriteria();
@@ -129,7 +141,8 @@ public class SetupStep extends ActionStep {
 
   }
 
-  public boolean eventIndicated(IndicationCriteria indicationCriteria, List<ImmunizationInterface> vaccinations, DataStore ds) {
+  public boolean eventIndicated(IndicationCriteria indicationCriteria, List<ImmunizationInterface> vaccinations,
+      DataStore ds) {
     for (ImmunizationInterface vaccination : vaccinations) {
       for (ValidVaccine validVaccine : indicationCriteria.getVaccines()) {
         if (vaccination.getVaccineId() == validVaccine.getVaccineId()) {

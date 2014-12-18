@@ -70,6 +70,7 @@ public class DetermineRangesStep extends ActionStep
       }
     }
 
+    boolean usingInterval = false;
     String validReason = "";
     String validBecause = "";
     if (ds.schedule.getValidAge().isEmpty()) {
@@ -95,6 +96,7 @@ public class DetermineRangesStep extends ActionStep
           ds.valid = validInterval;
           validReason = ds.schedule.getValidInterval() + " after previous valid dose";
           validBecause = "INTERVAL";
+          usingInterval = true;
           ds.log("Interval has later date than age, so re-setting validity to " + ds.schedule.getValidAge() + " from "
               + ds.previousEventDateValidNotBirth.toString("M/D/Y"));
         }
@@ -105,7 +107,11 @@ public class DetermineRangesStep extends ActionStep
 
     ds.finished = ds.schedule.getFinishedAge().getDateTimeFrom(ds.patient.getDobDateTime());
     if (ds.previousEventDate.equals(ds.previousEventDateValid)) {
-      if (notIgnoreGracePeriod(ds, ds.schedule.getValidGrace())) {
+      if (usingInterval && ds.schedule.getValidIntervalGrace() != null && notIgnoreGracePeriod(ds, ds.schedule.getValidIntervalGrace()))
+      {
+        ds.validGrace = ds.schedule.getValidIntervalGrace().getDateTimeBefore(ds.valid);
+      }
+      else if (notIgnoreGracePeriod(ds, ds.schedule.getValidGrace())) {
         ds.validGrace = ds.schedule.getValidGrace().getDateTimeBefore(ds.valid);
       }
     } else {

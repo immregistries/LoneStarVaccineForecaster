@@ -441,6 +441,21 @@ public class CaretForecaster
   private List<String> caseDetailFieldList;
   private List<List<String>> inputDoseFieldListList;
 
+  private boolean keepDetailLog = false;
+  private StringBuffer detailLog = null;
+
+  public boolean isKeepDetailLog() {
+    return keepDetailLog;
+  }
+
+  public void setKeepDetailLog(boolean keepDetailLog) {
+    this.keepDetailLog = keepDetailLog;
+  }
+
+  public StringBuffer getDetailLog() {
+    return detailLog;
+  }
+
   public CaretForecaster(String request) throws Exception {
     this.request = request;
 
@@ -597,6 +612,7 @@ public class CaretForecaster
       }
 
       ForecastRunner forecastRunner = new ForecastRunner(vaccineForecastManager);
+      forecastRunner.setKeepDetailLog(keepDetailLog);
       forecastRunner.getForecastOptions().setFluSeasonDue(new TimePeriod("1 month"));
       forecastRunner.getForecastOptions().setFluSeasonEnd(new TimePeriod("6 months"));
       forecastRunner.getForecastOptions().setFluSeasonOverdue(new TimePeriod("4 months"));
@@ -681,6 +697,8 @@ public class CaretForecaster
 
       // Run Forecast
       forecastRunner.forecast();
+
+      detailLog = forecastRunner.getDetailLog();
 
       DateTime today = new DateTime();
 
@@ -1097,15 +1115,21 @@ public class CaretForecaster
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^52^20140414^0^0^0|||"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^03^20140414^0^0^0|||"
   // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^110^19830215^0^0^0|||"
+  // java -classpath deploy/tch-forecaster.jar org.tch.forecast.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19330215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^110^19830215^0^0^0|||"
 
   //  110 
 
   public static void main(String[] args) throws Exception {
+    boolean displayDetailLog = false;
     String request = ForecastServer.TEST[0];
     if (args.length > 0) {
       request = args[0];
+      if (args.length > 1) {
+        displayDetailLog = args[1].equalsIgnoreCase("log");
+      }
     }
     CaretForecaster cf = new CaretForecaster(request);
+    cf.setKeepDetailLog(displayDetailLog);
     VaccineForecastManager vaccineForecastManager = new VaccineForecastManager();
     Map<String, CvxCode> cvxToCvxCodeMap = CvxCodes.getCvxToCvxCodeMap();
     Map<String, Integer> cvxToVaccineIdMap = new HashMap<String, Integer>();
@@ -1113,9 +1137,13 @@ public class CaretForecaster
       cvxToVaccineIdMap.put(cvxCode.getCvxCode(), cvxCode.getVaccineId());
     }
     String response = cf.forecast(vaccineForecastManager, cvxToVaccineIdMap);
-    System.out.println();
-    System.out.println(response);
-    System.out.println();
+    if (displayDetailLog) {
+      System.out.println(cf.getDetailLog());
+    } else {
+      System.out.println();
+      System.out.println(response);
+      System.out.println();
+    }
     int pos;
     while ((pos = response.indexOf("|||")) != -1) {
       System.out.println(response.substring(0, pos));

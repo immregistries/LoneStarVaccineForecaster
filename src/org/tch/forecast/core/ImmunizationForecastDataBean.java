@@ -19,6 +19,7 @@ public class ImmunizationForecastDataBean
   public static final String DIPHTHERIA = "Diphtheria";
   public static final String ROTAVIRUS = "Rotavirus";
   public static final String PNEUMO = "Pneumo";
+  public static final String PNEUMO65 = "Pneumo65";
   public static final String PCV13 = "PCV13";
   public static final String HEPA = "HepA";
   public static final String HPV = "HPV";

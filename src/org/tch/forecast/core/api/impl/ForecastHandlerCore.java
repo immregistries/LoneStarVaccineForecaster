@@ -132,6 +132,25 @@ public class ForecastHandlerCore
     this.vaccineForecastManager = vaccineForecastManager;
   }
 
+  private boolean keepDetailLog = false;
+  private StringBuffer detailLog = null;
+
+  public boolean isKeepDetailLog() {
+    return keepDetailLog;
+  }
+
+  public void setKeepDetailLog(boolean keepDetailLog) {
+    this.keepDetailLog = keepDetailLog;
+  }
+
+  public StringBuffer getDetailLog() {
+    return detailLog;
+  }
+
+  public void setDetailLog(StringBuffer detailLog) {
+    this.detailLog = detailLog;
+  }
+
   public String forecast(List<VaccinationDoseDataBean> doseList, PatientRecordDataBean patient,
       List<ImmunizationInterface> imms, DateTime forecastDate, Map<String, List<Trace>> traceMap,
       List<ImmunizationForecastDataBean> resultList, ForecastOptions forecastOptions) throws Exception {
@@ -145,6 +164,10 @@ public class ForecastHandlerCore
       forecaster.setVaccinations(imms);
       forecaster.setForecastDate(forecastDate.getDate());
       forecaster.setForecastOptions(forecastOptions);
+      if (keepDetailLog) {
+        detailLog = new StringBuffer();
+        forecaster.setDetailLog(detailLog);
+      }
       try {
         forecaster.forecast(resultList, doseList, traceMap);
         forecasterScheduleName = forecaster.getForecastSchedule().getScheduleName();

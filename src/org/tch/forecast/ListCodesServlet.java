@@ -32,6 +32,7 @@ public class ListCodesServlet extends HttpServlet
     scheduleNameMap.put("Rubella", "MMR");
     scheduleNameMap.put("Pertussis", "Pertussis");
     scheduleNameMap.put("Pneumo", "Pneumo");
+    scheduleNameMap.put("Pneumo65", "Pneumo65");
     scheduleNameMap.put("Polio", "Polio");
     scheduleNameMap.put("PPSV", "PPSV");
     scheduleNameMap.put("Rotavirus", "Rotavirus");

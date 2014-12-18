@@ -23,10 +23,10 @@ public class MakeForecastStep extends ActionStep
 
   private void addForecastRecommendations(DataStore ds) {
     ds.log("Making recommendations");
-//    if (ds.seasonStartThis != null && ds.seasonCompleted) {
-//      ds.log("Adjusting for season start");
-//      DetermineRangesStep.determineRanges(ds);
-//    }
+    //    if (ds.seasonStartThis != null && ds.seasonCompleted) {
+    //      ds.log("Adjusting for season start");
+    //      DetermineRangesStep.determineRanges(ds);
+    //    }
     if (ds.trace != null) {
       ds.traceList.setExplanationBulletPointStart();
     }
@@ -80,8 +80,7 @@ public class MakeForecastStep extends ActionStep
 
     if (ds.seasonal != null) {
       seasonEnd = new DateTime(ds.seasonEndDateTime);
-      if (ds.valid.isLessThan(ds.seasonStartDateTime))
-      {
+      if (ds.valid.isLessThan(ds.seasonStartDateTime)) {
         ds.valid = new DateTime(ds.seasonStartDateTime);
       }
       seasonDue = ds.seasonal.getDue().getDateTimeFrom(ds.seasonStartDateTime);
@@ -96,8 +95,13 @@ public class MakeForecastStep extends ActionStep
     forecastBean.setOverdue(ds.overdue.getDate());
     forecastBean.setFinished(ds.finished.getDate());
     forecastBean.setDateDue(ds.due.getDate());
-    forecastBean.setForecastName(ds.forecast.getForecastCode());
-    forecastBean.setForecastLabel(ds.forecast.getForecastLabel());
+    if (ds.schedule != null && !ds.schedule.getRecommendSeriesName().equals("")) {
+      forecastBean.setForecastName(ds.schedule.getRecommendSeriesName());
+      forecastBean.setForecastLabel(ds.schedule.getRecommendSeriesName());
+    } else {
+      forecastBean.setForecastName(ds.forecast.getForecastCode());
+      forecastBean.setForecastLabel(ds.forecast.getForecastLabel());
+    }
     forecastBean.setSortOrder(ds.forecast.getSortOrder());
     forecastBean.setDose(getValidDose(ds, ds.schedule));
     forecastBean.setSchedule(ds.schedule.getScheduleName());

@@ -119,7 +119,7 @@ public class ForecastRunner
     return stringOut.toString();
   }
 
-  public void printTextReport( PrintWriter out) {
+  public void printTextReport(PrintWriter out) {
     ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(vaccineForecastManager);
     forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, imms, forecasterScheduleName, new DateTime(
         forecastDate), doseList, out, true, patient.getDob());
@@ -136,11 +136,30 @@ public class ForecastRunner
     this.forecastOptions = forecastOptions;
   }
 
+  private boolean keepDetailLog = false;
+  private StringBuffer detailLog = null;
+
+  public boolean isKeepDetailLog() {
+    return keepDetailLog;
+  }
+
+  public void setKeepDetailLog(boolean keepDetailLog) {
+    this.keepDetailLog = keepDetailLog;
+  }
+
+  public StringBuffer getDetailLog() {
+    return detailLog;
+  }
+
   public void forecast() throws Exception {
 
     ForecastHandlerCore forecastHandlerCore = new ForecastHandlerCore(vaccineForecastManager);
+    forecastHandlerCore.setKeepDetailLog(keepDetailLog);
     forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms, new DateTime(forecastDate),
         traceMap, resultList, forecastOptions);
+    if (keepDetailLog) {
+      detailLog = forecastHandlerCore.getDetailLog();
+    }
 
     forecastListDueToday = new ArrayList<ImmunizationForecastDataBean>();
     forecastListDueLater = new ArrayList<ImmunizationForecastDataBean>();

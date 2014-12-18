@@ -206,6 +206,7 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
     forecastAntigenList.add(new ForecastAntigen("HPV", "HPV", 15));
     forecastAntigenList.add(new ForecastAntigen("Zoster", "Zoster", 16));
     forecastAntigenList.add(new ForecastAntigen("PPSV", "PPSV", 18));
+    forecastAntigenList.add(new ForecastAntigen("Pneumo65", "Pneumo for 65+", 19));
     Collections.sort(forecastAntigenList);
   }
 

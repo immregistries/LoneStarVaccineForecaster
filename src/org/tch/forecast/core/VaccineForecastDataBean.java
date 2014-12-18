@@ -91,6 +91,10 @@ public class VaccineForecastDataBean
         schedule.setLabel(DomUtils.getAttributeValue(n, "label"));
         schedule.setDose(DomUtils.getAttributeValue(n, "dose"));
         schedule.setIndication(DomUtils.getAttributeValue(n, "indication"));
+        if (schedule.getIndication().toUpperCase().startsWith("AGE ")) {
+          schedule.setIndicationAge(new TimePeriod(schedule.getIndication().substring(4)));
+          schedule.setIndication("AGE");
+        }
         addToIndicationList(schedule, forecastManager);
         schedules.put(schedule.getScheduleName(), schedule);
         NodeList l = n.getChildNodes();
@@ -202,6 +206,10 @@ public class VaccineForecastDataBean
         schedule.setValidAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         schedule.setValidInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
         schedule.setValidGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
+        String intervalGraceString = DomUtils.getAttributeValue(n, "intervalGrace");
+        if (!intervalGraceString.equals("")) {
+          schedule.setValidIntervalGrace(new TimePeriod(intervalGraceString));
+        }
       } else if (name.equals("early")) {
         schedule.setEarlyAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
         schedule.setEarlyInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
@@ -232,6 +240,8 @@ public class VaccineForecastDataBean
       } else if (name.equals("pos")) {
         schedule.setPosColumn(DomUtils.getAttributeValueInt(n, "column"));
         schedule.setPosRow(DomUtils.getAttributeValueInt(n, "row"));
+      } else if (name.equals("recommend")) {
+        schedule.setRecommendSeriesName(DomUtils.getAttributeValue(n, "seriesName"));
       } else if (name.equals("contraindicate")) {
         Contraindicate contraindicate = new Contraindicate();
         String vaccineName = DomUtils.getAttributeValue(n, "vaccineName");
@@ -327,6 +337,7 @@ public class VaccineForecastDataBean
     private TimePeriod validAge = null;
     private TimePeriod validInterval = null;
     private TimePeriod validGrace = null;
+    private TimePeriod validIntervalGrace = null;
     private TimePeriod earlyAge = null;
     private TimePeriod earlyInterval = null;
     private TimePeriod earlyOverdueAge = null;
@@ -349,11 +360,29 @@ public class VaccineForecastDataBean
     private Contraindicate[] contraindicates = new Contraindicate[0];
     private List<Indicate> indicateList = new ArrayList<Indicate>();
     private List<Contraindicate> contraindicateList = new ArrayList<Contraindicate>();
+    private String recommendSeriesName = "";
     private String dose = "";
     private String indication = "";
+    private TimePeriod indicationAge = null;
     private int posColumn = 0;
     private int posRow = 0;
     private IndicationCriteria indicationCriteria = null;
+
+    public TimePeriod getIndicationAge() {
+      return indicationAge;
+    }
+
+    public void setIndicationAge(TimePeriod indicationAge) {
+      this.indicationAge = indicationAge;
+    }
+
+    public String getRecommendSeriesName() {
+      return recommendSeriesName;
+    }
+
+    public void setRecommendSeriesName(String recommendSeriesName) {
+      this.recommendSeriesName = recommendSeriesName;
+    }
 
     public TimePeriod getAssumeCompleteAge() {
       return assumeCompleteAge;
@@ -603,6 +632,14 @@ public class VaccineForecastDataBean
 
     public void setBeforePreviousInterval(TimePeriod beforePreviousInterval) {
       this.beforePreviousInterval = beforePreviousInterval;
+    }
+
+    public TimePeriod getValidIntervalGrace() {
+      return validIntervalGrace;
+    }
+
+    public void setValidIntervalGrace(TimePeriod validIntervalGrace) {
+      this.validIntervalGrace = validIntervalGrace;
     }
 
     public TimePeriod getValidGrace() {
