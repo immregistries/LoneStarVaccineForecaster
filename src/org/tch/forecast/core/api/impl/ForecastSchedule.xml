@@ -1033,7 +1033,7 @@
   <transition name="12 Months Old" age="12 months -4 d" vaccineId="-12"/>
   <vaccine vaccineName="PCV" vaccineIds="154, 156, 3143"/>
   <vaccine vaccineName="12 Months Old" vaccineIds="-12"/>
-  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
+  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months" indicationEnd="19 years">
     <pos row="1" column="1"/>
     <valid age="6 weeks" interval="" grace="4 days"/>
     <early age="6 weeks" interval="" grace=""/>
@@ -1045,7 +1045,7 @@
     <indicate vaccineName="PCV" schedule="P2" age="" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="12 Months Old" schedule="C2" age="" reason="First valid dose not received by 12 months of age, only 2 doses needed now." historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="P2" dose="2" indication="" label="4 months">
+  <schedule scheduleName="P2" dose="2" indication="" label="4 months" indicationEnd="19 years">
     <pos row="1" column="2"/>
     <valid age="10 weeks" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
@@ -1057,7 +1057,7 @@
     <indicate vaccineName="PCV" schedule="P3" age="" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="12 Months Old" schedule="C2" age="" reason="Second valid dose was not received by 12 months of age, only 2 more doses needed now." historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="P3" dose="3" indication="" label="6 months">
+  <schedule scheduleName="P3" dose="3" indication="" label="6 months" indicationEnd="19 years">
     <pos row="1" column="3"/>
     <valid age="14 weeks" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
@@ -1069,7 +1069,7 @@
     <indicate vaccineName="PCV" schedule="P4" age="" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="12 Months Old" schedule="C3" age="" reason="Third valid dose was not received by 12 months of age, the third and final dose should be given as soon as possible." historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="P4" dose="B" indication="" label="booster">
+  <schedule scheduleName="P4" dose="B" indication="" label="booster" indicationEnd="19 years">
     <pos row="1" column="4"/>
     <valid age="12 months" interval="8 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
@@ -1080,7 +1080,7 @@
     <before-previous interval=""/>
     <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="C2" dose="*" indication="" label="2nd dose 12 month catchup">
+  <schedule scheduleName="C2" dose="*" indication="" label="2nd dose 12 month catchup" indicationEnd="19 years">
     <pos row="2" column="2"/>
     <valid age="12 months" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
@@ -1092,7 +1092,7 @@
     <indicate vaccineName="PCV" schedule="C4" age="24 months -4 d" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="Second valid dose received after 24 months of age, no more doses needed." historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="C3" dose="3" indication="" label="3rd dose 12 month catchup">
+  <schedule scheduleName="C3" dose="3" indication="" label="3rd dose 12 month catchup" indicationEnd="19 years">
     <pos row="" column="1"/>
     <valid age="12 months" interval="8 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
@@ -1103,7 +1103,7 @@
     <before-previous interval=""/>
     <indicate vaccineName="PCV" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="C4" dose="B" indication="" label="booster">
+  <schedule scheduleName="C4" dose="B" indication="" label="booster" indicationEnd="19 years">
     <pos row="" column="3"/>
     <valid age="12 months" interval="8 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
@@ -1123,9 +1123,11 @@
 
 
 
-<forecast seriesName="Pneumo65">
 
-  <vaccine vaccineName="PCV-13" vaccineIds="3143"/>
+
+<forecast seriesName="Pneumo65" completes="PCV,PPSV">
+
+  <vaccine vaccineName="PCV13" vaccineIds="3143"/>
   <vaccine vaccineName="PPSV" vaccineIds="155"/>
   <schedule scheduleName="P1" dose="1" indication="Age 19 Years" label="PCV-13">
     <pos row="1" column="1"/>
@@ -1136,12 +1138,12 @@
     <finished age="120 years" interval="" grace=""/>
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
-    <recommend seriesName="PCV-13"/>
+    <recommend seriesName="PCV13"/>
     <indicate vaccineName="PPSV" schedule="C1" age="65 years -4 days" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="PPSV" schedule="C1" age="" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="PCV-13" schedule="S1" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="PCV13" schedule="S1" age="" reason="" historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="S1" dose="2" indication="" label="PPSV">
+  <schedule scheduleName="S1" dose="1" indication="" label="PPSV">
     <pos row="1" column="2"/>
     <valid age="65 years" interval="" grace="4 days" intervalGrace=""/>
     <early age="" interval="" grace=""/>
@@ -1151,10 +1153,11 @@
     <after-invalid interval="" grace=""/>
     <before-previous interval=""/>
     <recommend seriesName="PPSV"/>
-    <indicate vaccineName="PCV-13" schedule="INVALID" age="" reason="" historyOfVaccineName=""/>
+    <completed seriesName="PCV13"/>
+    <indicate vaccineName="PCV13" schedule="INVALID" age="" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="PPSV" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="C1" dose="3" indication="" label="PCV-13 after PPSV">
+  <schedule scheduleName="C1" dose="1" indication="" label="PCV-13 after PPSV">
     <pos row="2" column="1"/>
     <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="4 days"/>
     <early age="" interval="" grace=""/>
@@ -1163,12 +1166,12 @@
     <finished age="120 years" interval="" grace=""/>
     <after-invalid interval="" grace=""/>
     <before-previous interval=""/>
-    <recommend seriesName="PCV-13"/>
+    <recommend seriesName="PCV13"/>
     <indicate vaccineName="PPSV" schedule="C1" age="65 years -4 days" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="PPSV" schedule="C2" age="" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="PCV-13" schedule="S1" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="PCV13" schedule="S1" age="" reason="" historyOfVaccineName=""/>
   </schedule>
-  <schedule scheduleName="C2" dose="B" indication="" label="PCV-13 after PPSVs">
+  <schedule scheduleName="C2" dose="1" indication="" label="PCV-13 after PPSVs">
     <pos row="2" column="2"/>
     <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="4 days"/>
     <early age="" interval="" grace=""/>
@@ -1177,11 +1180,12 @@
     <finished age="120 years" interval="" grace=""/>
     <after-invalid interval="" grace=""/>
     <before-previous interval=""/>
-    <recommend seriesName="PCV-13"/>
+    <recommend seriesName="PCV13"/>
     <indicate vaccineName="PPSV" schedule="C2" age="" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="PCV-13" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
   </schedule>
 </forecast>
+
 
 
 	
@@ -1373,51 +1377,6 @@
 
 
 
-<forecast seriesName="PPSV">
-  <vaccine vaccineName="PPSV" vaccineIds="155"/>
-  <vaccine vaccineName="PCV" vaccineIds="154, 3143, 156"/>
-  <vaccine vaccineName="18 Years Old" vaccineIds="-18"/>
-  <transition name="18 Years Old" age="18 years" vaccineId="-18"/>
-  <schedule scheduleName="R1" dose="1" indication="BIRTH" label="At Risk">
-    <pos row="1" column="1"/>
-    <valid age="2 years" interval="" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="65 years" interval="" grace=""/>
-    <overdue age="66 years" interval="" grace=""/>
-    <finished age="120 years" interval="" grace=""/>
-    <after-invalid interval="0 days" grace=""/>
-    <before-previous interval=""/>
-    <contraindicate vaccineName="PCV" afterInterval="8 weeks" age="" reason="PPSV should not be given until 8 weeks after a previously administered PCV" grace="4 days"/>
-    <indicate vaccineName="PPSV" schedule="R2" age="65 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="18 Years Old" schedule="A1" age="" reason="" historyOfVaccineName=""/>
-  </schedule>
-  <schedule scheduleName="R2" dose="2" indication="" label="5 years later">
-    <pos row="1" column="2"/>
-    <valid age="" interval="5 years" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="65 years" interval="" grace=""/>
-    <overdue age="66 years" interval="" grace=""/>
-    <finished age="120 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <contraindicate vaccineName="PCV" afterInterval="8 weeks" age="" reason="PPSV should not be given until 8 weeks after a previously administered PCV" grace="4 days"/>
-    <indicate vaccineName="PPSV" schedule="A1" age="65 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="18 Years Old" schedule="A1" age="" reason="" historyOfVaccineName=""/>
-  </schedule>
-  <schedule scheduleName="A1" dose="1" indication="" label="65 Years">
-    <pos row="1" column="3"/>
-    <valid age="2 years" interval="5 years" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="65 years" interval="" grace=""/>
-    <overdue age="66 years" interval="" grace=""/>
-    <finished age="120 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <contraindicate vaccineName="PCV" afterInterval="1 year" age="" reason="PPSV should not be given until 1 year after a previously administered PCV" grace="4 days"/>
-    <indicate vaccineName="PPSV" schedule="A1" age="65 years" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="PPSV" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
-  </schedule>
-</forecast>
 
 
 

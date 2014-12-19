@@ -25,6 +25,7 @@ import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
+import org.tch.forecast.core.api.impl.ForecastAntigen;
 import org.tch.forecast.core.api.impl.ForecastOptions;
 import org.tch.forecast.core.model.Assumption;
 
@@ -93,6 +94,7 @@ public class DataStore
   protected int validDoseCount = 0;
   protected String whenValidText = null;
   protected ForecastOptions forecastOptions = null;
+ 
 
   public List<Assumption> getAssumptionList() {
     return assumptionList;

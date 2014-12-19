@@ -4,6 +4,7 @@ import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.TraceList;
 import org.tch.forecast.core.VaccineForecastDataBean;
+import org.tch.forecast.core.api.impl.ForecastAntigen;
 import org.tch.forecast.core.model.Assumption;
 
 public class MakeForecastStep extends ActionStep
@@ -29,6 +30,16 @@ public class MakeForecastStep extends ActionStep
     //    }
     if (ds.trace != null) {
       ds.traceList.setExplanationBulletPointStart();
+    }
+    if (ds.schedule.getIndicationEndAge() != null) {
+      DateTime indicationEndDate = ds.schedule.getIndicationEndAge().getDateTimeFrom(ds.patient.getDobDateTime());
+      if (indicationEndDate.isLessThanOrEquals(ds.forecastDateTime)) {
+        if (ds.trace != null) {
+          ds.traceList.addExplanation("Not forecasting on this schedule because patient is at or over the age of "
+              + ds.schedule.getIndicationEndAge());
+        }
+        return;
+      }
     }
     // Adjust around black out dates
     if (ds.blackOutDates != null && ds.blackOutDates.size() > 0) {
@@ -95,9 +106,9 @@ public class MakeForecastStep extends ActionStep
     forecastBean.setOverdue(ds.overdue.getDate());
     forecastBean.setFinished(ds.finished.getDate());
     forecastBean.setDateDue(ds.due.getDate());
-    if (ds.schedule != null && !ds.schedule.getRecommendSeriesName().equals("")) {
-      forecastBean.setForecastName(ds.schedule.getRecommendSeriesName());
-      forecastBean.setForecastLabel(ds.schedule.getRecommendSeriesName());
+    if (ds.schedule != null && ds.schedule.getRecommend() != null) {
+      forecastBean.setForecastName(ds.schedule.getRecommend().getForecastCode());
+      forecastBean.setForecastLabel(ds.schedule.getRecommend().getForecastLabel());
     } else {
       forecastBean.setForecastName(ds.forecast.getForecastCode());
       forecastBean.setForecastLabel(ds.forecast.getForecastLabel());
@@ -149,7 +160,7 @@ public class MakeForecastStep extends ActionStep
     forecastBean.setStatusDescription(statusDescription);
     forecastBean.getAssumptionList().addAll(ds.assumptionList);
 
-    ds.resultList.add(forecastBean);
+    addResultToList(ds, forecastBean);
 
     // Adjust around black out dates
     if (ds.blackOutDates != null && ds.blackOutDates.size() > 0) {
@@ -253,6 +264,7 @@ public class MakeForecastStep extends ActionStep
     }
 
   }
+
 
   private boolean isAssumeComplete(DataStore ds) {
     if (!ds.forecastOptions.getAssumeCompleteScheduleNameSet().contains(ds.schedule.getForecastCode())

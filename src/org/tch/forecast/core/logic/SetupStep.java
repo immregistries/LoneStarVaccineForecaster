@@ -59,6 +59,17 @@ public class SetupStep extends ActionStep
           }
           ds.log("Schedule is indicated for age");
         }
+        if (schedule.getIndicationEndAge() != null) {
+          ds.log("Not indicated after the patient is " + schedule.getIndicationEndAge() + " old");
+          DateTime indicatedEndDateTime = schedule.getIndicationEndAge().getDateTimeFrom(
+              ds.getPatient().getDobDateTime());
+          ds.log("  + indicatedEndDateTime: " + indicatedEndDateTime);
+          if (indicatedEndDateTime.isLessThanOrEquals(ds.forecastDateTime)) {
+            ds.log("Because of patient's age this schedule is NOT indicated");
+            continue;
+          }
+          ds.log("Schedule is indicated for age");
+        }
         if (ds.forecastCode == null || schedule.getForecastCode().equals(ds.forecastCode)) {
           if (schedule.getIndicationCriteria() != null) {
             IndicationCriteria indicationCriteria = schedule.getIndicationCriteria();

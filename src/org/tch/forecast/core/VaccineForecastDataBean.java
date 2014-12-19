@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.tch.forecast.core.api.impl.ForecastAntigen;
 import org.tch.forecast.core.decisionLogic.DecisionLogic;
 import org.tch.forecast.core.decisionLogic.DecisionLogicFactory;
 import org.tch.forecast.core.logic.Event;
@@ -73,20 +74,43 @@ public class VaccineForecastDataBean
     if (forecastCode == null || forecastCode.equals("")) {
       throw new Exception("forecastCode attribute is missing on forecast tag");
     }
+    ForecastAntigen forecastAntigen = ForecastAntigen.getForecastAntigen(forecastCode);
+    if (forecastAntigen != null) {
+      forecastLabel = forecastAntigen.getForecastCode();
+      sortOrder = forecastAntigen.getSortOrder();
+    }
+    String completesString = DomUtils.getAttributeValue(n, "completes");
+    if (completesString.equals("")) {
+      completesString = forecastCode;
+    }
+    String[] completes = completesString.split("\\,");
+    if (completes.length == 0 || completes[0] == null || completes[0].equals("")) {
+      throw new Exception("completes must indicate at least one completion for forecastCode " + forecastCode
+          + ", trying to read '" + completesString + "'");
+    }
+    List<ForecastAntigen> completesList = new ArrayList<ForecastAntigen>();
+    for (String complete : completes) {
+      ForecastAntigen fa = ForecastAntigen.getForecastAntigen(complete);
+      if (fa == null) {
+        throw new Exception("forecastCode '" + complete + "' in completes string is not recognized for forecastCode " + forecastCode);
+      }
+      completesList.add(fa);
+    }
     NodeList l = n.getChildNodes();
     for (int i = 0, icount = l.getLength(); i < icount; i++) {
       n = l.item(i);
       name = n.getNodeName();
-      processScheduleOrVaccine(n, name, forecastCode, forecastManager);
+      processScheduleOrVaccine(n, name, completesList, forecastCode, forecastManager);
     }
   }
 
-  private void processScheduleOrVaccine(Node n, String name, String forecastCode,
+  private void processScheduleOrVaccine(Node n, String name, List<ForecastAntigen> completesList, String forecastCode,
       VaccineForecastManagerInterface forecastManager) throws Exception {
     if (name != null) {
       if (name.equals("schedule")) {
         Schedule schedule = new Schedule();
         schedule.setForecastCode(forecastCode);
+        schedule.setCompletesList(completesList);
         schedule.setScheduleName(DomUtils.getAttributeValue(n, "scheduleName"));
         schedule.setLabel(DomUtils.getAttributeValue(n, "label"));
         schedule.setDose(DomUtils.getAttributeValue(n, "dose"));
@@ -94,6 +118,10 @@ public class VaccineForecastDataBean
         if (schedule.getIndication().toUpperCase().startsWith("AGE ")) {
           schedule.setIndicationAge(new TimePeriod(schedule.getIndication().substring(4)));
           schedule.setIndication("AGE");
+        }
+        String indicationEndString = DomUtils.getAttributeValue(n, "indicationEnd");
+        if (!indicationEndString.equals("")) {
+          schedule.setIndicationEndAge(new TimePeriod(indicationEndString));
         }
         addToIndicationList(schedule, forecastManager);
         schedules.put(schedule.getScheduleName(), schedule);
@@ -241,7 +269,17 @@ public class VaccineForecastDataBean
         schedule.setPosColumn(DomUtils.getAttributeValueInt(n, "column"));
         schedule.setPosRow(DomUtils.getAttributeValueInt(n, "row"));
       } else if (name.equals("recommend")) {
-        schedule.setRecommendSeriesName(DomUtils.getAttributeValue(n, "seriesName"));
+        String recommendString = DomUtils.getAttributeValue(n, "seriesName");
+        if (!recommendString.equals("")) {
+          ForecastAntigen fa = ForecastAntigen.getForecastAntigen(recommendString);
+          schedule.setRecommend(fa);
+        }
+      } else if (name.equals("completed")) {
+        String completedString = DomUtils.getAttributeValue(n, "seriesName");
+        if (!completedString.equals("")) {
+          ForecastAntigen fa = ForecastAntigen.getForecastAntigen(completedString);
+          schedule.setCompleted(fa);
+        }
       } else if (name.equals("contraindicate")) {
         Contraindicate contraindicate = new Contraindicate();
         String vaccineName = DomUtils.getAttributeValue(n, "vaccineName");
@@ -332,6 +370,7 @@ public class VaccineForecastDataBean
   public class Schedule
   {
     private String forecastCode = "";
+    private List<ForecastAntigen> completesList = new ArrayList<ForecastAntigen>();
     private String scheduleName = "";
     private String label = "";
     private TimePeriod validAge = null;
@@ -360,13 +399,31 @@ public class VaccineForecastDataBean
     private Contraindicate[] contraindicates = new Contraindicate[0];
     private List<Indicate> indicateList = new ArrayList<Indicate>();
     private List<Contraindicate> contraindicateList = new ArrayList<Contraindicate>();
-    private String recommendSeriesName = "";
+    private ForecastAntigen recommend = null;
+    private ForecastAntigen completed = null;
     private String dose = "";
     private String indication = "";
     private TimePeriod indicationAge = null;
+    private TimePeriod indicationEndAge = null;
     private int posColumn = 0;
     private int posRow = 0;
     private IndicationCriteria indicationCriteria = null;
+
+    public List<ForecastAntigen> getCompletesList() {
+      return completesList;
+    }
+
+    public void setCompletesList(List<ForecastAntigen> completesList) {
+      this.completesList = completesList;
+    }
+
+    public TimePeriod getIndicationEndAge() {
+      return indicationEndAge;
+    }
+
+    public void setIndicationEndAge(TimePeriod indicationEndAge) {
+      this.indicationEndAge = indicationEndAge;
+    }
 
     public TimePeriod getIndicationAge() {
       return indicationAge;
@@ -376,16 +433,24 @@ public class VaccineForecastDataBean
       this.indicationAge = indicationAge;
     }
 
-    public String getRecommendSeriesName() {
-      return recommendSeriesName;
+    public ForecastAntigen getRecommend() {
+      return recommend;
     }
 
-    public void setRecommendSeriesName(String recommendSeriesName) {
-      this.recommendSeriesName = recommendSeriesName;
+    public void setRecommend(ForecastAntigen recommend) {
+      this.recommend = recommend;
     }
 
     public TimePeriod getAssumeCompleteAge() {
       return assumeCompleteAge;
+    }
+
+    public ForecastAntigen getCompleted() {
+      return completed;
+    }
+
+    public void setCompleted(ForecastAntigen completed) {
+      this.completed = completed;
     }
 
     public void setAssumeCompleteAge(TimePeriod assumeCompleteAge) {

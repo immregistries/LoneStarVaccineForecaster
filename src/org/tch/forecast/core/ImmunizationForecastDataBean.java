@@ -71,6 +71,32 @@ public class ImmunizationForecastDataBean
   private Date seasonStart = null;
   private Date seasonEnd = null;
   private List<Assumption> assumptionList = new ArrayList<Assumption>();
+  
+  public ImmunizationForecastDataBean()
+  {
+    // default constructor
+  }
+  
+  public ImmunizationForecastDataBean(ImmunizationForecastDataBean copy)
+  {
+    this.forecastNameOriginal = copy.getForecastNameOriginal();
+    this.forecastName = copy.getForecastName();
+    this.forecastLabel = copy.getForecastLabel();
+    this.immregid = copy.getImmregid();
+    this.valid = copy.getValid();
+    this.due = copy.getDue();
+    this.overdue = copy.getOverdue();
+    this.finished = copy.getFinished();
+    this.dose= copy.getDose();
+    this.schedule = copy.getSchedule();
+    this.sortOrder = copy.getSortOrder();
+    this.traceList = copy.getTraceList();
+    this.comment = copy.getComment();
+    this.statusDescription = copy.getStatusDescription();
+    this.seasonStart = copy.getSeasonStart();
+    this.seasonEnd = copy.getSeasonEnd();
+    this.assumptionList = copy.getAssumptionList();
+  }
 
   public List<Assumption> getAssumptionList() {
     return assumptionList;

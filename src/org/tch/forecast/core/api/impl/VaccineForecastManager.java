@@ -30,7 +30,6 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
     this.forecastScheduleLocation = forecastScheduleLocation;
   }
 
-
   public String getForecastScheduleText() {
     return forecastScheduleText;
   }
@@ -127,7 +126,6 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
       is = VaccineForecastManager.class.getResourceAsStream("/" + forecastScheduleLocation);
     }
     forecastSchedule.init(is, this);
-    getVaccineForecasts();
   }
 
   private void initFromText() throws Exception {
@@ -137,90 +135,6 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
       is = VaccineForecastManager.class.getResourceAsStream("/" + forecastScheduleLocation);
     }
     forecastSchedule.initFromText(forecastScheduleText, this);
-    getVaccineForecasts();
-  }
-
-  public static class ForecastAntigen implements Comparable<ForecastAntigen>
-  {
-    private String forecastCode = "";
-    private String forecastLabel = "";
-    private int sortOrder = 0;
-
-    @Override
-    public int compareTo(ForecastAntigen o) {
-      return this.getSortOrder() - o.getSortOrder();
-    }
-
-    public String getForecastCode() {
-      return forecastCode;
-    }
-
-    public void setForecastCode(String forecastCode) {
-      this.forecastCode = forecastCode;
-    }
-
-    public String getForecastLabel() {
-      return forecastLabel;
-    }
-
-    public void setForecastLabel(String forecastLabel) {
-      this.forecastLabel = forecastLabel;
-    }
-
-    public int getSortOrder() {
-      return sortOrder;
-    }
-
-    public void setSortOrder(int sortOrder) {
-      this.sortOrder = sortOrder;
-    }
-
-    private ForecastAntigen(String forecastCode, String forecastLabel, int sortOrder) {
-      this.forecastCode = forecastCode;
-      this.forecastLabel = forecastLabel;
-      this.sortOrder = sortOrder;
-    }
-  }
-
-  private static List<ForecastAntigen> forecastAntigenList = new ArrayList<ForecastAntigen>();
-
-  public List<ForecastAntigen> getForecastAntigenList() {
-    return forecastAntigenList;
-  }
-
-  static {
-    forecastAntigenList.add(new ForecastAntigen("Influenza", "Influenza", 16));
-    forecastAntigenList.add(new ForecastAntigen("HepB", "HepB", 1));
-    forecastAntigenList.add(new ForecastAntigen("Diphtheria", "DTaP/Tdap", 2));
-    forecastAntigenList.add(new ForecastAntigen("Pertussis", "Pertussis", 4));
-    forecastAntigenList.add(new ForecastAntigen("Hib", "Hib", 5));
-    forecastAntigenList.add(new ForecastAntigen("Pneumo", "PCV13", 6));
-    forecastAntigenList.add(new ForecastAntigen("Polio", "IPV", 7));
-    forecastAntigenList.add(new ForecastAntigen("Rotavirus", "Rota", 8));
-    forecastAntigenList.add(new ForecastAntigen("Measles", "Measles", 9));
-    forecastAntigenList.add(new ForecastAntigen("Mumps", "Mumps", 10));
-    forecastAntigenList.add(new ForecastAntigen("Rubella", "Rubella", 11));
-    forecastAntigenList.add(new ForecastAntigen("Varicella", "Var", 12));
-    forecastAntigenList.add(new ForecastAntigen("Mening", "MCV4", 13));
-    forecastAntigenList.add(new ForecastAntigen("HepA", "HepA", 14));
-    forecastAntigenList.add(new ForecastAntigen("HPV", "HPV", 15));
-    forecastAntigenList.add(new ForecastAntigen("Zoster", "Zoster", 16));
-    forecastAntigenList.add(new ForecastAntigen("PPSV", "PPSV", 18));
-    forecastAntigenList.add(new ForecastAntigen("Pneumo65", "Pneumo for 65+", 19));
-    Collections.sort(forecastAntigenList);
-  }
-
-  protected void getVaccineForecasts() throws Exception {
-    for (ForecastAntigen forecastAntigen : forecastAntigenList) {
-      for (VaccineForecastDataBean vaccineForecast : forecastSchedule.getVaccineForecastList()) {
-        if (vaccineForecast.getForecastCode().equals(forecastAntigen.forecastCode)) {
-          vaccineForecast.setForecastLabel(forecastAntigen.forecastLabel);
-          vaccineForecast.setSortOrder(forecastAntigen.sortOrder);
-          break;
-        }
-      }
-    }
-
   }
 
 }

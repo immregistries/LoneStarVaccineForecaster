@@ -47,7 +47,7 @@ public class TransitionScheduleStep extends ActionStep
       ds.log(" + Patient is now too old to get any more doses");
       if (ds.trace != null) {
         ds.trace.setFinished(true);
-        ds.traceList.addExplanation("No need for further vaccinations after " + ds.finished.toString("YMD"));
+        ds.traceList.addExplanation("No need for further vaccinations after " + ds.finished.toString("M/D/Y"));
       }
       ImmunizationForecastDataBean forecastBean = new ImmunizationForecastDataBean();
       forecastBean.setFinished(ds.finished.getDate());
@@ -62,7 +62,7 @@ public class TransitionScheduleStep extends ActionStep
       } else {
         forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED);
       }
-      ds.resultList.add(forecastBean);
+      addResultToList(ds, forecastBean);
       return FinishScheduleStep.NAME;
     }
     ds.log("Going to next step");

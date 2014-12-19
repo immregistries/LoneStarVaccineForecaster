@@ -28,6 +28,7 @@ import org.tch.forecast.core.VaccineForecastDataBean.Indicate;
 import org.tch.forecast.core.VaccineForecastDataBean.NamedVaccine;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
+import org.tch.forecast.core.api.impl.ForecastAntigen;
 import org.tch.forecast.core.api.impl.ForecastOptions;
 import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.logic.ActionStep;
@@ -78,7 +79,7 @@ public class StepServlet extends ForecastServlet
         out.println("<tr>");
         out.println("<td>Forecast Line</td>");
         out.println("<td><select name=\"lineCode\">");
-        for (VaccineForecastManager.ForecastAntigen forecastAntigen : forecastManager.getForecastAntigenList()) {
+        for (ForecastAntigen forecastAntigen : ForecastAntigen.getForecastAntigenList()) {
           out.println("<option value=\"" + forecastAntigen.getForecastCode() + "\">"
               + forecastAntigen.getForecastLabel() + "</option>");
         }
