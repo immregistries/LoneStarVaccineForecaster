@@ -1140,26 +1140,27 @@
     <before-previous interval=""/>
     <recommend seriesName="PCV13"/>
     <indicate vaccineName="PPSV" schedule="C1" age="65 years -4 days" reason="" historyOfVaccineName=""/>
-    <indicate vaccineName="PPSV" schedule="C1" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="PPSV" schedule="C2" age="" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="PCV13" schedule="S1" age="" reason="" historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="S1" dose="1" indication="" label="PPSV">
     <pos row="1" column="2"/>
-    <valid age="65 years" interval="" grace="4 days" intervalGrace=""/>
+    <valid age="65 years" interval="8 weeks" grace="4 days" intervalGrace=""/>
     <early age="" interval="" grace=""/>
     <due age="" interval="6 months" grace=""/>
-    <overdue age="" interval="13 months" grace=""/>
+    <overdue age="66 years" interval="13 months" grace=""/>
     <finished age="120 years" interval="" grace=""/>
     <after-invalid interval="" grace=""/>
     <before-previous interval=""/>
     <recommend seriesName="PPSV"/>
     <completed seriesName="PCV13"/>
+    <contraindicate vaccineName="PPSV" afterInterval="5 years" age="" reason="" grace=""/>
     <indicate vaccineName="PCV13" schedule="INVALID" age="" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="PPSV" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="C1" dose="1" indication="" label="PCV-13 after PPSV">
     <pos row="2" column="1"/>
-    <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="4 days"/>
+    <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="1 y -8 w -4 d"/>
     <early age="" interval="" grace=""/>
     <due age="65 years" interval="" grace=""/>
     <overdue age="66 years" interval="" grace=""/>
@@ -1173,7 +1174,7 @@
   </schedule>
   <schedule scheduleName="C2" dose="1" indication="" label="PCV-13 after PPSVs">
     <pos row="2" column="2"/>
-    <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="4 days"/>
+    <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="1 y -8 w -4 d"/>
     <early age="" interval="" grace=""/>
     <due age="65 years" interval="" grace=""/>
     <overdue age="66 years" interval="" grace=""/>

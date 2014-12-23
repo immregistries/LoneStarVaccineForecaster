@@ -30,7 +30,6 @@ import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
 import org.tch.forecast.core.api.impl.ForecastAntigen;
 import org.tch.forecast.core.api.impl.ForecastOptions;
-import org.tch.forecast.core.api.impl.VaccineForecastManager;
 import org.tch.forecast.core.logic.ActionStep;
 import org.tch.forecast.core.logic.ActionStepFactory;
 import org.tch.forecast.core.logic.BlackOut;
@@ -593,11 +592,32 @@ public class StepServlet extends ForecastServlet
             sc = " class=\"pass\"";
           }
           out.println("            <tr><td" + sc + ">");
+          boolean doBr = false;
           if (!schedule.getValidAge().isEmpty()) {
-            out.println("Valid at " + schedule.getValidAge() + "<br/>");
+            out.println("Valid at " + schedule.getValidAge());
+            doBr = true;
           }
           if (!schedule.getDueAge().isEmpty()) {
+            if (doBr) {
+              out.println("<br/>");
+            }
             out.println("Due at " + schedule.getDueAge());
+            doBr = true;
+          }
+          if (schedule.getCompleted() != null) {
+            if (doBr) {
+              out.println("<br/>");
+            }
+            out.println("Has completed " + schedule.getCompleted().getForecastLabel());
+            doBr = true;
+          }
+          if (schedule.getCompletesList() != null && schedule.getCompletesList().size() > 0) {
+            for (ForecastAntigen fa : schedule.getCompletesList()) {
+              if (doBr) {
+                out.println("<br/>");
+              }
+              out.println("Series will complete " + fa.getForecastLabel());
+            }
           }
           out.println("            </td></tr>");
           out.println("          </table>");
@@ -815,7 +835,8 @@ public class StepServlet extends ForecastServlet
       out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getValidInterval()));
       if (dataStore != null && !schedule.getValidInterval().isEmpty() && dataStore.getPreviousEventDate() != null) {
-        out.println(schedule.getValidInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
+        out.println(schedule.getValidInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid())
+            .toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getValidGrace()) + "</td>");
@@ -832,7 +853,8 @@ public class StepServlet extends ForecastServlet
       out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getEarlyInterval()));
       if (dataStore != null && !schedule.getEarlyInterval().isEmpty() && dataStore.getPreviousEventDateValid() != null) {
-        out.println(schedule.getEarlyInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
+        out.println(schedule.getEarlyInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid())
+            .toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">&nbsp;</td>");
@@ -882,8 +904,10 @@ public class StepServlet extends ForecastServlet
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getOverdueInterval()));
-      if (dataStore != null && !schedule.getOverdueInterval().isEmpty() && dataStore.getPreviousEventDateValid() != null) {
-        out.println(schedule.getOverdueInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
+      if (dataStore != null && !schedule.getOverdueInterval().isEmpty()
+          && dataStore.getPreviousEventDateValid() != null) {
+        out.println(schedule.getOverdueInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid())
+            .toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td>&nbsp;</td>");
@@ -898,8 +922,10 @@ public class StepServlet extends ForecastServlet
             .toString("M/D/Y"));
       }
       out.println("        <td class=\"insideValue\">" + safe(schedule.getFinishedInterval()));
-      if (dataStore != null && !schedule.getFinishedInterval().isEmpty() && dataStore.getPreviousEventDateValid() != null) {
-        out.println(schedule.getFinishedInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
+      if (dataStore != null && !schedule.getFinishedInterval().isEmpty()
+          && dataStore.getPreviousEventDateValid() != null) {
+        out.println(schedule.getFinishedInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid())
+            .toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td>&nbsp;</td>");
