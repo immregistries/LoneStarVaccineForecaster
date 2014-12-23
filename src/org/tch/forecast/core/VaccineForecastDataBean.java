@@ -76,7 +76,7 @@ public class VaccineForecastDataBean
     }
     ForecastAntigen forecastAntigen = ForecastAntigen.getForecastAntigen(forecastCode);
     if (forecastAntigen != null) {
-      forecastLabel = forecastAntigen.getForecastCode();
+      forecastLabel = forecastAntigen.getForecastLabel();
       sortOrder = forecastAntigen.getSortOrder();
     }
     String completesString = DomUtils.getAttributeValue(n, "completes");

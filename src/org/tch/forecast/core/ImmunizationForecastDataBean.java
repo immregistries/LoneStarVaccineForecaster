@@ -71,14 +71,12 @@ public class ImmunizationForecastDataBean
   private Date seasonStart = null;
   private Date seasonEnd = null;
   private List<Assumption> assumptionList = new ArrayList<Assumption>();
-  
-  public ImmunizationForecastDataBean()
-  {
+
+  public ImmunizationForecastDataBean() {
     // default constructor
   }
-  
-  public ImmunizationForecastDataBean(ImmunizationForecastDataBean copy)
-  {
+
+  public ImmunizationForecastDataBean(ImmunizationForecastDataBean copy) {
     this.forecastNameOriginal = copy.getForecastNameOriginal();
     this.forecastName = copy.getForecastName();
     this.forecastLabel = copy.getForecastLabel();
@@ -87,7 +85,7 @@ public class ImmunizationForecastDataBean
     this.due = copy.getDue();
     this.overdue = copy.getOverdue();
     this.finished = copy.getFinished();
-    this.dose= copy.getDose();
+    this.dose = copy.getDose();
     this.schedule = copy.getSchedule();
     this.sortOrder = copy.getSortOrder();
     this.traceList = copy.getTraceList();

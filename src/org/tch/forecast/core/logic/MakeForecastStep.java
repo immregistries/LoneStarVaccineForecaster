@@ -4,7 +4,6 @@ import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.TraceList;
 import org.tch.forecast.core.VaccineForecastDataBean;
-import org.tch.forecast.core.api.impl.ForecastAntigen;
 import org.tch.forecast.core.model.Assumption;
 
 public class MakeForecastStep extends ActionStep
