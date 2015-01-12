@@ -1129,6 +1129,8 @@
 
   <vaccine vaccineName="PCV13" vaccineIds="3143"/>
   <vaccine vaccineName="PPSV" vaccineIds="155"/>
+  <invalidateSameDay vaccineName="PCV13" ifGiven="Menactra"/>
+  <invalidateSameDay vaccineName="PCV13" ifGiven="PPSV"/>
   <schedule scheduleName="P1" dose="1" indication="Age 19 Years" label="PCV-13">
     <pos row="1" column="1"/>
     <valid age="65 years" interval="" grace="46 years" intervalGrace=""/>
@@ -1145,7 +1147,7 @@
   </schedule>
   <schedule scheduleName="S1" dose="1" indication="" label="PPSV">
     <pos row="1" column="2"/>
-    <valid age="65 years" interval="8 weeks" grace="4 days" intervalGrace=""/>
+    <valid age="65 years" interval="8 weeks" grace="4 days" intervalGrace="4 weeks 4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="6 months" grace=""/>
     <overdue age="66 years" interval="13 months" grace=""/>
@@ -1154,13 +1156,14 @@
     <before-previous interval=""/>
     <recommend seriesName="PPSV"/>
     <completed seriesName="PCV13"/>
-    <contraindicate vaccineName="PPSV" afterInterval="5 years" age="" reason="" grace=""/>
+    <contraindicate vaccineName="PPSV" afterInterval="5 years" age="" reason="" grace="5 years"/>
     <indicate vaccineName="PCV13" schedule="INVALID" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="PPSV" schedule="S1" age="65 years -4 d" reason="One dose of PPSV required after 65 years of age." historyOfVaccineName=""/>
     <indicate vaccineName="PPSV" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="C1" dose="1" indication="" label="PCV-13 after PPSV">
     <pos row="2" column="1"/>
-    <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="1 y -8 w -4 d"/>
+    <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="1 y -4 w 4 d"/>
     <early age="" interval="" grace=""/>
     <due age="65 years" interval="" grace=""/>
     <overdue age="66 years" interval="" grace=""/>
@@ -1174,7 +1177,7 @@
   </schedule>
   <schedule scheduleName="C2" dose="1" indication="" label="PCV-13 after PPSVs">
     <pos row="2" column="2"/>
-    <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="1 y -8 w -4 d"/>
+    <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="1 y -4 w 4 d"/>
     <early age="" interval="" grace=""/>
     <due age="65 years" interval="" grace=""/>
     <overdue age="66 years" interval="" grace=""/>
