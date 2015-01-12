@@ -101,7 +101,7 @@ public class ForecastSchedule
     String name = n.getNodeName();
     if (!name.equals("schedule"))
     {
-      throw new Exception("Root node in definition xml should be 'forecast', instead found '" + name + "'");
+      throw new Exception("Root node in definition xml should be 'schedule', instead found '" + name + "'");
     }
     scheduleName = DomUtils.getAttributeValue(n, "scheduleName");
     if (scheduleName == null )

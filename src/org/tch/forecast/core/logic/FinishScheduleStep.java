@@ -22,6 +22,7 @@ public class FinishScheduleStep extends ActionStep
     if (ds.seasonal != null) {
       // TODO?
     }
+    ds.seasonal = null;
     if (ds.originalEventList != null) {
       ds.eventList = ds.originalEventList;
       ds.originalEventList = null;

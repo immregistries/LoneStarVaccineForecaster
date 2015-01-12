@@ -32,6 +32,15 @@ public class VaccineForecastDataBean
   private Seasonal seasonal = null;
   private List<Transition> transitionList = new ArrayList<Transition>();
   private Map<String, DecisionLogic> decisionLogicMap = new HashMap<String, DecisionLogic>();
+  private List<InvalidateSameDay> invalidateSameDayList = new ArrayList<InvalidateSameDay>();
+
+  public List<InvalidateSameDay> getInvalidateSameDayList() {
+    return invalidateSameDayList;
+  }
+
+  public void setInvalidateSameDayList(List<InvalidateSameDay> invalidateSameDayList) {
+    this.invalidateSameDayList = invalidateSameDayList;
+  }
 
   protected VaccineForecastDataBean() {
     // default for ForecastSchedule to build object
@@ -92,7 +101,8 @@ public class VaccineForecastDataBean
     for (String complete : completes) {
       ForecastAntigen fa = ForecastAntigen.getForecastAntigen(complete);
       if (fa == null) {
-        throw new Exception("forecastCode '" + complete + "' in completes string is not recognized for forecastCode " + forecastCode);
+        throw new Exception("forecastCode '" + complete + "' in completes string is not recognized for forecastCode "
+            + forecastCode);
       }
       completesList.add(fa);
     }
@@ -159,6 +169,15 @@ public class VaccineForecastDataBean
           namedVaccine.setValidAge(new TimePeriod(validAge));
         }
         vaccines.put(vaccineName.toUpperCase(), namedVaccine);
+      } else if (name.equals("invalidateSameDay")) {
+        InvalidateSameDay invalidateSameDay = new InvalidateSameDay();
+        String vaccineName = DomUtils.getAttributeValue(n, "vaccineName");
+        invalidateSameDay.setInvalidateVaccineName(vaccineName);
+        invalidateSameDay.setInvalidateVaccines(convertToVaccineIds(vaccineName));
+        vaccineName = DomUtils.getAttributeValue(n, "ifGiven");
+        invalidateSameDay.setIfGivenVaccineName(vaccineName);
+        invalidateSameDay.setIfGivenVaccines(convertToVaccineIds(vaccineName));
+        invalidateSameDayList.add(invalidateSameDay);
       } else if (name.equals("seasonal")) {
         seasonal = new Seasonal();
         String seasonalDue = DomUtils.getAttributeValue(n, "due");
@@ -1136,6 +1155,47 @@ public class VaccineForecastDataBean
     public void setValidStartDate(Date validStartDate) {
       this.validStartDate = validStartDate;
     }
+  }
+
+  public class InvalidateSameDay
+  {
+    private String invalidateVaccineName = "";
+    private ValidVaccine[] invalidateVaccines = new ValidVaccine[0];
+    private String ifGivenVaccineName = "";
+    private ValidVaccine[] ifGivenVaccines = new ValidVaccine[0];
+
+    public String getInvalidateVaccineName() {
+      return invalidateVaccineName;
+    }
+
+    public void setInvalidateVaccineName(String invalidateVaccineName) {
+      this.invalidateVaccineName = invalidateVaccineName;
+    }
+
+    public ValidVaccine[] getInvalidateVaccines() {
+      return invalidateVaccines;
+    }
+
+    public void setInvalidateVaccines(ValidVaccine[] invalidateVaccines) {
+      this.invalidateVaccines = invalidateVaccines;
+    }
+
+    public String getIfGivenVaccineName() {
+      return ifGivenVaccineName;
+    }
+
+    public void setIfGivenVaccineName(String ifGivenVaccineName) {
+      this.ifGivenVaccineName = ifGivenVaccineName;
+    }
+
+    public ValidVaccine[] getIfGivenVaccines() {
+      return ifGivenVaccines;
+    }
+
+    public void setIfGivenVaccines(ValidVaccine[] ifGivenVaccines) {
+      this.ifGivenVaccines = ifGivenVaccines;
+    }
+
   }
 
   public class ValidVaccine

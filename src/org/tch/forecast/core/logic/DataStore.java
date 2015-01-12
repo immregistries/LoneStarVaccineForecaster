@@ -24,6 +24,7 @@ import org.tch.forecast.core.Transition;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
+import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
 import org.tch.forecast.core.VaccineForecastManagerInterface;
 import org.tch.forecast.core.api.impl.ForecastAntigen;
 import org.tch.forecast.core.api.impl.ForecastOptions;
@@ -94,7 +95,11 @@ public class DataStore
   protected int validDoseCount = 0;
   protected String whenValidText = null;
   protected ForecastOptions forecastOptions = null;
- 
+  protected Map<Integer, String> invalidatedSameDayVaccineIdMapToReason = null;
+
+  public Map<Integer, String> getInvalidatedSameDayVaccineIdMapToReason() {
+    return invalidatedSameDayVaccineIdMapToReason;
+  }
 
   public List<Assumption> getAssumptionList() {
     return assumptionList;

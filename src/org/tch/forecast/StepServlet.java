@@ -25,6 +25,7 @@ import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.Contraindicate;
 import org.tch.forecast.core.VaccineForecastDataBean.Indicate;
+import org.tch.forecast.core.VaccineForecastDataBean.InvalidateSameDay;
 import org.tch.forecast.core.VaccineForecastDataBean.NamedVaccine;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
@@ -416,10 +417,39 @@ public class StepServlet extends ForecastServlet
           out.println("</table>");
         }
 
-        if (dataStore.getForecast() != null) {
-          out.println("<h3>Forecast</h3>");
-
-          // protected VaccineForecastDataBean forecast = null;
+        if (dataStore.getForecast() != null && dataStore.getForecast().getInvalidateSameDayList() != null
+            && dataStore.getForecast().getInvalidateSameDayList().size() > 0) {
+          out.println("<h3>Invalid Same Day Combinations</h3>");
+          out.println("<table>");
+          out.println("  <tr>");
+          out.println("    <th>Invalidate</th>");
+          out.println("    <th>If given same day as</th>");
+          out.println("  </tr>");
+          for (InvalidateSameDay invalidateSameDay : dataStore.getForecast().getInvalidateSameDayList()) {
+            out.println("  <tr>");
+            out.println("    <td>" + safe(invalidateSameDay.getInvalidateVaccineName()) + "</td>");
+            out.println("    <td>" + safe(invalidateSameDay.getIfGivenVaccineName()) + "</td>");
+            out.println("  </tr>");
+          }
+          out.println("</table>");
+          
+          if (dataStore.getInvalidatedSameDayVaccineIdMapToReason() != null)
+          {
+            out.println("<h3>Invalid Vaccinations Found</h3>");
+            out.println("<table>");
+            out.println("  <tr>");
+            out.println("    <th>Vaccine Id</th>");
+            out.println("    <th>Reason</th>");
+            out.println("  </tr>");
+            for (Integer vaccineId : dataStore.getInvalidatedSameDayVaccineIdMapToReason().keySet())
+            {
+              out.println("  <tr>");
+              out.println("    <td>" + safe(vaccineId) + "</td>");
+              out.println("    <td>" + safe(dataStore.getInvalidatedSameDayVaccineIdMapToReason().get(vaccineId)) + "</td>");
+              out.println("  </tr>");
+            }
+            out.println("</table>");
+          }
         }
 
         if (dataStore.getResultList() != null) {

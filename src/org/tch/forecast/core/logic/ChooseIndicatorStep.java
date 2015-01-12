@@ -20,6 +20,7 @@ public class ChooseIndicatorStep extends ActionStep
     if (ds.indicatesPos < ds.indicates.length)
     {
       ds.log("Looking for dose that matches next indicator");
+      ds.invalidatedSameDayVaccineIdMapToReason = null;
       return LookForDoseStep.NAME;
     }
     ds.log("No more indicators to look at, going to finish schedule");

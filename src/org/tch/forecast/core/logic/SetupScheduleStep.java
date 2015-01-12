@@ -3,12 +3,17 @@ package org.tch.forecast.core.logic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 
 import org.tch.forecast.core.DateTime;
+import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.Seasonal;
 import org.tch.forecast.core.Trace;
 import org.tch.forecast.core.TraceList;
 import org.tch.forecast.core.Transition;
+import org.tch.forecast.core.VaccinationDoseDataBean;
+import org.tch.forecast.core.VaccineForecastDataBean.InvalidateSameDay;
+import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
 import org.tch.forecast.core.model.Assumption;
 
 public class SetupScheduleStep extends ActionStep
@@ -75,7 +80,9 @@ public class SetupScheduleStep extends ActionStep
       Collections.sort(ds.eventList, eventComparator);
     }
     if (ds.transitionList.size() > 0) {
-      ds.originalEventList = new ArrayList<Event>(ds.eventList);
+      if (ds.originalEventList == null) {
+        ds.originalEventList = new ArrayList<Event>(ds.eventList);
+      }
       for (Transition transition : ds.transitionList) {
         DateTime transitionDate = transition.getAge().getDateTimeFrom(ds.patient.getDobDateTime());
         if (transitionDate.isLessThanOrEquals(ds.forecastDateTime)) {

@@ -1,16 +1,17 @@
 package org.tch.forecast.core.logic;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationForecastDataBean;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.Trace;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean;
-import org.tch.forecast.core.DateTime;
+import org.tch.forecast.core.VaccineForecastDataBean.InvalidateSameDay;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
 import org.tch.forecast.core.decisionLogic.DecisionLogic;
 import org.tch.forecast.core.model.Assumption;
@@ -48,6 +49,7 @@ public class LookForDoseStep extends ActionStep
       }
       if (ds.nextAction == null || ds.nextAction.equalsIgnoreCase(KEEP_LOOKING)) {
         ds.log("Time to make forcast recommendations");
+        ds.invalidatedSameDayVaccineIdMapToReason = null;
         return MakeForecastStep.NAME;
       }
       if (ds.nextAction != null && ds.nextAction.equalsIgnoreCase(COMPLETE)) {
@@ -75,6 +77,7 @@ public class LookForDoseStep extends ActionStep
       }
 
       ds.log("Schedule is finished, no more recommendations.");
+      ds.invalidatedSameDayVaccineIdMapToReason = null;
       return FinishScheduleStep.NAME;
     } else if (ds.nextAction.equalsIgnoreCase(KEEP_LOOKING)) {
       ds.log("Dose found was past cutoff for this indicator, need to look at the next indicator");
@@ -87,6 +90,7 @@ public class LookForDoseStep extends ActionStep
         ds.traceList.add(ds.trace);
         ds.traceList.setExplanationBulletPointStart();
       }
+      ds.invalidatedSameDayVaccineIdMapToReason = null;
       return TraverseScheduleStep.NAME;
     } else if (ds.nextAction.equalsIgnoreCase(INVALID)) {
       ds.log("Dose was invalid for schedule, same schedule to be kept.");
@@ -96,9 +100,11 @@ public class LookForDoseStep extends ActionStep
         ds.traceList.add(ds.trace);
         ds.traceList.setExplanationBulletPointStart();
       }
+      ds.invalidatedSameDayVaccineIdMapToReason = null;
       return TraverseScheduleStep.NAME;
     } else {
       ds.log("Moving to schedule " + ds.nextAction);
+      ds.invalidatedSameDayVaccineIdMapToReason = null;
       return TransitionScheduleStep.NAME;
     }
   }
@@ -114,6 +120,8 @@ public class LookForDoseStep extends ActionStep
       ds.log("No more events left. ");
       ds.event = null;
     }
+    ds.invalidatedSameDayVaccineIdMapToReason = null;
+
   }
 
   protected static void setHasEvent(DataStore ds) {
@@ -145,6 +153,61 @@ public class LookForDoseStep extends ActionStep
   private String lookForDose(DataStore ds, VaccineForecastDataBean.Indicate indicate) {
     ValidVaccine[] vaccineIds = indicate.getVaccines();
     while (ds.event != null) {
+
+      
+      if (ds.forecast.getInvalidateSameDayList().size() > 0 && ds.invalidatedSameDayVaccineIdMapToReason == null) {
+        ds.log("Ensuring that invalid vaccination combinations are not given");
+        ds.invalidatedSameDayVaccineIdMapToReason = new HashMap<Integer, String>();
+        for (InvalidateSameDay invalidateSameDay : ds.forecast.getInvalidateSameDayList()) {
+          String givenSameDayVaccineName = null;
+          
+          for (ImmunizationInterface imm : ds.event.getImmList()) {
+            for (int i = 0; i < invalidateSameDay.getIfGivenVaccines().length; i++) {
+              ValidVaccine validVaccine = invalidateSameDay.getIfGivenVaccines()[i];
+              if (validVaccine.getVaccineId() == imm.getVaccineId()) {
+                givenSameDayVaccineName = invalidateSameDay.getIfGivenVaccineName();
+                ds.log(" + found vaccination that should not be given in combination: " + givenSameDayVaccineName);
+                break;
+              }
+            }
+          }
+          if (givenSameDayVaccineName != null) {
+            ds.log("Now looking to see if invalid combination was given today");
+            for (ImmunizationInterface imm : ds.event.getImmList()) {
+              for (int i = 0; i < invalidateSameDay.getInvalidateVaccines().length; i++) {
+                ValidVaccine validVaccine = invalidateSameDay.getInvalidateVaccines()[i];
+                if (validVaccine.getVaccineId() == imm.getVaccineId()) {
+                  ds.log(" + found vaccination that should not be given today: "
+                      + invalidateSameDay.getInvalidateVaccineName());
+                  String reason = "invalid when given same day as " + givenSameDayVaccineName;
+                  ds.invalidatedSameDayVaccineIdMapToReason.put(validVaccine.getVaccineId(), reason);
+                  VaccinationDoseDataBean dose = new VaccinationDoseDataBean();
+                  dose.setAdminDate(imm.getDateOfShot());
+                  dose.setDoseCode(getValidDose(ds, ds.schedule));
+                  dose.setImmregid(ds.patient.getImmregid());
+                  dose.setForecastCode(ds.forecast.getForecastCode());
+                  dose.setScheduleCode(ds.schedule.getScheduleName());
+                  dose.setStatusCode(VaccinationDoseDataBean.STATUS_INVALID);
+                  dose.setVaccineId(imm.getVaccineId());
+                  dose.setCvxCode(imm.getCvx());
+                  dose.setMvxCode(imm.getMvx());
+                  dose.setVaccinationId(imm.getVaccinationId());
+                  dose.setReason((ds.forecastManager.getVaccineName(imm.getVaccineId()) + (" given " + ds.dateFormat
+                      .format(imm.getDateOfShot()))) + " is invalid when given same day as " + givenSameDayVaccineName);
+                  dose.setWhenValidText(ds.whenValidText);
+                  ds.doseList.add(dose);
+                  if (ds.trace != null) {
+                    ds.trace.getDoses().add(dose);
+                    ds.traceList.setExplanationRed();
+                    ds.traceList.addExplanation(dose.getReason());
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
       if (ds.event.hasEvent) {
         DateTime vaccDate = new DateTime(ds.event.eventDate);
         ds.log("Looking to see if the next event is indicated");
@@ -526,6 +589,14 @@ public class LookForDoseStep extends ActionStep
         }
       }
     }
+    if (ds.invalidatedSameDayVaccineIdMapToReason != null) {
+      for (ValidVaccine validVaccine : vaccineIds) {
+        if (ds.invalidatedSameDayVaccineIdMapToReason.keySet().contains(validVaccine.getVaccineId())) {
+          ds.log("Vaccine has been invalidated, so this transition is invalid");
+          return ds.invalidatedSameDayVaccineIdMapToReason.get(validVaccine.getVaccineId());
+        }
+      }
+    }
     return null;
   }
 
@@ -549,25 +620,28 @@ public class LookForDoseStep extends ActionStep
         ImmunizationInterface imm = it.next();
         for (int i = 0; i < vaccineIds.length; i++) {
           if (vaccineIds[i].isSame(imm, ds.event)) {
-            VaccinationDoseDataBean dose = new VaccinationDoseDataBean();
-            dose.setAdminDate(imm.getDateOfShot());
-            dose.setDoseCode(getValidDose(ds, ds.schedule));
-            dose.setImmregid(ds.patient.getImmregid());
-            dose.setForecastCode(ds.forecast.getForecastCode());
-            dose.setScheduleCode(ds.schedule.getScheduleName());
-            dose.setStatusCode(VaccinationDoseDataBean.STATUS_INVALID);
-            dose.setVaccineId(imm.getVaccineId());
-            dose.setCvxCode(imm.getCvx());
-            dose.setMvxCode(imm.getMvx());
-            dose.setVaccinationId(imm.getVaccinationId());
-            dose.setReason((ds.forecastManager.getVaccineName(imm.getVaccineId()) + (" given " + ds.dateFormat
-                .format(imm.getDateOfShot()))) + " is invalid " + invalidReason + "");
-            dose.setWhenValidText(ds.whenValidText);
-            ds.doseList.add(dose);
-            if (ds.trace != null) {
-              ds.trace.getDoses().add(dose);
-              ds.traceList.setExplanationRed();
-              ds.traceList.addExplanation(dose.getReason());
+            if (ds.invalidatedSameDayVaccineIdMapToReason == null
+                || !ds.invalidatedSameDayVaccineIdMapToReason.keySet().contains(vaccineIds[i].getVaccineId())) {
+              VaccinationDoseDataBean dose = new VaccinationDoseDataBean();
+              dose.setAdminDate(imm.getDateOfShot());
+              dose.setDoseCode(getValidDose(ds, ds.schedule));
+              dose.setImmregid(ds.patient.getImmregid());
+              dose.setForecastCode(ds.forecast.getForecastCode());
+              dose.setScheduleCode(ds.schedule.getScheduleName());
+              dose.setStatusCode(VaccinationDoseDataBean.STATUS_INVALID);
+              dose.setVaccineId(imm.getVaccineId());
+              dose.setCvxCode(imm.getCvx());
+              dose.setMvxCode(imm.getMvx());
+              dose.setVaccinationId(imm.getVaccinationId());
+              dose.setReason((ds.forecastManager.getVaccineName(imm.getVaccineId()) + (" given " + ds.dateFormat
+                  .format(imm.getDateOfShot()))) + " is invalid " + invalidReason + "");
+              dose.setWhenValidText(ds.whenValidText);
+              ds.doseList.add(dose);
+              if (ds.trace != null) {
+                ds.trace.getDoses().add(dose);
+                ds.traceList.setExplanationRed();
+                ds.traceList.addExplanation(dose.getReason());
+              }
             }
           }
         }
@@ -608,24 +682,27 @@ public class LookForDoseStep extends ActionStep
         ImmunizationInterface imm = it.next();
         for (int i = 0; i < vaccineIds.length; i++) {
           if (vaccineIds[i].isSame(imm, ds.event)) {
-            VaccinationDoseDataBean dose = new VaccinationDoseDataBean();
-            dose.setAdminDate(imm.getDateOfShot());
-            dose.setDoseCode(getValidDose(ds, ds.schedule));
-            dose.setImmregid(ds.patient.getImmregid());
-            dose.setForecastCode(ds.forecast.getForecastCode());
-            dose.setScheduleCode(ds.schedule.getScheduleName());
-            dose.setStatusCode(VaccinationDoseDataBean.STATUS_VALID);
-            dose.setVaccineId(imm.getVaccineId());
-            dose.setCvxCode(imm.getCvx());
-            dose.setMvxCode(imm.getMvx());
-            dose.setVaccinationId(imm.getVaccinationId());
-            dose.setWhenValidText(ds.whenValidText);
-            ds.doseList.add(dose);
-            if (ds.trace != null) {
-              ds.trace.getDoses().add(dose);
-              ds.traceList.setExplanationBlue();
-              ds.traceList.addExplanation(ds.forecastManager.getVaccineName(imm.getVaccineId()) + " given "
-                  + ds.dateFormat.format(imm.getDateOfShot()) + " is valid (dose #" + ds.validDoseCount + ")");
+            if (ds.invalidatedSameDayVaccineIdMapToReason == null
+                || !ds.invalidatedSameDayVaccineIdMapToReason.keySet().contains(vaccineIds[i].getVaccineId())) {
+              VaccinationDoseDataBean dose = new VaccinationDoseDataBean();
+              dose.setAdminDate(imm.getDateOfShot());
+              dose.setDoseCode(getValidDose(ds, ds.schedule));
+              dose.setImmregid(ds.patient.getImmregid());
+              dose.setForecastCode(ds.forecast.getForecastCode());
+              dose.setScheduleCode(ds.schedule.getScheduleName());
+              dose.setStatusCode(VaccinationDoseDataBean.STATUS_VALID);
+              dose.setVaccineId(imm.getVaccineId());
+              dose.setCvxCode(imm.getCvx());
+              dose.setMvxCode(imm.getMvx());
+              dose.setVaccinationId(imm.getVaccinationId());
+              dose.setWhenValidText(ds.whenValidText);
+              ds.doseList.add(dose);
+              if (ds.trace != null) {
+                ds.trace.getDoses().add(dose);
+                ds.traceList.setExplanationBlue();
+                ds.traceList.addExplanation(ds.forecastManager.getVaccineName(imm.getVaccineId()) + " given "
+                    + ds.dateFormat.format(imm.getDateOfShot()) + " is valid (dose #" + ds.validDoseCount + ")");
+              }
             }
           }
         }

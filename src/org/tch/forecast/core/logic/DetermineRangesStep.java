@@ -22,6 +22,7 @@ public class DetermineRangesStep extends ActionStep
     determineRanges(ds);
     ds.indicates = ds.schedule.getIndicates();
     ds.indicatesPos = -1;
+    ds.invalidatedSameDayVaccineIdMapToReason = null;
     return ChooseIndicatorStep.NAME;
   }
 
