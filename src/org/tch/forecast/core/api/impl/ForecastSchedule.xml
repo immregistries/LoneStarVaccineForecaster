@@ -1129,6 +1129,7 @@
 
   <vaccine vaccineName="PCV13" vaccineIds="3143"/>
   <vaccine vaccineName="PPSV" vaccineIds="155"/>
+  <vaccine vaccineName="Menactra" vaccineIds="183, 184"/>
   <invalidateSameDay vaccineName="PCV13" ifGiven="Menactra"/>
   <invalidateSameDay vaccineName="PCV13" ifGiven="PPSV"/>
   <schedule scheduleName="P1" dose="1" indication="Age 19 Years" label="PCV-13">
