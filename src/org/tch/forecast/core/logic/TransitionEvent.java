@@ -54,12 +54,14 @@ public class TransitionEvent implements ImmunizationInterface {
     return "";
   }
   
-  @Override
+  // JDK 1.5 Override is not applicable to interfaces
+  //@Override
   public boolean isAssumption() {
     return false;
   }
 
-  @Override
+  // JDK 1.5 Override is not applicable to interfaces
+  //@Override
   public boolean isForceValid() {
     return false;
   }

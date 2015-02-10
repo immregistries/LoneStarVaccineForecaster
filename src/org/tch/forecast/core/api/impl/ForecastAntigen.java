@@ -13,7 +13,8 @@ public class ForecastAntigen implements Comparable<ForecastAntigen>
   private int sortOrder = 0;
   private String[] alternateNames = new String[0];
 
-  @Override
+  // JDK 1.5 Override is not applicable to interfaces
+  //@Override
   public int compareTo(ForecastAntigen o) {
     return this.getSortOrder() - o.getSortOrder();
   }

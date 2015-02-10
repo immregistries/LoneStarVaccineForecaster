@@ -63,7 +63,8 @@ public class ListCodes
     cvxCodeList = new ArrayList<CvxCode>(cvxToVaccineIdMap.values());
 
     Collections.sort(cvxCodeList, new Comparator<CvxCode>() {
-      @Override
+  	  // JDK 1.5 Override is not applicable to interfaces
+      //Override
       public int compare(CvxCode o1, CvxCode o2) {
         return o1.getCvxLabel().compareTo(o2.getCvxLabel());
       }
