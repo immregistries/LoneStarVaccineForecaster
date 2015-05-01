@@ -1,4 +1,9 @@
 CVX Label	CVX	TCH Label	TCH	Use Status	Check	Diphtheria	HPV	HepA	HepB	Hib	Influenza	Measles	Mening	Mumps	PPSV	Pertussis	Pneumo	Polio	Rotavirus	Rubella	Varicella	Zoster
+HPV9	165	HPV9	214	SUPPORTED																		
+"influenza, intradermal, quadrivalent, preservative free"	166	"Influenza IIV3 >=18 years, intradermal"	202	SUPPORTED																		
+"meningococcal B, OMV"	163			PENDING																		
+"meningococcal B, recombinant"	162			PENDING																		
+"meningococcal B, unspecified"	164			PENDING																		
 DTP	01	DTP	111	SUPPORTED		CHILD																
 OPV	02	OPV	148	SUPPORTED														ANY & OPV			SAME LIVE	LIVE
 MMR	03	MMR	158	SUPPORTED							LIVE	MUMPS & RUBELLA & MEASLES		MUMPS & RUBELLA & MEASLES						MUMPS & RUBELLA & MEASLES	SAME LIVE	LIVE
@@ -150,14 +155,14 @@ Meningococcal C/Y-HIB PRP	148	Meningococcal C/Y-HIB PRP	213	SUPPORTED						SERIE
 "influenza, injectable, quadrivalent, preservative free"	150	Influenza IIV4	204	SUPPORTED							FLU & FLU+											
 "influenza nasal, unspecified formulation"	151	Influenza LAIV4 Nasal	203	SUPPORTED							NASAL & FLU & FLU+											
 "Pneumococcal Conjugate, unspecified formulation"	152	"Pneumococcal,NOS"	156	SUPPORTED											PCV							
-"Influenza, injectable, MDCK, preservative free"	153			PENDING							FLU & FLU+											
+"Influenza, injectable, MDCK, preservative free"	153			NOT SUPPORTED							FLU & FLU+											
 "Hep A, IG"	154			NOT SUPPORTED																		
 "influenza, recombinant, injectable, preservative free"	155	"influenza, recombinant, injectable, preservative free"	179	SUPPORTED							FLU & FLU+											
 Rho(D)-IG	156			NOT SUPPORTED																		
 Rho(D) -IG IM	157			NOT SUPPORTED																		
 "influenza, injectable, quadrivalent"	158	"influenza, injectable, quadrivalent"	204	SUPPORTED							FLU & FLU+											
 Rho(D) - Unspecified formulation	159			NOT SUPPORTED																		
-"Influenza A monovalent (H5N1), ADJUVANTED-2013"	160			PENDING																		
+"Influenza A monovalent (H5N1), ADJUVANTED-2013"	160			NOT SUPPORTED																		
 "Influenza, injectable,quadrivalent, preservative free, pediatric"	161	"influenza, recombinant, injectable, preservative free"	179	SUPPORTED																		
 AS03 Adjuvant	801			NOT SUPPORTED																		
 no vaccine administered	998			NOT SUPPORTED																		
