@@ -1127,6 +1127,10 @@ public class DateTime implements Serializable
       i = (i > 1) ? i - 2 : 0;
       String time = s.substring(i, s.length()).trim().toUpperCase();
       s = s.substring(0, i);
+      if (s.endsWith("T"))
+      {
+        s = s.substring(0, s.length() - 1);
+      }
       i = time.indexOf(':');
       colonCount++;
       try

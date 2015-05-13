@@ -29,9 +29,25 @@
         <servlet-name>forecast</servlet-name>
         <servlet-class>org.tch.forecast.ForecastServlet</servlet-class>
     </servlet> 
+	<servlet>
+        <servlet-name>fhir</servlet-name>
+        <servlet-class>org.tch.forecast.FhirServlet</servlet-class>
+    </servlet> 
+	<servlet>
+        <servlet-name>fhirTest</servlet-name>
+        <servlet-class>org.tch.forecast.FhirTestServlet</servlet-class>
+    </servlet> 
     <servlet-mapping>
         <servlet-name>forecast</servlet-name>
         <url-pattern>forecast</url-pattern>
+    </servlet-mapping>	 
+    <servlet-mapping>
+        <servlet-name>fhir</servlet-name>
+        <url-pattern>Patient/$cdsimmunization</url-pattern>
+    </servlet-mapping>	 
+    <servlet-mapping>
+        <servlet-name>fhirTest</servlet-name>
+        <url-pattern>fhirTest</url-pattern>
     </servlet-mapping>	 
     <servlet-mapping>
         <servlet-name>step</servlet-name>

@@ -309,7 +309,7 @@ public class CaretForecaster
     }
   }
 
-  private static HashMap<String, String> doseDueOutHash = new HashMap<String, String>();
+  public static HashMap<String, String> doseDueOutHash = new HashMap<String, String>();
   static {
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"1"); // DTP
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"2"); // OPV
