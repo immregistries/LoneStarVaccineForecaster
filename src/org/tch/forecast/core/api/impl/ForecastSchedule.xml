@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2015-05-01">
+<schedule scheduleName="TCH-2015-05-22">
 
 
 <forecast seriesName="Varicella">
@@ -21,7 +21,7 @@
     <indicate vaccineName="Single" schedule="P2" age="13 years" reason=""/>
     <indicate vaccineName="Single" schedule="A2" age="" reason=""/>
     <indicate vaccineName="MMRV" schedule="P2" age="13 years" reason=""/>
-    <indicate vaccineName="MMRV" schedule="P2" age="" reason="MMRV should not be administered to persons 13 years of age or older."/>
+    <indicate vaccineName="MMRV" schedule="A2" age="" reason="MMRV should not be administered to persons 13 years of age or older."/>
     <indicate vaccineName="Assume Comp" schedule="COMPLETE" age="" reason="Assuming adult received full Varicella series as a child or is immune."/>
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="4 years">
@@ -100,6 +100,7 @@
     <contraindicate vaccineName="Same Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="MMRV" minInterval="4 weeks"/>
+    <indicate vaccineName="MMRV" schedule="COMPLETE" age="" reason="MMRV should not be administered to persons 13 years of age or older." previousVaccineName="MMRV" minInterval="4 weeks"/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV must be administered no sooner than 4 weeks after previous MMRV." previousVaccineName="MMRV" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="" reason="MMRV should not be administered to persons 13 years of age or older." previousVaccineName="" minInterval=""/>
@@ -147,6 +148,7 @@
     <contraindicate vaccineName="Same Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="MMRV" minInterval="4 weeks"/>
+    <indicate vaccineName="MMRV" schedule="COMPLETE" age="" reason="MMRV should not be administered to persons 13 years of age or older." previousVaccineName="MMRV" minInterval="4 weeks"/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV must be administered no sooner than 4 weeks after previous MMRV." previousVaccineName="MMRV" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="" reason="MMRV should not be administered to persons 13 years of age or older." previousVaccineName="" minInterval=""/>
@@ -987,6 +989,7 @@
     <contraindicate vaccineName="Same Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <contraindicate vaccineName="Other Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="MMRV" minInterval="4 weeks"/>
+    <indicate vaccineName="MMRV" schedule="COMPLETE" age="" reason="MMRV should not be administered to persons 13 years of age or older." previousVaccineName="MMRV" minInterval="4 weeks"/>
     <indicate vaccineName="MMRV" schedule="INVALID" age="" reason="MMRV must be administered no sooner than 4 weeks after previous MMRV." previousVaccineName="MMRV" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="13 years" reason="" previousVaccineName="" minInterval=""/>
     <indicate vaccineName="MMRV" schedule="COMPLETE" age="" reason="MMRV should not be administered to persons 13 years of age or older." previousVaccineName="" minInterval=""/>
@@ -1054,7 +1057,8 @@
     <finished age="5 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="PCV" schedule="P3" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="PCV" schedule="P3" age="7 months" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="PCV" schedule="C3" age="" reason="Second valid dose was given at or after 7 months of age." historyOfVaccineName=""/>
     <indicate vaccineName="12 Months Old" schedule="C2" age="" reason="Second valid dose was not received by 12 months of age, only 2 more doses needed now." historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="P3" dose="3" indication="" label="6 months" indicationEnd="19 years">
