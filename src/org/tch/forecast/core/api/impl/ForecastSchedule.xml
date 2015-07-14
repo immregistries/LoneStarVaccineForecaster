@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2015-05-22">
+<schedule scheduleName="TCH-2015-07-14">
 
 
 <forecast seriesName="Varicella">
@@ -197,13 +197,10 @@
     <before-previous interval=""/>
     <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" against="Nasal" contra="Influenza LAIV" allowed="Influenza IIV"/>
     <indicate vaccineName="Nasal" schedule="INVALID" age="2 years" reason="" seasonCompleted=""/>
-    <indicate vaccineName="Flu" schedule="DL FLU 2014" age="" reason="" seasonCompleted="Yes"/>
+    <indicate vaccineName="Flu" schedule="DL FLU 2015" age="" reason="" seasonCompleted="Yes"/>
   </schedule>
-  <decisionLogic name="DL FLU 2014">
-    <constant name="Season 2013 Start" value="07/01/2013"/>
-    <constant name="Season 2010 Start" value="07/01/2010"/>
+  <decisionLogic name="DL FLU 2015">
     <constant name="Valid Vaccine" value="Flu"/>
-    <constant name="Valid H1N1 Vaccine" value="H1N1"/>
     <transition name="Second Dose Needed" value="S2"/>
     <transition name="No More Doses Needed" value="COMPLETE"/>
   </decisionLogic>
@@ -1132,7 +1129,7 @@
 <forecast seriesName="Pneumo65" completes="PCV,PPSV">
 
   <vaccine vaccineName="PCV13" vaccineIds="3143"/>
-  <vaccine vaccineName="PPSV" vaccineIds="155"/>
+  <vaccine vaccineName="PPSV" vaccineIds="155, 156"/>
   <vaccine vaccineName="Menactra" vaccineIds="183, 184"/>
   <invalidateSameDay vaccineName="PCV13" ifGiven="Menactra"/>
   <invalidateSameDay vaccineName="PCV13" ifGiven="PPSV"/>
@@ -1153,10 +1150,10 @@
   </schedule>
   <schedule scheduleName="S1" dose="1" indication="" label="PPSV">
     <pos row="1" column="2"/>
-    <valid age="65 years" interval="8 weeks" grace="4 days" intervalGrace="4 weeks 4 days"/>
+    <valid age="65 years" interval="1 year" grace="4 days" intervalGrace="1 year"/>
     <early age="" interval="" grace=""/>
-    <due age="" interval="6 months" grace=""/>
-    <overdue age="66 years" interval="13 months" grace=""/>
+    <due age="65 years" interval="" grace=""/>
+    <overdue age="66 years" interval="2 years" grace=""/>
     <finished age="120 years" interval="" grace=""/>
     <after-invalid interval="" grace=""/>
     <before-previous interval=""/>
