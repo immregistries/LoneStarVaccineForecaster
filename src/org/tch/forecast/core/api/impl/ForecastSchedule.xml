@@ -904,7 +904,7 @@
     <pos row="1" column="2"/>
     <valid age="" interval="8 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
-    <due age="16 years" interval="" grace=""/>
+    <due age="16 years" interval="" grace="4 days"/>
     <overdue age="17 years" interval="" grace=""/>
     <finished age="19 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
@@ -931,7 +931,7 @@
     <pos row="2" column="2"/>
     <valid age="" interval="8 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
-    <due age="16 years" interval="" grace=""/>
+    <due age="16 years" interval="" grace="4 days"/>
     <overdue age="17 years" interval="" grace=""/>
     <finished age="19 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
@@ -1131,7 +1131,6 @@
   <vaccine vaccineName="PCV13" vaccineIds="3143"/>
   <vaccine vaccineName="PPSV" vaccineIds="155, 156"/>
   <vaccine vaccineName="Menactra" vaccineIds="183, 184"/>
-  <invalidateSameDay vaccineName="PCV13" ifGiven="Menactra"/>
   <invalidateSameDay vaccineName="PCV13" ifGiven="PPSV"/>
   <schedule scheduleName="P1" dose="1" indication="Age 19 Years" label="PCV-13">
     <pos row="1" column="1"/>
@@ -1140,10 +1139,10 @@
     <due age="65 years" interval="" grace=""/>
     <overdue age="66 years" interval="" grace=""/>
     <finished age="120 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace=""/>
+    <after-invalid interval="" grace=""/>
     <before-previous interval=""/>
     <recommend seriesName="PCV13"/>
-    <contraindicate vaccineName="Menactra" afterInterval="4 weeks" age="" reason="" grace="4 weeks"/>
+    <contraindicate vaccineName="" afterInterval="" age="" reason="" grace=""/>
     <indicate vaccineName="PPSV" schedule="C1" age="65 years -4 days" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="PPSV" schedule="C2" age="" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="PCV13" schedule="S1" age="" reason="" historyOfVaccineName=""/>
@@ -1160,29 +1159,29 @@
     <recommend seriesName="PPSV"/>
     <completed seriesName="PCV13"/>
     <contraindicate vaccineName="PPSV" afterInterval="5 years" age="" reason="" grace="5 years"/>
-    <contraindicate vaccineName="Menactra" afterInterval="4 weeks" age="" reason="" grace="4 weeks"/>
+    <contraindicate vaccineName="" afterInterval="" age="" reason="" grace=""/>
     <indicate vaccineName="PCV13" schedule="INVALID" age="" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="PPSV" schedule="S1" age="65 years -4 d" reason="One dose of PPSV required after 65 years of age." historyOfVaccineName=""/>
     <indicate vaccineName="PPSV" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="C1" dose="1" indication="" label="PCV-13 after PPSV">
     <pos row="2" column="1"/>
-    <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="1 y -4 w 4 d"/>
+    <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="1 year"/>
     <early age="" interval="" grace=""/>
     <due age="65 years" interval="" grace=""/>
-    <overdue age="66 years" interval="" grace=""/>
+    <overdue age="66 years" interval="2 years" grace=""/>
     <finished age="120 years" interval="" grace=""/>
     <after-invalid interval="" grace=""/>
     <before-previous interval=""/>
     <recommend seriesName="PCV13"/>
-    <contraindicate vaccineName="Menactra" afterInterval="4 weeks" age="" reason="" grace="4 weeks"/>
+    <contraindicate vaccineName="" afterInterval="" age="" reason="" grace=""/>
     <indicate vaccineName="PPSV" schedule="C1" age="65 years -4 days" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="PPSV" schedule="C2" age="" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="PCV13" schedule="S1" age="" reason="" historyOfVaccineName=""/>
   </schedule>
   <schedule scheduleName="C2" dose="1" indication="" label="PCV-13 after PPSVs">
     <pos row="2" column="2"/>
-    <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="1 y -4 w 4 d"/>
+    <valid age="65 years" interval="1 year" grace="46 years" intervalGrace="1 year"/>
     <early age="" interval="" grace=""/>
     <due age="65 years" interval="" grace=""/>
     <overdue age="66 years" interval="" grace=""/>
@@ -1191,7 +1190,7 @@
     <before-previous interval=""/>
     <recommend seriesName="PCV13"/>
     <completed seriesName="PPSV"/>
-    <contraindicate vaccineName="Menactra" afterInterval="4 weeks" age="" reason="" grace=""/>
+    <contraindicate vaccineName="" afterInterval="" age="" reason="" grace=""/>
     <indicate vaccineName="PPSV" schedule="C2" age="" reason="" historyOfVaccineName=""/>
     <indicate vaccineName="PCV13" schedule="COMPLETE" age="" reason="" historyOfVaccineName=""/>
   </schedule>
