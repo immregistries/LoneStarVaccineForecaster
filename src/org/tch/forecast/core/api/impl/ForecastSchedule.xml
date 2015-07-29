@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2015-07-14">
+<schedule scheduleName="TCH-2015-07-29">
 
 
 <forecast seriesName="Varicella">
@@ -902,9 +902,9 @@
   </schedule>
   <schedule scheduleName="A2" dose="2" indication="" label="2nd">
     <pos row="1" column="2"/>
-    <valid age="" interval="8 weeks" grace="4 days"/>
+    <valid age="16 years" interval="8 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
-    <due age="16 years" interval="" grace="4 days"/>
+    <due age="16 years" interval="" grace=""/>
     <overdue age="17 years" interval="" grace=""/>
     <finished age="19 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
@@ -929,9 +929,9 @@
   </schedule>
   <schedule scheduleName="B2" dose="3" indication="" label="3rd">
     <pos row="2" column="2"/>
-    <valid age="" interval="8 weeks" grace="4 days"/>
+    <valid age="16 years" interval="8 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
-    <due age="16 years" interval="" grace="4 days"/>
+    <due age="16 years" interval="" grace=""/>
     <overdue age="17 years" interval="" grace=""/>
     <finished age="19 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
