@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2015-07-29">
+<schedule scheduleName="TCH-2015-07-30">
 
 
 <forecast seriesName="Varicella">
@@ -897,7 +897,7 @@
     <indicate vaccineName="MPSV4" schedule="INVALID" age="2 years" reason="MPSV4 not licensed before 2 years."/>
     <indicate vaccineName="MCV4" schedule="A1" age="10 years" reason="Received dose of MCV4 before 10 years, not counting towards completion."/>
     <indicate vaccineName="MPSV4" schedule="B1" age="" reason=""/>
-    <indicate vaccineName="MCV4" schedule="A2" age="16 years" reason=""/>
+    <indicate vaccineName="MCV4" schedule="A2" age="16 years -4 days" reason=""/>
     <indicate vaccineName="MCV4" schedule="COMPLETE" age="" reason="Only one dose needed if administered after 15 years of age."/>
   </schedule>
   <schedule scheduleName="A2" dose="2" indication="" label="2nd">
@@ -911,7 +911,7 @@
     <before-previous interval=""/>
     <indicate vaccineName="Menactra" schedule="INVALID" age="9 months" reason=""/>
     <indicate vaccineName="MPSV4" schedule="B1" age="" reason=""/>
-    <indicate vaccineName="MCV4" schedule="B2" age="16 years" reason=""/>
+    <indicate vaccineName="MCV4" schedule="B2" age="16 years -4 days" reason=""/>
     <indicate vaccineName="MCV4" schedule="COMPLETE" age="" reason=""/>
   </schedule>
   <schedule scheduleName="B1" dose="2" indication="" label="2nd after MPSV4">
