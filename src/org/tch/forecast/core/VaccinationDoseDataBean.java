@@ -133,6 +133,10 @@ public class VaccinationDoseDataBean {
     this.doseCode = doseCode;
   }
 
+  public boolean isStatusCodeInvalid() {
+    return statusCode != null ? STATUS_INVALID.equalsIgnoreCase(statusCode) : false;
+  }
+  
   public String getStatusCode() {
     return statusCode;
   }

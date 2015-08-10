@@ -201,7 +201,7 @@ public class DetermineRangesStep extends ActionStep
       //        ds.valid = new DateTime(ds.seasonStartThis);
       //        validReason = "start of next season";
       //        validBecause = "SEASON";
-      //        ds.log("Season start is is after valid date, moving valid date forward to " + ds.valid.toString("M/D/Y"));
+      //        ds.log("Season start is after valid date, moving valid date forward to " + ds.valid.toString("M/D/Y"));
       //      }
       DateTime seasonDue = ds.seasonal.getDue().getDateTimeFrom(ds.seasonStartDateTime);
       if (seasonDue.isGreaterThan(ds.due)) {
@@ -211,7 +211,7 @@ public class DetermineRangesStep extends ActionStep
         } else {
           ds.dueReason = ds.seasonal.getDue() + " after season start";
         }
-        ds.log("Season start is is after due date, moving due date forward to " + ds.due.toString("M/D/Y"));
+        ds.log("Season start is after due date, moving due date forward to " + ds.due.toString("M/D/Y"));
       }
     }
 

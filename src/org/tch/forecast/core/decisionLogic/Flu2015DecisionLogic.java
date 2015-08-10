@@ -59,7 +59,8 @@ public class Flu2015DecisionLogic extends DecisionLogic
     for (VaccinationDoseDataBean vaccinationDose : ds.getDoseList()) {
       DateTime adminDate = new DateTime(vaccinationDose.getAdminDate());
       if ((startDate == null || startDate.isLessThanOrEquals(adminDate))
-          && (endDate == null || endDate.isGreaterThan(adminDate))) {
+          && (endDate == null || endDate.isGreaterThan(adminDate))
+          && ! vaccinationDose.isStatusCodeInvalid()) {
         for (ValidVaccine vaccine : vaccines) {
           if (vaccinationDose.getVaccineId() == vaccine.getVaccineId()) {
             ds.log(" + valid vaccine " + vaccinationDose.getVaccineId() + " given " + new DateTime(vaccinationDose.getAdminDate()).toString("M/D/Y"));
