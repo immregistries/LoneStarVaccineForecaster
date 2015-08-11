@@ -63,6 +63,7 @@ public class ForecastServer extends Thread
   }
 
   public ForecastServer() {
+    setName(getName() + ": Main ForecastServer Thread");
     // default
   }
 
