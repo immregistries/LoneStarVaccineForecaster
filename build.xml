@@ -1,4 +1,4 @@
-<project name="HHCIR" default="help" basedir=".">
+<project name="forecaster" default="help" basedir=".">
 
 	<!-- ===================== Property Definitions =========================== -->
 
