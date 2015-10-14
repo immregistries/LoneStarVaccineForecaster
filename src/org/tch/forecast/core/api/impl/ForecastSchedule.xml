@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2015-10-07">
+<schedule scheduleName="TCH-2015-10-14">
 
 
 <forecast seriesName="Varicella">
@@ -890,14 +890,17 @@
     <early age="" interval="" grace=""/>
     <due age="11 years" interval="" grace=""/>
     <overdue age="13 years" interval="" grace=""/>
-    <finished age="19 years" interval="" grace=""/>
+    <finished age="22 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Menactra" schedule="INVALID" age="9 months -4 days" reason="Menactra not licensed before 9 months."/>
-    <indicate vaccineName="MPSV4" schedule="INVALID" age="2 years" reason="MPSV4 not licensed before 2 years."/>
+    <indicate vaccineName="MPSV4" schedule="INVALID" age="2 years -4 days" reason="MPSV4 not licensed before 2 years."/>
+    <indicate vaccineName="Menveo" schedule="INVALID" age="2 months -4 days" reason="Menveo not licensed before 2 months."/>
     <indicate vaccineName="MCV4" schedule="A1" age="10 years" reason="Received dose of MCV4 before 10 years, not counting towards completion."/>
     <indicate vaccineName="MPSV4" schedule="A1" age="10 years" reason="Received dose of MPSV4 before 10 years, not counting towards completion."/>
+    <indicate vaccineName="MCV4" schedule="A2" age="16 years -4 days" reason=""/>
     <indicate vaccineName="MPSV4" schedule="A2" age="16 years -4 days" reason=""/>
+    <indicate vaccineName="MCV4" schedule="COMPLETE" age="" reason="Only one dose needed if administered after 15 years of age."/>
     <indicate vaccineName="MPSV4" schedule="COMPLETE" age="" reason="Only one dose needed if administered after 15 years of age."/>
   </schedule>
   <schedule scheduleName="A2" dose="2" indication="" label="2nd">
@@ -906,7 +909,7 @@
     <early age="" interval="" grace=""/>
     <due age="16 years" interval="" grace=""/>
     <overdue age="17 years" interval="" grace=""/>
-    <finished age="19 years" interval="" grace=""/>
+    <finished age="22 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="MCV4" schedule="A2" age="16 years -4 days" reason="Received dose before 16 years of age, not counting towards completion."/>
