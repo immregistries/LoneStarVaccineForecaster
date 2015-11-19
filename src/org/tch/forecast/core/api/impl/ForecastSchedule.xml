@@ -922,7 +922,7 @@
 
 
 
-<forecast seriesName="BexseroMenB">
+<forecast seriesName="MeningBexsero">
   <vaccine vaccineName="Bexsero" vaccineIds="216"/>
   <schedule scheduleName="B1" dose="1" indication="BIRTH" label="1st">
     <pos row="1" column="1"/>
@@ -950,7 +950,7 @@
 
 
 
-<forecast seriesName="TrumenbaMenB">
+<forecast seriesName="MeningTrumenba">
   <vaccine vaccineName="Trumenba" vaccineIds="215"/>
   <schedule scheduleName="T1" dose="1" indication="BIRTH" label="1st">
     <pos row="1" column="1"/>
