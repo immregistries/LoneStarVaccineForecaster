@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2015-10-14">
+<schedule scheduleName="TCH-2015-11-19">
 
 
 <forecast seriesName="Varicella">
@@ -922,10 +922,70 @@
 
 
 
+<forecast seriesName="BexseroMenB">
+  <vaccine vaccineName="Bexsero" vaccineIds="216"/>
+  <schedule scheduleName="B1" dose="1" indication="BIRTH" label="1st">
+    <pos row="1" column="1"/>
+    <valid age="10 years" interval="" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="16 years" interval="" grace=""/>
+    <overdue age="19 years" interval="" grace=""/>
+    <finished age="24 years" interval="" grace=""/>
+    <after-invalid interval="0 days" grace=""/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Bexsero" schedule="B2" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="B2" dose="2" indication="" label="2nd">
+    <pos row="1" column="2"/>
+    <valid age="" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="4 weeks" interval="" grace=""/>
+    <overdue age="2 months" interval="" grace=""/>
+    <finished age="24 years" interval="" grace=""/>
+    <after-invalid interval="4 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Bexsero" schedule="Complete" age="" reason=""/>
+  </schedule>
+</forecast>
 
 
 
-
+<forecast seriesName="TrumenbaMenB">
+  <vaccine vaccineName="Trumenba" vaccineIds="215"/>
+  <schedule scheduleName="T1" dose="1" indication="BIRTH" label="1st">
+    <pos row="1" column="1"/>
+    <valid age="10 years" interval="" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="16 years" interval="" grace=""/>
+    <overdue age="19 years" interval="" grace=""/>
+    <finished age="24 years" interval="" grace=""/>
+    <after-invalid interval="0 days" grace=""/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Trumenba" schedule="T2" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="T2" dose="2" indication="" label="2nd">
+    <pos row="1" column="2"/>
+    <valid age="" interval="4 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="2 months" interval="" grace=""/>
+    <overdue age="3 months" interval="" grace=""/>
+    <finished age="24 years" interval="" grace=""/>
+    <after-invalid interval="8 weeks" grace="4 weeks -4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Trumenba" schedule="T3" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="T3" dose="3" indication="" label="3rd">
+    <pos row="1" column="3"/>
+    <valid age="" interval="16 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="4 months" grace=""/>
+    <overdue age="" interval="6 months" grace=""/>
+    <finished age="24 years" interval="" grace=""/>
+    <after-invalid interval="16 weeks" grace="4 days"/>
+    <before-previous interval="24 weeks"/>
+    <indicate vaccineName="Trumenba" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
+</forecast>
 
 
 

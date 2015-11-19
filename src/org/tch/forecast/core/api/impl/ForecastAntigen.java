@@ -85,6 +85,8 @@ public class ForecastAntigen implements Comparable<ForecastAntigen>
     forecastAntigenList.add(new ForecastAntigen("HPV", "HPV", 16));
     forecastAntigenList.add(new ForecastAntigen("Zoster", "Zoster", 17));
     forecastAntigenList.add(new ForecastAntigen("Pneumo65", "Pneumo for 65+", 18));
+    forecastAntigenList.add(new ForecastAntigen("BexseroMenB", "BexseroMenB", 19));
+    forecastAntigenList.add(new ForecastAntigen("TrumenbaMenB", "TrumenbaMenB", 20));
     Collections.sort(forecastAntigenList);
     for (ForecastAntigen forecastAntigen : forecastAntigenList) {
       forecastAntigenMap.put(forecastAntigen.getForecastCode(), forecastAntigen);
