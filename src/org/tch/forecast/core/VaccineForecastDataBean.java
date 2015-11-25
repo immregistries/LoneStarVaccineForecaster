@@ -1117,6 +1117,17 @@ public class VaccineForecastDataBean
     return vaccines;
   }
 
+  /**
+   * Determines if the specified vaccineId appears in the list of the vaccines for this forecast
+   */
+  public boolean isVaccinePresent(String vaccineId) {
+    boolean isVaccinePresent = false;
+    for ( NamedVaccine namedVaccine : vaccines.values() ) {
+      isVaccinePresent = namedVaccine.getVaccineIds().contains(vaccineId);
+    }
+    return isVaccinePresent;
+  }
+  
   public class NamedVaccine
   {
     private String vaccineIds = "";

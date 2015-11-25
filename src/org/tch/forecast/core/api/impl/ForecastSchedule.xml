@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2015-11-19">
+<schedule scheduleName="TCH-2015-11-25">
 
 
 <forecast seriesName="Varicella">
@@ -924,7 +924,7 @@
 
 <forecast seriesName="MeningBexsero">
   <vaccine vaccineName="Bexsero" vaccineIds="216"/>
-  <schedule scheduleName="B1" dose="1" indication="BIRTH" label="1st">
+  <schedule scheduleName="B1" dose="1" indication="DOSERECEIVED" label="1st">
     <pos row="1" column="1"/>
     <valid age="10 years" interval="" grace="4 days"/>
     <early age="" interval="" grace=""/>
@@ -952,7 +952,7 @@
 
 <forecast seriesName="MeningTrumenba">
   <vaccine vaccineName="Trumenba" vaccineIds="215"/>
-  <schedule scheduleName="T1" dose="1" indication="BIRTH" label="1st">
+  <schedule scheduleName="T1" dose="1" indication="DOSERECEIVED" label="1st">
     <pos row="1" column="1"/>
     <valid age="10 years" interval="" grace="4 days"/>
     <early age="" interval="" grace=""/>

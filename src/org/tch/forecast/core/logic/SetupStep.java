@@ -4,17 +4,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.ImmunizationInterface;
 import org.tch.forecast.core.VaccineForecastDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.IndicationCriteria;
 import org.tch.forecast.core.VaccineForecastDataBean.Schedule;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
-import org.tch.forecast.core.DateTime;
 
 public class SetupStep extends ActionStep
 {
   public static final String NAME = "Setup";
 
+  public static final String DOSE_RECEIVED = "DOSERECEIVED";
+  
   @Override
   public String getName() {
     return NAME;
@@ -36,6 +38,7 @@ public class SetupStep extends ActionStep
     if (!dataStore.hasHistoryOfVaricella) {
       setupAll("NO-VAR-HIS", dataStore);
     }
+    setupAll(DOSE_RECEIVED, dataStore);
     return ChooseStartIndicatorStep.NAME;
   }
 
@@ -70,6 +73,22 @@ public class SetupStep extends ActionStep
           }
           ds.log("Schedule is indicated for age");
         }
+        
+        // determines if this schedule is only used to forecast new vaccinations when a dose has been received
+        // e.g., only forecast for additional doses of trumenba if at least one dose has already been administered
+        if ( indication.equals(DOSE_RECEIVED) ) {
+          boolean hasMeningBVaccinations = false;
+          VaccineForecastDataBean forecast = schedule.getVaccineForecast();
+          for (ImmunizationInterface vaccination : ds.vaccinations) {
+            hasMeningBVaccinations = forecast.isVaccinePresent(""+vaccination.getVaccineId());
+          }
+          if ( !hasMeningBVaccinations ) {
+            ds.log("Because there are no prior Mening B administered vaccines, this schedule is NOT indicated");
+            continue;
+          }
+          ds.log("Schedule is indicated for "+DOSE_RECEIVED);
+        }
+        
         if (ds.forecastCode == null || schedule.getForecastCode().equals(ds.forecastCode)) {
           if (schedule.getIndicationCriteria() != null) {
             IndicationCriteria indicationCriteria = schedule.getIndicationCriteria();
