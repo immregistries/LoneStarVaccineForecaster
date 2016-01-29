@@ -80,7 +80,7 @@ public class SetupStep extends ActionStep
           boolean hasMeningBVaccinations = false;
           VaccineForecastDataBean forecast = schedule.getVaccineForecast();
           for (ImmunizationInterface vaccination : ds.vaccinations) {
-            hasMeningBVaccinations = forecast.isVaccinePresent(""+vaccination.getVaccineId());
+            hasMeningBVaccinations |= forecast.isVaccinePresent(""+vaccination.getVaccineId());
           }
           if ( !hasMeningBVaccinations ) {
             ds.log("Because there are no prior Mening B administered vaccines, this schedule is NOT indicated");
