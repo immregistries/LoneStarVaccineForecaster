@@ -1123,7 +1123,7 @@ public class VaccineForecastDataBean
   public boolean isVaccinePresent(String vaccineId) {
     boolean isVaccinePresent = false;
     for ( NamedVaccine namedVaccine : vaccines.values() ) {
-      isVaccinePresent = namedVaccine.getVaccineIds().contains(vaccineId);
+      isVaccinePresent |= namedVaccine.getVaccineIds().contains(vaccineId);
     }
     return isVaccinePresent;
   }
