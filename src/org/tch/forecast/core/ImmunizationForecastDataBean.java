@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.tch.forecast.core.DateTime;
+import org.tch.forecast.core.api.impl.ForecastAntigen;
 import org.tch.forecast.core.model.Assumption;
 
 /**
@@ -25,6 +26,9 @@ public class ImmunizationForecastDataBean
   public static final String HPV = "HPV";
   public static final String MENING = "Mening";
   public static final String MCV4 = "MCV4";
+  public static final String MENINGOCOCCAL_B = "MeningococcalB";
+  public static final String MENING_BEXSERO = "MeningBexsero";
+  public static final String MENING_TRUMEMBA = "MeningTrumenba";
   public static final String MEASLES = "Measles";
   public static final String MUMPS = "Mumps";
   public static final String RUBELLA = "Rubella";
@@ -40,6 +44,7 @@ public class ImmunizationForecastDataBean
   public static final String TDAP = "Tdap";
   public static final String TD = "Td";
   public static final String DT = "DT";
+  
 
   public static final String STATUS_DESCRIPTION_DUE_LATER = "due later";
   public static final String STATUS_DESCRIPTION_DUE_MUCH_LATER = "due much later";

@@ -334,6 +334,9 @@ public class CaretForecaster
     doseDueOutHash.put(ImmunizationForecastDataBean.POLIO, "89"); // Unspecified Polio
     doseDueOutHash.put(ImmunizationForecastDataBean.MCV4, "147"); // Meningococcal (MCV4)
     doseDueOutHash.put(ImmunizationForecastDataBean.MENING, "147"); // Meningococcal (MCV4)
+    doseDueOutHash.put(ImmunizationForecastDataBean.MENINGOCOCCAL_B, "164"); // meningococcal B, unspecified
+    doseDueOutHash.put(ImmunizationForecastDataBean.MENING_BEXSERO, "163"); // meningococcal B, OMV
+    doseDueOutHash.put(ImmunizationForecastDataBean.MENING_TRUMEMBA, "162"); // meningococcal B, recombinant
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"116"); // Rotavirus, pentavalent
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"119"); // Rotavirus,monovalent
     doseDueOutHash.put(ImmunizationForecastDataBean.ROTAVIRUS, "122"); // Rotavirus, NOS
