@@ -97,6 +97,10 @@ public class MakeForecastStep extends ActionStep
       if (ds.due.isLessThan(seasonDue)) {
         ds.due = seasonDue;
       }
+      if (ds.seasonal.getFinished() != null)
+      {
+        ds.finished = ds.seasonal.getFinished().getDateTimeFrom(seasonEnd);
+      }
     }
 
     ImmunizationForecastDataBean forecastBean = new ImmunizationForecastDataBean();
@@ -126,11 +130,22 @@ public class MakeForecastStep extends ActionStep
 
     String statusDescription = "";
     if (!ds.forecastDateTime.isLessThan(ds.finished)) {
-      statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED;
-      if (ds.traceList != null) {
-        ds.traceList.setExplanationBulletPointStart();
-        ds.traceList.addExplanation("Too late to complete. Next dose was expected before " + ds.finished);
-        ds.traceList.setStatusDescription("Too late to complete. Next dose was expected before " + ds.finished + ".");
+      if (ds.seasonal == null) {
+        statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED;
+        if (ds.traceList != null) {
+          ds.traceList.setExplanationBulletPointStart();
+          ds.traceList.addExplanation("Too late to complete. Next dose was expected before " + ds.finished);
+          ds.traceList.setStatusDescription("Too late to complete. Next dose was expected before " + ds.finished + ".");
+        }
+      }
+      else 
+      {
+        statusDescription =  ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED_FOR_SEASON;;
+        if (ds.traceList != null) {
+          ds.traceList.setExplanationBulletPointStart();
+          ds.traceList.addExplanation("Too late to complete this season. Next dose was expected before " + ds.finished);
+          ds.traceList.setStatusDescription("Too late to complete this season. Next dose was expected before " + ds.finished + ".");
+        }
       }
     } else if (isAssumeComplete(ds)) {
       statusDescription = ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE;

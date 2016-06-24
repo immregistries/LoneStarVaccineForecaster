@@ -598,8 +598,25 @@ public class CaretForecaster
         filterSet.add(ImmunizationForecastDataBean.PPSV);
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_26_INFLUENZA_CONTRAINDICATED_INDICATION).equals("1")) {
-        filterSet.add(ImmunizationForecastDataBean.INFLUENZA);
+      TimePeriod fluSeasonEnd = new TimePeriod("6 months");
+      TimePeriod fluSeasonDue = new TimePeriod("1 month");
+      TimePeriod fluSeasonOverdue = new TimePeriod("4 months");
+      TimePeriod fluSeasonFinished = null;
+      String influenzaControlField = readField(caseDetailFieldList,
+          FIELD_IN_CASE_DETAIL_26_INFLUENZA_CONTRAINDICATED_INDICATION);
+      {
+        int pos;
+        if (influenzaControlField.equals("1")) {
+          filterSet.add(ImmunizationForecastDataBean.INFLUENZA);
+        } else if ((pos = influenzaControlField.indexOf("%")) > 0) {
+          try {
+            fluSeasonDue = determineTimePeriod(fluSeasonDue, influenzaControlField.substring(0, pos).trim(), true);
+            fluSeasonFinished = determineTimePeriod(null, influenzaControlField.substring(pos + 1).trim(), false);
+          } catch (Exception e) {
+            // problem happened while trying to setup forecast dates, just ignore it and continue
+            e.printStackTrace();
+          }
+        }
       }
 
       if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_27_MENINGOCOCCAL_CONTRAINDICATED_INDICATION).equals("1")) {
@@ -616,10 +633,12 @@ public class CaretForecaster
 
       ForecastRunner forecastRunner = new ForecastRunner(vaccineForecastManager);
       forecastRunner.setKeepDetailLog(keepDetailLog);
-      forecastRunner.getForecastOptions().setFluSeasonDue(new TimePeriod("1 month"));
-      forecastRunner.getForecastOptions().setFluSeasonEnd(new TimePeriod("6 months"));
-      forecastRunner.getForecastOptions().setFluSeasonOverdue(new TimePeriod("4 months"));
-      // forecastRunner.getForecastOptions().setFluSeasonFinished(new TimePeriod("9 months"));
+      forecastRunner.getForecastOptions().setFluSeasonDue(fluSeasonDue);
+      forecastRunner.getForecastOptions().setFluSeasonEnd(fluSeasonEnd);
+      forecastRunner.getForecastOptions().setFluSeasonOverdue(fluSeasonOverdue);
+      if (fluSeasonFinished != null) {
+        forecastRunner.getForecastOptions().setFluSeasonFinished(fluSeasonFinished);
+      }
       forecastRunner.getForecastOptions().setIgnoreFourDayGrace(!use4DayGracePeriod);
       forecastRunner.getForecastOptions().setUseEarlyOverdue(true);
       forecastRunner.getForecastOptions().setUseEarlyDue(true);
@@ -931,6 +950,29 @@ public class CaretForecaster
       errorCode = "Unable to Forecast, unexpected exeption occurred: " + t.getMessage();
     }
     return errorCode + "&&&" + response.toString() + "&&&" + description;
+  }
+
+  private TimePeriod determineTimePeriod(TimePeriod tp, String startDateString, boolean subtractDay) {
+    int pos2 = startDateString.indexOf("/");
+    if (pos2 > 0) {
+      int month = Integer.parseInt(startDateString.substring(0, pos2).trim());
+      int day = Integer.parseInt(startDateString.substring(pos2 + 1).trim());
+      if (month > 0 && month < 12 && day > 0 & day < 32) {
+        month = month - 7;
+        if (month < 0) {
+          month = month + 12;
+        }
+        if (subtractDay) {
+        day = day - 1;
+        }
+        if (day > 0) {
+          tp = new TimePeriod(month + " m " + day + " d");
+        } else {
+          tp = new TimePeriod(month + " m");
+        }
+      }
+    }
+    return tp;
   }
 
   public boolean determineIfAdultWhenDoseGiven(Date dateOfBirth, Date doseAdminDate) {
