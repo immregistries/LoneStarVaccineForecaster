@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2016-01-29">
+<schedule scheduleName="TCH-2016-06-24">
 
 
 <forecast seriesName="Varicella">
@@ -379,7 +379,7 @@
   </schedule>
   <schedule scheduleName="F3" dose="3" indication="" label="3rd">
     <pos row="1" column="3"/>
-    <valid age="114 months" interval="16 weeks" grace="4 weeks 4 days"/>
+    <valid age="114 months" interval="12 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="4 months" grace=""/>
     <overdue age="" interval="5 months" grace=""/>
@@ -403,7 +403,7 @@
     <pos row="2" column="2"/>
     <valid age="109 months" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
-    <due age="" interval="1 months" grace=""/>
+    <due age="" interval="1 month" grace=""/>
     <overdue age="" interval="3 months" grace=""/>
     <finished age="22 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
@@ -437,7 +437,7 @@
     <pos row="3" column="2"/>
     <valid age="109 months" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
-    <due age="" interval="2 months" grace=""/>
+    <due age="" interval="1 month" grace=""/>
     <overdue age="" interval="3 months" grace=""/>
     <finished age="27 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
@@ -456,6 +456,7 @@
     <indicate vaccineName="HPV" schedule="COMPLETE" age="" reason=""/>
   </schedule>
 </forecast>
+
 
 
 
@@ -837,10 +838,13 @@
     <before-previous interval=""/>
     <indicate vaccineName="Adult" schedule="B10" age="" reason="" historyOfVaccineName="Tdap"/>
     <indicate vaccineName="Tdap" schedule="B10" age="" reason="" historyOfVaccineName=""/>
+    <indicate vaccineName="Child" schedule="T1" age="11 years" reason="Patient has not received pertussis vaccine (Tdap) after 7 years of age, Tdap due at 11 years of age." historyOfVaccineName=""/>
+    <indicate vaccineName="Adult" schedule="T1" age="11 years" reason="Patient has not received pertussis vaccine (Tdap) after 7 years of age, Tdap due at 11 years of age." historyOfVaccineName=""/>
     <indicate vaccineName="Child" schedule="TN" age="" reason="Child vaccine should not be given after 7 years of age, Tdap should be administered as soon as possible." historyOfVaccineName=""/>
     <indicate vaccineName="Adult" schedule="TN" age="" reason="Tdap should be administered as soon as possible." historyOfVaccineName=""/>
   </schedule>
 </forecast>
+
 
 
 
