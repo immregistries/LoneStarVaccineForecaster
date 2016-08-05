@@ -614,7 +614,7 @@ public class CaretForecaster
         } else if ((pos = influenzaControlField.indexOf("%")) > 0) {
           try {
             fluSeasonDue = determineTimePeriod(fluSeasonDue, influenzaControlField.substring(0, pos).trim(), true);
-            fluSeasonFinished = determineTimePeriod(null, influenzaControlField.substring(pos + 1).trim(), false);
+            fluSeasonFinished = determineTimePeriod(null, influenzaControlField.substring(pos + 1).trim(), true);
           } catch (Exception e) {
             // problem happened while trying to setup forecast dates, just ignore it and continue
             e.printStackTrace();
