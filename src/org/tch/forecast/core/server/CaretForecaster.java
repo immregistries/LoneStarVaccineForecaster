@@ -241,6 +241,7 @@ public class CaretForecaster
   private int currentPosition = 1;
 
   private static HashMap<String, Map<String, String>> combinationInvalidParts = new HashMap<String, Map<String, String>>();
+
   static {
     {
       Map<String, String> invalidPartsMap = new HashMap<String, String>();
@@ -310,6 +311,7 @@ public class CaretForecaster
   }
 
   public static HashMap<String, String> doseDueOutHash = new HashMap<String, String>();
+
   static {
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"1"); // DTP
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"2"); // OPV
@@ -354,6 +356,7 @@ public class CaretForecaster
   }
 
   private static Set<String> useValidForDueSet = new HashSet<String>();
+
   static {
     //    HepB1
     //    HepB2
@@ -619,7 +622,8 @@ public class CaretForecaster
         }
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_27_MENINGOCOCCAL_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_27_MENINGOCOCCAL_CONTRAINDICATED_INDICATION)
+          .equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.MENING);
       }
 
@@ -768,8 +772,8 @@ public class CaretForecaster
                 if (dose.getStatusCode().equals(VaccinationDoseDataBean.STATUS_INVALID)) {
                   // adding special rule to skip marking a Hep B as invalid for third dose that is
                   // pediatric
-                  if (dose.getForecastCode().equals(ImmunizationForecastDataBean.HEPB)
-                      && dose.getDoseCode().equals("3") && imm.getCvx().equals("110")) {
+                  if (dose.getForecastCode().equals(ImmunizationForecastDataBean.HEPB) && dose.getDoseCode().equals("3")
+                      && imm.getCvx().equals("110")) {
                     continue;
                   }
 
@@ -815,16 +819,18 @@ public class CaretForecaster
       }
 
       boolean inInfluenzaSuppressRange = false;
-      // special suppress flu forecast for first dose between 04/01 and 07/01 of this year
-      DateTime startSuppressDate = new DateTime(forecastDate);
-      startSuppressDate.setMonth(4);
-      startSuppressDate.setDay(1);
-      DateTime endSuppressDate = new DateTime(forecastDate);
-      endSuppressDate.setMonth(8);
-      endSuppressDate.setDay(1);
-      DateTime suppressDate = new DateTime(forecastDate);
-      if (suppressDate.isGreaterThanOrEquals(startSuppressDate) && suppressDate.isLessThan(endSuppressDate)) {
-        inInfluenzaSuppressRange = true;
+      if (fluSeasonFinished == null) {
+        // special suppress flu forecast for first dose between 04/01 and 07/01 of this year
+        DateTime startSuppressDate = new DateTime(forecastDate);
+        startSuppressDate.setMonth(4);
+        startSuppressDate.setDay(1);
+        DateTime endSuppressDate = new DateTime(forecastDate);
+        endSuppressDate.setMonth(8);
+        endSuppressDate.setDay(1);
+        DateTime suppressDate = new DateTime(forecastDate);
+        if (suppressDate.isGreaterThanOrEquals(startSuppressDate) && suppressDate.isLessThan(endSuppressDate)) {
+          inInfluenzaSuppressRange = true;
+        }
       }
 
       // #3 Doses Due Segment
@@ -848,8 +854,8 @@ public class CaretForecaster
           boolean first = true;
           for (ImmunizationForecastDataBean forecastResult : forecastListDueToday) {
             if (inInfluenzaSuppressRange
-                && (forecastResult.getForecastName().equals(ImmunizationForecastDataBean.INFLUENZA) || forecastResult
-                    .getForecastName().equals(ImmunizationForecastDataBean.INFLUENZA_IIV))
+                && (forecastResult.getForecastName().equals(ImmunizationForecastDataBean.INFLUENZA)
+                    || forecastResult.getForecastName().equals(ImmunizationForecastDataBean.INFLUENZA_IIV))
                 && forecastResult.getDose().equals("1")) {
               continue;
             }
@@ -934,7 +940,8 @@ public class CaretForecaster
       addValue(c(nc, ImmunizationForecastDataBean.ROTAVIRUS), FIELD_OUT_SERIES_08_RV_SERIES_COMPLETED_INDICATOR);
       addValue(c(nc, ImmunizationForecastDataBean.PNEUMO),
           FIELD_OUT_SERIES_09_STREP_PNEUMOCOCCAL_SERIES_COMPLETED_INDICATOR);
-      addValue(c(nc, ImmunizationForecastDataBean.MENING), FIELD_OUT_SERIES_10_MENINGOCOCCAL_SERIES_COMPLETED_INDICATOR);
+      addValue(c(nc, ImmunizationForecastDataBean.MENING),
+          FIELD_OUT_SERIES_10_MENINGOCOCCAL_SERIES_COMPLETED_INDICATOR);
       addValue(c(nc, ImmunizationForecastDataBean.HPV), FIELD_OUT_SERIES_11_HPV_SERIES_COMPLETED_INDICATOR);
       addValue(c(nc, ImmunizationForecastDataBean.ZOSTER), FIELD_OUT_SERIES_12_ZOSTER_SERIES_COMPLETED_INDICATOR);
       addValue("", FIELD_OUT_SERIES_13_RESERVED_FOR_FUTURE_USE);
@@ -963,7 +970,7 @@ public class CaretForecaster
           month = month + 12;
         }
         if (subtractDay) {
-        day = day - 1;
+          day = day - 1;
         }
         if (day > 0) {
           tp = new TimePeriod(month + " m " + day + " d");
@@ -1021,8 +1028,8 @@ public class CaretForecaster
       return true;
     } else if (forecastResult.getForecastName().equals(ImmunizationForecastDataBean.MMR)
         && (filterSet.contains(ImmunizationForecastDataBean.MEASLES)
-            || filterSet.contains(ImmunizationForecastDataBean.MUMPS) || filterSet
-              .contains(ImmunizationForecastDataBean.RUBELLA))) {
+            || filterSet.contains(ImmunizationForecastDataBean.MUMPS)
+            || filterSet.contains(ImmunizationForecastDataBean.RUBELLA))) {
       it.remove();
       if (!filterSet.contains(ImmunizationForecastDataBean.MEASLES)) {
         ImmunizationForecastDataBean forecastResultAdd = createForecastCopy(forecastResult);
@@ -1128,8 +1135,8 @@ public class CaretForecaster
 
   private void addValue(String value, int position) {
     if (position < currentPosition) {
-      throw new IllegalArgumentException("Unable to add value to output in position " + position
-          + ", already at position " + currentPosition);
+      throw new IllegalArgumentException(
+          "Unable to add value to output in position " + position + ", already at position " + currentPosition);
     }
     while (currentPosition < position) {
       response.append("^");
