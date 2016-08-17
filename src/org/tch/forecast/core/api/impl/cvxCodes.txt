@@ -1,9 +1,11 @@
 CVX Label	CVX	TCH Label	TCH	Use Status	Check	Diphtheria	HPV	HepA	HepB	Hib	Influenza	Measles	Mening	Mumps	PPSV	Pertussis	Pneumo	Polio	Rotavirus	Rubella	Varicella	Zoster
 HPV9	165	HPV9	214	SUPPORTED																		
-"influenza, intradermal, quadrivalent, preservative free"	166	"Influenza IIV3 >=18 years, intradermal"	202	SUPPORTED																		
 "meningococcal B, OMV"	163	"meningococcal B, OMV"	216	SUPPORTED
 "meningococcal B, recombinant"	162	"meningococcal B, recombinant"	215	SUPPORTED
 "meningococcal B, unspecified"	164			PENDING																		
+"influenza, intradermal, quadrivalent, preservative free"	166	"Influenza IIV3 >=18 years, intradermal"	202	SUPPORTED
+"influenza, trivalent, adjuvanted"	168	"FLUAD, adjuvanted, trivalent, preservative free"	218	SUPPORTED
+"Influenza, injectable, MDCK, no prsrv, quadrivalent"	171	"Flucelvax, injectable, quadrivalent, preservative free"	219	SUPPORTED
 DTP	01	DTP	111	SUPPORTED		CHILD																
 OPV	02	OPV	148	SUPPORTED														ANY & OPV			SAME LIVE	LIVE
 MMR	03	MMR	158	SUPPORTED							LIVE	MUMPS & RUBELLA & MEASLES		MUMPS & RUBELLA & MEASLES						MUMPS & RUBELLA & MEASLES	SAME LIVE	LIVE

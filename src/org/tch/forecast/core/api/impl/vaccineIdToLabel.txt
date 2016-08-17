@@ -136,3 +136,6 @@
 214=HPV9
 215=MeningTrumenba
 216=MeningBexsero
+217=influenza, intradermal, quadrivalent, preservative free
+218=influenza, trivalent, adjuvanted
+219=Influenza, injectable, MDCK, no prsrv, quadrivalent

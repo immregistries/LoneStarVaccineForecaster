@@ -40,6 +40,9 @@ public class CvxCodes
 
             cvxToVaccineIdMap.put(cvxCode.getCvxCode(), cvxCode);
           }
+          else {
+            throw new Exception("Problem parsing cvxCodes.txt. Each line needs at least five fields. Only found "+line.length()+" fields.\nAre there tabs in this line: "+line);
+          }
         }
       }
     } catch (Exception e) {

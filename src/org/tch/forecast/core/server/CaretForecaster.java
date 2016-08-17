@@ -346,7 +346,11 @@ public class CaretForecaster
     doseDueOutHash.put(ImmunizationForecastDataBean.PPSV, "33"); // Pneumococcal,  PCV13
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA, "88"); // Influenza, seasonal, injectable
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "141"); // Influenza, seasonal, injectable
-    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_LAIV, "151"); // Influenza, seasonal, injectable
+    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "168"); // Influenza, trivalent, adjuvanted
+    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "171"); // Influenza, injectable, MDCK, preservative free, quadrivalent
+    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_LAIV, "151"); // Influenza nasal, unspecified formulation
+    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "171"); // Influenza, injectable, MDCK, preservative free, quadrivalent
+    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "171"); // Influenza, injectable, MDCK, preservative free, quadrivalent
     doseDueOutHash.put(ImmunizationForecastDataBean.ZOSTER, "121"); // Influenza, seasonal, injectable
 
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-10"); // Td Adult  Booster
