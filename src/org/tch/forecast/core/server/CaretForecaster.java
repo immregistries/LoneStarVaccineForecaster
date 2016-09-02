@@ -407,6 +407,7 @@ public class CaretForecaster
     //    Pneum-conj
     //    Pneum-conj
     useValidForDueSet.add(ImmunizationForecastDataBean.PNEUMO + "-1");
+    useValidForDueSet.add(ImmunizationForecastDataBean.PCV13 + "-1");
 
     //    Rota1
     //    Rota2

@@ -8,8 +8,8 @@ public class SoftwareVersion
   // javap -constants -classpath tch-forecaster-test.jar org.tch.forecast.core.SoftwareVersion
   public static final String VERSION_MAJOR = "3";
   public static final String VERSION_MINOR = "14";
-  public static final String VERSION_PATCH = "01";
-  public static final String VERSION_RELEASE = "20160817";
+  public static final String VERSION_PATCH = "02";
+  public static final String VERSION_RELEASE = "20160902";
 
   public static final String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
 
