@@ -309,7 +309,9 @@ public class DetermineRangesStep extends ActionStep
   public static void setGrace(DataStore ds, TimePeriod grace) {
     if (notIgnoreGracePeriod(ds, grace)) {
       DateTime validIntervalGrace = grace.getDateTimeBefore(ds.valid);
-      if (validIntervalGrace.isGreaterThan(ds.validGrace)) {
+      if (validIntervalGrace.isLessThan(ds.validGrace)) {
+// old line
+//      if (validIntervalGrace.isGreaterThan(ds.validGrace)) { 
         ds.validGrace = validIntervalGrace;
       }
     }
