@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2016-08-17">
+<schedule scheduleName="TCH-2016-10-26">
 
 
 <forecast seriesName="Varicella">
@@ -848,8 +848,6 @@
 
 
 
-
-
 <forecast seriesName="Mening">
   <vaccine vaccineName="MCV4" vaccineIds="183, 184, 198"/>
   <vaccine vaccineName="MPSV4" vaccineIds="182"/>
@@ -880,7 +878,7 @@
     <early age="" interval="" grace=""/>
     <due age="16 years" interval="" grace=""/>
     <overdue age="17 years" interval="" grace=""/>
-    <finished age="22 years" interval="" grace=""/>
+    <finished age="19 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="MCV4" schedule="A2" age="16 years -4 days" reason="Received dose before 16 years of age, not counting towards completion."/>
@@ -889,7 +887,6 @@
     <indicate vaccineName="MPSV4" schedule="COMPLETE" age="" reason=""/>
   </schedule>
 </forecast>
-
 
 
 
