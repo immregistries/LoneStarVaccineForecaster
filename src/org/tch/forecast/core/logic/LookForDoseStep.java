@@ -109,7 +109,7 @@ public class LookForDoseStep extends ActionStep
     }
   }
 
-  protected static void nextEvent(DataStore ds) {
+  public static void nextEvent(DataStore ds) {
     if (ds.eventPosition < ds.eventList.size()) {
       ds.event = ds.eventList.get(ds.eventPosition);
       setHasEvent(ds);
