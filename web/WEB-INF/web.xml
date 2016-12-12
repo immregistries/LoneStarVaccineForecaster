@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
-<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<!DOCTYPE web-app PUBLIC 
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+ "http://java.sun.com/dtd/web-app_2_3.dtd">
 
-<web-app>  
+<web-app id="fv">
   <!-- logging-->
   
   
@@ -39,27 +41,29 @@
     </servlet> 
     <servlet-mapping>
         <servlet-name>forecast</servlet-name>
-        <url-pattern>forecast</url-pattern>
-    </servlet-mapping>	 
+        <url-pattern>/forecast</url-pattern>
+    </servlet-mapping>
+<!-- 
     <servlet-mapping>
         <servlet-name>fhir</servlet-name>
         <url-pattern>Patient/$cdsimmunization</url-pattern>
-    </servlet-mapping>	 
+    </servlet-mapping>
+ -->
     <servlet-mapping>
         <servlet-name>fhirTest</servlet-name>
-        <url-pattern>fhirTest</url-pattern>
+        <url-pattern>/fhirTest</url-pattern>
     </servlet-mapping>	 
     <servlet-mapping>
         <servlet-name>step</servlet-name>
-        <url-pattern>fv/step</url-pattern>
+        <url-pattern>/fv/step</url-pattern>
     </servlet-mapping>	 
     <servlet-mapping>
         <servlet-name>listCodes</servlet-name>
-        <url-pattern>listCodes</url-pattern>
+        <url-pattern>/listCodes</url-pattern>
     </servlet-mapping>	 
     <servlet-mapping>
         <servlet-name>caret</servlet-name>
-        <url-pattern>fv/caret</url-pattern>
+        <url-pattern>/fv/caret</url-pattern>
     </servlet-mapping>	 
 
 
