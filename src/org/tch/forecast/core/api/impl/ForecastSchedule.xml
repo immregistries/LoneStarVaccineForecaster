@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2017-01-19">
+<schedule scheduleName="TCH-2017-02-03">
 
 
 <forecast seriesName="Varicella">
@@ -430,11 +430,7 @@
 
 
 <forecast seriesName="HepB">
-  <vaccine vaccineName="First" vaccineIds="137, 1240"/>
-  <vaccine vaccineName="Series" vaccineIds="137, 114, 1150, 146, 1240, 1250, 1270, 2100, 136, 142"/>
-  <vaccine vaccineName="Combo" vaccineIds="114, 136, 142"/>
-  <vaccine vaccineName="Adult" vaccineIds="2090, 1260"/>
-  <vaccine vaccineName="Recombivax" vaccineIds="1250"/>
+  <vaccine vaccineName="Series" vaccineIds="137, 114, 1150, 146, 1240, 1250, 1270, 2100, 136, 142, 2090, 1260"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-137"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="birth">
     <pos row="1" column="1"/>
@@ -446,11 +442,6 @@
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <assumeComplete age="18 years" reason="Adult assumed to have completed Hep B series. "/>
-    <indicate vaccineName="First" schedule="P2" age="4 weeks" reason=""/>
-    <indicate vaccineName="Adult" schedule="P2" age="" reason=""/>
-    <indicate vaccineName="Series" schedule="INVALID" age="4 weeks" reason="A series dose should not be given in the first 6 weeks after birth."/>
-    <indicate vaccineName="Recombivax" schedule="P2" age="11 years" reason=""/>
-    <indicate vaccineName="Recombivax" schedule="A2" age="16 years" reason="Recombivax given before 16 years old, switching to 2 dose schedule."/>
     <indicate vaccineName="Series" schedule="P2" age="" reason=""/>
     <indicate vaccineName="Assume Comp" schedule="COMPLETE" age="" reason="Assuming adult received full Hep B series."/>
   </schedule>
@@ -458,14 +449,11 @@
     <pos row="1" column="2"/>
     <valid age="4 weeks" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
-    <due age="1 month" interval="" grace=""/>
+    <due age="4 weeks" interval="" grace=""/>
     <overdue age="3 months" interval="" grace=""/>
     <finished age="200 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="Recombivax" schedule="P3" age="11 years" reason=""/>
-    <indicate vaccineName="Adult" schedule="P3" age="" reason=""/>
-    <indicate vaccineName="Recombivax" schedule="T2" age="" reason=""/>
     <indicate vaccineName="Series" schedule="P3" age="" reason=""/>
     <indicate vaccineName="Assume Comp" schedule="COMPLETE" age="" reason="Assuming adult received full Hep B series."/>
   </schedule>
@@ -479,38 +467,7 @@
     <after-invalid interval="8 weeks" grace="7 weeks"/>
     <before-previous interval="16 weeks"/>
     <indicate vaccineName="Series" schedule="COMPLETE" age="" reason=""/>
-    <indicate vaccineName="Adult" schedule="COMPLETE" age="" reason=""/>
     <indicate vaccineName="Assume Comp" schedule="COMPLETE" age="" reason="Assuming adult received full Hep B series."/>
-  </schedule>
-  <schedule scheduleName="T2" dose="2" indication="" label="4 months Recombivax">
-    <pos row="2" column="2"/>
-    <valid age="" interval="4 months" grace="4 months -28 days 4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="" interval="4 months" grace=""/>
-    <overdue age="" interval="7 months" grace=""/>
-    <finished age="200 years" interval="" grace=""/>
-    <after-invalid interval="4 months" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="Recombivax" schedule="COMPLETE" age="16 years" reason="" minInterval="4 months -4 days"/>
-    <indicate vaccineName="Recombivax" schedule="INVALID" age="16 years" reason="Recombivax must be administered at least 4 months after previous Recombivax." minInterval=""/>
-    <indicate vaccineName="Recombivax" schedule="P3" age="" reason="" minInterval=""/>
-    <indicate vaccineName="Adult" schedule="P3" age="" reason="" minInterval=""/>
-    <indicate vaccineName="Series" schedule="P3" age="" reason="" minInterval=""/>
-    <indicate vaccineName="Assume Comp" schedule="COMPLETE" age="" reason="Assuming adult received full Hep B series." minInterval=""/>
-  </schedule>
-  <schedule scheduleName="A2" dose="2" indication="" label="2nd Adolescent">
-    <pos row="3" column="2"/>
-    <valid age="" interval="4 months" grace="4 days"/>
-    <early age="" interval="" grace=""/>
-    <due age="" interval="4 months" grace=""/>
-    <overdue age="" interval="7 months" grace=""/>
-    <finished age="200 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
-    <before-previous interval=""/>
-    <indicate vaccineName="Recombivax" schedule="COMPLETE" age="16 years" reason="" minInterval="4 months -4 days"/>
-    <indicate vaccineName="Series" schedule="P3" age="" reason="" minInterval=""/>
-    <indicate vaccineName="Adult" schedule="P3" age="" reason="" minInterval=""/>
-    <indicate vaccineName="Assume Comp" schedule="COMPLETE" age="" reason="Assuming adult received full Hep B series." minInterval=""/>
   </schedule>
 </forecast>
 
@@ -826,7 +783,7 @@
     <early age="" interval="" grace=""/>
     <due age="11 years" interval="" grace=""/>
     <overdue age="13 years" interval="" grace=""/>
-    <finished age="22 years" interval="" grace=""/>
+    <finished age="19 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Menactra" schedule="INVALID" age="9 months -4 days" reason="Menactra not licensed before 9 months."/>
@@ -835,9 +792,8 @@
     <indicate vaccineName="MCV4" schedule="A1" age="10 years" reason="Received dose of MCV4 before 10 years, not counting towards completion."/>
     <indicate vaccineName="MPSV4" schedule="A1" age="10 years" reason="Received dose of MPSV4 before 10 years, not counting towards completion."/>
     <indicate vaccineName="MCV4" schedule="A2" age="16 years -4 days" reason=""/>
-    <indicate vaccineName="MPSV4" schedule="A2" age="16 years -4 days" reason=""/>
+    <indicate vaccineName="MPSV4" schedule="A2" age="" reason="MPSV4 does not count for 16 year old dose"/>
     <indicate vaccineName="MCV4" schedule="COMPLETE" age="" reason="Only one dose needed if administered after 15 years of age."/>
-    <indicate vaccineName="MPSV4" schedule="COMPLETE" age="" reason="Only one dose needed if administered after 15 years of age."/>
   </schedule>
   <schedule scheduleName="A2" dose="2" indication="" label="2nd">
     <pos row="1" column="2"/>
@@ -849,9 +805,8 @@
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="MCV4" schedule="A2" age="16 years -4 days" reason="Received dose before 16 years of age, not counting towards completion."/>
-    <indicate vaccineName="MPSV4" schedule="A2" age="16 years -4 days" reason="Received dose before 16 years of age, not counting towards completion."/>
+    <indicate vaccineName="MPSV4" schedule="A2" age="" reason="MPSV4 does not count for 16 year old dose"/>
     <indicate vaccineName="MCV4" schedule="COMPLETE" age="" reason=""/>
-    <indicate vaccineName="MPSV4" schedule="COMPLETE" age="" reason=""/>
   </schedule>
 </forecast>
 
