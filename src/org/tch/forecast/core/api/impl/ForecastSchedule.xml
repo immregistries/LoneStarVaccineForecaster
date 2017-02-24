@@ -372,7 +372,18 @@
     <early age="" interval="" grace=""/>
     <due age="" interval="6 months" grace=""/>
     <overdue age="" interval="13 months" grace=""/>
-    <finished age="27 years" interval="" grace=""/>
+    <finished age="" interval="" grace=""/>
+    <after-invalid interval="" grace=""/>
+    <before-previous interval=""/>
+    <indicate vaccineName="HPV" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="H2c" dose="2" indication="" label="2nd">
+    <pos row="2" column="2"/>
+    <valid age="" interval="12 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="12 weeks" grace=""/>
+    <overdue age="" interval="12 weeks" grace=""/>
+    <finished age="" interval="" grace=""/>
     <after-invalid interval="12 weeks" grace="4 days"/>
     <before-previous interval="5 months"/>
     <indicate vaccineName="HPV" schedule="COMPLETE" age="" reason=""/>
@@ -383,10 +394,22 @@
     <early age="" interval="" grace=""/>
     <due age="" interval="4 weeks" grace=""/>
     <overdue age="" interval="3 months" grace=""/>
-    <finished age="27 years" interval="" grace=""/>
+    <finished age="" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="HPV" schedule="H3b" age="" reason=""/>
+    <indicate vaccineName="HPV" schedule="Catch-up 3" age="" reason="Dose received after 1-2 month recommended interval"/>
+  </schedule>
+  <schedule scheduleName="Catch-up 3" dose="3" indication="" label="3rd">
+    <pos row="3" column="1"/>
+    <valid age="" interval="12 weeks" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="12 weeks" grace=""/>
+    <overdue age="" interval="12 weeks" grace=""/>
+    <finished age="" interval="" grace=""/>
+    <after-invalid interval="12 weeks" grace="4 days"/>
+    <before-previous interval=""/>
+    <indicate vaccineName="HPV" schedule="COMPLETE" age="" reason=""/>
   </schedule>
   <schedule scheduleName="H3b" dose="3" indication="" label="3rd">
     <pos row="4" column="1"/>
@@ -394,11 +417,18 @@
     <early age="" interval="" grace=""/>
     <due age="" interval="4 months" grace=""/>
     <overdue age="" interval="6 months" grace=""/>
-    <finished age="27 years" interval="" grace=""/>
+    <finished age="" interval="" grace=""/>
     <after-invalid interval="12 weeks" grace="4 days"/>
     <before-previous interval="5 months"/>
     <indicate vaccineName="HPV" schedule="COMPLETE" age="" reason=""/>
   </schedule>
+  <decisionLogic name="DL HPV 2nd">
+    <constant name="Valid Vaccine" value="HPV"/>
+    <constant name="No 2nd Dose" value="H2"/>
+    <constant name="2nd Dose Less Than 5 months -12 weeks" value="H2c"/>
+    <constant name="2nd Dose Greater Than 5 months -4 days" value="H2"/>
+    <constant name="2nd Dose Between 5 months -12 weeks and 5 Months -4 days" value="Catch-up 3"/>
+  </decisionLogic>
   <schedule scheduleName="M1" dose="1" indication="MALE" label="1st">
     <pos row="1" column="3"/>
     <valid age="9 years" interval="" grace="4 days"/>
