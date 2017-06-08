@@ -9,7 +9,7 @@ import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
 import org.tch.forecast.core.logic.DataStore;
 
-public abstract class MenBDecisionLogic extends DecisionLogic {
+public abstract class MenB2016DecisionLogic extends DecisionLogic {
 
   public static final String VALID_VACCINE = "Valid Vaccine";
 

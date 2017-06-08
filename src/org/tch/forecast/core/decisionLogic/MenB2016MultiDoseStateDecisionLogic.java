@@ -5,7 +5,7 @@ import java.util.List;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.logic.DataStore;
 
-public class MenBMultiDoseStateDecisionLogic extends MenBDecisionLogic {
+public class MenB2016MultiDoseStateDecisionLogic extends MenB2016DecisionLogic {
 
   /**
    * Determines which schedule to transition to next.

@@ -21,11 +21,11 @@ public class DecisionLogicFactory
     }
     else if (name.equalsIgnoreCase(DL_MENB_TWO_DOSE))
     {
-      return new MenBTwoDoseStateDecisionLogic();
+      return new MenB2016TwoDoseStateDecisionLogic();
     }
     else if (name.equalsIgnoreCase(DL_MENB_MULTI_DOSE))
     {
-      return new MenBMultiDoseStateDecisionLogic();
+      return new MenB2016MultiDoseStateDecisionLogic();
     }
     else if (name.equalsIgnoreCase(DL_HPV_2ND_DOSE))
     {
