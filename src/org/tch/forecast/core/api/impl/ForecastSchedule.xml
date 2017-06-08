@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2017-02-23">
+<schedule scheduleName="TCH-2017-03-08">
 
 
 <forecast seriesName="Varicella">
@@ -856,24 +856,24 @@
     <finished age="24 years" interval="" grace=""/>
     <after-invalid interval="0 days" grace=""/>
     <before-previous interval=""/>
-    <indicate vaccineName="Bexsero" schedule="B2" age="" reason="Patient received 1st dose of Bexsero, now forecasting 2nd dose"/>
-    <indicate vaccineName="Trumenba" schedule="T2" age="" reason="Patient received 1st dose of Trumenba, now forecasting 2nd dose"/>
+    <indicate vaccineName="Bexsero" schedule="B2" age="" reason=""/>
+    <indicate vaccineName="Trumenba" schedule="T2" age="" reason=""/>
   </schedule>
   <schedule scheduleName="T2" dose="2" indication="" label="2nd">
-    <pos row="1" column="2"/>
-    <valid age="" interval="6 months" grace="4 days"/>
+    <pos row="2" column="2"/>
+    <valid age="" interval="6 months" grace="6 months"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="6 months" grace=""/>
     <overdue age="" interval="7 months" grace=""/>
     <finished age="24 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace=""/>
+    <after-invalid interval="" grace=""/>
     <before-previous interval=""/>
     <recommend seriesName="MeningTrumenba"/>
-    <indicate vaccineName="Bexsero" schedule="DL MenB TwoDose" age="" reason="Must complete series of either Trumenba or Bexsero"/>
-    <indicate vaccineName="Trumenba" schedule="COMPLETE" age="" reason=""/>
+    <indicate vaccineName="Bexsero" schedule="B2a" age="" reason=""/>
+    <indicate vaccineName="Trumenba" schedule="DL Trumenba A" age="" reason=""/>
   </schedule>
   <schedule scheduleName="B2" dose="2" indication="" label="2nd">
-    <pos row="2" column="1"/>
+    <pos row="1" column="2"/>
     <valid age="" interval="4 weeks" grace="4 weeks"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="4 weeks" grace=""/>
@@ -882,60 +882,38 @@
     <after-invalid interval="" grace=""/>
     <before-previous interval=""/>
     <recommend seriesName="MeningBexsero"/>
-    <indicate vaccineName="Trumenba" schedule="DL MenB TwoDose" age="" reason="Must complete series of either Bexsero or Trumenba"/>
+    <indicate vaccineName="Trumenba" schedule="T2a" age="" reason=""/>
     <indicate vaccineName="Bexsero" schedule="COMPLETE" age="" reason=""/>
   </schedule>
-  <decisionLogic name="DL MenB TwoDose">
-    <constant name="Valid Vaccine" value="Bexsero"/>
+  <decisionLogic name="DL Trumenba A">
     <constant name="Valid Vaccine" value="Trumenba"/>
-    <constant name="Less Than 6 Months" value="B2a"/>
-    <constant name="More Than 6 Months" value="M2"/>
+    <transition name="Greater Than 6 Months" value="COMPLETE"/>
+    <transition name="Less Than 6 Months" value="T3"/>
   </decisionLogic>
-  <decisionLogic name="DL MenB MultiDose">
-    <constant name="Valid Vaccine" value="Bexsero"/>
+  <decisionLogic name="DL Trumenba B">
     <constant name="Valid Vaccine" value="Trumenba"/>
-    <constant name="Second Dose Needed" value="B2b"/>
-    <constant name="Final Dose Needed" value="M-final"/>
+    <transition name="Greater Than 6 Months" value="COMPLETE"/>
+    <transition name="Less Than 6 Months" value="T3a"/>
   </decisionLogic>
+  <decisionLogic name="DL Trumenba C">
+    <constant name="Valid Vaccine" value="Trumenba"/>
+    <transition name="Greater Than 6 Months" value="COMPLETE"/>
+    <transition name="Less Than 6 Months" value="T3b"/>
+  </decisionLogic>
+  <schedule scheduleName="T3" dose="3" indication="" label="3rd">
+    <pos row="2" column="3"/>
+    <valid age="" interval="4 weeks" grace="4 weeks"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="4 weeks" grace=""/>
+    <overdue age="" interval="2 months" grace=""/>
+    <finished age="24 years" interval="" grace=""/>
+    <after-invalid interval="" grace=""/>
+    <before-previous interval="6 months"/>
+    <recommend seriesName="MeningTrumenba"/>
+    <indicate vaccineName="Bexsero" schedule="B2b" age="" reason=""/>
+    <indicate vaccineName="Trumenba" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
   <schedule scheduleName="B2a" dose="2" indication="" label="2nd">
-    <pos row="2" column="3"/>
-    <valid age="" interval="4 weeks" grace="4 weeks"/>
-    <early age="" interval="" grace=""/>
-    <due age="" interval="4 weeks" grace=""/>
-    <overdue age="" interval="2 months" grace=""/>
-    <finished age="24 years" interval="" grace=""/>
-    <after-invalid interval="" grace=""/>
-    <before-previous interval=""/>
-    <recommend seriesName="MeningBexsero"/>
-    <indicate vaccineName="Trumenba" schedule="DL MenB MultiDose" age="" reason="Must complete series of either Bexsero or Trumenba"/>
-    <indicate vaccineName="Bexsero" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-  <schedule scheduleName="B2b" dose="2" indication="" label="2nd">
-    <pos row="2" column="3"/>
-    <valid age="" interval="4 weeks" grace="4 weeks"/>
-    <early age="" interval="" grace=""/>
-    <due age="" interval="4 weeks" grace=""/>
-    <overdue age="" interval="2 months" grace=""/>
-    <finished age="24 years" interval="" grace=""/>
-    <after-invalid interval="" grace=""/>
-    <before-previous interval=""/>
-    <recommend seriesName="MeningBexsero"/>
-    <indicate vaccineName="Trumenba" schedule="COMPLETE" age="" reason=""/>
-    <indicate vaccineName="Bexsero" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-  <schedule scheduleName="M2" dose="2" indication="" label="2nd">
-    <pos row="2" column="2"/>
-    <valid age="" interval="4 weeks" grace="4 weeks"/>
-    <early age="" interval="" grace=""/>
-    <due age="" interval="4 weeks" grace=""/>
-    <overdue age="" interval="2 months" grace=""/>
-    <finished age="24 years" interval="" grace=""/>
-    <after-invalid interval="" grace=""/>
-    <before-previous interval=""/>
-    <indicate vaccineName="Trumenba" schedule="COMPLETE" age="" reason=""/>
-    <indicate vaccineName="Bexsero" schedule="COMPLETE" age="" reason=""/>
-  </schedule>
-  <schedule scheduleName="M-final" dose="Final" indication="" label="final">
     <pos row="3" column="2"/>
     <valid age="" interval="4 weeks" grace="4 weeks"/>
     <early age="" interval="" grace=""/>
@@ -944,8 +922,61 @@
     <finished age="24 years" interval="" grace=""/>
     <after-invalid interval="" grace=""/>
     <before-previous interval=""/>
+    <recommend seriesName="MeningBexsero"/>
+    <indicate vaccineName="Trumenba" schedule="DL Trumenba B" age="" reason=""/>
+    <indicate vaccineName="Bexsero" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="T3a" dose="3" indication="" label="3rd">
+    <pos row="3" column="3"/>
+    <valid age="" interval="4 weeks" grace="4 weeks"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="4 weeks" grace=""/>
+    <overdue age="" interval="2 months" grace=""/>
+    <finished age="24 years" interval="" grace=""/>
+    <after-invalid interval="" grace=""/>
+    <before-previous interval="6 months"/>
+    <recommend seriesName="MeningTrumenba"/>
+    <indicate vaccineName="Bexsero" schedule="COMPLETE" age="" reason=""/>
+    <indicate vaccineName="Trumenba" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="B2b" dose="2" indication="" label="2nd">
+    <pos row="2" column="4"/>
+    <valid age="" interval="4 weeks" grace="4 weeks"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="4 weeks" grace=""/>
+    <overdue age="" interval="2 months" grace=""/>
+    <finished age="24 years" interval="" grace=""/>
+    <after-invalid interval="" grace=""/>
+    <before-previous interval=""/>
+    <recommend seriesName="MeningBexsero"/>
     <indicate vaccineName="Trumenba" schedule="COMPLETE" age="" reason=""/>
     <indicate vaccineName="Bexsero" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="T2a" dose="2" indication="" label="2nd">
+    <pos row="2" column="2"/>
+    <valid age="" interval="6 months" grace="6 months"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="6 months" grace=""/>
+    <overdue age="" interval="7 months" grace=""/>
+    <finished age="24 years" interval="" grace=""/>
+    <after-invalid interval="" grace=""/>
+    <before-previous interval=""/>
+    <recommend seriesName="MeningTrumenba"/>
+    <indicate vaccineName="Bexsero" schedule="COMPLETE" age="" reason=""/>
+    <indicate vaccineName="Trumenba" schedule="DL Trumenba C" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="T3b" dose="3" indication="" label="3rd">
+    <pos row="3" column="3"/>
+    <valid age="" interval="4 weeks" grace="4 weeks"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="4 weeks" grace=""/>
+    <overdue age="" interval="2 months" grace=""/>
+    <finished age="24 years" interval="" grace=""/>
+    <after-invalid interval="" grace=""/>
+    <before-previous interval="6 months"/>
+    <recommend seriesName="MeningTrumenba"/>
+    <indicate vaccineName="Bexsero" schedule="COMPLETE" age="" reason=""/>
+    <indicate vaccineName="Trumenba" schedule="COMPLETE" age="" reason=""/>
   </schedule>
 </forecast>
 
