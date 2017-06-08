@@ -40,7 +40,7 @@ public class DecisionLogicFactory
     }
     else if (name.equalsIgnoreCase(DL_HPV_3RD_DOSE_2017))
     {
-      return new Hpv2016SecondDoseDecisionLogic();
+      return new Hpv2017ThirdDoseDecisionLogic();
     }
     return dl;
   }
