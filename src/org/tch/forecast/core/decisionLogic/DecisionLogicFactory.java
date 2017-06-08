@@ -9,8 +9,6 @@ public class DecisionLogicFactory
   public static final String DL_MENB_TWO_DOSE_C = "DL Trumenba C";
 //  public static final String DL_MENB_MULTI_DOSE = "DL MenB MultiDose";
 //  public static final String DL_HPV_2ND_DOSE_2016= "DL HPV 2nd";
-  public static final String DL_HPV_2ND_DOSE_2017= "DL HPV 2-dose";
-  public static final String DL_HPV_3RD_DOSE_2017= "DL HPV 3-dose";
   
   public static DecisionLogic getDecisionLogic(String name)
   {
@@ -40,14 +38,6 @@ public class DecisionLogicFactory
 //  {
 //    return new Hpv2016SecondDoseDecisionLogic();
 //  }
-    else if (name.equalsIgnoreCase(DL_HPV_2ND_DOSE_2017))
-    {
-      return new Hpv2017SecondDoseDecisionLogic();
-    }
-    else if (name.equalsIgnoreCase(DL_HPV_3RD_DOSE_2017))
-    {
-      return new Hpv2017ThirdDoseDecisionLogic();
-    }
     return dl;
   }
 }
