@@ -7,7 +7,7 @@ import org.tch.forecast.core.logic.DataStore;
 import org.tch.forecast.core.logic.Event;
 import org.tch.forecast.core.logic.LookForDoseStep;
 
-public class HpvSecondDoseDecisionLogic extends DecisionLogic {
+public class Hpv2016SecondDoseDecisionLogic extends DecisionLogic {
 
   public static final String HPV_TWO_DOSE_SCHEDULE = "H2";
   public static final String HPV_THREE_DOSE_SCHEDULE = "H2b";

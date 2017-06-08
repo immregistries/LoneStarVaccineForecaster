@@ -29,7 +29,7 @@ public class DecisionLogicFactory
     }
     else if (name.equalsIgnoreCase(DL_HPV_2ND_DOSE))
     {
-      return new HpvSecondDoseDecisionLogic();
+      return new Hpv2016SecondDoseDecisionLogic();
     }
     return dl;
   }
