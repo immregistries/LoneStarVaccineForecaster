@@ -144,7 +144,13 @@ public class DetermineRangesStep extends ActionStep
       DateTime beforePreviousInterval = ds.schedule.getBeforePreviousInterval().getDateTimeFrom(
           ds.beforePreviousEventDate);
       if (beforePreviousInterval.isGreaterThan(ds.valid)) {
-        ds.valid = beforePreviousInterval;
+        ds.valid = new DateTime(beforePreviousInterval);
+        ds.validGrace = new DateTime(beforePreviousInterval);
+        
+        // apply check if the beforePreviousInterval grace period should be used instead
+        if ( ds.schedule.getBeforePreviousGrace() != null ) {
+          ds.validGrace = ds.schedule.getBeforePreviousGrace().getDateTimeBefore(ds.valid);
+        }
         validReason = ds.schedule.getBeforePreviousInterval() + " after valid dose given before previous valid dose";
         validBecause = "BEFORE";
         ds.log("Setting minimum interval for before previous dose of " + ds.schedule.getBeforePreviousInterval());
