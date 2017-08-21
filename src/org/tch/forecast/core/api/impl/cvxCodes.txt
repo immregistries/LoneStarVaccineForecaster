@@ -139,13 +139,13 @@ DTaP-IPV	130	DTaP-IPV	116	SUPPORTED		CHILD												ANY & IPV
 "DTaP-IPV-HIB-HEP B, historical"	132	DTaP-IPV-HIB-HepB	142	SUPPORTED		CHILD			SERIES & COMBO	SERIES DOSE								ANY & IPV				
 Pneumococcal conjugate PCV 13	133	"Pneumococcal, PCV-13"	3143	SUPPORTED											PCV		PCV13 & PCV					
 Japanese Encephalitis IM	134	Japanese Encephalitis-IM	1491	NOT SUPPORTED																		
-"Influenza, high dose seasonal"	135	"Influenza IIV3, high dose >18 yrs"	185	SUPPORTED							FLU & FLU+											
+"Influenza, high dose seasonal"	135	"Influenza IIV3, high dose >65 yrs"	185	SUPPORTED							FLU & FLU+											
 Meningococcal MCV4O	136	MCV4 (Menveo)	198	SUPPORTED									MCV4 & MENVEO									
 "HPV, unspecified formulation"	137	"HPV,bivalent"	391	SUPPORTED			HPV															
 Td (adult)	138	Td	122	SUPPORTED		TD & ADULT																
 Td(adult) unspecified formulation	139	Td	122	SUPPORTED		TD & ADULT																
 "Influenza, seasonal, injectable, preservative free"	140	Influenza IIV3 PF	200	SUPPORTED							FLU & FLU+											
-"Influenza, seasonal, injectable"	141	Influenza IIV3 with pres	201	SUPPORTED							FLU & FLU+											
+"Influenza, seasonal, injectable"	141	Influenza IIV3 NOS	201	SUPPORTED							FLU & FLU+											
 "tetanus toxoid, not adsorbed"	142			NOT SUPPORTED																		
 Adenovirus types 4 and 7	143			NOT SUPPORTED																		
 "influenza, seasonal, intradermal, preservative free"	144	"Influenza IIV3 >=18 years, intradermal"	202	SUPPORTED							TODO											
