@@ -55,7 +55,7 @@
 202=Influenza IIV3 >=18 years, intradermal
 2110=zoster
 200=Influenza IIV3 PF
-201=Influenza IIV3 with pres
+201=Influenza IIV3 NOS
 114=DTaP-HepB-IPV
 2090=Hep B
 2100=Hep B
@@ -72,7 +72,7 @@
 207=Rotavirus,pentavalent(RV5,3 dose)
 115=DTaP-Hib-IPV
 156=Pneumococcal,NOS
-185=Influenza IIV3, high dose >18 yrs
+185=Influenza IIV3, high dose >65 years
 184=Meningococcal,NOS
 391=HPV,bivalent
 206=Rotavirus,monovalent(RV1,2 dose)
@@ -139,3 +139,6 @@
 217=influenza, intradermal, quadrivalent, preservative free
 218=influenza, trivalent, adjuvanted
 219=Influenza, injectable, MDCK, no prsrv, quadrivalent
+220=Influenza nasal, unspecified formulation
+221=Influenza recombinant quadrivalent
+222=Influenza injectable MDCK quadrivalent
