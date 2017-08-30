@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2017-04-10">
+<schedule scheduleName="TCH-2017-08-30">
 
 
 <forecast seriesName="Varicella">
@@ -160,13 +160,13 @@
 
 
 <forecast seriesName="Influenza">
-  <vaccine vaccineName="Flu" vaccineIds="2050, 180, 181, 1430, 1440, 179, 200, 201, 185, 204, 203, 202, 218, 219"/>
+  <vaccine vaccineName="Flu" vaccineIds="2050, 180, 181, 1430, 1440, 179, 200, 201, 185, 204, 203, 202, 217, 218, 219, 220, 221, 222, 223"/>
   <vaccine vaccineName="Nasal" vaccineIds="180, 203"/>
   <vaccine vaccineName="Live" vaccineIds="158, 159, 160, 161, 162, 171, 175, 178, 2020"/>
   <vaccine vaccineName="H1N1" vaccineIds="186, 187, 188, 189"/>
   <vaccine vaccineName="Season Start" vaccineIds="-503"/>
   <seasonal due="1 month" overdue="5 months" end="6 months"/>
-  <transition name="" age="" vaccineId=""/>
+  <transition name="Influenza injectable MDCK quadrivalent" age="" vaccineId=""/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="season">
     <pos row="1" column="1"/>
     <valid age="6 months" interval="4 weeks" grace="4 days"/>
