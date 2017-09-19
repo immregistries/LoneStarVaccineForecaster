@@ -164,7 +164,7 @@ Meningococcal C/Y-HIB PRP	148	Meningococcal C/Y-HIB PRP	213	SUPPORTED						SERIE
 "influenza,recombinant,injectable,PF,trivalent"	155	"Influenza recombinant trivalent"	223	SUPPORTED							FLU & FLU+											
 Rho(D)-IG	156			NOT SUPPORTED																		
 Rho(D) -IG IM	157			NOT SUPPORTED																		
-"influenza, injectable, quadrivalent"	158	"influenza, injectable, quadrivalent"	204	SUPPORTED							FLU & FLU+											
+"influenza, injectable, quadrivalent"	158	"influenza, injectable, quadrivalent"	205	SUPPORTED							FLU & FLU+											
 Rho(D) - Unspecified formulation	159			NOT SUPPORTED																		
 "Influenza A monovalent (H5N1), ADJUVANTED-2013"	160			NOT SUPPORTED																		
 "Influenza, injectable,quadrivalent, preservative free, pediatric"	161	"Influenza IIV4"	204	SUPPORTED																		
