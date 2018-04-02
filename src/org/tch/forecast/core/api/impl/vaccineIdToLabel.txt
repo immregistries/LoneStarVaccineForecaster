@@ -144,3 +144,6 @@
 221=Influenza recombinant quadrivalent
 222=Influenza injectable MDCK quadrivalent
 223=Influenza recombinant trivalent
+227=DTaP-IPV-Hib
+229=Influenza injectable MDCK trivalent
+237=Zoster HZ/su
