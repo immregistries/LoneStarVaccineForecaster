@@ -1,11 +1,11 @@
 CVX Label	CVX	TCH Label	TCH	Use Status	Check	Diphtheria	HPV	HepA	HepB	Hib	Influenza	Measles	Mening	Mumps	PPSV	Pertussis	Pneumo	Polio	Rotavirus	Rubella	Varicella	Zoster
 HPV9	165	HPV9	214	SUPPORTED																		
+"Zoster HZ/su"	187	"Zoster HZ/su"	237	SUPPORTED																		
 "meningococcal B, OMV"	163	"meningococcal B, OMV"	216	SUPPORTED
 "meningococcal B, recombinant"	162	"meningococcal B, recombinant"	215	SUPPORTED
-"meningococcal B, unspecified"	164			PENDING																		
 "influenza, intradermal, quadrivalent, preservative free"	166	"Influenza, intradermal, quadrivalent, preservative free"	217	SUPPORTED
 "influenza, trivalent, adjuvanted"	168	"FLUAD, adjuvanted, trivalent, preservative free"	218	SUPPORTED
-"Influenza, injectable, MDCK, no prsrv, quadrivalent"	171	"Flucelvax, injectable, quadrivalent, preservative free"	219	SUPPORTED
+"Influenza, injectable, MDCK, trivalent"	171	"Flucelvax, injectable, quadrivalent, preservative free"	219	SUPPORTED
 "influenza recombinant quadrivalent preservative free"	185	"Influenza recombinant quadrivalent"	221	SUPPORTED
 "influenza injectable MDCK quadrivalent"	186	"Influenza injectable MDCK quadrivalent"	222	SUPPORTED
 DTP	01	DTP	111	SUPPORTED		CHILD																
@@ -153,13 +153,14 @@ Adenovirus types 4 and 7	143			NOT SUPPORTED
 "influenza, seasonal, intradermal, preservative free"	144	"Influenza IIV3 >=18 years, intradermal"	202	SUPPORTED							TODO											
 RSV-MAb (new)	145			NOT SUPPORTED																		
 "DTaP,IPV,Hib,HepB"	146	DTaP-IPV-HIB-HepB	142	SUPPORTED		CHILD			SERIES & COMBO	SERIES DOSE								ANY & IPV				
+"DTaP/IPV/Hib"	170	DTaP/IPV/HIB	227	SUPPORTED		CHILD			SERIES & COMBO	SERIES DOSE								ANY & IPV				
 "meningococcal MCV4, unspecified formulation"	147	"Meningococcal,NOS"	184	SUPPORTED									MCV4									
 Meningococcal C/Y-HIB PRP	148	Meningococcal C/Y-HIB PRP	213	SUPPORTED						SERIES & BOOSTER			SERIES & BOOSTER									
 "influenza, live, intranasal, quadrivalent"	149	Influenza LAIV4 Nasal	203	SUPPORTED							NASAL & FLU & FLU+											
 "influenza, injectable, quadrivalent, preservative free"	150	Influenza IIV4	204	SUPPORTED							FLU & FLU+											
 "influenza nasal, unspecified formulation"	151	"Influenza nasal, unspecified formulation"	220	SUPPORTED							NASAL & FLU & FLU+											
 "Pneumococcal Conjugate, unspecified formulation"	152	"Pneumococcal,NOS"	156	SUPPORTED											PCV							
-"Influenza, injectable, MDCK, preservative free"	153			NOT SUPPORTED							FLU & FLU+											
+"Influenza, IIV3 MDCK"	153	"Influenza, IIV3 MDCK"	229	SUPPORTED							FLU & FLU+
 "Hep A, IG"	154			NOT SUPPORTED																		
 "influenza,recombinant,injectable,PF,trivalent"	155	"Influenza recombinant trivalent"	223	SUPPORTED							FLU & FLU+											
 Rho(D)-IG	156			NOT SUPPORTED																		
