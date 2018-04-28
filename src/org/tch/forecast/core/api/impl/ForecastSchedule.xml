@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2018-03-20">
+<schedule scheduleName="TCH-2018-04-28">
 
 
 <forecast seriesName="Varicella">
@@ -218,11 +218,10 @@
 
 
 
-
 <forecast seriesName="Hib">
   <vaccine vaccineName="PRP-OMP" vaccineIds="136, 1350"/>
   <vaccine vaccineName="Series Dose" vaccineIds="128, 1320, 1330, 1340, 136, 1350, 115, 121, 142, 213, 227"/>
-  <vaccine vaccineName="Booster Dose" vaccineIds="128, 1330, 1340, 136, 1350, 113, 121, 1320, 115, 121, 213"/>
+  <vaccine vaccineName="Booster Dose" vaccineIds="128, 1330, 1340, 136, 1350, 113, 121, 1320, 115, 121, 213, 227"/>
   <vaccine vaccineName="TriHIBit" vaccineIds="113"/>
   <vaccine vaccineName="7 Months Old" vaccineIds="-7"/>
   <vaccine vaccineName="12 Months Old" vaccineIds="-12"/>
