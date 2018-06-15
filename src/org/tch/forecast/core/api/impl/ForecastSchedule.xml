@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2018-04-28">
+<schedule scheduleName="TCH-2018-05-22">
 
 
 <forecast seriesName="Varicella">
@@ -1348,8 +1348,9 @@
 
 
 <forecast seriesName="Zoster">
-  <vaccine vaccineName="Live Zoster" vaccineIds="2010, 2110"/>
-  <vaccine vaccineName="HZ / su" vaccineIds="237"/>
+  <vaccine vaccineName="Live Zoster" vaccineIds="2110"/>
+  <vaccine vaccineName="RZV" vaccineIds="237"/>
+    <vaccine vaccineName="Live" vaccineIds="160, 161, 158, 162, 171, 175, 178, 180, 2020, 1990, 148, 1690, 1700, 210, 203"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="P1 / Start">
     <pos row="1" column="1"/>
     <valid age="50 years" interval="" grace="4 days"/>
@@ -1359,10 +1360,11 @@
     <finished age="120 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 weeks 4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="Live Zoster" schedule="P1a" age="" reason=""/>
-    <indicate vaccineName="HZ / su" schedule="P2" age="" reason=""/>
+    <contraindicate vaccineName="Live" afterinterval="4 weeks" age="" reason="" grace=""/>
+    <indicate vaccineName="Live Zoster" schedule="P1a" age="" reason="" />
+    <indicate vaccineName="RZV" schedule="P2" age="" reason=""/>
   </schedule>
-  <schedule scheduleName="P2" dose="2" indication="" label="P2 / 2nd HZ/su">
+  <schedule scheduleName="P2" dose="2" indication="" label="P2 / 2nd RZV">
     <pos row="1" column="2"/>
     <valid age="" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
@@ -1371,22 +1373,24 @@
     <finished age="120 years" interval="" grace=""/>
     <after-invalid interval="4 weeks" grace="4 days"/>
     <before-previous interval=""/>
+    <contraindicate vaccineName="Live" afterinterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="Live Zoster" schedule="P2a" age="" reason=""/>
-    <indicate vaccineName="HZ / su" schedule="COMPLETE" age="" reason=""/>
+    <indicate vaccineName="RZV" schedule="COMPLETE" age="" reason=""/>
   </schedule>
-  <schedule scheduleName="P1a" dose="1" indication="" label="P1a / 1st  HZ/su">
+  <schedule scheduleName="P1a" dose="1" indication="" label="P1a / 1st  RZV (post-ZVL)">
     <pos row="1" column="3"/>
     <valid age="" interval="2 months" grace="2 months"/>
     <early age="" interval="" grace=""/>
-    <due age="" interval="2 months" grace=""/>
-    <overdue age="" interval="3 months" grace=""/>
+    <due age="" interval="5 years" grace=""/>
+    <overdue age="" interval="6 years" grace=""/>
     <finished age="120 years" interval="" grace=""/>
     <after-invalid interval="" grace=""/>
     <before-previous interval=""/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="Live Zoster" schedule="P1a" age="" reason=""/>
-    <indicate vaccineName="HZ / su" schedule="P2" age="" reason=""/>
+    <indicate vaccineName="RZV" schedule="P2" age="" reason=""/>
   </schedule>
-  <schedule scheduleName="P2a" dose="1" indication="" label="P2a / 2nd  HZ/su">
+  <schedule scheduleName="P2a" dose="2" indication="" label="P2a / 2nd RZV (post-ZVL)">
     <pos row="1" column="4"/>
     <valid age="" interval="2 months" grace="2 months"/>
     <early age="" interval="" grace=""/>
@@ -1395,8 +1399,9 @@
     <finished age="120 years" interval="" grace=""/>
     <after-invalid interval="" grace=""/>
     <before-previous interval=""/>
+    <contraindicate vaccineName="Live" afterInterval="4 weeks" age="" reason="" grace=""/>
     <indicate vaccineName="Live Zoster" schedule="P2a" age="" reason=""/>
-    <indicate vaccineName="HZ / su" schedule="Complete" age="" reason=""/>
+    <indicate vaccineName="RZV" schedule="Complete" age="" reason=""/>
   </schedule>
 </forecast>
 
