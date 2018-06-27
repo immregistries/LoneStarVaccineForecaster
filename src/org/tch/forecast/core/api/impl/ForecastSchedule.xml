@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2018-06-23">
+<schedule scheduleName="TCH-2018-06-27">
 
 
 <forecast seriesName="Varicella">
@@ -1346,7 +1346,6 @@
 </forecast>
 
 
-
 <forecast seriesName="Zoster">
   <vaccine vaccineName="Live Zoster" vaccineIds="2110"/>
   <vaccine vaccineName="RZV" vaccineIds="237"/>
@@ -1358,7 +1357,7 @@
     <due age="50 years" interval="" grace=""/>
     <overdue age="51 years" interval="" grace=""/>
     <finished age="120 years" interval="" grace=""/>
-    <after-invalid interval="8 weeks" grace="4 weeks 4 days"/>
+    <after-invalid interval="8 weeks" grace="4 weeks"/>
     <before-previous interval=""/>
     <contraindicate vaccineName="Varicella" afterinterval="8 weeks" age="" reason="" grace="8 weeks"/>
     <indicate vaccineName="Live Zoster" schedule="P1a" age="" reason="" />
@@ -1371,7 +1370,7 @@
     <due age="" interval="8 weeks" grace=""/>
     <overdue age="" interval="7 months" grace=""/>
     <finished age="120 years" interval="" grace=""/>
-    <after-invalid interval="4 weeks" grace="4 days"/>
+    <after-invalid interval="8 weeks" grace="4 weeks"/>
     <before-previous interval=""/>
     <contraindicate vaccineName="Varicella" afterinterval="8 weeks" age="" reason="" grace="8 weeks"/>
     <indicate vaccineName="Live Zoster" schedule="P2a" age="" reason=""/>
