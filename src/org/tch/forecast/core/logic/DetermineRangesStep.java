@@ -121,18 +121,21 @@ public class DetermineRangesStep extends ActionStep
         DateTime validInterval = ds.schedule.getAfterContraInterval().getDateTimeFrom(ds.previousEventDate);
         if (validInterval.isGreaterThan(ds.valid)) {
           ds.valid = validInterval;
+          // catch grace up to valid date
+//          ds.validGrace = ds.valid;
           validReason = "Must be given at least " + ds.schedule.getAfterContraInterval()
               + " after previous contraindicating dose";
           validBecause = "CONTRA";
           ds.log("Contraindication indication pushes validity date back by " + ds.schedule.getAfterContraInterval());
-        }
-
+        }        
         setGrace(ds, ds.schedule.getAfterContraGrace());
 
       } else {
         DateTime validInterval = ds.schedule.getAfterInvalidInterval().getDateTimeFrom(ds.previousEventDate);
         if (validInterval.isGreaterThan(ds.valid)) {
           ds.valid = validInterval;
+          // catch grace up to valid date
+//          ds.validGrace = ds.valid;
           validReason = ds.schedule.getAfterInvalidInterval() + " after previous invalid dose";
           validBecause = "INVALID";
           ds.log("Applying minimum interval after invalid vaccination of " + ds.schedule.getAfterInvalidInterval());
