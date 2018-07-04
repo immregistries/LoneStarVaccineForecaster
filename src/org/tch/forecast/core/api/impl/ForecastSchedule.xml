@@ -1346,7 +1346,7 @@
 </forecast>
 
 
-<forecast seriesName="RZV (Shingrix)">
+<forecast seriesName="Zoster">
   <vaccine vaccineName="Live Zoster" vaccineIds="2110"/>
   <vaccine vaccineName="RZV" vaccineIds="237"/>
   <vaccine vaccineName="Varicella" vaccineIds="178"/>
