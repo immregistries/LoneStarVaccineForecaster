@@ -146,4 +146,4 @@
 223=Influenza recombinant trivalent
 227=DTaP-IPV-Hib
 229=Influenza injectable MDCK trivalent
-237=Zoster HZ/su
+237=Zoster
