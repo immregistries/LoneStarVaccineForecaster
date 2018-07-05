@@ -1,6 +1,6 @@
 CVX Label	CVX	TCH Label	TCH	Use Status	Check	Diphtheria	HPV	HepA	HepB	Hib	Influenza	Measles	Mening	Mumps	PPSV	Pertussis	Pneumo	Polio	Rotavirus	Rubella	Varicella	Zoster
 HPV9	165	HPV9	214	SUPPORTED																		
-"Zoster HZ/su"	187	"Zoster HZ/su"	237	SUPPORTED																		
+"Zoster"	187	"Zoster"	237	SUPPORTED																		
 "meningococcal B, OMV"	163	"meningococcal B, OMV"	216	SUPPORTED
 "meningococcal B, recombinant"	162	"meningococcal B, recombinant"	215	SUPPORTED
 "influenza, intradermal, quadrivalent, preservative free"	166	"Influenza, intradermal, quadrivalent, preservative free"	217	SUPPORTED
