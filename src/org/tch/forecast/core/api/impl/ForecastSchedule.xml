@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2018-07-02">
+<schedule scheduleName="TCH-2018-07-12">
 
 
 <forecast seriesName="Varicella">
@@ -1346,7 +1346,7 @@
 </forecast>
 
 
-<forecast seriesName="Zoster">
+<forecast seriesName="RZV (Shingrix)">
   <vaccine vaccineName="Live Zoster" vaccineIds="2110"/>
   <vaccine vaccineName="RZV" vaccineIds="237"/>
   <vaccine vaccineName="Varicella" vaccineIds="178"/>
@@ -1378,7 +1378,7 @@
   </schedule>
   <schedule scheduleName="P1a" dose="1" indication="" label="P1a / 1st  RZV (post-ZVL)">
     <pos row="1" column="3"/>
-    <valid age="" interval="8 weeks" grace="8 weeks"/>
+    <valid age="50 years" interval="8 weeks" grace="8 weeks"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="5 years" grace=""/>
     <overdue age="" interval="6 years" grace=""/>
