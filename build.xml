@@ -122,7 +122,7 @@
   -->
 
 	<target name="compile" depends="prepare">
-		<javac srcdir="${src.home}" destdir="${object.home}" debug="yes" target="1.6">
+		<javac srcdir="${src.home}" destdir="${object.home}" debug="yes" target="1.5">
 			<classpath refid="compile.classpath" />
 		</javac>
      	<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/ForecastSchedule.xml" />
