@@ -351,7 +351,7 @@ public class CaretForecaster
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_LAIV, "151"); // Influenza nasal, unspecified formulation
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "171"); // Influenza, injectable, MDCK, preservative free, quadrivalent
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "171"); // Influenza, injectable, MDCK, preservative free, quadrivalent
-    doseDueOutHash.put(ImmunizationForecastDataBean.ZOSTER, "121"); // Influenza, seasonal, injectable
+    doseDueOutHash.put(ImmunizationForecastDataBean.ZOSTER, "187"); // Shingrix (Zoster)
 
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-10"); // Td Adult  Booster
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-12"); // Unspecified D/T
