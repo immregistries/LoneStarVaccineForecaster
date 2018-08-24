@@ -1,4 +1,4 @@
-<schedule scheduleName="TCH-2018-07-12">
+<schedule scheduleName="TCH-2018-08-24">
 
 
 <forecast seriesName="Varicella">
@@ -782,7 +782,7 @@
     <early age="" interval="" grace=""/>
     <due age="11 years" interval="" grace=""/>
     <overdue age="13 years" interval="" grace=""/>
-    <finished age="19 years" interval="" grace=""/>
+    <finished age="22 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Menactra" schedule="INVALID" age="9 months -4 days" reason="Menactra not licensed before 9 months."/>
@@ -800,7 +800,7 @@
     <early age="" interval="" grace=""/>
     <due age="16 years" interval="" grace=""/>
     <overdue age="17 years" interval="" grace=""/>
-    <finished age="19 years" interval="" grace=""/>
+    <finished age="22 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="MCV4" schedule="A2" age="16 years -4 days" reason="Received dose before 16 years of age, not counting towards completion."/>
@@ -812,11 +812,12 @@
 
 
 
+
 <forecast seriesName="MeningococcalB">
   <vaccine vaccineName="Bexsero" vaccineIds="216"/>
   <vaccine vaccineName="Trumenba" vaccineIds="215"/>
   <vaccine vaccineName="Men B" vaccineIds="215, 216"/>
-  <schedule scheduleName="P1" dose="1" indication="DOSERECEIVED" label="1st">
+  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1st">
     <pos row="1" column="1"/>
     <valid age="10 years" interval="" grace="4 days"/>
     <early age="" interval="" grace=""/>

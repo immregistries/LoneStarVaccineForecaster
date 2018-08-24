@@ -1,5 +1,7 @@
 package org.tch.forecast.core.decisionLogic;
 
+import java.util.HashSet;
+
 import org.tch.forecast.core.DateTime;
 import org.tch.forecast.core.VaccinationDoseDataBean;
 import org.tch.forecast.core.VaccineForecastDataBean.ValidVaccine;
@@ -56,15 +58,22 @@ public class Flu2015DecisionLogic extends DecisionLogic
 
   public int countValidVaccinesGiven(DataStore ds, ValidVaccine[] vaccines, DateTime startDate, DateTime endDate) {
     int count = 0;
+    HashSet<String> dateSet= new HashSet<String>();
     for (VaccinationDoseDataBean vaccinationDose : ds.getDoseList()) {
       DateTime adminDate = new DateTime(vaccinationDose.getAdminDate());
+      String dateStr = adminDate.getDate().toString();
+
       if ((startDate == null || startDate.isLessThanOrEquals(adminDate))
           && (endDate == null || endDate.isGreaterThan(adminDate))
           && ! vaccinationDose.isStatusCodeInvalid()) {
         for (ValidVaccine vaccine : vaccines) {
           if (vaccinationDose.getVaccineId() == vaccine.getVaccineId()) {
-            ds.log(" + valid vaccine " + vaccinationDose.getVaccineId() + " given " + new DateTime(vaccinationDose.getAdminDate()).toString("M/D/Y"));
-            count++;
+            if (!(dateSet.contains(dateStr))) {
+              dateSet.add(dateStr);
+              ds.log(" + valid vaccine " + vaccinationDose.getVaccineId() + " given " + new DateTime(vaccinationDose.getAdminDate()).toString("M/D/Y"));
+              count++;
+            }
+
             break;
           }
         }
