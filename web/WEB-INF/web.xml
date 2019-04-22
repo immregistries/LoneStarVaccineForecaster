@@ -17,27 +17,27 @@
 	
 	<servlet>
         <servlet-name>step</servlet-name>
-        <servlet-class>org.tch.forecast.StepServlet</servlet-class>
+        <servlet-class>org.immregistries.lonestar.StepServlet</servlet-class>
     </servlet>
 	<servlet>
         <servlet-name>listCodes</servlet-name>
-        <servlet-class>org.tch.forecast.ListCodesServlet</servlet-class>
+        <servlet-class>org.immregistries.lonestar.ListCodesServlet</servlet-class>
     </servlet>
 	<servlet>
         <servlet-name>caret</servlet-name>
-        <servlet-class>org.tch.forecast.CaretServlet</servlet-class>
+        <servlet-class>org.immregistries.lonestar.CaretServlet</servlet-class>
     </servlet>
 	<servlet>
         <servlet-name>forecast</servlet-name>
-        <servlet-class>org.tch.forecast.ForecastServlet</servlet-class>
+        <servlet-class>org.immregistries.lonestar.ForecastServlet</servlet-class>
     </servlet> 
 	<servlet>
         <servlet-name>fhir</servlet-name>
-        <servlet-class>org.tch.forecast.FhirServlet</servlet-class>
+        <servlet-class>org.immregistries.lonestar.FhirServlet</servlet-class>
     </servlet> 
 	<servlet>
         <servlet-name>fhirTest</servlet-name>
-        <servlet-class>org.tch.forecast.FhirTestServlet</servlet-class>
+        <servlet-class>org.immregistries.lonestar.FhirTestServlet</servlet-class>
     </servlet> 
     <servlet-mapping>
         <servlet-name>forecast</servlet-name>

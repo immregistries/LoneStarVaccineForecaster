@@ -12,7 +12,7 @@
 	<property file="build.properties" />
 
 	<property name="app.home" value="." />
-	<property name="app.name" value="fv" />
+	<property name="app.name" value="lonestar" />
 
 	<property name="src.home" value="${app.home}/src" />
 	<property name="lib.home" value="${app.home}/lib" />
@@ -125,9 +125,9 @@
 		<javac srcdir="${src.home}" destdir="${object.home}" debug="yes" target="1.5">
 			<classpath refid="compile.classpath" />
 		</javac>
-     	<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/ForecastSchedule.xml" />
-		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/vaccineIdToLabel.txt" />
-		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/cvxCodes.txt" />
+     	<copy todir="${object.home}/org/immregistries/lonestar/core/api/impl/" file="${src.home}/org/immregistries/lonestar/core/api/impl/ForecastSchedule.xml" />
+		<copy todir="${object.home}/org/immregistries/lonestar/core/api/impl/" file="${src.home}/org/immregistries/lonestar/core/api/impl/vaccineIdToLabel.txt" />
+		<copy todir="${object.home}/org/immregistries/lonestar/core/api/impl/" file="${src.home}/org/immregistries/lonestar/core/api/impl/cvxCodes.txt" />
 	</target>
 
 	<!-- ==================== "build" Target ================================== -->
@@ -198,22 +198,22 @@
 	</target>
 
 	<target name="jar-core" depends="compile">
-		<jar jarfile="${deploy.home}/tch-forecaster.jar" basedir="${object.home}" includes="org/tch/forecast/core/**" />
+		<jar jarfile="${deploy.home}/lsv-forecaster.jar" basedir="${object.home}" includes="org/immregistries/lonestar/core/**" />
 	</target>
 
 	<target name="jar-dist" depends="compile">
-		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/ForecastSchedule.xml" />
-		<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/vaccineIdToLabel.txt" />
-				<copy todir="${object.home}/org/tch/forecast/core/api/impl/" file="${src.home}/org/tch/forecast/core/api/impl/cvxCodes.txt" />
-		<jar jarfile="${deploy.home}/tch-forecaster.jar" basedir="${object.home}" includes="org/tch/forecast/core/**" />
+		<copy todir="${object.home}/org/immregistries/lonestar/core/api/impl/" file="${src.home}/org/immregistries/lonestar/core/api/impl/ForecastSchedule.xml" />
+		<copy todir="${object.home}/org/immregistries/lonestar/core/api/impl/" file="${src.home}/org/immregistries/lonestar/core/api/impl/vaccineIdToLabel.txt" />
+				<copy todir="${object.home}/org/immregistries/lonestar/core/api/impl/" file="${src.home}/org/immregistries/lonestar/core/api/impl/cvxCodes.txt" />
+		<jar jarfile="${deploy.home}/lsv-forecaster.jar" basedir="${object.home}" includes="org/immregistries/lonestar/core/**" />
 	</target>
 
 	<target name="core-doc" depends="prepare">
-		<javadoc packagenames="org.tch.forecast.core.api.*" sourcepath="${src.home}" defaultexcludes="yes" destdir="${doc.home}/core" author="true" version="true" use="true" windowtitle="TCH Forecaster API">
+		<javadoc packagenames="org.immregistries.lonestar.core.api.*" sourcepath="${src.home}" defaultexcludes="yes" destdir="${doc.home}/core" author="true" version="true" use="true" windowtitle="Lone Star Vaccine Forecaster API">
 			<doctitle>
-				<![CDATA[<h1>TCH Forecaster API</h1>]]></doctitle>
+				<![CDATA[<h1>Lone Star Vaccine Forecaster API</h1>]]></doctitle>
 		<bottom>
-			<![CDATA[<i>Copyright &#169; 2013 Texas Children's Hospital. All Rights Reserved.</i>]]></bottom>
+			<![CDATA[<i>Immunization Community Legacy Software</i>]]></bottom>
 </javadoc>
 </target>
 
