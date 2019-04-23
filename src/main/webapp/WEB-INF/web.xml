@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+
+<web-app id="fv" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    version="3.0">
+  <!-- logging-->
+  
+  
+  <!-- refresh after session timeout  -->
+  
+    
+  <!-- // -->
+  
+  <!-- Standard Action Servlet Configuration (with debugging) -->
+	
+	
+	<servlet>
+        <servlet-name>step</servlet-name>
+        <servlet-class>org.immregistries.lonestar.StepServlet</servlet-class>
+    </servlet>
+	<servlet>
+        <servlet-name>listCodes</servlet-name>
+        <servlet-class>org.immregistries.lonestar.ListCodesServlet</servlet-class>
+    </servlet>
+	<servlet>
+        <servlet-name>caret</servlet-name>
+        <servlet-class>org.immregistries.lonestar.CaretServlet</servlet-class>
+    </servlet>
+	<servlet>
+        <servlet-name>forecast</servlet-name>
+        <servlet-class>org.immregistries.lonestar.ForecastServlet</servlet-class>
+    </servlet> 
+	<servlet>
+        <servlet-name>fhir</servlet-name>
+        <servlet-class>org.immregistries.lonestar.FhirServlet</servlet-class>
+    </servlet> 
+	<servlet>
+        <servlet-name>fhirTest</servlet-name>
+        <servlet-class>org.immregistries.lonestar.FhirTestServlet</servlet-class>
+    </servlet> 
+    <servlet-mapping>
+        <servlet-name>forecast</servlet-name>
+        <url-pattern>/forecast</url-pattern>
+    </servlet-mapping>
+<!-- 
+    <servlet-mapping>
+        <servlet-name>fhir</servlet-name>
+        <url-pattern>Patient/$cdsimmunization</url-pattern>
+    </servlet-mapping>
+ -->
+    <servlet-mapping>
+        <servlet-name>fhirTest</servlet-name>
+        <url-pattern>/fhirTest</url-pattern>
+    </servlet-mapping>	 
+    <servlet-mapping>
+        <servlet-name>step</servlet-name>
+        <url-pattern>/fv/step</url-pattern>
+    </servlet-mapping>	 
+    <servlet-mapping>
+        <servlet-name>listCodes</servlet-name>
+        <url-pattern>/listCodes</url-pattern>
+    </servlet-mapping>	 
+    <servlet-mapping>
+        <servlet-name>caret</servlet-name>
+        <url-pattern>/fv/caret</url-pattern>
+    </servlet-mapping>	 
+
+
+  <session-config>
+      <session-timeout>20</session-timeout>    
+    </session-config>
+
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>  
+
+  <!-- Struts Tag Library Descriptors -->
+  
+
+
+ <!-- Default login configuration uses form-based authentication -->
+ 
+</web-app>

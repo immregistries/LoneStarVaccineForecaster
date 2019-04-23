@@ -1,1 +1,0 @@
-mvn install:install-file -Dfile=deploy/lsv-forecaster.jar -Dpackaging=jar\ -DgroupId=org.immregistries -DartifactId=lonestar -Dversion=1.0

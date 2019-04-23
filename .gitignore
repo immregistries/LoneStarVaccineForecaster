@@ -4,3 +4,4 @@ build/
 deploy/
 object/
 .project
+target/
