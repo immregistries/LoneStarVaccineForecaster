@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description"
+	content="Lone Star Vaccine Forecaster management page">
+<title>Lone Star Vaccine Forecaster</title>
+
+<link rel="stylesheet"
+	href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
+	integrity="sha384-" crossorigin="anonymous">
+
+<!--[if lte IE 8]>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
+    <![endif]-->
+<!--[if gt IE 8]><!-->
+<link rel="stylesheet"
+	href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+<!--<![endif]-->
+
+
+<!--[if lte IE 8]>
+            <link rel="stylesheet" href="css/layouts/blog-old-ie.css">
+        <![endif]-->
+<!--[if gt IE 8]><!-->
+<link rel="stylesheet" href="css/layouts/blog.css">
+<!--<![endif]-->
+
+</head>
+<body>
+	<div id="layout" class="pure-g">
+		<div class="sidebar pure-u-1 pure-u-md-1-4">
+			<div class="header">
+				<h1 class="brand-title">Lone Star Vaccine Forecaster</h1>
+				<h2 class="brand-tagline">Immunization Clinical Decision
+					Support</h2>
+				<nav class="nav">
+					<ul class="nav-list">
+						<li class="nav-item"><a class="pure-button"
+							href="forecast.html">Forecast</a></li>
+						<li class="nav-item"><a class="pure-button" href="test.html">Test</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<div class="content pure-u-1 pure-u-md-3-4">
+			<div>
+				<!-- A wrapper for all the blog posts -->
+				<div class="posts">
+					<h1 class="content-subhead">Forecaster</h1>
+
+					<!-- A single blog post -->
+					<section class="post">
+						<header class="post-header">
+							<h2 class="post-title">Release Notes</h2>
+							<p class="post-meta">Lone Star Vaccine Forecaster</p>
+						</header>
+
+						<div class="post-description">
+							<h2>Version 4.2.1 - Production</h2>
+
+							<ul>
+								<li>Men B Update - Automatically recommend MenB to all
+									patients for all patients at 16 years of age.</li>
+								<li>MCV4 Update - Upper age limit adjusted to accommodate
+									older giving a booster dose to older individuals, &lt; 21 years
+									of age.</li>
+								<li>Influenza Update - If the same shot is documented as
+									given 2x in the same day, the forecaster only counts it as 1x
+									when calculating flu logic.</li>
+							</ul>
+
+							<h3>Version 4.1.3 - Release July 12, 2018</h3>
+							<p>Testing release</p>
+
+							<ul>
+								<li>Zoster Update - Some additional changes to Zoster
+									schedule</li>
+							</ul>
+
+							<h3>Version 4.1.2 - Release July 2, 2018</h3>
+							<p>Testing release</p>
+
+							<ul>
+								<li>Zoster Update - More minor updates to schedule</li>
+							</ul>
+
+							<h3>Version 4.1.1 - Release June 27, 2018</h3>
+							<p>Testing release</p>
+
+							<ul>
+								<li>Zoster Update - Additional minor updates to schedule</li>
+							</ul>
+
+							<h3>Version 4.1.0 - Release June 23, 2018</h3>
+							<p>Testing release</p>
+
+							<ul>
+								<li>Zoster Update - Minor updates to schedule</li>
+							</ul>
+
+							<h3>Version 4.0.8 - Release May 26, 2018</h3>
+							<p>Testing release</p>
+
+							<ul>
+								<li>Zoster Update - update zoster schedule</li>
+							</ul>
+
+							<h3>Version 4.0.7 - Release April 28, 2018</h3>
+							<p>Testing release</p>
+
+							<ul>
+								<li>Add Hib TCH 227/CVX 170 vaccine to Hib schedule</li>
+							</ul>
+
+							<h3>Version 4.0.6 - Release April 11, 2018</h3>
+							<p>Testing release</p>
+
+							<ul>
+								<li>Rename Zoster Shingrix vaccine, new name: RZV -
+									Recombinant Zoster Vaccine</li>
+							</ul>
+
+							<h3>Version 4.0.5 - Release March 20, 2018</h3>
+							<p>Testing release</p>
+
+							<ul>
+								<li>Update Zoster schedule</li>
+							</ul>
+
+							<h3>Version 4.0.4 - Release March 5, 2018</h3>
+							<p>Testing release</p>
+
+							<ul>
+								<li>Added support for new Zoster HZ/su (Shingrix) vaccine:
+									CVX 187, TCH 237</li>
+								<li>Zoster schedule updated</li>
+								<li>HZ/su (Shingrix) vaccine added to zoster schedule</li>
+							</ul>
+
+							<h3>Version 4.0.3a - Release May 7, 2018</h3>
+							<p>Production release</p>
+
+							<ul>
+								<li>4.0.3a is a combination of 4.0.3 and 4.0.7 (Hib
+									changes)</li>
+								<li>None of the Zoster-related changes are present in this
+									release</li>
+							</ul>
+
+							<h3>Version 4.0.3 - Release February 20, 2018</h3>
+							<p>Testing release</p>
+
+							<ul>
+								<li>Remove CVX 164 MenB unspecified</li>
+								<li>Add CVX 153 Influenza injectable MDCK trivalent (IIV3
+									MDCK) to forecaster and to Influenza schedule</li>
+								<li>Add CVX 170 DTaP/IPV/Hib to forecaster and to three
+									schedules: Diptheria, Polio, and Hib</li>
+							</ul>
+
+							<h3>Version 4.0.2 - Release January 10, 2018</h3>
+							<p>Testing release</p>
+
+							<ul>
+								<li>Meningococcal B Update</li>
+							</ul>
+							<h3>Version 4.0.1 - Release September 19, 2017</h3>
+							<p>Production release</p>
+
+							<ul>
+								<li>Added support for CVX code 158: influenza, injectable,
+									quadrivalent</li>
+							</ul>
+
+							<h3>Version 3.16.1 - Release August 30, 2017</h3>
+							<p>Testing release</p>
+							<b>Influenza vaccine code update:</b>
+
+							<ul>
+								<li>Added support for following CVX codes: 185, 186</li>
+								<li>Updated and corrected mappings for following CVX codes:
+									151, 155, 161, 166</li>
+								<li>Updated label only for following CVX codes: 135, 141</li>
+							</ul>
+
+							<h3>Version 3.15.2 - Release April 10, 2017</h3>
+							<p>Testing release</p>
+							<ul>
+								<li>HPV schedule: Changed label on H2 and H3b dose states
+									to read "Final" to avoid confusion when invalid doses have been
+									administered</li>
+							</ul>
+
+							<h3>Version 3.15.1 - Release March 8, 2017</h3>
+							<p>Testing release</p>
+							<ul>
+								<li>HepB schedule: Removed incorrect 2-dose adolescent
+									schedule</li>
+								<li>HPV schedule: Updated the 2 and 3 dose schedules to
+									better reflect the current ACIP recommendations</li>
+								<li>MenB Schedule: Updated the MenB schedule to account for
+									the new 2-dose Trumenba recommendation</li>
+								<li>Zoster schedule: updated list of live-virus vaccines to
+									include varicella</li>
+							</ul>
+
+							<h3>Version 3.14.07 - Release February 24, 2017</h3>
+							<p>Testing release</p>
+							<ul>
+								<li>Adjusted finish age to 19 years for 1st dose of MCV4
+									(this change was already made for the booster dose)</li>
+								<li>Added multiple HepB formulations to list of valid doses
+									for HepB birth dose</li>
+							</ul>
+
+							<h3>Version 3.14.06 - Release January 19, 2017</h3>
+							<p>Testing release</p>
+							<ul>
+								<li>Fixed minimum interval forecast for catch-up
+									vaccination on the 3-dose HPV schedule</li>
+							</ul>
+
+							<h3>Version 3.14.05 - Release December 12, 2016</h3>
+							<p>Production release</p>
+							<ul>
+								<li>Implement new HPV 2-Dose Schedule</li>
+							</ul>
+
+							<h3>Version 3.14.04 - Release October 26, 2016</h3>
+							<p>Production release</p>
+							<ul>
+								<li>Changed Finished Age for MCV4 schedule from 22 to 19
+									years</li>
+							</ul>
+
+							<h3>Version 3.14.03 - Release September 16, 2016</h3>
+							<p>Fixed Bug</p>
+							<ul>
+								<li>Fix problem where an invalid dose causes a subsequent
+									dose within the grace period to be invalid. <br />
+									Specifically, the following scenario causes the problem:
+									<ul>
+										<li>An invalid dose is administered</li>
+										<li>A subsequent dose is administered within the grace
+											period (which should be counted as valid) but is instead not
+											accepted</li>
+									</ul>
+								</li>
+							</ul>
+
+							<h3>Version 3.14.02 - Release September 2, 2016</h3>
+							<p>PCV13 Issue Fixed for IHS</p>
+							<ul>
+								<li>PCV13 problem fixed where IHS sites that forecasted on
+									earliest date were shown recommended date.</li>
+							</ul>
+
+							<h3>Version 3.14.01 - Release August 17, 2016</h3>
+							<p>Influenza code update</p>
+							<ul>
+								<li>Added CVX 168 (FLUAD - influenza, adjuvanted,
+									preservative free) and CVX 171 (Flucelvax - influenza,
+									quadrivalent, preservative free)</li>
+							</ul>
+
+							<h2>Version 3.13 - Production</h2>
+
+							<h3>Version 3.13.03 - Release August 5, 2016</h3>
+							<p>Small bug fix for IHS</p>
+							<ul>
+								<li>Influenza: IHS suppression logic set end date one day
+									too early at the end of the season.</li>
+							</ul>
+
+							<h3>Version 3.13.02 - Release July 25, 2016</h3>
+							<p>Small bug fix for IHS</p>
+							<ul>
+								<li>Influenza: IHS suppression logic was still being
+									activated when local site specified a longer end date. Switched
+									logic off when dates specified.</li>
+							</ul>
+
+							<h3>Version 3.13.01 - Release June 24, 2016</h3>
+							<p>Testing release</p>
+							<ul>
+								<li>HPV schedule: Updated minimum interval from 2nd to 3rd
+									dose in female schedule</li>
+								<li>Diphtheria (Tdap) schedule: Updated schedule to account
+									for Td doses given 5 years after last DTaP dose and before age
+									11 years (wound prophylaxis)</li>
+								<li>Updated Explanation Text for HPV, LAIV and Hib.
+									(Explanation Text only visible at TCH).</li>
+								<li>Influenza: Added support for IHS to set beginning and
+									end of forecast for Influenza.</li>
+							</ul>
+
+							<h2>Version 3.12</h2>
+
+							<h3>Version 3.12.03 - Release February 12, 2016</h3>
+							<p>Production candidate release to support Meningococcal B
+								vaccine recommendations</p>
+							<ul>
+								<li>Added mapping for new Mening recommendations so they
+									would appear for IHS systems to see properly.</li>
+							</ul>
+
+							<h3>Version 3.12.02 - Release January 29, 2016</h3>
+							<p>Production candidate release to support Meningococcal B
+								vaccine recommendations</p>
+							<ul>
+								<li>Added support for new indication type, DOSE RECEIVED,
+									that requires at least one dose before additional doses are
+									forecast</li>
+								<li>Mening B Bexsero Schedule: updated schedule for Bexsero
+									using DOSE RECEIVED indication type</li>
+								<li>Mening B Trumenba Schedule: updated schedule for
+									Trumenba using DOSE RECEIVED indication type</li>
+								<li>Added decision logic to support scenarios when a
+									patient has received both Bexsero and Trumenba</li>
+								<li>Added recommendation for "MenB" when patient has
+									previously received Trumenba and Bexsero and either is
+									recommended to continue series</li>
+							</ul>
+
+							<h3>Version 3.12.01 - Release November 25 2015</h3>
+							<p>Testing release to support the new Meningococcal B
+								vaccines</p>
+							<ul>
+								<li>Added support for new indication type, DOSE RECEIVED,
+									that requires at least one dose before additional doses are
+									forecast</li>
+								<li>Mening B Bexsero Schedule: added support for new
+									Bexsero vaccine using DOSE RECEIVED indication type</li>
+								<li>Mening B Trumenba Schedule: added support for new
+									Trumenba vaccine using DOSE RECEIVED indication type</li>
+							</ul>
+
+							<h2>Version 3.11 - Production</h2>
+
+							<h3>Version 3.11.12 - Release October 15, 2015</h3>
+							<p>Testing release with additional fixes to the Meningococcal
+								schedule.</p>
+							<ul>
+								<li>Minor corrections to the updated Mening Schedule</li>
+							</ul>
+
+							<h3>Version 3.11.11 - Release October 9, 2015</h3>
+							<p>Testing release with updated Meningococcal schedule.</p>
+							<ul>
+								<li>Mening (MCV4) Schedule: Simplified MCV4 schedule in
+									order to comply with recent CDC clarification regarding minimum
+									age for 2nd dose</li>
+							</ul>
+
+							<h3>Version 3.11.10 - Release August 14, 2015</h3>
+							<p>Production candidate release.</p>
+							<ul>
+								<li>Reverted Mening schedule changes to the previous
+									schedule</li>
+							</ul>
+
+							<h3>Version 3.11.09 - Release August 10, 2015</h3>
+							<p>Production candidate release with updates to several
+								schedules.</p>
+							<ul>
+								<li>Pneumo65 schedule: Changed recommended interval to 1
+									year, removed Menactra contraindication</li>
+								<li>Mening schedule: Added 4 day grace period to minimum
+									age for booster dose</li>
+								<li>Influenza schedule: Fixed the 2015-2016 influenza
+									schedule, properly recognizes invalid doses when evaluating
+									need for 2nd dose</li>
+							</ul>
+
+							<h3>Version 3.11.08 - Release July 14, 2015</h3>
+							<p>Testing release with moderate improvements.</p>
+							<ul>
+								<li>Influenza has been updated for 2015 season.</li>
+								<li>Pnuemo65 schedule has minor updates to allow for 0 day
+									valid interval,</li>
+							</ul>
+
+							<h3>Version 3.11.07 - Release May 22, 2015</h3>
+							<p>Production candidate release with several minor issues
+								fixed.</p>
+							<ul>
+								<li>Added transition to Pneumo schedule for 2nd dose given
+									after 7 months of age should transition for third and final
+									dose.</li>
+								<li>Fixed issue with first dose of MMRV not transitioning
+									correctly to the adult varicella schedule. See test case
+									150511-3.</li>
+								<li>Fixed issue with second dose of MMRV not being
+									validated as a proper MMR dose if given after 13 years of age.
+									See test case 150511-1.</li>
+								<li>Fixed minor issue with HPV9 label not displaying
+									correctly in explanation details.</li>
+							</ul>
+							<h3>Version 3.11.06 - Release May 15, 2015</h3>
+							<p>Interim release with support for FHIR connection, no
+								impact on production interfaces.</p>
+							<ul>
+								<li>Added support for FHIR at the HL7 FHIR Connectathon in
+									Paris. This has no impact on current interfaces, but does add
+									one more way of connecting to forecaster.</li>
+							</ul>
+							<h3>Version 3.11.05 - Release May 1, 2015</h3>
+							<p>Production candidate release with support for latest CVX
+								codes added.</p>
+							<ul>
+								<li>Added CVX 165 (HPV9) and CVX 166 (influenza,
+									intradermal, quadravalent, preservative free)</li>
+							</ul>
+							<h3>Version 3.11.04 - Release February 13, 2015</h3>
+							<p>Production candidate release with final fixes for Pneumo
+								65+</p>
+							<ul>
+								<li>Added Pnuemo NOS code to Pneumo 65+ schedule.</li>
+							</ul>
+							<h3>Version 3.11.03 - Release January 13, 2015</h3>
+							<p>Production candidate release with final fixes for Pneumo
+								65+</p>
+							<ul>
+								<li>Fixed various minor issues for Pneumo 65+</li>
+							</ul>
+							<h3>Version 3.11.02 - Release December 22, 2014</h3>
+							<p>Beta release of changes for Pneumo 65+ recommendations.
+								This is ready for continued testing but not ready for production
+								use.</p>
+							<ul>
+								<li>Fixed various issues with schedule for Pneumo 65+</li>
+							</ul>
+							<h3>Version 3.11.01 - Release December 19, 2014</h3>
+							<p>Alpha release of changes for Pneumo 65+ recommendations.
+								This is ready for testing but not ready for production use.</p>
+							<ul>
+								<li>PCV-13 for childhood schedule is not engaged after the
+									age of 18 years. It has been replaced with Pneumo 65+ schedule.
+								</li>
+								<li>For adults 19+ the forecaster will not return pneumo
+									recommendations for PVC-13 or PPSV if PCV-13 has been given.</li>
+							</ul>
+
+							<h2>Version 3.10 - Production</h2>
+							<h3>Version 3.10.11 - Release November 19, 2014</h3>
+							<p>Production ready version. The following changes were made:</p>
+							<ul>
+								<li>Diphtheria: Fixed issue where if first dose given after
+									7 years of age was a Td and a Tdap on the same date the
+									transition did not work properly.</li>
+								<li>Fixed forecasting issue where concurrent requests to
+									the forecaster can cause one of the requests to fail. This was
+									found to happen when sending a volley of 100,000 messages in 10
+									threads at the forecaster (a level not expected to be done in
+									any of the current production systems.) It was determined that
+									if two requests were processed at the exact same time that one
+									of them could fail. The problem is now fixed and the forecaster
+									can process a continuous stream of requests from up to 10
+									sources without problems and without slowing down.</li>
+							</ul>
+							<h3>Version 3.10.10 - Release October 10, 2014</h3>
+							<p>Production ready version. The following changes were made:</p>
+							<ul>
+								<li>Influenza: Fixed issue where H1N1 given was being seen
+									as a regular flu season dose. Caused logic for determining
+									second dose to not work properly.</li>
+								<li>Diphtheria: Fixed issue with missing grace period for a
+									single transition (K5).</li>
+							</ul>
+							<h3>Version 3.10.9 - Release October 3, 2014</h3>
+							<p>This version is ready for production use. Includes minor
+								fixes identified during user acceptance testing.</p>
+							<ul>
+								<li>Diphtheria: Fixed transition in childhood schedule when
+									child becomes late, so that it transitions appropriately under
+									specific circumstances from the 3rd dose to the 4 year old
+									catchup dose.</li>
+								<li>HPV: Fixed due date for second dose for males to match
+									females for dose two.</li>
+								<li>Influenza: Fixed issue with not recognizing H1N1
+									vaccine in flu rules and added CVX code to list of vaccines.</li>
+								<li>MMR & Varicella: Changed MMRV administration so that if
+									given after 13 it is still counted as valid. (MMRV should not
+									be given after 13 but can be counted as valid if done.)</li>
+								<li>Polio: Fixed transition from 3rd dose for children
+									under 4 year old to move to P4 instead of catchup booster. Not
+									a major change except it keeps the patient from being shown as
+									overdue for fourth dose.</li>
+							</ul>
+							<h3>Version 3.10.8 - Release September 19, 2014</h3>
+							<p>This version is ready for production use. One minor fix
+								from previous release.</p>
+							<ul>
+								<li>Fixed logic for * dose counts. Previously it was
+									reporting dose 0 or 1, when it should have been reporting 1 or
+									0. This only affected certain catchup doses that requiring
+									counting to set dose number.</li>
+							</ul>
+							<h3>Version 3.10.7 - Release September 18, 2014</h3>
+							<p>This version is intended for production use. Very minor
+								changes from previous version.</p>
+							<ul>
+								<li>Diptheria: Changed transition for alternative primary
+									schedule for children to go to K4 if 3rd dose is given after 4
+									years of age. Updated K4 valid and overdue dates to more
+									expected values.</li>
+								<li>Hib: Set alternative catchup dose to have a variable
+									dose number depending on how many valid doses given before.</li>
+								<li>Pneumo: Set alternative catchup dose to have variable
+									dose number and updated valid, due and overdue dates on catchup
+									schedule to more appropriate values.</li>
+							</ul>
+							<h3>Version 3.10.6 - Release September 17, 2014</h3>
+							<p>This version is intended for production use. Very minor
+								changes from previous version.</p>
+							<ul>
+								<li>Hib: Minor fix to schedule for a catchup schedule.</li>
+								<li>Polio: Minor fix to schedule for a catchup schedule.</li>
+								<li>IHS Interface: Added support for reporting back CVX
+									codes of parts of message that are invalid.</li>
+							</ul>
+							<h3>Version 3.10.5 - Release September 16, 2014</h3>
+							<p>This version should be ready for production use. A few
+								minor changes were made, but testing is nearly complete.</p>
+							<ul>
+								<li>Diptheria: Changed age transitions to happen 4 days
+									before the actual age, so a Tdap given at 7 years - 4 days is
+									considered valid for adult schedule.</li>
+								<li>Hib: Changed age transitions to include 4 day grace
+									period.</li>
+								<li>Pneumo: Changed age transitions to include 4 day grace
+									period.</li>
+								<li>Polio: Changed age transition to include 4 day grace
+									period, fixed issue with transition not happening when 2nd dose
+									given after 4 years of age.</li>
+							</ul>
+							<h3>Version 3.10.4 - Release September 8, 2014</h3>
+							<p>This is a testing release, and may be ready for production
+								use. It must be tested first.</p>
+							<ul>
+								<li>Diphtheria: Modified Tdap so that it counts if DTaP or
+									DTP is given.</li>
+								<li>Influenza: Added support for new CVX 161 code.</li>
+								<li>Hib: Added new Catchup Booster dose to correctly mark
+									vaccination as overdue immediately.</li>
+								<li>Polio: Added new Catchup Booster dose to correctly mark
+									vaccination as overdue immediately.</li>
+							</ul>
+							<h3>Version 3.10.3 - Release August 29, 2014</h3>
+							<p>This is a testing release, and will likely not be released
+								for production use. Please note that many of the fixes listed
+								below are not known to be problems in the current production
+								release. Rather they are fixes to problems introduced in the
+								previous patch.</p>
+							<ul>
+								<li>Pnuemo: Added a state C4 for dealing with a first and
+									final dose differently than a final dose after other
+									vaccinations.</li>
+								<li>Hib: Added back in some transitions for doses given
+									instead of by age. This allows the dates to stay the same until
+									a dose is given. This is a good balance between age transition
+									and dose transition on certain ages.</li>
+								<li>Polio: Fixed 4 year old transition on P3. A typo caused
+									it not to work.</li>
+								<li>Influenza: Fixed issue with H1N1, should have been
+									fixed before but forgot to copy over XML in last release.</li>
+								<li>Diptheria: Another state was added to manage when the
+									4th dose is not given on time. Fixed logic for determining if
+									Tdap had been given previously. This was not working in the
+									previous patch so it was impossible to transition to the final
+									10 year booster.</li>
+							</ul>
+							<h3>Version 3.10.2 - Release August 27, 2014</h3>
+							<p>This is a testing release, and will likely not be released
+								for production use. Please note that many of the fixes listed
+								below are not known to be problems in the current production
+								release. Rather they are fixes to problems introduced in the
+								previous patch.</p>
+							<ul>
+								<li>Hib: Reworked the Hib Diagram based on feedback from
+									Brady during testing.</li>
+								<li>Diphtheria: Found a problem with transitions on age if
+									a vaccination give on the day of transition. Fixed bug by
+									giving priority to transition.</li>
+								<li>Diphtheria: Fixed issue with not properly transitioning
+									to booster dose when tdap is given.</li>
+								<li>Diphtheria: Tdap given as a booster (K5 and P4) will
+									count as a valid transition for children under 7. P1, P2, P3,
+									P1a, P2a, P3a will still count as invalid.</li>
+								<li>Influenza: Change to influenza moved the valid date to
+									the first date when the flu shot could be given regardless of
+									the season. This was different than the previous version that
+									moved the valid date to the start of the season. Now the valid
+									date will be adjusted to start of season if before the season.
+									This should reduce differences between this version and
+									previous versions.</li>
+								<li>Influenza: Contraindication of the Live Flu was
+									affecting the due date of the standard recommendation. That has
+									been fixed.</li>
+								<li>Influenza: Added H1N1 codes to the standard list of flu
+									codes, otherwise logic did not work correctly.</li>
+								<li>Influenza: The tester was showing "unknown" status for
+									a vaccination series that was complete. This was because the
+									flu now does not report the next dates due, and should have
+									been moved to a different section of the report. That has been
+									done so now the tester should show the status correctly.</li>
+								<li>Influenza: Fixed issue with seasonal overdue date not
+									set correctly.</li>
+								<li>Polio: Fixed minor issue on transition so it worked
+									properly. (4 Years Old was valued as '7 months' and so did not
+									work properly.)</li>
+								<li>PCV: Removed extra state that was added in the previous
+									version.</li>
+								<li>PCV: Added new state to handle when the 3rd dose has
+									not yet been given and should be immediately given.</li>
+							</ul>
+							<h3>Version 3.10.1 - Release August 20, 2014</h3>
+							<p>This is a testing release, and will not be released for
+								production use. Five forecast antigens have been completely
+								rewritten:</p>
+							<ul>
+								<li>Diptheria: Completely new transitions from DTaP to
+									Tdap.</li>
+								<li>Hib: New diagram and transitions.</li>
+								<li>Influenza: Major change to how forecasting is done.
+									Completely new diagram and logic for driving second dose
+									decision. Incorporates 2014 ACIP rules.</li>
+								<li>Pneumo: New diagram and transitions, support for PCV-13
+									supplemental dose after a PCV-7 series has been removed.</li>
+								<li>Polio: New diagram and transitions.</li>
+							</ul>
+							<h4>Changes specific to Influenza:</h4>
+							<ul>
+								<li>Valid date for influenza is now always 6 months after
+									the birth of the patient and will never reflect start of
+									season.</li>
+								<li>The previous seasons are now all lumped together as
+									simply previous doses that do not count towards completion.
+									Minimum 4 week intervals and live virus conflicts are still
+									checked, but not determination is made about compliance with 2
+									dose requirements in the seasons before the current one.</li>
+								<li>The transition diagram has bee simplified by the
+									introduction of a new concept of Decision Logic that is written
+									custom to determine transition from the first seasonal dose to
+									possibly a second season dose. This simplifies and standardizes
+									the flu schedule. However, when ACIP changes their schedule,
+									the Decision Logic piece will have to be rewritten. This will
+									require a new release of the flu forecast.</li>
+							</ul>
+							<h2>Version 3.9</h2>
+							<h3>Version 3.9.4 - Released June 17, 2014</h3>
+							<p>Final set of improvements for Spring 2014 release</p>
+							<ul>
+								<li>Version was incremented because of a major fix to the
+									logic for determining the valid intervals between invalid and
+									valid administration of vaccinations. The TCH Forecaster now
+									applies the invalid interval only to the previously given
+									invalid dose and the valid interval to the previously given
+									valid dose. This change aligns with the intention of the means
+									of the valid and invalid interval values. While this change is
+									fairly big from the sense of logic it's impact is only minor as
+									most invalid and valid intervals are the same. Only in a few
+									scenarios was this problem evident.</li>
+								<li>HPV: Male schedule was not setup exactly the same as
+									female schedule. Apparently improvements made previously to
+									female schedule were not applied to male. Male schedule is now
+									aligned with female.</li>
+								<li>Hep A: Increased grace period between invalid
+									administration of 2nd dose and next valid administration of 2nd
+									dose. The forecaster will not recommend a 6 month gap but will
+									accept the 2nd dose as soon as it can be given after the 1st
+									dose.</li>
+								<li>Varicella: Removed requirement that 2nd dose be given
+									at 15 months (with a grace period of 8 weeks). Now only the
+									minimum interval of 12 weeks (with a grace period of 8 weeks)
+									is enforced.</li>
+								<li>For IHS version fixed issue with Hep A child/parent
+									doses not being properly coded for the forecaster.</li>
+								<li>For IHS version added filter so that specific
+									vaccinations doses would be forecasted on the valid date and
+									others on the early date when the IHS user requested an
+									accelerated schedule. <a
+									href="https://code.google.com/p/tch-forecaster/issues/detail?id=59">Issue
+										59</a>
+								</li>
+								<li>Diphtheria: Added a 6 week early due for all first
+									doses. This only affects those who select to use the early due
+									date.</li>
+							</ul>
+							<h2>Version 3.8</h2>
+							<h3>Version 3.8.4 - Released April 24, 2014</h3>
+							<p>Improvements for IHS deployment and TCH deployment.</p>
+							<ul>
+								<li>Fixed issue with Influenza IIV being improperly
+									contraindicated when given after Varicella.</li>
+								<li>Moved report version to top of report for IHS.</li>
+								<li>Fixed issue with Influenza forecast not working
+									properly when given immediately at the start of the season on
+									July 1st.</li>
+								<li>Made minor changes to the Java API, for integration
+									into TCH system.</li>
+								<li>Added setting the influenza season in the IHS
+									forecaster.</li>
+								<li>Added filter for Influenza so IHS is not forecasted for
+									flu after 04/01 of every season.</li>
+								<li>Added contraindications for Flu LAIV4 that were only
+									working before for Flu LAIV3.</li>
+								<li>Added temporary fix to IHS version to not report back
+									invalid Hep B for Pediarix when given between 2nd and 3rd dose.</li>
+								<li>Fixed issue displaying text for invalid reason on
+									detailed forecast report.</li>
+							</ul>
+							<h2>Version 3.7</h2>
+							<h3>Version 3.7.1 - Released April 2, 2014</h3>
+							<p>Improvements for IHS deployment.</p>
+							<ul>
+								<li>Added new field to Forecast Options - Recommend When
+									Valid. If set to true, the forecaster will indicate
+									vaccinations that are due today because the valid due date has
+									now been satisified. Normally this does not ocurr until the due
+									date is reached. This option may be used to forecast as soon as
+									possible for patients.</li>
+								<li>Mening will now not forecast for 19+ years of age.
+									Considered to be finished by that age.</li>
+								<li>Fixed minor spelling issue.</li>
+								<li>Fixed interface issue for IHS to indicate to valid or
+									invalid vaccinations.</li>
+								<li>Change report format for IHS so that lines are
+									deliminated by special characters.</li>
+							</ul>
+							<h3>Version 3.5.12 - Released March 28, 2014</h3>
+							<p>Improvements found after testing with IHS and TCH test
+								cases:</p>
+							<ul>
+								<li>The early due and early overdue functionality were
+									further improved. Previously the forecaster reported out these
+									data separately and let the report writer or receiver of the
+									data to decide which to show. Now the forecaster will only
+									report due and overdue dates, but can use the alternative early
+									dates if the Forecast Options indicate that this should be
+									done. This change had to be made as the forecaster has a fair
+									amount of logic around due and overdue dates that gets very
+									complicated if both of these dates and their early twins must
+									be considered. Now the logic sets the dates correctly early on
+									and the rest of the logic flows normally from there.</li>
+								<li>Change overdue date for second MCV4 from 19 years to 17
+									years.</li>
+								<li>Fixed issue with influenza season setting function was
+									not resetting properly to default. Caused a problem only for
+									testing.</li>
+								<li>Fixed issue with Hib forecast finishing too soon rather
+									than completing evaluation of series. Did not affect final
+									result recommendation.</li>
+								<li>Fixed issue with Java API interface not returning
+									results properly.</li>
+								<li>Fixed issue with MCV4 not showing up in IHS (was
+									showing on report but was not transmitting to IHS in proper
+									format).</li>
+								<li>Fixed issue with DTaP not showing early overdue date
+									for IHS. Forecaster was working properly but IHS connector was
+									not properly indicating need to send back early date.</li>
+								<li>Fixed issue with influenza contraindication now
+									engaging at the correct time. Results were accurate but appears
+									of contraindication was unnecessary and confusing.</li>
+								<li>Compact report for IHS now does not include irrelevant
+									forecasts. The supporting text below however gives all details.</li>
+							</ul>
+							<h2>Version 3.4</h2>
+							<h3>Version 3.4.1</h3>
+							<p>Changes for Indian Health Service and Texas Children's
+								Hospital:</p>
+							<ul>
+								<li>Added support for assumptions for adults who are
+									assumed to have received childhood series. The forecaster will
+									not automatically assume an adult record has received childhood
+									immunizations. Rather, these must be asserted at the time of
+									the request.</li>
+								<li>Added ability to ignore vaccinations that are sub
+									potent. This is a preliminary ability and needs to be further
+									tested before being used in production.</li>
+								<li>Added ability to force a vaccination to be valid even
+									if given too soon. This is a preliminary ability and needs to
+									be further tested.</li>
+								<li>Changed MMR and Varicella interaction so that they have
+									a 28 day separation instead of a 24 days.</li>
+								<li>Added support for MenHibrix in Hib schedule.</li>
+								<li>Fixed two minor issues with IHS interface.</li>
+							</ul>
+							<h2>Version 3.3</h2>
+							<h3>Version 3.3.1</h3>
+							<p>Changes to the detailed information associated with each
+								vaccine type forecaster for and changes to the IHS interface.</p>
+							<ul>
+								<li>Added invalid code and invalid reason to the IHS
+									defined interface.</li>
+								<li>Changed how the detailed logging is done so it can be
+									displayed either in HTML or plain text. This change was needed
+									to support IHS need to display details in text format. This
+									change resulted in a major change to the interface for
+									reporting back details. Previously there was a traceBuffer
+									available that included details on entire forecast process, but
+									this was redundant with the details in each trace log. So the
+									traceBuffer has been removed.</li>
+							</ul>
+							<h2>Version 3.2</h2>
+							<h3>Version 3.2.6</h3>
+							<p>This latest release has the following major improvements:</p>
+							<ul>
+								<li>Updated support for CDC CVX codes. Previous versions
+									did not properly support all codes.</li>
+								<li>Integrated ability to report on exactly how codes are
+									supported. This insures accurate documentation of functionality
+									of forecaster.</li>
+								<li>Reporting on status of all vaccine types forecasted
+									for. Previously if a patient was finished or complete for a
+									vaccine series no recommendations or forecasts were given. The
+									recipient was required to assume that the patient did not need
+									these vaccinations. Now the interface reports back statuses on
+									all vaccinations, even if they are no longer relevant.</li>
+								<li>The Influenza forecast can now split if a
+									contraindicated live vaccine is given within 28 days of a
+									recommended for Influenza. If this happens the forecaster will
+									report a recommendation for Influenza IIV to be given on time
+									and a contraindicated forecast for Influenza LAIV to be given
+									at a later date. The new status field on the result indicates
+									that a dose is currently contraindicated and the dates indicate
+									when the vaccination should be given.</li>
+							</ul>
+							<p>It is important for API users to understand the need to
+								filter results before displaying to the end user. The forecaster
+								now returns a great deal more information some of which may not
+								be relevant. For example, all patients, regardless of age, will
+								receive a Rotavirus forecast. For most patients this forecast
+								will simply indicate the patient is finished or complete. These
+								type of results would not normally be shown to clinicians giving
+								regular care. Please consult the API documentation to understand
+								how to properly interpret the results.</p>
+
+							<h2>Release Process Checklist</h2>
+							<p>These are the technical steps necessary to release a new
+								version of the TCH Forecaster:</p>
+							<ul>
+								<li>Update Excel schedule files and create PDF versions.</li>
+								<li>Update version number in the source code.</li>
+								<li>Update version number on schedule.</li>
+								<li>Commit all changes to SVN.</li>
+								<li>Build war, jar and documentation.</li>
+								<li>Verify version of jar: <code>javap -classpath
+										tch-forecaster.jar -constants
+										org.tch.forecast.core.SoftwareVersion</code></li>
+								<li>Upgrade TCH Forecast Validator on the TCH Forecaster
+									website.</li>
+								<li>Run tests that TCH and IHS have targeted as
+									must-all-pass for production.</li>
+								<li>Create release notes on website, update version number
+									in index.html and add notes in releaseNotes.html.</li>
+								<li>Copy forecaster jar to distribution point.</li>
+								<li>Copy API documentation to website.</li>
+								<li>Update issues in google code.</li>
+							</ul>
+						</div>
+				</div>
+			</div>
+		</div>
+</body>
+</html>

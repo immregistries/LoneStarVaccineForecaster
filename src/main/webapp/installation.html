@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description"
+	content="Lone Star Vaccine Forecaster management page">
+<title>Lone Star Vaccine Forecaster</title>
+
+<link rel="stylesheet"
+	href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
+	integrity="sha384-" crossorigin="anonymous">
+
+<!--[if lte IE 8]>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
+    <![endif]-->
+<!--[if gt IE 8]><!-->
+<link rel="stylesheet"
+	href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+<!--<![endif]-->
+
+
+<!--[if lte IE 8]>
+            <link rel="stylesheet" href="css/layouts/blog-old-ie.css">
+        <![endif]-->
+<!--[if gt IE 8]><!-->
+<link rel="stylesheet" href="css/layouts/blog.css">
+<!--<![endif]-->
+
+</head>
+<body>
+	<div id="layout" class="pure-g">
+		<div class="sidebar pure-u-1 pure-u-md-1-4">
+			<div class="header">
+				<h1 class="brand-title">Lone Star Vaccine Forecaster</h1>
+				<h2 class="brand-tagline">Immunization Clinical Decision Support</h2>
+				<nav class="nav">
+					<ul class="nav-list">
+						<li class="nav-item"><a class="pure-button"
+							href="forecast.html">Forecast</a></li>
+						<li class="nav-item"><a class="pure-button" href="test.html">Test</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<div class="content pure-u-1 pure-u-md-3-4">
+			<div>
+				<!-- A wrapper for all the blog posts -->
+				<div class="posts">
+					<h1 class="content-subhead">Forecaster</h1>
+
+					<!-- A single blog post -->
+					<section class="post">
+						<header class="post-header">
+							<h2 class="post-title">Download</h2>
+							<p class="post-meta">Lone Star Vaccine Forecaster</p>
+						</header>
+
+						<div class="post-description">
+						   <a class="pure-button" href="lsvfweb.war" download target="_blank">Download Forecaster</a>
+							<ul>
+								<li>Right click on the "Download the Forecaster" link
+									and select "Save target as..." or "Save link as..."</li>
+								<li>This should open the file save as dialog box on
+									Internet Explorer or Firefox and allow you to save the
+									application file to your local computer.</li>
+							</ul>
+							<p>
+								<b>Note:</b> Internet Explorer has difficulty saving the
+								lsvfweb.war file properly. Please ensure you save save it exactly
+								as lsvfweb.war and not as lsvfweb.war.txt or lsvfweb.txt.
+							</p>
+						</div>
+					</section>
+
+					<section class="post">
+						<header class="post-header">
+							<h2 class="post-title">Install on Tomcat</h2>
+							<p class="post-meta">Save lsvfweb.war</p>
+						</header>
+
+						<div class="post-description">
+							<p>The Lone Star Vaccine Forecaster application is called "lsvfweb.war" and
+								must be installed into Tomcat in order to operate on your local
+								system.
+							<ul>
+								<li>Save or copy the downloaded file to the Tomcat/webapps
+									directory.</li>
+								<li>On Windows system this is typically here: C:\Program
+									Files\Apache Software Foundation\Tomcat 7.0\webapps</li>
+							</ul>
+						</div>
+					</section>
+
+					<section class="post">
+						<header class="post-header">
+							<h2 class="post-title">Confirm Installation</h2>
+							<p class="post-meta">Verify that it was installed properly</p>
+						</header>
+
+						<div class="post-description">
+							<p>If you have followed the previous steps correctly you will
+								see that Tomcat automatically creates a folder named "lsvfweb"
+								inside the webapps folder. The happened because lsvfweb.war is
+								actually a zip file that Tomcat recognizes. When you saved the
+								lsvfweb.war file in the webapps folder, Tomcat recognized it and
+								expanded it into a folder.</p>
+							<p>Once Tomcat has expanded the webapps folder it will
+								download a 140kb sized file named lsvforecaster.jar and save it
+								in Tomcat's /bin folder or in Tomcat's root folder. This file is
+								the TCH Forecaster logic and is updated each time Tomcat is
+								started.</p>
+
+						</div>
+					</section>
+
+					<section class="post">
+						<header class="post-header">
+							<h2 class="post-title">Test Future Version</h2>
+							<p class="post-meta">How to verify next version is good to go</p>
+						</header>
+
+						<div class="post-description">
+							<p>The instructions above give directions on how to install
+								the Forecaster for production. Before a new version of the Lone Star Vaccine
+								Forecaster is released for production it is released for test.
+								The installation above can be configured to request the test
+								version instead of the production version. Often this will be
+								the same version, but if a new test version has been released,
+								this configuration change will ensure the latest version out on
+								test is being used.</p>
+							<ul>
+								<li>Following standard installation process.</li>
+								<li>Stop Tomcat if it is running.</li>
+								<li>Open he web.xml file in a text editor (such as Windows
+									Wordpad). This file will be found in the [Tomcat
+									Folder]/webapps/fweb/WEB-INF folder.</li>
+								<li>Find the line that reads <code>&lt;param-value&gt;http://tchforecasttester.org/lsv-forecaster.jar&lt;/param-value&gt;</code>
+									and change to <code>
+										&lt;param-value&gt;http://tchforecasttester.org/lsv-forecaster<b>-test</b>.jar&lt;/param-value&gt;
+									</code> by simply adding the text <code>-test</code> to the URL.
+								</li>
+								<li>Start Tomcat</li>
+							</ul>
+						</div>
+					</section>
+
+				</div>
+			</div>
+		</div>
+</body>
+</html>

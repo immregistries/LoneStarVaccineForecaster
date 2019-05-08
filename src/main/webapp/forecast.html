@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description"
+	content="Lone Star Vaccine Forecaster management page">
+<title>Lone Star Vaccine Forecaster</title>
+
+<link rel="stylesheet"
+	href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
+	integrity="sha384-" crossorigin="anonymous">
+
+<!--[if lte IE 8]>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
+    <![endif]-->
+<!--[if gt IE 8]><!-->
+<link rel="stylesheet"
+	href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+<!--<![endif]-->
+
+
+<!--[if lte IE 8]>
+            <link rel="stylesheet" href="css/layouts/blog-old-ie.css">
+        <![endif]-->
+<!--[if gt IE 8]><!-->
+<link rel="stylesheet" href="css/layouts/blog.css">
+<!--<![endif]-->
+
+</head>
+<body>
+	<div id="layout" class="pure-g">
+		<div class="sidebar pure-u-1 pure-u-md-1-4">
+			<div class="header">
+				<h1 class="brand-title">Lone Star Vaccine Forecaster</h1>
+				<h2 class="brand-tagline">Immunization Clinical Decision
+					Support</h2>
+				<nav class="nav">
+					<ul class="nav-list">
+						<li class="nav-item"><a class="pure-button"
+							href="forecast.html">Forecast</a></li>
+						<li class="nav-item"><a class="pure-button" href="test.html">Test</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<div class="content pure-u-1 pure-u-md-3-4">
+			<div>
+				<!-- A wrapper for all the blog posts -->
+				<div class="posts">
+					<h1 class="content-subhead">Forecaster</h1>
+
+					<!-- A single blog post -->
+					<section class="post">
+						<header class="post-header">
+							<h2 class="post-title">Current Versions</h2>
+							<p class="post-meta">Lone Star Vaccine Forecaster</p>
+						</header>
+
+						<div class="post-description">
+							<ul>
+								<li><b>Production: </b><a href="installation.html">v4.2.1
+										Oct 28, 2018</a></li>
+								<li><b>Test: </b><a href="installation.html">v4.2.1 Oct
+										28, 2018</a></li>
+							</ul>
+						</div>
+						<header class="post-header">
+							<h2 class="post-title">Documentation</h2>
+						</header>
+
+						<div class="post-description">
+							<p>The Lone Star Vaccine Forecaster accepts CVX codes, which
+								are defined by the CDC. Please note that not all CVX codes are
+								supported or are even relevant for an immunization forecast.
+								Please consult the documentation below for details on specific
+								CVX codes.</p>
+							<ul>
+								<li><a href="installation.html">Installation</a></li>
+								<li><a href="index.html">License</a></li>
+								<li><a href="releaseNotes.html">Release Notes</a></li>
+								<li><a href="listCodes">CVX codes supported</a></li>
+								<li><a
+									href="http://www2a.cdc.gov/vaccines/iis/iisstandards/vaccines.asp?rpt=cvx">Official
+										list of CVX codes from CDC</a></li>
+							</ul>
+							<p>Access to the Lone Star Vaccine Forecaster can be done in
+								several ways:</p>
+							<ul>
+								<li>Direct access via HTTP GET request</li>
+								<li>Java API</li>
+								<li>IHS Defined Standard on TCP/IP</li>
+							</ul>
+							<h2>Direct Access</h2>
+							<p>Direct access can be done by using a simple HTTP GET
+								command with the following parameters:</p>
+							<ul>
+								<li><b>evalDate</b> Evaluation date, or the date when the
+									forecast should be run for, Default to today's date. Must be in
+									YYYYMMDD format.</li>
+								<li><b>resultFormat</b> Specify text, html or compact to
+									request the format for the results.</li>
+								<li><b>patientDob</b> The date the patient was born. Must
+									be in YYYYMMDD format.</li>
+								<li><b>patientSex</b> The sex of the patient. Should be M
+									or F.</li>
+								<li><b>vaccineDate[n]</b> The date the vaccination was
+									administered. Must be in YYYYMMDD format.</li>
+								<li><b>vaccineCvx[n]</b> The CVX code for the vaccination.
+									Please consult documentation on supported CVX codes.</li>
+								<li><b>vaccineMvx[n]</b> The manufacturer code for the
+									vaccination. No currently taken into account by TCH forecaster.
+									Codes are defined by CDC.</li>
+							</ul>
+							<p>Example Links</p>
+							<ul>
+								<li><a
+									href="forecast?evalDate=20130513&evalSchedule=&resultFormat=html&patientDob=20120902&patientSex=F&vaccineDate1=20121015&vaccineCvx1=49&vaccineMvx1=&vaccineDate2=20120902&vaccineCvx2=08&vaccineMvx2=&vaccineDate3=20121015&vaccineCvx3=133&vaccineMvx3=&vaccineDate4=20121015&vaccineCvx4=116&vaccineMvx4=&vaccineDate5=20121015&vaccineCvx5=110&vaccineMvx5=&assumeDtapSeriesCompleteAtAge=18+years&fluSeasonEnd=6+months&dueUseEarly=true&fluSeasonStart=0+months&fluSeasonOverdue=4+months&fluSeasonDue=2+months">User
+										Friendly Format</a></li>
+								<li><a
+									href="forecast?evalDate=20130513&evalSchedule=&resultFormat=text&patientDob=20120902&patientSex=F&vaccineDate1=20121015&vaccineCvx1=49&vaccineMvx1=&vaccineDate2=20120902&vaccineCvx2=08&vaccineMvx2=&vaccineDate3=20121015&vaccineCvx3=133&vaccineMvx3=&vaccineDate4=20121015&vaccineCvx4=116&vaccineMvx4=&vaccineDate5=20121015&vaccineCvx5=110&vaccineMvx5=&assumeDtapSeriesCompleteAtAge=18+years&fluSeasonEnd=6+months&dueUseEarly=true&fluSeasonStart=0+months&fluSeasonOverdue=4+months&fluSeasonDue=2+months">Text
+										Format</a></li>
+								<li><a
+									href="forecast?evalDate=20130513&evalSchedule=&resultFormat=compact&patientDob=20120902&patientSex=F&vaccineDate1=20121015&vaccineCvx1=49&vaccineMvx1=&vaccineDate2=20120902&vaccineCvx2=08&vaccineMvx2=&vaccineDate3=20121015&vaccineCvx3=133&vaccineMvx3=&vaccineDate4=20121015&vaccineCvx4=116&vaccineMvx4=&vaccineDate5=20121015&vaccineCvx5=110&vaccineMvx5=&assumeDtapSeriesCompleteAtAge=18+years&fluSeasonEnd=6+months&dueUseEarly=true&fluSeasonStart=0+months&fluSeasonOverdue=4+months&fluSeasonDue=2+months">Limited-Width
+										Text Format</a></li>
+							</ul>
+							<h2>Java API</h2>
+							<p>
+								The Java API is available to organizations authorized by TCH to
+								receive it. Please see <a href="doc/core/">API Doc</a> for more
+								information.
+							</p>
+							<h2>IHS Defined Standard on TCP/IP</h2>
+							<p>
+								Indian Health Service has defined a specific standard to access
+								the forecaster. This is defined in this <a
+									href="LSVF ASCII Adapter, 02-25-14.xlsx">Excel Spreadsheet</a>.
+								Access to the forecaster is accomplished through TCP/IP.
+							</p>
+						</div>
+					</section>
+
+
+				</div>
+			</div>
+		</div>
+</body>
+</html>

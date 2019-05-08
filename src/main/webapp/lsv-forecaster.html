@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>LSV Forecaster</title>
+<link rel="stylesheet" type="text/css" href="fv/index.css" />
+</head>
+<body>
+  <h1>TCH Forecaster</h1>
+  <p>
+    <a href="lsvfweb.war">Download the Lone Star Vaccine Forecaster</a>
+  </p>
+  <h2>Instructions</h2>
+  <h3>Download lsvfweb.war</h3>
+  <ul>
+    <li>Right click on the "Download the TCH Forecaster" link and select "Save target as..." or "Save link as..."</li>
+    <li>This should open the file save as dialog box on Internet Explorer or Firefox and allow you to save the application file to your local
+      computer.</li>
+  </ul>
+  <p>
+    <b>Note:</b> Internet Explorer has difficulty saving the fweb.war file properly. Please ensure you save save it exactly as fweb.war and not as
+    fweb.war.txt or fweb.txt. Also please ensure that the file type from txt to all programs.
+  </p>
+  <h3>Save fweb.war</h3>
+  <p>The TCH Forecaster application is called "fweb.war" and must be installed into Tomcat in order to operate on your local system.
+  <p>
+  <ul>
+    <li>Save or copy the downloaded file to the Tomcat/webapps directory.</li>
+    <li>On Windows system this is typically here: C:\Program Files\Apache Software Foundation\Tomcat 7.0\webapps</li>
+  </ul>
+  <h3>Confirmation</h3>
+  <p>If you have followed the previous steps correctly you will see that Tomcat automatically creates a folder named "fweb" inside the webapps
+    folder. The happened because fweb.war is actually a zip file that Tomcat recognizes. When you saved the fweb.war file in the webapps folder,
+    Tomcat recognized it and expanded it into a folder.</p>
+  <p>Once Tomcat has expanded the webapps folder it will download a 140kb sized file named tchforecaster.jar and save it in Tomcat's /bin folder
+    or in Tomcat's root folder. This file is the TCH Forecaster logic and is updated each time Tomcat is started.</p>
+
+  <h2>Instructions for Test</h2>
+  <p>The instructions above give directions on how to install the Forecaster for production. Before a new version of the TCH Forecaster is
+    released for production it is released for test. The installation above can be configured to request the test version instead of the production
+    version. Often this will be the same version, but if a new test version has been released, this configuration change will ensure the latest
+    version out on test is being used.</p>
+  <ul>
+    <li>Following standard installation process.</li>
+    <li>Stop Tomcat if it is running.</li>
+    <li>Open he web.xml file in a text editor (such as Windows Wordpad). This file will be found in the [Tomcat Folder]/webapps/fweb/WEB-INF
+      folder.</li>
+    <li>Find the line that reads <code>&lt;param-value&gt;http://tchforecasttester.org/tch-forecaster.jar&lt;/param-value&gt;</code> and change
+      to <code>&lt;param-value&gt;http://tchforecasttester.org/tch-forecaster<b>-test</b>.jar&lt;/param-value&gt;</code> by simply adding the text <code>-test</code>
+      to the URL.
+    </li>
+    <li>Start Tomcat</li>
+  </ul>
+</body>
+</html>
