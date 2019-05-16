@@ -103,7 +103,7 @@ public class VaccineForecastManager implements VaccineForecastManagerInterface
       try {
         vaccineIdToLabelMap = new HashMap<Integer, String>();
         BufferedReader in = new BufferedReader(new InputStreamReader(
-            VaccineForecastManager.class.getResourceAsStream("vaccineIdToLabel.txt")));
+            VaccineForecastManager.class.getResourceAsStream("/vaccineIdToLabel.txt")));
         String line;
         while ((line = in.readLine()) != null) {
           int pos = line.indexOf("=");
