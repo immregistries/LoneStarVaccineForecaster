@@ -32,7 +32,8 @@
 		<div class="sidebar pure-u-1 pure-u-md-1-4">
 			<div class="header">
 				<h1 class="brand-title">Lone Star Vaccine Forecaster</h1>
-				<h2 class="brand-tagline">Immunization Clinical Decision Support</h2>
+				<h2 class="brand-tagline">Immunization Clinical Decision
+					Support</h2>
 				<nav class="nav">
 					<ul class="nav-list">
 						<li class="nav-item"><a class="pure-button"
@@ -56,18 +57,20 @@
 						</header>
 
 						<div class="post-description">
-						   <a class="pure-button" href="lsvfweb.war" download target="_blank">Download Forecaster</a>
+							<a class="pure-button" href="lsvfweb.war" download
+								target="_blank">Download Forecaster</a>
 							<ul>
-								<li>Right click on the "Download the Forecaster" link
-									and select "Save target as..." or "Save link as..."</li>
+								<li>Right click on the "Download the Forecaster" link and
+									select "Save target as..." or "Save link as..."</li>
 								<li>This should open the file save as dialog box on
 									Internet Explorer or Firefox and allow you to save the
 									application file to your local computer.</li>
 							</ul>
 							<p>
 								<b>Note:</b> Internet Explorer has difficulty saving the
-								lsvfweb.war file properly. Please ensure you save save it exactly
-								as lsvfweb.war and not as lsvfweb.war.txt or lsvfweb.txt.
+								lsvfweb.war file properly. Please ensure you save save it
+								exactly as lsvfweb.war and not as lsvfweb.war.txt or
+								lsvfweb.txt.
 							</p>
 						</div>
 					</section>
@@ -79,9 +82,9 @@
 						</header>
 
 						<div class="post-description">
-							<p>The Lone Star Vaccine Forecaster application is called "lsvfweb.war" and
-								must be installed into Tomcat in order to operate on your local
-								system.
+							<p>The Lone Star Vaccine Forecaster application is called
+								"lsvfweb.war" and must be installed into Tomcat in order to
+								operate on your local system.
 							<ul>
 								<li>Save or copy the downloaded file to the Tomcat/webapps
 									directory.</li>
@@ -107,8 +110,21 @@
 							<p>Once Tomcat has expanded the webapps folder it will
 								download a 140kb sized file named lsvforecaster.jar and save it
 								in Tomcat's /bin folder or in Tomcat's root folder. This file is
-								the TCH Forecaster logic and is updated each time Tomcat is
-								started.</p>
+								the Lone Star Vaccine Forecaster logic and is updated each time
+								Tomcat is started.</p>
+							<p>
+								Navigate to this URL: <a
+									href="http://localhost:8080/lsvfweb/startServlet">http://localhost:8080/lsvfweb/startServlet</a>
+								(May require modification if Tomcat is installed on a different
+								system or not on port 8080.) When successfully started it should
+								show the version of the forecaster.
+							</p>
+							<p>
+							Once started the Lone Star Vaccine Forecaster listens on port 6708 and responds to TCP/IP requests. The
+							performance and availability of this service can be tested with this command:
+							<code>java -classpath lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecasterTester repeat-count [thread-count [host-name [port-number]]]</code>
+							</p>
+
 
 						</div>
 					</section>
@@ -121,22 +137,22 @@
 
 						<div class="post-description">
 							<p>The instructions above give directions on how to install
-								the Forecaster for production. Before a new version of the Lone Star Vaccine
-								Forecaster is released for production it is released for test.
-								The installation above can be configured to request the test
-								version instead of the production version. Often this will be
-								the same version, but if a new test version has been released,
-								this configuration change will ensure the latest version out on
-								test is being used.</p>
+								the Forecaster for production. Before a new version of the Lone
+								Star Vaccine Forecaster is released for production it is
+								released for test. The installation above can be configured to
+								request the test version instead of the production version.
+								Often this will be the same version, but if a new test version
+								has been released, this configuration change will ensure the
+								latest version out on test is being used.</p>
 							<ul>
 								<li>Following standard installation process.</li>
 								<li>Stop Tomcat if it is running.</li>
 								<li>Open he web.xml file in a text editor (such as Windows
 									Wordpad). This file will be found in the [Tomcat
 									Folder]/webapps/fweb/WEB-INF folder.</li>
-								<li>Find the line that reads <code>&lt;param-value&gt;http://tchforecasttester.org/lsv-forecaster.jar&lt;/param-value&gt;</code>
+								<li>Find the line that reads <code>&lt;param-value&gt;http://florence.immregistries.org/lonestar/lsv-forecaster.jar&lt;/param-value&gt;</code>
 									and change to <code>
-										&lt;param-value&gt;http://tchforecasttester.org/lsv-forecaster<b>-test</b>.jar&lt;/param-value&gt;
+										&lt;param-value&gt;http://florence.immregistries.org/lonestar/lsv-forecaster<b>-test</b>.jar&lt;/param-value&gt;
 									</code> by simply adding the text <code>-test</code> to the URL.
 								</li>
 								<li>Start Tomcat</li>

@@ -54,6 +54,7 @@ public class CaretForecasterTester
       System.err.println("Unable to start tester: " + problem);
       System.err
           .println("usage: java -classpath lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecasterTester repeat-count [thread-count [host-name [port-number]]]");
+      System.exit(1);
     }
     System.out.println("Starting IHS Caret Forecast Tester");
     System.out.println("  + thread count: " + threadCount);
@@ -65,6 +66,7 @@ public class CaretForecasterTester
       TestThread testThread = new TestThread(threadCount, repeatCount);
       testThread.start();
     }
+    System.out.println("Testing complete");
   }
 
   private static class TestThread extends Thread
