@@ -51,7 +51,8 @@ public class ForecastServlet extends HttpServlet
   private static final String PARAM_IGNORE_FOUR_DAY_GRACE = "ignoreFourDayGrace";
   private static final String PARAM_SCHEDULE_NAME = "scheduleName";
   private static final String PARAM_ASSUME_SERIES_COMPLETED = "assumeSeriesCompleted";
-
+  private static final String PARAM_USE_INTERNAL_EVALUATION_STATUS = "useInternalEvaluationStatus";
+  
   public static final String RESULT_FORMAT_TEXT = "text";
   public static final String RESULT_FORMAT_HTML = "html";
   public static final String RESULT_FORMAT_COMPACT = "compact";
@@ -280,6 +281,7 @@ public class ForecastServlet extends HttpServlet
     forecastInput.dueUseEarly = readBoolean(req, PARAM_DUE_USE_EARLY);
     forecastInput.forecastOptions.setUseEarlyDue(forecastInput.dueUseEarly);
     forecastInput.forecastOptions.setUseEarlyOverdue(forecastInput.dueUseEarly);
+    forecastInput.forecastOptions.setUseInternalEvaluationStatus(readBoolean(req, PARAM_USE_INTERNAL_EVALUATION_STATUS));
 
     setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE,
         "Adult assumed to have completed DTaP series.", Immunization.ASSUME_DTAP_SERIES_COMPLETE);

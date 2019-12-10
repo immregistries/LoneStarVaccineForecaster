@@ -57,10 +57,10 @@ public class TransitionScheduleStep extends ActionStep
       forecastBean.setImmregid(ds.patient.getImmregid());
       forecastBean.setTraceList(ds.traceList);
       if (ds.assumptionList.size() > 0) {
-        forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE);
+        forecastBean.setStatusDescriptionExternal(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE);
         forecastBean.getAssumptionList().addAll(ds.assumptionList);
       } else {
-        forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED);
+        forecastBean.setStatusDescriptionExternal(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED);
       }
       addResultToList(ds, forecastBean);
       return FinishScheduleStep.NAME;

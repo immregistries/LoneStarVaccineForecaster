@@ -882,7 +882,7 @@ public class CaretForecaster
             // addValue(doseHL7Code, FIELD_OUT_140_DOSE_DUE_DOSE_HL7_CODE + base);
             // addValue(forecastResult.getForecastLabel(), FIELD_OUT_141_DOSE_DUE_HL7_CODE_PRINT_STRING + base);
             addValue(forecastResult.getDose(), FIELD_OUT_DOSE_DUE_02_DOSE_DUE_DOSE_NUMBER);
-            boolean overdue = forecastResult.getStatusDescription().equals("overdue");
+            boolean overdue = forecastResult.getStatusDescriptionInternal().equals("overdue");
             addValue(overdue ? "1" : "0", FIELD_OUT_DOSE_DUE_03_DOSE_DUE_PAST_DUE_INDICATOR);
             addValue(d(forecastResult.getValid()), FIELD_OUT_DOSE_DUE_04_DOSE_DUE_MINIMUM_DATE);
             addValue(d(forecastResult.getDue()), FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
@@ -1097,7 +1097,8 @@ public class CaretForecaster
     forecastResultAdd.setSeasonEnd(forecastResult.getSeasonEnd());
     forecastResultAdd.setSeasonStart(forecastResult.getSeasonStart());
     forecastResultAdd.setSortOrder(forecastResult.getSortOrder());
-    forecastResultAdd.setStatusDescription(forecastResult.getStatusDescription());
+    forecastResultAdd.setStatusDescriptionExternal(forecastResult.getStatusDescriptionExternal());
+    forecastResultAdd.setStatusDescriptionInternal(forecastResult.getStatusDescriptionInternal());
     forecastResultAdd.setTraceList(forecastResult.getTraceList());
     forecastResultAdd.setValid(forecastResult.getValid());
     return forecastResultAdd;

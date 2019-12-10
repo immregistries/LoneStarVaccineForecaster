@@ -21,6 +21,15 @@ public class ForecastOptions
   private boolean useEarlyOverdue = false;
   private boolean recommendWhenValid = false;
   private Set<String> recommendWhenValidSet = null;
+  private boolean useInternalEvaluationStatus = false; 
+
+  public boolean isUseInternalEvaluationStatus() {
+    return useInternalEvaluationStatus;
+  }
+
+  public void setUseInternalEvaluationStatus(boolean useOriginalEvaluationStatus) {
+    this.useInternalEvaluationStatus = useOriginalEvaluationStatus;
+  }
 
   public Set<String> getRecommendWhenValidSet() {
     return recommendWhenValidSet;

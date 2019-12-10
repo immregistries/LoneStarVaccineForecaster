@@ -60,13 +60,13 @@ public class LookForDoseStep extends ActionStep
         forecastBean.setImmregid(ds.patient.getImmregid());
         forecastBean.setTraceList(ds.traceList);
         if (ds.assumptionList.size() > 0) {
-          forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE);
+          forecastBean.setStatusDescriptionExternal(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE);
           forecastBean.getAssumptionList().addAll(ds.assumptionList);
         } else {
           if (ds.seasonal != null) {
-            forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON);
+            forecastBean.setStatusDescriptionExternal(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON);
           } else {
-            forecastBean.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE);
+            forecastBean.setStatusDescriptionExternal(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE);
           }
         }
         addResultToList(ds, forecastBean);

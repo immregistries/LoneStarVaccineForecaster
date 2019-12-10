@@ -53,6 +53,7 @@ public class ImmunizationForecastDataBean
   public static final String STATUS_DESCRIPTION_FINISHED = "finished";
   public static final String STATUS_DESCRIPTION_FINISHED_FOR_SEASON = "finished for season";
   public static final String STATUS_DESCRIPTION_COMPLETE = "complete";
+  public static final String STATUS_DESCRIPTION_NOT_COMPLETE = "not complete";
   public static final String STATUS_DESCRIPTION_CONTRAINDICATED = "contraindicated";
   public static final String STATUS_DESCRIPTION_COMPLETE_FOR_SEASON = "complete for season";
   public static final String STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE = "assumed complete or immune";
@@ -72,7 +73,8 @@ public class ImmunizationForecastDataBean
   private int sortOrder = 0;
   private TraceList traceList = null;
   private String comment = "";
-  private String statusDescription = "";
+  private String statusDescriptionExternal = "";
+  private String statusDescriptionInternal = "";
   private Date seasonStart = null;
   private Date seasonEnd = null;
   private List<Assumption> assumptionList = new ArrayList<Assumption>();
@@ -95,7 +97,8 @@ public class ImmunizationForecastDataBean
     this.sortOrder = copy.getSortOrder();
     this.traceList = copy.getTraceList();
     this.comment = copy.getComment();
-    this.statusDescription = copy.getStatusDescription();
+    this.statusDescriptionExternal = copy.getStatusDescriptionExternal();
+    this.statusDescriptionInternal = copy.getStatusDescriptionInternal();
     this.seasonStart = copy.getSeasonStart();
     this.seasonEnd = copy.getSeasonEnd();
     this.assumptionList = copy.getAssumptionList();
@@ -133,12 +136,12 @@ public class ImmunizationForecastDataBean
     this.forecastNameOriginal = forecastNameOrginal;
   }
 
-  public String getStatusDescription() {
-    return statusDescription;
+  public String getStatusDescriptionExternal() {
+    return statusDescriptionExternal;
   }
 
-  public void setStatusDescription(String dueDescription) {
-    this.statusDescription = dueDescription;
+  public void setStatusDescriptionExternal(String dueDescription) {
+    this.statusDescriptionExternal = dueDescription;
   }
 
   public TraceList getTraceList() {
@@ -254,6 +257,14 @@ public class ImmunizationForecastDataBean
 
   public void setSortOrder(int sortOrder) {
     this.sortOrder = sortOrder;
+  }
+
+  public String getStatusDescriptionInternal() {
+    return statusDescriptionInternal;
+  }
+
+  public void setStatusDescriptionInternal(String statusDescriptionOriginal) {
+    this.statusDescriptionInternal = statusDescriptionOriginal;
   }
 
 }

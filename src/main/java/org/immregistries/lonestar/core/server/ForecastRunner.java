@@ -177,11 +177,11 @@ public class ForecastRunner
         traceMap.remove(ImmunizationForecastDataBean.DIPHTHERIA);
       }
 
-      if (forecastExamine.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)
-          || forecastExamine.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)) {
+      if (forecastExamine.getStatusDescriptionInternal().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)
+          || forecastExamine.getStatusDescriptionInternal().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)) {
         forecastListDueToday.add(forecastExamine);
         traceMap.remove(forecastExamine.getForecastName());
-      } else if (forecastExamine.getStatusDescription().equals(
+      } else if (forecastExamine.getStatusDescriptionInternal().equals(
           ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)) {
         forecastListDueLater.add(forecastExamine);
         traceMap.remove(forecastExamine.getForecastName());

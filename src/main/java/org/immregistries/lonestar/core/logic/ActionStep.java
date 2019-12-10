@@ -11,8 +11,8 @@ public abstract class ActionStep
 
   public void addResultToList(DataStore ds, ImmunizationForecastDataBean forecastBean) {
     boolean added = false;
-    if (forecastBean.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
-        || forecastBean.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)) {
+    if (forecastBean.getStatusDescriptionExternal().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
+        || forecastBean.getStatusDescriptionExternal().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)) {
       ds.log("Adding a complete or finished schedule, checking to see if there is a need to add alternative completes instead");
       if (ds.schedule.getCompletesList().size() > 1) {
         for (int i = 0; i < ds.schedule.getCompletesList().size(); i++) {
@@ -25,7 +25,7 @@ public abstract class ActionStep
           fb.setImmregid(ds.patient.getImmregid());
           ds.resultList.add(fb);
           fb.setTraceList(ds.traceList);
-          fb.setStatusDescription(forecastBean.getStatusDescription());
+          fb.setStatusDescriptionExternal(forecastBean.getStatusDescriptionExternal());
           added = true;
         }
       }
@@ -38,7 +38,7 @@ public abstract class ActionStep
       fb.setSortOrder(fa.getSortOrder());
       fb.setImmregid(ds.patient.getImmregid());
       fb.setTraceList(ds.traceList);
-      fb.setStatusDescription(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE);
+      fb.setStatusDescriptionExternal(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE);
       ds.resultList.add(fb);
     }
 
