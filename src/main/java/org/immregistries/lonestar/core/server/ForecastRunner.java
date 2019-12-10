@@ -2,21 +2,15 @@ package org.immregistries.lonestar.core.server;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.immregistries.lonestar.core.DateTime;
-import org.immregistries.lonestar.core.Forecaster;
 import org.immregistries.lonestar.core.ImmunizationForecastDataBean;
 import org.immregistries.lonestar.core.ImmunizationInterface;
-import org.immregistries.lonestar.core.TraceList;
 import org.immregistries.lonestar.core.VaccinationDoseDataBean;
-import org.immregistries.lonestar.core.VaccineForecastManagerInterface;
 import org.immregistries.lonestar.core.api.impl.ForecastHandlerCore;
 import org.immregistries.lonestar.core.api.impl.ForecastOptions;
 import org.immregistries.lonestar.core.api.impl.VaccineForecastManager;

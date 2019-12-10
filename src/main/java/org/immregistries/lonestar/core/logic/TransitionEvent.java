@@ -1,7 +1,6 @@
 package org.immregistries.lonestar.core.logic;
 
 import java.util.Date;
-
 import org.immregistries.lonestar.core.ImmunizationInterface;
 import org.immregistries.lonestar.core.Transition;
 

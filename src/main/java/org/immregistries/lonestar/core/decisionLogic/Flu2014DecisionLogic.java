@@ -1,11 +1,9 @@
 package org.immregistries.lonestar.core.decisionLogic;
 
 import org.immregistries.lonestar.core.DateTime;
-import org.immregistries.lonestar.core.ImmunizationInterface;
 import org.immregistries.lonestar.core.VaccinationDoseDataBean;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.ValidVaccine;
 import org.immregistries.lonestar.core.logic.DataStore;
-import org.immregistries.lonestar.core.logic.Event;
 
 public class Flu2014DecisionLogic extends DecisionLogic
 {

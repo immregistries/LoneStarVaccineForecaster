@@ -5,7 +5,6 @@ import org.immregistries.lonestar.core.ImmunizationForecastDataBean;
 import org.immregistries.lonestar.core.TraceList;
 import org.immregistries.lonestar.core.VaccineForecastDataBean;
 import org.immregistries.lonestar.core.model.Assumption;
-import org.immregistries.lonestar.core.model.ImmunizationMDA;
 
 public class MakeForecastStep extends ActionStep {
   public static final String NAME = "Make Forecast";

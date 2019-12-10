@@ -3,16 +3,12 @@ package org.immregistries.lonestar.core.api.impl;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.immregistries.lonestar.core.ForecastSchedule;
-import org.immregistries.lonestar.core.VaccineForecastDataBean;
-import org.immregistries.lonestar.core.VaccineForecastManagerInterface;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.Schedule;
+import org.immregistries.lonestar.core.VaccineForecastManagerInterface;
 
 public class VaccineForecastManager implements VaccineForecastManagerInterface
 {

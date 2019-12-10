@@ -2,7 +2,6 @@ package org.immregistries.lonestar.core.decisionLogic;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.immregistries.lonestar.core.logic.DataStore;
 
 public abstract class DecisionLogic

@@ -3,7 +3,6 @@ package org.immregistries.lonestar.core.logic;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.ImmunizationInterface;
 import org.immregistries.lonestar.core.VaccineForecastDataBean;

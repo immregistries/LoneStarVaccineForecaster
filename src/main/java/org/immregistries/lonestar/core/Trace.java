@@ -2,8 +2,6 @@ package org.immregistries.lonestar.core;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.Schedule;
 
 public class Trace

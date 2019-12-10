@@ -1,7 +1,6 @@
 package org.immregistries.lonestar.core.decisionLogic;
 
 import java.util.List;
-
 import org.immregistries.lonestar.core.VaccinationDoseDataBean;
 import org.immregistries.lonestar.core.logic.DataStore;
 

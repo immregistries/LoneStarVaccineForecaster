@@ -2,7 +2,6 @@ package org.immregistries.lonestar.core.api.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.immregistries.lonestar.core.api.model.ForecastRecommendationInterface;
 import org.immregistries.lonestar.core.api.model.ForecastResponseInterface;
 import org.immregistries.lonestar.core.api.model.ForecastVaccinationInterface;

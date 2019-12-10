@@ -3,17 +3,11 @@ package org.immregistries.lonestar.core.logic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
-
 import org.immregistries.lonestar.core.DateTime;
-import org.immregistries.lonestar.core.ImmunizationInterface;
 import org.immregistries.lonestar.core.Seasonal;
 import org.immregistries.lonestar.core.Trace;
 import org.immregistries.lonestar.core.TraceList;
 import org.immregistries.lonestar.core.Transition;
-import org.immregistries.lonestar.core.VaccinationDoseDataBean;
-import org.immregistries.lonestar.core.VaccineForecastDataBean.InvalidateSameDay;
-import org.immregistries.lonestar.core.VaccineForecastDataBean.ValidVaccine;
 import org.immregistries.lonestar.core.model.Assumption;
 
 public class SetupScheduleStep extends ActionStep

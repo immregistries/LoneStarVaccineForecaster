@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.immregistries.lonestar.core.VaccineForecastDataBean.NamedVaccine;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.Schedule;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.ValidVaccine;

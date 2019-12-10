@@ -3,7 +3,6 @@ package org.immregistries.lonestar.core.logic;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.immregistries.lonestar.core.ImmunizationInterface;
 
 public class Event

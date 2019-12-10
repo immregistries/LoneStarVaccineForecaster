@@ -1,7 +1,6 @@
 package org.immregistries.lonestar.core.api.impl;
 
 import java.util.Date;
-
 import org.immregistries.lonestar.core.api.model.ForecastVaccinationInterface;
 
 public class ForecastVaccination implements ForecastVaccinationInterface {

@@ -2,7 +2,6 @@ package org.immregistries.lonestar.core.api.impl;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import org.immregistries.lonestar.core.DecisionProcessFormat;
 import org.immregistries.lonestar.core.ImmunizationForecastDataBean;
 import org.immregistries.lonestar.core.TimePeriod;

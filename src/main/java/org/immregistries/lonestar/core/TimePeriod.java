@@ -2,8 +2,6 @@ package org.immregistries.lonestar.core;
 
 import java.util.Date;
 
-import org.immregistries.lonestar.core.DateTime;
-
 public class TimePeriod
 {
   public static final String MONTH = "M";

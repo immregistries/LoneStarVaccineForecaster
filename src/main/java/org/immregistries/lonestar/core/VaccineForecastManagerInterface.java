@@ -2,7 +2,6 @@ package org.immregistries.lonestar.core;
 
 import java.util.List;
 import java.util.Map;
-
 import org.immregistries.lonestar.core.VaccineForecastDataBean.Schedule;
 
 public interface VaccineForecastManagerInterface

@@ -7,10 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.immregistries.lonestar.core.api.impl.ForecastAntigen;
 import org.immregistries.lonestar.core.decisionLogic.DecisionLogic;
 import org.immregistries.lonestar.core.decisionLogic.DecisionLogicFactory;

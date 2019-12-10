@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.Forecaster;
 import org.immregistries.lonestar.core.ImmunizationForecastDataBean;

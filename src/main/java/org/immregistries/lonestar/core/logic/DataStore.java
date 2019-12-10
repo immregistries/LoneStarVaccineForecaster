@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.ImmunizationForecastDataBean;
 import org.immregistries.lonestar.core.ImmunizationInterface;
@@ -23,10 +22,8 @@ import org.immregistries.lonestar.core.TraceList;
 import org.immregistries.lonestar.core.Transition;
 import org.immregistries.lonestar.core.VaccinationDoseDataBean;
 import org.immregistries.lonestar.core.VaccineForecastDataBean;
-import org.immregistries.lonestar.core.VaccineForecastManagerInterface;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.Schedule;
-import org.immregistries.lonestar.core.VaccineForecastDataBean.ValidVaccine;
-import org.immregistries.lonestar.core.api.impl.ForecastAntigen;
+import org.immregistries.lonestar.core.VaccineForecastManagerInterface;
 import org.immregistries.lonestar.core.api.impl.ForecastOptions;
 import org.immregistries.lonestar.core.model.Assumption;
 

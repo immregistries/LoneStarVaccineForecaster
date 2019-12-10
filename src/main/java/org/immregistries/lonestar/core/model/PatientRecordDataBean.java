@@ -1,7 +1,6 @@
 package org.immregistries.lonestar.core.model;
 
 import java.util.Date;
-
 import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.PatientForecastRecordDataBean;
 

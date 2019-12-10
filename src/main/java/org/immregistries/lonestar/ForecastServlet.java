@@ -6,19 +6,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.ImmunizationForecastDataBean;
 import org.immregistries.lonestar.core.ImmunizationInterface;
 import org.immregistries.lonestar.core.TimePeriod;
 import org.immregistries.lonestar.core.Trace;
 import org.immregistries.lonestar.core.VaccinationDoseDataBean;
-import org.immregistries.lonestar.core.VaccineForecastManagerInterface;
 import org.immregistries.lonestar.core.api.impl.CvxCode;
 import org.immregistries.lonestar.core.api.impl.ForecastHandler;
 import org.immregistries.lonestar.core.api.impl.ForecastHandlerCore;

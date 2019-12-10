@@ -1,7 +1,6 @@
 package org.immregistries.lonestar.core.decisionLogic;
 
 import java.util.HashSet;
-
 import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.VaccinationDoseDataBean;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.ValidVaccine;

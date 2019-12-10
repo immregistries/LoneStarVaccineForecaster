@@ -1,7 +1,6 @@
 package org.immregistries.lonestar.core.logic;
 
 import java.util.ArrayList;
-
 import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.TimePeriod;
 import org.immregistries.lonestar.core.VaccineForecastDataBean;

@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.immregistries.lonestar.core.api.impl.ForecastOptions;
 import org.immregistries.lonestar.core.logic.ActionStep;
 import org.immregistries.lonestar.core.logic.ActionStepFactory;

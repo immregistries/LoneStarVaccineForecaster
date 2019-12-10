@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.DecisionProcessFormat;
 import org.immregistries.lonestar.core.ImmunizationForecastDataBean;

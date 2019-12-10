@@ -3,14 +3,12 @@ package org.immregistries.lonestar.core.server;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.management.GarbageCollectorMXBean;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.immregistries.lonestar.core.api.impl.CvxCode;
 import org.immregistries.lonestar.core.api.impl.CvxCodes;
 import org.immregistries.lonestar.core.api.impl.VaccineForecastManager;
