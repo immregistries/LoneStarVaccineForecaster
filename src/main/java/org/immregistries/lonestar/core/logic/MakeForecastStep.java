@@ -142,7 +142,8 @@ public class MakeForecastStep extends ActionStep {
               "Too late to complete. Next dose was expected before " + ds.finished + ".");
         }
       } else {
-        statusDescriptionExternal = ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED_FOR_SEASON;;
+        statusDescriptionExternal =
+            ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED_FOR_SEASON;;
         if (ds.traceList != null) {
           ds.traceList.setExplanationBulletPointStart();
           ds.traceList.addExplanation(
@@ -269,7 +270,8 @@ public class MakeForecastStep extends ActionStep {
               statusDescriptionExternal = ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED;
             } else {
               if (ds.forecastDateTime.isLessThan(contraDue)) {
-                statusDescriptionExternal = ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED;
+                statusDescriptionExternal =
+                    ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED;
               } else if (ds.forecastDateTime.isLessThan(contraOverdue)) {
                 statusDescriptionExternal = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE;
               } else if (ds.forecastDateTime.isLessThan(contraFinished)) {

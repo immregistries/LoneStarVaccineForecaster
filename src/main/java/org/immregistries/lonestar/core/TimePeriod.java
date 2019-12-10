@@ -2,8 +2,7 @@ package org.immregistries.lonestar.core;
 
 import java.util.Date;
 
-public class TimePeriod
-{
+public class TimePeriod {
   public static final String MONTH = "M";
   public static final String DAY = "D";
 
@@ -12,29 +11,23 @@ public class TimePeriod
   private TimePeriod addPeriod = null;
   private boolean even = false;
 
-  public String toString()
-  {
-    if (period.equals(""))
-    {
+  public String toString() {
+    if (period.equals("")) {
       return "";
     }
     int displayAmount = even ? amount / (period.equals(MONTH) ? 12 : 7) : amount;
-    return displayAmount + " " + getPeriodDescription() + (addPeriod == null ? "" : " " + addPeriod);
+    return displayAmount + " " + getPeriodDescription()
+        + (addPeriod == null ? "" : " " + addPeriod);
   }
 
-  private String getPeriodDescription()
-  {
-    if (period.equals(MONTH))
-    {
-      if (even)
-      {
+  private String getPeriodDescription() {
+    if (period.equals(MONTH)) {
+      if (even) {
         return amount == 12 ? "year" : "years";
       }
       return amount == 1 ? "month" : "months";
-    } else if (period.equals(DAY))
-    {
-      if (even)
-      {
+    } else if (period.equals(DAY)) {
+      if (even) {
         return amount == 7 ? "week" : "weeks";
       }
       return amount == 1 ? "day" : "days";
@@ -42,23 +35,19 @@ public class TimePeriod
     return "";
   }
 
-  public int getAmount()
-  {
+  public int getAmount() {
     return amount;
   }
-  
-  public boolean isFourDay()
-  {
+
+  public boolean isFourDay() {
     return isDay() && getAmount() == 4 && addPeriod == null;
   }
 
-  public boolean isMonth()
-  {
+  public boolean isMonth() {
     return period.equals(MONTH);
   }
 
-  public boolean isDay()
-  {
+  public boolean isDay() {
     return period.equals(DAY);
   }
 
@@ -66,17 +55,14 @@ public class TimePeriod
     period = DAY;
   }
 
-  public boolean isEmpty()
-  {
+  public boolean isEmpty() {
     return period.equals("");
   }
 
   public TimePeriod(String s) {
-    if (s != null && s.length() > 0)
-    {
+    if (s != null && s.length() > 0) {
       String[] parts = s.trim().split("\\s++");
-      if (parts.length % 2 == 1 || parts.length == 1)
-      {
+      if (parts.length % 2 == 1 || parts.length == 1) {
         throw new IllegalArgumentException("Unable to parse, unrecognized format '" + s + "'");
       }
       init(parts, 0);
@@ -87,92 +73,76 @@ public class TimePeriod
     init(parts, i);
   }
 
-  private void init(String[] parts, int i)
-  {
+  private void init(String[] parts, int i) {
     String part1 = parts[i++];
     String part2 = parts[i++];
     amount = Integer.parseInt(part1);
-    if (part2.equalsIgnoreCase("months") || part2.equalsIgnoreCase("month") || part2.equalsIgnoreCase("m"))
-    {
+    if (part2.equalsIgnoreCase("months") || part2.equalsIgnoreCase("month")
+        || part2.equalsIgnoreCase("m")) {
       period = MONTH;
       even = amount % 12 == 0;
-    } else if (part2.equalsIgnoreCase("years") || part2.equalsIgnoreCase("year") || part2.equalsIgnoreCase("y"))
-    {
+    } else if (part2.equalsIgnoreCase("years") || part2.equalsIgnoreCase("year")
+        || part2.equalsIgnoreCase("y")) {
       period = MONTH;
       amount = amount * 12;
       even = true;
-    } else if (part2.equalsIgnoreCase("days") || part2.equalsIgnoreCase("day") || part2.equalsIgnoreCase("d"))
-    {
+    } else if (part2.equalsIgnoreCase("days") || part2.equalsIgnoreCase("day")
+        || part2.equalsIgnoreCase("d")) {
       period = DAY;
       even = amount % 7 == 0;
-    } else if (part2.equalsIgnoreCase("weeks") || part2.equalsIgnoreCase("week") || part2.equalsIgnoreCase("w"))
-    {
+    } else if (part2.equalsIgnoreCase("weeks") || part2.equalsIgnoreCase("week")
+        || part2.equalsIgnoreCase("w")) {
       period = DAY;
       amount = amount * 7;
       even = true;
-    } else
-    {
+    } else {
       throw new IllegalArgumentException("Unable to parse, unrecognized period '" + part2 + "'");
     }
-    if (i < parts.length)
-    {
+    if (i < parts.length) {
       addPeriod = new TimePeriod(parts, i);
     }
   }
 
-  public DateTime getDateTimeFrom(Date date)
-  {
+  public DateTime getDateTimeFrom(Date date) {
     DateTime dt = new DateTime(date);
     add(dt);
     return dt;
   }
 
-  public DateTime getDateTimeFrom(DateTime dt)
-  {
+  public DateTime getDateTimeFrom(DateTime dt) {
     dt = new DateTime(dt);
     add(dt);
     return dt;
   }
-  
-  public DateTime getDateTimeBefore(DateTime dt)
-  {
+
+  public DateTime getDateTimeBefore(DateTime dt) {
     dt = new DateTime(dt);
     sub(dt);
     return dt;
   }
 
-  private void add(DateTime dt)
-  {
-    if (!isEmpty())
-    {
-      if (isMonth())
-      {
+  private void add(DateTime dt) {
+    if (!isEmpty()) {
+      if (isMonth()) {
         dt.addMonths(amount);
-      } else
-      {
+      } else {
         dt.addDays(amount);
       }
     }
-    if (addPeriod != null)
-    {
+    if (addPeriod != null) {
       addPeriod.add(dt);
     }
   }
-  
-  private void sub(DateTime dt)
-  {
-    if (!isEmpty())
-    {
-      if (isMonth())
-      {
+
+  private void sub(DateTime dt) {
+    if (!isEmpty()) {
+      if (isMonth()) {
         dt.addMonths(-amount);
-      } else
-      {
+      } else {
         dt.addDays(-amount);
       }
     }
-    if (addPeriod != null)
-    {
+    if (addPeriod != null) {
       addPeriod.sub(dt);
     }
   }

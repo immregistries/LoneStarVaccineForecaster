@@ -15,7 +15,7 @@ public class MenB2017TwoDoseStateDecisionLogic extends MenB2017DecisionLogic {
     ds.log("Start DL MenB Decision Logic for Two Dose State");
 
     List<VaccinationDoseDataBean> validVaccinations = ds.getDoseList();
-    
+
     // count Trumenba and Bexsero doses
     int numBexsero = countBexseroVaccinations(ds, validVaccinations);
     int numTrumenba = countTrumenbaVaccinations(ds, validVaccinations);
@@ -23,11 +23,10 @@ public class MenB2017TwoDoseStateDecisionLogic extends MenB2017DecisionLogic {
     ds.log(" + Currently examining " + numBexsero + " Bexsero dose(s)");
     ds.log(" + Currently examining " + numTrumenba + " Trumenba dose(s)");
 
-    if ( isSixMonthsBetweenFirstAndSecondTrumenba(ds, validVaccinations) ) {
+    if (isSixMonthsBetweenFirstAndSecondTrumenba(ds, validVaccinations)) {
       ds.log(" + 1st Trumenba dose was received MORE than 6 months before 2nd Trumenba dose.");
       return getTransitionValue(GREATER_THAN_SIX_MONTHS);
-    }
-    else {
+    } else {
       ds.log(" + 1st Trumenba dose was received LESS than 6 months before 2nd Trumenba dose.");
       return getTransitionValue(LESS_THAN_SIX_MONTHS);
     }

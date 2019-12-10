@@ -1,7 +1,6 @@
 package org.immregistries.lonestar.core;
 
-public class Transition
-{
+public class Transition {
   private String name = "";
   private TimePeriod age = null;
   private int vaccineId = 0;

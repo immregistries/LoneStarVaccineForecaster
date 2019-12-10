@@ -28,5 +28,5 @@ public class ImmunizationMDA extends Immunization {
   public void setDoseNote(String doseNote) {
     this.doseNote = doseNote;
   }
-  
+
 }

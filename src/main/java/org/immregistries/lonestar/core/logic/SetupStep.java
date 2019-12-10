@@ -10,12 +10,11 @@ import org.immregistries.lonestar.core.VaccineForecastDataBean.IndicationCriteri
 import org.immregistries.lonestar.core.VaccineForecastDataBean.Schedule;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.ValidVaccine;
 
-public class SetupStep extends ActionStep
-{
+public class SetupStep extends ActionStep {
   public static final String NAME = "Setup";
 
   public static final String DOSE_RECEIVED = "DOSERECEIVED";
-  
+
   @Override
   public String getName() {
     return NAME;
@@ -48,12 +47,14 @@ public class SetupStep extends ActionStep
     } else {
       ds.log("Found schedule for indication '" + indication + "'");
       if (ds.forecastCode != null) {
-        ds.log("Forecast code = '" + ds.forecastCode + "' (Only forecasts for this code will be added)");
+        ds.log("Forecast code = '" + ds.forecastCode
+            + "' (Only forecasts for this code will be added)");
       }
       for (Schedule schedule : vaccineForecastList) {
         if (schedule.getIndicationAge() != null) {
           ds.log("Not indicated until patient is " + schedule.getIndicationAge() + " old");
-          DateTime indicatedDateTime = schedule.getIndicationAge().getDateTimeFrom(ds.getPatient().getDobDateTime());
+          DateTime indicatedDateTime =
+              schedule.getIndicationAge().getDateTimeFrom(ds.getPatient().getDobDateTime());
           ds.log("  + indicatedDateTime: " + indicatedDateTime);
           if (indicatedDateTime.isGreaterThan(ds.forecastDateTime)) {
             ds.log("Because of patient's age this schedule is NOT indicated");
@@ -63,8 +64,8 @@ public class SetupStep extends ActionStep
         }
         if (schedule.getIndicationEndAge() != null) {
           ds.log("Not indicated after the patient is " + schedule.getIndicationEndAge() + " old");
-          DateTime indicatedEndDateTime = schedule.getIndicationEndAge().getDateTimeFrom(
-              ds.getPatient().getDobDateTime());
+          DateTime indicatedEndDateTime =
+              schedule.getIndicationEndAge().getDateTimeFrom(ds.getPatient().getDobDateTime());
           ds.log("  + indicatedEndDateTime: " + indicatedEndDateTime);
           if (indicatedEndDateTime.isLessThanOrEquals(ds.forecastDateTime)) {
             ds.log("Because of patient's age this schedule is NOT indicated");
@@ -72,36 +73,40 @@ public class SetupStep extends ActionStep
           }
           ds.log("Schedule is indicated for age");
         }
-        
+
         // determines if this schedule is only used to forecast new vaccinations when a dose has been received
         // e.g., only forecast for additional doses of trumenba if at least one dose has already been administered
-        if ( indication.equals(DOSE_RECEIVED) ) {
+        if (indication.equals(DOSE_RECEIVED)) {
           boolean hasMeningBVaccinations = false;
           VaccineForecastDataBean forecast = schedule.getVaccineForecast();
           for (ImmunizationInterface vaccination : ds.vaccinations) {
-            hasMeningBVaccinations |= forecast.isVaccinePresent(""+vaccination.getVaccineId());
+            hasMeningBVaccinations |= forecast.isVaccinePresent("" + vaccination.getVaccineId());
           }
-          if ( !hasMeningBVaccinations ) {
-            ds.log("Because there are no prior Mening B administered vaccines, this schedule is NOT indicated");
+          if (!hasMeningBVaccinations) {
+            ds.log(
+                "Because there are no prior Mening B administered vaccines, this schedule is NOT indicated");
             continue;
           }
-          ds.log("Schedule is indicated for "+DOSE_RECEIVED);
+          ds.log("Schedule is indicated for " + DOSE_RECEIVED);
         }
-        
+
         if (ds.forecastCode == null || schedule.getForecastCode().equals(ds.forecastCode)) {
           if (schedule.getIndicationCriteria() != null) {
             IndicationCriteria indicationCriteria = schedule.getIndicationCriteria();
-            ds.log("This indication has specific criteria which has to be satisfied before this is added");
+            ds.log(
+                "This indication has specific criteria which has to be satisfied before this is added");
             ds.log(" + Vaccine given:     " + indicationCriteria.getVaccineName());
             ds.log(" + After age:         " + indicationCriteria.getAfterAge());
             ds.log(" + Before age:        " + indicationCriteria.getBeforeAge());
             DateTime startDate = null;
             if (indicationCriteria.getAfterAge() != null) {
-              startDate = indicationCriteria.getAfterAge().getDateTimeFrom(ds.patient.getDobDateTime());
+              startDate =
+                  indicationCriteria.getAfterAge().getDateTimeFrom(ds.patient.getDobDateTime());
             }
             DateTime endDate = null;
             if (indicationCriteria.getBeforeAge() != null) {
-              endDate = indicationCriteria.getBeforeAge().getDateTimeFrom(ds.patient.getDobDateTime());
+              endDate =
+                  indicationCriteria.getBeforeAge().getDateTimeFrom(ds.patient.getDobDateTime());
             }
             boolean foundQualifyingEvent = false;
             ds.log("Looking for qualifying event");
@@ -128,17 +133,20 @@ public class SetupStep extends ActionStep
             }
             if (foundQualifyingEvent) {
               boolean okayToAdd = true;
-              for (Iterator<Schedule> scheduleIterator = ds.scheduleList.iterator(); scheduleIterator.hasNext();) {
+              for (Iterator<Schedule> scheduleIterator =
+                  ds.scheduleList.iterator(); scheduleIterator.hasNext();) {
                 Schedule scheduleAlreadyAdded = scheduleIterator.next();
                 if (scheduleAlreadyAdded.getForecastCode() == schedule.getForecastCode()) {
                   if (scheduleAlreadyAdded.getIndicationCriteria() == null) {
-                    ds.log("Removing previous schedule that was indicated for '" + scheduleAlreadyAdded.getIndication()
+                    ds.log("Removing previous schedule that was indicated for '"
+                        + scheduleAlreadyAdded.getIndication()
                         + "' because it was less specific than this indication.");
                     scheduleIterator.remove();
 
                   } else {
-                    ds.log("Schedule is already indicated for '" + scheduleAlreadyAdded.getIndication()
-                        + "' with specific indications. Will ignore this indication.");
+                    ds.log(
+                        "Schedule is already indicated for '" + scheduleAlreadyAdded.getIndication()
+                            + "' with specific indications. Will ignore this indication.");
                     okayToAdd = false;
                   }
                 }
@@ -151,7 +159,8 @@ public class SetupStep extends ActionStep
             }
           } else {
             boolean okayToAdd = true;
-            for (Iterator<Schedule> scheduleIterator = ds.scheduleList.iterator(); scheduleIterator.hasNext();) {
+            for (Iterator<Schedule> scheduleIterator = ds.scheduleList.iterator(); scheduleIterator
+                .hasNext();) {
               Schedule current = scheduleIterator.next();
               if (current.getForecastCode() == schedule.getForecastCode()) {
                 ds.log("Schedule is already indicated for '" + current.getIndication()
@@ -170,8 +179,8 @@ public class SetupStep extends ActionStep
 
   }
 
-  public boolean eventIndicated(IndicationCriteria indicationCriteria, List<ImmunizationInterface> vaccinations,
-      DataStore ds) {
+  public boolean eventIndicated(IndicationCriteria indicationCriteria,
+      List<ImmunizationInterface> vaccinations, DataStore ds) {
     for (ImmunizationInterface vaccination : vaccinations) {
       for (ValidVaccine validVaccine : indicationCriteria.getVaccines()) {
         if (vaccination.getVaccineId() == validVaccine.getVaccineId()) {

@@ -5,9 +5,9 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 
-public class CaretForecasterTester
-{
-  private static String QUERY = "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^110^19830215^0^0^0|||";
+public class CaretForecasterTester {
+  private static String QUERY =
+      "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^110^19830215^0^0^0|||";
 
   private static String hostName = "localhost";
   private static int threadCount = 1;
@@ -52,8 +52,8 @@ public class CaretForecasterTester
     }
     if (problem != null) {
       System.err.println("Unable to start tester: " + problem);
-      System.err
-          .println("usage: java -classpath lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecasterTester repeat-count [thread-count [host-name [port-number]]]");
+      System.err.println(
+          "usage: java -classpath lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecasterTester repeat-count [thread-count [host-name [port-number]]]");
       System.exit(1);
     }
     System.out.println("Starting IHS Caret Forecast Tester");
@@ -69,8 +69,7 @@ public class CaretForecasterTester
     System.out.println("Testing complete");
   }
 
-  private static class TestThread extends Thread
-  {
+  private static class TestThread extends Thread {
     private int id = 0;
     private int count = 0;
 
@@ -124,7 +123,8 @@ public class CaretForecasterTester
       }
       if (goodToRun) {
         long totalTime = System.currentTimeMillis() - startTime;
-        System.out.println(" - Thread " + id + " OK " + totalTime + " ms for " + count + " requests");
+        System.out
+            .println(" - Thread " + id + " OK " + totalTime + " ms for " + count + " requests");
       }
     }
   }

@@ -16,11 +16,11 @@ import org.immregistries.lonestar.core.api.impl.CvxCode;
 import org.immregistries.lonestar.core.api.impl.ForecastHandler;
 import org.immregistries.lonestar.core.api.impl.VaccineForecastManager;
 
-public class ListCodes
-{
+public class ListCodes {
 
   public static enum Format {
-    SPACED, STANDARD
+                             SPACED,
+                             STANDARD
   }
 
   // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.api.test.ListCodes
@@ -62,7 +62,7 @@ public class ListCodes
     cvxCodeList = new ArrayList<CvxCode>(cvxToVaccineIdMap.values());
 
     Collections.sort(cvxCodeList, new Comparator<CvxCode>() {
-  	  // JDK 1.5 Override is not applicable to interfaces
+      // JDK 1.5 Override is not applicable to interfaces
       //Override
       public int compare(CvxCode o1, CvxCode o2) {
         return o1.getCvxLabel().compareTo(o2.getCvxLabel());
@@ -104,7 +104,8 @@ public class ListCodes
             for (CvxCode cvxCode : cvxCodeList) {
               if (cvxCode.getVaccineId() == vaccineId) {
                 forecastCodeSet.add(schedule.getForecastCode());
-                Set<String> locationSet = cvxCode.getLocationMapSet().get(schedule.getForecastCode());
+                Set<String> locationSet =
+                    cvxCode.getLocationMapSet().get(schedule.getForecastCode());
                 if (locationSet == null) {
                   locationSet = new HashSet<String>();
                   cvxCode.getLocationMapSet().put(schedule.getForecastCode(), locationSet);
@@ -187,7 +188,7 @@ public class ListCodes
           out.print("\"\"");
         }
 
-        
+
         if (cvxCode.isLocationSet()) {
           out.print("\t");
         } else {

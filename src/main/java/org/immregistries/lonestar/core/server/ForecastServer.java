@@ -13,8 +13,7 @@ import org.immregistries.lonestar.core.api.impl.CvxCode;
 import org.immregistries.lonestar.core.api.impl.CvxCodes;
 import org.immregistries.lonestar.core.api.impl.VaccineForecastManager;
 
-public class ForecastServer extends Thread
-{
+public class ForecastServer extends Thread {
 
   private ServerSocket serverSocket;
   // java -classpath lsv-forecaster.jar org.immregistries.lonestar.core.server.ForecastServer [port num]
@@ -25,7 +24,7 @@ public class ForecastServer extends Thread
       "20131126^A^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||^",
       "20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^149^20131018^0^0^0|||",
       "20120905^R^^^^TEST123^^20020101^M^^^^^^^^^^^^^^^^^^^^^~~~TEST456^50^20120313^^^^|||",
-      "20140201^R^IHS_6m26^0^0^^55^19481128^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~55079^9^19990706^0^0^0|||180404^115^20110504^0^0^0|||55078^45^19990706^0^0^0|||183899^33^20060101^0^0^0" };
+      "20140201^R^IHS_6m26^0^0^^55^19481128^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~55079^9^19990706^0^0^0|||180404^115^20110504^0^0^0|||55078^45^19990706^0^0^0|||183899^33^20060101^0^0^0"};
   // java -classpath lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster
 
   protected static VaccineForecastManager vaccineForecastManager = null;
@@ -35,7 +34,7 @@ public class ForecastServer extends Thread
   private boolean debug = false;
   private StringBuilder startupProcessLog = new StringBuilder();
   private StringBuilder runningProcessLog = new StringBuilder();
-  
+
   private static boolean runGarbageCollectionWhenDone = false;
 
   public static boolean isRunGarbageCollectionWhenDone() {
@@ -114,10 +113,12 @@ public class ForecastServer extends Thread
         forecastHandler.start();
       }
     } catch (IOException e) {
-      logStartupLn("Unable to listen on port " + port + ", shutting down Lone Star Vaccine Foreacast Server");
+      logStartupLn("Unable to listen on port " + port
+          + ", shutting down Lone Star Vaccine Foreacast Server");
       logStartup(e);
     } catch (Throwable e) {
-      logStartupLn("Unable to listen on port " + port + ", shutting down Lone Star Vaccine Foreacast Server");
+      logStartupLn("Unable to listen on port " + port
+          + ", shutting down Lone Star Vaccine Foreacast Server");
       logStartup(e);
     } finally {
       logStartupLn("Shutting down forecater");
@@ -199,8 +200,7 @@ public class ForecastServer extends Thread
         System.err.println("Invalid port number " + args[0]);
         port = DEFAULT_PORT;
       }
-      if (args.length > 1 && args[1].equalsIgnoreCase("gc"))
-      {
+      if (args.length > 1 && args[1].equalsIgnoreCase("gc")) {
         runGarbageCollectionWhenDone = true;
       }
     }

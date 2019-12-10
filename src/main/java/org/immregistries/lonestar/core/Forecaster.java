@@ -13,8 +13,7 @@ import org.immregistries.lonestar.core.logic.DataStore;
 import org.immregistries.lonestar.core.logic.EndStep;
 import org.immregistries.lonestar.core.logic.StartStep;
 
-public class Forecaster
-{
+public class Forecaster {
 
   public static final int VARICELLA_HISTORY = 378;
 
@@ -124,8 +123,7 @@ public class Forecaster
     this.forecastDate = forecastDate;
   }
 
-  private class Event
-  {
+  private class Event {
     private Date eventDate = null;
     private List<ImmunizationInterface> immList = new ArrayList<ImmunizationInterface>();
     private boolean hasEvent = false;

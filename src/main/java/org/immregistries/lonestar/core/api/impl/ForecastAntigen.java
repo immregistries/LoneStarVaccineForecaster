@@ -6,8 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ForecastAntigen implements Comparable<ForecastAntigen>
-{
+public class ForecastAntigen implements Comparable<ForecastAntigen> {
   private String forecastCode = "";
   private String forecastLabel = "";
   private int sortOrder = 0;
@@ -43,7 +42,8 @@ public class ForecastAntigen implements Comparable<ForecastAntigen>
     this.sortOrder = sortOrder;
   }
 
-  private ForecastAntigen(String forecastCode, String forecastLabel, int sortOrder, String[] alternateNames) {
+  private ForecastAntigen(String forecastCode, String forecastLabel, int sortOrder,
+      String[] alternateNames) {
     this.forecastCode = forecastCode;
     this.forecastLabel = forecastLabel;
     this.sortOrder = sortOrder;
@@ -57,7 +57,8 @@ public class ForecastAntigen implements Comparable<ForecastAntigen>
   }
 
   private static List<ForecastAntigen> forecastAntigenList = new ArrayList<ForecastAntigen>();
-  private static Map<String, ForecastAntigen> forecastAntigenMap = new HashMap<String, ForecastAntigen>();
+  private static Map<String, ForecastAntigen> forecastAntigenMap =
+      new HashMap<String, ForecastAntigen>();
 
   public static ForecastAntigen getForecastAntigen(String forecastCode) {
     return forecastAntigenMap.get(forecastCode);
@@ -73,7 +74,8 @@ public class ForecastAntigen implements Comparable<ForecastAntigen>
     forecastAntigenList.add(new ForecastAntigen("Diphtheria", "DTaP/Tdap", 2));
     forecastAntigenList.add(new ForecastAntigen("Pertussis", "Pertussis", 4));
     forecastAntigenList.add(new ForecastAntigen("Hib", "Hib", 5));
-    forecastAntigenList.add(new ForecastAntigen("Pneumo", "PCV13", 6, new String[] { "PCV", "PCV-13", "PCV13" }));
+    forecastAntigenList
+        .add(new ForecastAntigen("Pneumo", "PCV13", 6, new String[] {"PCV", "PCV-13", "PCV13"}));
     forecastAntigenList.add(new ForecastAntigen("Polio", "IPV", 8));
     forecastAntigenList.add(new ForecastAntigen("Rotavirus", "Rota", 9));
     forecastAntigenList.add(new ForecastAntigen("Measles", "Measles", 10));
@@ -91,8 +93,7 @@ public class ForecastAntigen implements Comparable<ForecastAntigen>
     Collections.sort(forecastAntigenList);
     for (ForecastAntigen forecastAntigen : forecastAntigenList) {
       forecastAntigenMap.put(forecastAntigen.getForecastCode(), forecastAntigen);
-      for (String alternateName : forecastAntigen.alternateNames)
-      {
+      for (String alternateName : forecastAntigen.alternateNames) {
         forecastAntigenMap.put(alternateName, forecastAntigen);
       }
     }

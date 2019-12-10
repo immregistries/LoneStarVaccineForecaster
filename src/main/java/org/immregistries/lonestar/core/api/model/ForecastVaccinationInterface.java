@@ -201,7 +201,7 @@ public interface ForecastVaccinationInterface {
    * @return
    */
   public String getWhenValidText();
-  
+
   /**
    * A human readable text that describes which valid date was chosen and why.
    * This helps providers understand whether the date was selected because of

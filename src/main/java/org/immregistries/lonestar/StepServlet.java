@@ -42,14 +42,14 @@ import org.immregistries.lonestar.core.logic.SetupStep;
 import org.immregistries.lonestar.core.logic.StartStep;
 import org.immregistries.lonestar.core.model.Assumption;
 
-public class StepServlet extends ForecastServlet
-{
+public class StepServlet extends ForecastServlet {
   /**
    * 
    */
   private static final long serialVersionUID = 1L;
 
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
     String nextActionName = req.getParameter("nextActionName");
     if (nextActionName == null) {
       nextActionName = StartStep.NAME;
@@ -84,7 +84,8 @@ public class StepServlet extends ForecastServlet
         out.println("</select></td>");
         out.println("</tr>");
         out.println("</table>");
-        out.println("<input type=\"submit\" value=\"" + SetupStep.NAME + "\" name=\"nextActionName\"/>");
+        out.println(
+            "<input type=\"submit\" value=\"" + SetupStep.NAME + "\" name=\"nextActionName\"/>");
         out.println("</form>");
 
         ForecastInput forecastInput = new ForecastInput();
@@ -96,7 +97,8 @@ public class StepServlet extends ForecastServlet
         dataStore.setVaccinations(forecastInput.imms);
         dataStore.setForecastDate(forecastInput.forecastDate.getDate());
         dataStore.setForecastOptions(forecastInput.forecastOptions);
-        List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
+        List<ImmunizationForecastDataBean> resultList =
+            new ArrayList<ImmunizationForecastDataBean>();
         List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
         Map<String, List<Trace>> traces = new HashMap<String, List<Trace>>();
         dataStore.setResultList(resultList);
@@ -117,7 +119,8 @@ public class StepServlet extends ForecastServlet
         nextActionName = actionStep.doAction(dataStore);
         if (nextEventPosition != null) {
           int nextEventPositionInt = Integer.parseInt(nextEventPosition);
-          while (dataStore.getEventPosition() < nextEventPositionInt && !nextActionName.equals(FinishStep.NAME)) {
+          while (dataStore.getEventPosition() < nextEventPositionInt
+              && !nextActionName.equals(FinishStep.NAME)) {
             actionStep = ActionStepFactory.get(nextActionName);
             detailLog = new StringBuffer();
             dataStore.setDetailLog(detailLog);
@@ -156,7 +159,8 @@ public class StepServlet extends ForecastServlet
           out.println("  </tr>");
           for (ImmunizationForecastDataBean result : resultList) {
             out.println("  <tr>");
-            out.println("    <td class=\"insideValue\">" + safe(result.getForecastLabel()) + "</td>");
+            out.println(
+                "    <td class=\"insideValue\">" + safe(result.getForecastLabel()) + "</td>");
             out.println("    <td class=\"insideValue\">" + safe(result.getDose()) + "</td>");
             out.println("    <td class=\"insideValue\">" + safe(result.getValid()) + "</td>");
             out.println("    <td class=\"insideValue\">" + safe(result.getDue()) + "</td>");
@@ -415,7 +419,8 @@ public class StepServlet extends ForecastServlet
           out.println("</table>");
         }
 
-        if (dataStore.getForecast() != null && dataStore.getForecast().getInvalidateSameDayList() != null
+        if (dataStore.getForecast() != null
+            && dataStore.getForecast().getInvalidateSameDayList() != null
             && dataStore.getForecast().getInvalidateSameDayList().size() > 0) {
           out.println("<h3>Invalid Same Day Combinations</h3>");
           out.println("<table>");
@@ -423,27 +428,29 @@ public class StepServlet extends ForecastServlet
           out.println("    <th>Invalidate</th>");
           out.println("    <th>If given same day as</th>");
           out.println("  </tr>");
-          for (InvalidateSameDay invalidateSameDay : dataStore.getForecast().getInvalidateSameDayList()) {
+          for (InvalidateSameDay invalidateSameDay : dataStore.getForecast()
+              .getInvalidateSameDayList()) {
             out.println("  <tr>");
             out.println("    <td>" + safe(invalidateSameDay.getInvalidateVaccineName()) + "</td>");
             out.println("    <td>" + safe(invalidateSameDay.getIfGivenVaccineName()) + "</td>");
             out.println("  </tr>");
           }
           out.println("</table>");
-          
-          if (dataStore.getInvalidatedSameDayVaccineIdMapToReason() != null)
-          {
+
+          if (dataStore.getInvalidatedSameDayVaccineIdMapToReason() != null) {
             out.println("<h3>Invalid Vaccinations Found</h3>");
             out.println("<table>");
             out.println("  <tr>");
             out.println("    <th>Vaccine Id</th>");
             out.println("    <th>Reason</th>");
             out.println("  </tr>");
-            for (Integer vaccineId : dataStore.getInvalidatedSameDayVaccineIdMapToReason().keySet())
-            {
+            for (Integer vaccineId : dataStore.getInvalidatedSameDayVaccineIdMapToReason()
+                .keySet()) {
               out.println("  <tr>");
               out.println("    <td>" + safe(vaccineId) + "</td>");
-              out.println("    <td>" + safe(dataStore.getInvalidatedSameDayVaccineIdMapToReason().get(vaccineId)) + "</td>");
+              out.println("    <td>"
+                  + safe(dataStore.getInvalidatedSameDayVaccineIdMapToReason().get(vaccineId))
+                  + "</td>");
               out.println("  </tr>");
             }
             out.println("</table>");
@@ -574,7 +581,8 @@ public class StepServlet extends ForecastServlet
   }
 
   public static void printSchedules(PrintWriter out, Schedule startingSchedule) {
-    printSchedules(out, "", -1, startingSchedule, startingSchedule.getVaccineForecast().getSchedules());
+    printSchedules(out, "", -1, startingSchedule,
+        startingSchedule.getVaccineForecast().getSchedules());
   }
 
   private static void printSchedules(PrintWriter out, String nextActionName, int indicatesPos,
@@ -613,8 +621,10 @@ public class StepServlet extends ForecastServlet
         if (schedule != null) {
           out.println("        <td class=\"layout\" width=\"180\" valign=\"top\">");
           out.println("          <table width=\"100%\">");
-          out.println("            <tr><th class=\"bigHeaderCentered\">" + schedule.getScheduleName() + "</th></tr>");
-          out.println("            <tr><th class=\"smallHeaderCentered\">" + schedule.getLabel() + "</th></tr>");
+          out.println("            <tr><th class=\"bigHeaderCentered\">"
+              + schedule.getScheduleName() + "</th></tr>");
+          out.println("            <tr><th class=\"smallHeaderCentered\">" + schedule.getLabel()
+              + "</th></tr>");
           String sc = " class=\"insideValue\"";
           if (schedule.equals(startingSchedule)) {
             sc = " class=\"pass\"";
@@ -658,7 +668,8 @@ public class StepServlet extends ForecastServlet
 
             String c = " class=\"insideValue\"";
             if (schedule.equals(startingSchedule) && pos == indicatesPos
-                && !nextActionName.equals(LookForDoseStep.NAME) && !nextActionName.equals(ChooseIndicatorStep.NAME)) {
+                && !nextActionName.equals(LookForDoseStep.NAME)
+                && !nextActionName.equals(ChooseIndicatorStep.NAME)) {
               c = " class=\"pass\"";
             }
 
@@ -666,7 +677,8 @@ public class StepServlet extends ForecastServlet
                 && indicate.getVaccines()[0].getVaccineId() < 0) {
               out.println("<td" + c + " width=\"80%\">" + indicate.getVaccineName());
             } else {
-              out.println("<td" + c + " width=\"80%\">" + indicate.getVaccineName() + " dose given");
+              out.println(
+                  "<td" + c + " width=\"80%\">" + indicate.getVaccineName() + " dose given");
             }
             if (!indicate.getAge().isEmpty()) {
               out.println("<br> age < " + indicate.getAge());
@@ -691,8 +703,8 @@ public class StepServlet extends ForecastServlet
             } else {
               Schedule indicatedSchedule = schedules.get(indicate.getScheduleName());
               if (indicatedSchedule != null) {
-                out.println("Expect " + indicatedSchedule.getLabel() + " dose (" + indicatedSchedule.getScheduleName()
-                    + ")");
+                out.println("Expect " + indicatedSchedule.getLabel() + " dose ("
+                    + indicatedSchedule.getScheduleName() + ")");
                 if (!indicatedSchedule.getValidInterval().isEmpty()) {
                   out.println("<br> valid in " + indicatedSchedule.getValidInterval());
                 }
@@ -718,7 +730,8 @@ public class StepServlet extends ForecastServlet
     printSchedule(out, null, schedule, null);
   }
 
-  private void printSchedule(PrintWriter out, DataStore dataStore, Schedule schedule, String baseLink) {
+  private void printSchedule(PrintWriter out, DataStore dataStore, Schedule schedule,
+      String baseLink) {
 
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
     out.println("      <table>");
@@ -731,8 +744,8 @@ public class StepServlet extends ForecastServlet
     }
     if (dataStore != null) {
       out.println("        <th class=\"smallHeader\">Date of Birth</th>");
-      out.println("        <td class=\"insideValue\">" + sdf.format(dataStore.getPatient().getDobDateTime().getDate())
-          + "</td>");
+      out.println("        <td class=\"insideValue\">"
+          + sdf.format(dataStore.getPatient().getDobDateTime().getDate()) + "</td>");
     }
     out.println("      </tr>");
     out.println("      <tr>");
@@ -744,7 +757,8 @@ public class StepServlet extends ForecastServlet
     }
     if (dataStore != null) {
       out.println("        <th class=\"smallHeader\">Forecast Date</th>");
-      out.println("        <td class=\"insideValue\">" + sdf.format(dataStore.getForecastDate()) + "</td>");
+      out.println(
+          "        <td class=\"insideValue\">" + sdf.format(dataStore.getForecastDate()) + "</td>");
     }
     out.println("      </tr>");
     out.println("      <tr>");
@@ -756,7 +770,8 @@ public class StepServlet extends ForecastServlet
     }
     if (dataStore != null) {
       out.println("        <th class=\"smallHeader\">Previous Event Date</th>");
-      out.println("        <td class=\"insideValue\">" + safe(dataStore.getPreviousEventDate()) + "</td>");
+      out.println(
+          "        <td class=\"insideValue\">" + safe(dataStore.getPreviousEventDate()) + "</td>");
     }
     out.println("      </tr>");
     if (dataStore != null) {
@@ -765,7 +780,8 @@ public class StepServlet extends ForecastServlet
       out.println("        <td class=\"insideValue\">" + safe(dataStore.getNextAction()) + "</td>");
       out.println("        <th class=\"smallHeader\">Previous Vaccine Ids</th>");
       out.println("        <td class=\"insideValue\">");
-      if (dataStore.getPreviousVaccineIdList() == null || dataStore.getPreviousVaccineIdList().size() == 0) {
+      if (dataStore.getPreviousVaccineIdList() == null
+          || dataStore.getPreviousVaccineIdList().size() == 0) {
         out.println("-");
       } else {
         boolean first = true;
@@ -819,7 +835,8 @@ public class StepServlet extends ForecastServlet
 
         if (dataStore.getDoseList() != null) {
           for (VaccinationDoseDataBean dose : dataStore.getDoseList()) {
-            if (imm.getVaccineId() == dose.getVaccineId() && dose.getAdminDate().equals(imm.getDateOfShot())) {
+            if (imm.getVaccineId() == dose.getVaccineId()
+                && dose.getAdminDate().equals(imm.getDateOfShot())) {
               if (dose.getStatusCode().equals("")) {
                 out.println("    <td" + c + ">" + safe(dose.getStatusCode()) + "</td>");
                 out.println("    <td" + c + ">" + safe(dose.getReason()) + "</td>");
@@ -845,44 +862,51 @@ public class StepServlet extends ForecastServlet
 
       out.println("    <table width=\"500\">");
       out.println("      <tr>");
-      out.println("        <th class=\"bigHeader\" colspan=\"5\">Determine if dose is valid or when next is due</th>");
+      out.println(
+          "        <th class=\"bigHeader\" colspan=\"5\">Determine if dose is valid or when next is due</th>");
       out.println("      </tr>");
       out.println("      <tr>");
       out.println("        <th class=\"smallHeader\">&nbsp;</th>");
       out.println("        <th class=\"smallHeader\">Age</th>");
       out.println("        <th class=\"smallHeader\">Interval</th>");
       out.println("        <th class=\"smallHeader\">Grace</th>");
-      out.println("        <th class=\"smallHeader\">" + (dataStore != null ? "Date" : "") + "</th>");
+      out.println(
+          "        <th class=\"smallHeader\">" + (dataStore != null ? "Date" : "") + "</th>");
       out.println("      </tr>");
       out.println("      <tr>");
       out.println("        <th class=\"smallHeader\">Valid</th>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getValidAge()));
       if (dataStore != null && !schedule.getValidAge().isEmpty()) {
-        out.println(schedule.getValidAge().getDateTimeFrom(dataStore.getPatient().getDobDateTime()).toString("M/D/Y"));
-      }
-      out.println("</td>");
-      out.println("        <td class=\"insideValue\">" + safe(schedule.getValidInterval()));
-      if (dataStore != null && !schedule.getValidInterval().isEmpty() && dataStore.getPreviousEventDate() != null) {
-        out.println(schedule.getValidInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid())
+        out.println(schedule.getValidAge().getDateTimeFrom(dataStore.getPatient().getDobDateTime())
             .toString("M/D/Y"));
       }
       out.println("</td>");
+      out.println("        <td class=\"insideValue\">" + safe(schedule.getValidInterval()));
+      if (dataStore != null && !schedule.getValidInterval().isEmpty()
+          && dataStore.getPreviousEventDate() != null) {
+        out.println(schedule.getValidInterval()
+            .getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
+      }
+      out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getValidGrace()) + "</td>");
-      out.println("        <td class=\"insideValue\">"
-          + safe(dataStore != null && dataStore.getValid() != null ? dataStore.getValid().toString("M/D/Y") : "")
+      out.println("        <td class=\"insideValue\">" + safe(
+          dataStore != null && dataStore.getValid() != null ? dataStore.getValid().toString("M/D/Y")
+              : "")
           + "</td>");
       out.println("      </tr>");
       out.println("      <tr>");
       out.println("        <th class=\"smallHeader\">Eary due</th>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getEarlyAge()));
       if (dataStore != null && !schedule.getEarlyAge().isEmpty()) {
-        out.println(schedule.getEarlyAge().getDateTimeFrom(dataStore.getPatient().getDobDateTime()).toString("M/D/Y"));
+        out.println(schedule.getEarlyAge().getDateTimeFrom(dataStore.getPatient().getDobDateTime())
+            .toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getEarlyInterval()));
-      if (dataStore != null && !schedule.getEarlyInterval().isEmpty() && dataStore.getPreviousEventDateValid() != null) {
-        out.println(schedule.getEarlyInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid())
-            .toString("M/D/Y"));
+      if (dataStore != null && !schedule.getEarlyInterval().isEmpty()
+          && dataStore.getPreviousEventDateValid() != null) {
+        out.println(schedule.getEarlyInterval()
+            .getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">&nbsp;</td>");
@@ -892,32 +916,38 @@ public class StepServlet extends ForecastServlet
       out.println("        <th class=\"smallHeader\">Due</th>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getDueAge()));
       if (dataStore != null && !schedule.getDueAge().isEmpty()) {
-        out.println(schedule.getDueAge().getDateTimeFrom(dataStore.getPatient().getDobDateTime()).toString("M/D/Y"));
+        out.println(schedule.getDueAge().getDateTimeFrom(dataStore.getPatient().getDobDateTime())
+            .toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getDueInterval()));
-      if (dataStore != null && !schedule.getDueInterval().isEmpty() && dataStore.getPreviousEventDateValid() != null) {
-        out.println(schedule.getDueInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
+      if (dataStore != null && !schedule.getDueInterval().isEmpty()
+          && dataStore.getPreviousEventDateValid() != null) {
+        out.println(schedule.getDueInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid())
+            .toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td>&nbsp;</td>");
-      out.println("        <td class=\"insideValue\">"
-          + safe(dataStore != null && dataStore.getDue() != null ? dataStore.getDue().toString("M/D/Y") : "") + "</td>");
+      out.println("        <td class=\"insideValue\">" + safe(
+          dataStore != null && dataStore.getDue() != null ? dataStore.getDue().toString("M/D/Y")
+              : "")
+          + "</td>");
       out.println("      </tr>");
       if (schedule.getEarlyOverdueAge() != null) {
         out.println("      <tr>");
         out.println("        <th class=\"smallHeader\">Early overdue</th>");
         out.println("        <td class=\"insideValue\">" + safe(schedule.getEarlyOverdueAge()));
         if (dataStore != null && !schedule.getEarlyOverdueAge().isEmpty()) {
-          out.println(schedule.getEarlyOverdueAge().getDateTimeFrom(dataStore.getPatient().getDobDateTime())
-              .toString("M/D/Y"));
+          out.println(schedule.getEarlyOverdueAge()
+              .getDateTimeFrom(dataStore.getPatient().getDobDateTime()).toString("M/D/Y"));
         }
         out.println("</td>");
-        out.println("        <td class=\"insideValue\">" + safe(schedule.getEarlyOverdueInterval()));
+        out.println(
+            "        <td class=\"insideValue\">" + safe(schedule.getEarlyOverdueInterval()));
         if (dataStore != null && !schedule.getEarlyOverdueInterval().isEmpty()
             && dataStore.getPreviousEventDateValid() != null) {
-          out.println(schedule.getEarlyOverdueInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid())
-              .toString("M/D/Y"));
+          out.println(schedule.getEarlyOverdueInterval()
+              .getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
         }
         out.println("</td>");
         out.println("        <td>&nbsp;</td>");
@@ -928,58 +958,64 @@ public class StepServlet extends ForecastServlet
       out.println("        <th class=\"smallHeader\">Overdue</th>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getOverdueAge()));
       if (dataStore != null && !schedule.getOverdueAge().isEmpty()) {
-        out.println(schedule.getOverdueAge().getDateTimeFrom(dataStore.getPatient().getDobDateTime()).toString("M/D/Y"));
+        out.println(schedule.getOverdueAge()
+            .getDateTimeFrom(dataStore.getPatient().getDobDateTime()).toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getOverdueInterval()));
       if (dataStore != null && !schedule.getOverdueInterval().isEmpty()
           && dataStore.getPreviousEventDateValid() != null) {
-        out.println(schedule.getOverdueInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid())
-            .toString("M/D/Y"));
+        out.println(schedule.getOverdueInterval()
+            .getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td>&nbsp;</td>");
-      out.println("        <td class=\"insideValue\">" + safe(dataStore != null ? dataStore.getOverdue() : "")
-          + "</td>");
+      out.println("        <td class=\"insideValue\">"
+          + safe(dataStore != null ? dataStore.getOverdue() : "") + "</td>");
       out.println("      </tr>");
       out.println("      <tr>");
       out.println("        <th class=\"smallHeader\">Finished</th>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getFinishedAge()));
       if (dataStore != null && !schedule.getFinishedAge().isEmpty()) {
-        out.println(schedule.getFinishedAge().getDateTimeFrom(dataStore.getPatient().getDobDateTime())
-            .toString("M/D/Y"));
+        out.println(schedule.getFinishedAge()
+            .getDateTimeFrom(dataStore.getPatient().getDobDateTime()).toString("M/D/Y"));
       }
       out.println("        <td class=\"insideValue\">" + safe(schedule.getFinishedInterval()));
       if (dataStore != null && !schedule.getFinishedInterval().isEmpty()
           && dataStore.getPreviousEventDateValid() != null) {
-        out.println(schedule.getFinishedInterval().getDateTimeFrom(dataStore.getPreviousEventDateValid())
-            .toString("M/D/Y"));
+        out.println(schedule.getFinishedInterval()
+            .getDateTimeFrom(dataStore.getPreviousEventDateValid()).toString("M/D/Y"));
       }
       out.println("</td>");
       out.println("        <td>&nbsp;</td>");
-      out.println("        <td class=\"insideValue\">" + safe(dataStore != null ? dataStore.getFinished() : "")
-          + "</td>");
+      out.println("        <td class=\"insideValue\">"
+          + safe(dataStore != null ? dataStore.getFinished() : "") + "</td>");
       out.println("      </tr>");
       out.println("      <tr>");
       out.println("        <th class=\"smallHeader\" colspan=\"2\">After invalid dose</th>");
       out.println("        <td class=\"insideValue\">" + safe(schedule.getAfterInvalidInterval()));
       if (dataStore != null && schedule.getAfterInvalidInterval() != null
-          && !schedule.getAfterInvalidInterval().isEmpty() && dataStore.getPreviousEventDate() != null) {
-        out.println(schedule.getAfterInvalidInterval().getDateTimeFrom(dataStore.getPreviousEventDate())
-            .toString("M/D/Y"));
+          && !schedule.getAfterInvalidInterval().isEmpty()
+          && dataStore.getPreviousEventDate() != null) {
+        out.println(schedule.getAfterInvalidInterval()
+            .getDateTimeFrom(dataStore.getPreviousEventDate()).toString("M/D/Y"));
       }
       out.println("</td>");
-      out.println("        <td class=\"insideValue\">" + safe(schedule.getAfterInvalidGrace()) + "</td>");
+      out.println(
+          "        <td class=\"insideValue\">" + safe(schedule.getAfterInvalidGrace()) + "</td>");
       out.println("        <td>&nbsp;</td>");
       out.println("      </tr>");
-      if (schedule.getAfterContraInterval() != null && !schedule.getAfterContraInterval().isEmpty()) {
+      if (schedule.getAfterContraInterval() != null
+          && !schedule.getAfterContraInterval().isEmpty()) {
         out.println("      <tr>");
-        out.println("        <th class=\"smallHeader\" colspan=\"2\">After contraindicated dose</th>");
+        out.println(
+            "        <th class=\"smallHeader\" colspan=\"2\">After contraindicated dose</th>");
         out.println("        <td class=\"insideValue\">" + safe(schedule.getAfterContraInterval()));
         if (dataStore != null && schedule.getAfterContraInterval() != null
-            && !schedule.getAfterContraInterval().isEmpty() && dataStore.getPreviousEventDate() != null) {
-          out.println(schedule.getAfterContraInterval().getDateTimeFrom(dataStore.getPreviousEventDate())
-              .toString("M/D/Y"));
+            && !schedule.getAfterContraInterval().isEmpty()
+            && dataStore.getPreviousEventDate() != null) {
+          out.println(schedule.getAfterContraInterval()
+              .getDateTimeFrom(dataStore.getPreviousEventDate()).toString("M/D/Y"));
         }
         out.println("</td>");
         out.println("        <td>" + safe(schedule.getAfterContraGrace()) + "</td>");
@@ -988,21 +1024,25 @@ public class StepServlet extends ForecastServlet
       }
       out.println("      <tr>");
       out.println("        <th class=\"smallHeader\" colspan=\"2\">Dose before previous</th>");
-      out.println("        <td class=\"insideValue\">" + safe(schedule.getBeforePreviousInterval()));
+      out.println(
+          "        <td class=\"insideValue\">" + safe(schedule.getBeforePreviousInterval()));
       if (dataStore != null && schedule.getBeforePreviousInterval() != null
-          && !schedule.getBeforePreviousInterval().isEmpty() && dataStore.getPreviousEventDate() != null) {
-        out.println(schedule.getBeforePreviousInterval().getDateTimeFrom(dataStore.getBeforePreviousEventDate())
-            .toString("M/D/Y"));
+          && !schedule.getBeforePreviousInterval().isEmpty()
+          && dataStore.getPreviousEventDate() != null) {
+        out.println(schedule.getBeforePreviousInterval()
+            .getDateTimeFrom(dataStore.getBeforePreviousEventDate()).toString("M/D/Y"));
       }
       out.println("</td>");
-      out.println("        <td class=\"insideValue\">" + safe(schedule.getBeforePreviousGrace()) + "</td>");
+      out.println(
+          "        <td class=\"insideValue\">" + safe(schedule.getBeforePreviousGrace()) + "</td>");
       out.println("        <td>&nbsp;</td>");
       out.println("      </tr>");
       out.println("    </table>");
       if (schedule.getContraindicates() != null && schedule.getContraindicates().length > 0) {
         out.println("    <table width=\"500\">");
         out.println("      <tr>");
-        out.println("        <th class=\"bigHeader\" colspan=\"5\">Check for contraindications</th>");
+        out.println(
+            "        <th class=\"bigHeader\" colspan=\"5\">Check for contraindications</th>");
         out.println("      </tr>");
         out.println("  <tr>");
         out.println("    <th class=\"smallHeader\">Vaccine</th>");
@@ -1012,12 +1052,14 @@ public class StepServlet extends ForecastServlet
         out.println("  </tr>");
         for (Contraindicate contraindicate : schedule.getContraindicates()) {
           out.println("  <tr>");
-          out.println("    <td class=\"insideValue\">" + safe(contraindicate.getVaccineName()) + "</td>");
-          out.println("    <td class=\"insideValue\">" + safe(contraindicate.getAfterInterval()) + "</td>");
+          out.println(
+              "    <td class=\"insideValue\">" + safe(contraindicate.getVaccineName()) + "</td>");
+          out.println(
+              "    <td class=\"insideValue\">" + safe(contraindicate.getAfterInterval()) + "</td>");
           out.println("    <td class=\"insideValue\">" + safe(contraindicate.getAge()));
           if (dataStore != null && !contraindicate.getAge().isEmpty()) {
-            out.println(contraindicate.getAge().getDateTimeFrom(dataStore.getPatient().getDobDateTime())
-                .toString("M/D/Y"));
+            out.println(contraindicate.getAge()
+                .getDateTimeFrom(dataStore.getPatient().getDobDateTime()).toString("M/D/Y"));
           }
           out.println("</td>");
           out.println("    <td class=\"insideValue\">" + safe(contraindicate.getGrace()) + "</td>");
@@ -1033,7 +1075,8 @@ public class StepServlet extends ForecastServlet
       }
       out.println("    <table width=\"500\">");
       out.println("      <tr>");
-      out.println("        <th class=\"bigHeader\" colspan=\"5\">If valid, pick the next schedule to use</th>");
+      out.println(
+          "        <th class=\"bigHeader\" colspan=\"5\">If valid, pick the next schedule to use</th>");
       out.println("      </tr>");
       int pos = -1;
       out.println("  <tr>");
@@ -1053,17 +1096,20 @@ public class StepServlet extends ForecastServlet
         out.println("    <td" + c + ">" + safe(indicate.getScheduleName()) + "</td>");
         out.println("    <td" + c + ">" + safe(indicate.getAge()));
         if (dataStore != null && !indicate.getAge().isEmpty()) {
-          out.println(indicate.getAge().getDateTimeFrom(dataStore.getPatient().getDobDateTime()).toString("M/D/Y"));
+          out.println(indicate.getAge().getDateTimeFrom(dataStore.getPatient().getDobDateTime())
+              .toString("M/D/Y"));
         }
         out.println("</td>");
         out.println("    <td" + c + ">");
         if (indicate.getMinInterval() != null && !indicate.getMinInterval().isEmpty()) {
           out.println(indicate.getMinInterval() + " min interval");
         }
-        if (indicate.getPreviousVaccineName() != null && !indicate.getPreviousVaccineName().equals("")) {
+        if (indicate.getPreviousVaccineName() != null
+            && !indicate.getPreviousVaccineName().equals("")) {
           out.println(" after " + indicate.getPreviousVaccineName());
         }
-        if (indicate.getHistoryOfVaccineName() != null && !indicate.getHistoryOfVaccineName().equals("")) {
+        if (indicate.getHistoryOfVaccineName() != null
+            && !indicate.getHistoryOfVaccineName().equals("")) {
           out.println(" previously received " + indicate.getHistoryOfVaccineName());
         }
         if (indicate.isHashHad()) {
@@ -1074,7 +1120,8 @@ public class StepServlet extends ForecastServlet
         out.println("  </tr>");
         if (!indicate.getReason().equals("")) {
           out.println("  <tr>");
-          out.println("    <td colspan=\"5\"" + c + ">&nbsp;&nbsp;&nbsp;" + safe(indicate.getReason()) + "</td>");
+          out.println("    <td colspan=\"5\"" + c + ">&nbsp;&nbsp;&nbsp;"
+              + safe(indicate.getReason()) + "</td>");
           out.println("  </tr>");
         }
       }
@@ -1084,7 +1131,8 @@ public class StepServlet extends ForecastServlet
         // protected int eventPosition = 0;
         out.println("<table>");
         out.println("  <tr>");
-        out.println("    <th class=\"bigHeader\" colspan=\"" + (baseLink == null ? 4 : 5) + "\">Event List</th>");
+        out.println("    <th class=\"bigHeader\" colspan=\"" + (baseLink == null ? 4 : 5)
+            + "\">Event List</th>");
         out.println("  </tr>");
         out.println("  <tr>");
         out.println("    <th class=\"smallHeader\">Date</th>");
@@ -1131,7 +1179,8 @@ public class StepServlet extends ForecastServlet
           }
           out.println("    </td>");
           if (pos == (dataStore.getEventPosition() - 1) && dataStore.getEvent() != null) {
-            out.println("    <td" + c + ">" + (dataStore.getEvent().isHasEvent() ? "YES" : "NO") + " </td>");
+            out.println("    <td" + c + ">" + (dataStore.getEvent().isHasEvent() ? "YES" : "NO")
+                + " </td>");
           } else {
             out.println("    <td" + c + ">&nbsp;</td>");
           }
@@ -1157,8 +1206,8 @@ public class StepServlet extends ForecastServlet
         NamedVaccine namedVaccine = schedule.getVaccines().get(vaccineName);
         if (namedVaccine.getValidStartDate() != null) {
 
-          out.println("    <td class=\"insideValue\">" + namedVaccine.getVaccineIds() + " given after "
-              + sdf.format(namedVaccine.getValidStartDate()) + "</td>");
+          out.println("    <td class=\"insideValue\">" + namedVaccine.getVaccineIds()
+              + " given after " + sdf.format(namedVaccine.getValidStartDate()) + "</td>");
         } else {
           out.println("    <td class=\"insideValue\">" + namedVaccine.getVaccineIds() + "</td>");
         }
@@ -1168,9 +1217,11 @@ public class StepServlet extends ForecastServlet
     }
   }
 
-  public static void putOnMap(Schedule startingSchedule, Map<String, Schedule> map, Map<String, Schedule> schedules) {
+  public static void putOnMap(Schedule startingSchedule, Map<String, Schedule> map,
+      Map<String, Schedule> schedules) {
     if (startingSchedule.getPosColumn() > 0 && startingSchedule.getPosRow() > 0) {
-      map.put(startingSchedule.getPosColumn() + "-" + startingSchedule.getPosRow(), startingSchedule);
+      map.put(startingSchedule.getPosColumn() + "-" + startingSchedule.getPosRow(),
+          startingSchedule);
       for (Indicate indicate : startingSchedule.getIndicates()) {
         if (!indicate.isContra() && !indicate.isInvalid() && !indicate.isComplete()) {
           Schedule indicatedSchedule = schedules.get(indicate.getScheduleName());

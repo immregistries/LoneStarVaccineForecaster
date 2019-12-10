@@ -11,7 +11,8 @@ public class ForecastRequest implements ForecastRequestInterface {
   private Date forecastEvaluationDate = null;
   private String evaluationSchedule = "";
   private ForecastPatientInterface forecastPatient = null;
-  private List<ForecastVaccinationInterface> forecastVaccinationList = new ArrayList<ForecastVaccinationInterface>();
+  private List<ForecastVaccinationInterface> forecastVaccinationList =
+      new ArrayList<ForecastVaccinationInterface>();
 
   public List<ForecastVaccinationInterface> getVaccinationList() {
     return forecastVaccinationList;

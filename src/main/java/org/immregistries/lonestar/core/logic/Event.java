@@ -5,34 +5,32 @@ import java.util.Date;
 import java.util.List;
 import org.immregistries.lonestar.core.ImmunizationInterface;
 
-public class Event
-{
+public class Event {
   protected Date eventDate = null;
   protected boolean hasEvent = false;
   protected List<ImmunizationInterface> immList = new ArrayList<ImmunizationInterface>();
-  
-  public Date getEventDate()
-  {
+
+  public Date getEventDate() {
     return eventDate;
   }
-  public List<ImmunizationInterface> getImmList()
-  {
+
+  public List<ImmunizationInterface> getImmList() {
     return immList;
   }
-  public boolean isHasEvent()
-  {
+
+  public boolean isHasEvent() {
     return hasEvent;
   }
-  public void setEventDate(Date eventDate)
-  {
+
+  public void setEventDate(Date eventDate) {
     this.eventDate = eventDate;
   }
-  public void setHasEvent(boolean hasEvent)
-  {
+
+  public void setHasEvent(boolean hasEvent) {
     this.hasEvent = hasEvent;
   }
-  public void setImmList(List<ImmunizationInterface> immList)
-  {
+
+  public void setImmList(List<ImmunizationInterface> immList) {
     this.immList = immList;
   }
 }

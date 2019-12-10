@@ -12,8 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.immregistries.lonestar.core.api.impl.CvxCode;
 import org.immregistries.lonestar.core.api.test.ListCodes;
 
-public class ListCodesServlet extends HttpServlet
-{
+public class ListCodesServlet extends HttpServlet {
 
   private static Map<String, String> scheduleNameMap = new HashMap<String, String>();
 
@@ -40,7 +39,8 @@ public class ListCodesServlet extends HttpServlet
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
     PrintWriter out = new PrintWriter(resp.getOutputStream());
     resp.setContentType("text/html");
 
@@ -87,7 +87,8 @@ public class ListCodesServlet extends HttpServlet
           out.println("  </tr>");
           out.println("  <tr>");
           out.println("    <th>Internal Id</th>");
-          out.println("    <td>" + (cvxCode.getVaccineId() == 0 ? "&nbsp;" : "" + cvxCode.getVaccineId()) + "</td>");
+          out.println("    <td>"
+              + (cvxCode.getVaccineId() == 0 ? "&nbsp;" : "" + cvxCode.getVaccineId()) + "</td>");
           out.println("  </tr>");
           out.println("  <tr>");
           out.println("    <th>Use Status</th>");
@@ -135,8 +136,9 @@ public class ListCodesServlet extends HttpServlet
               out.println("    <td>" + sb.toString() + "</td>");
               String scheduleName = scheduleNameMap.get(forecastCode);
               if (scheduleName != null) {
-                out.println("  <td><a href=\"schedules/" + scheduleName + ".pdf\">PDF</a> <a href=\"schedules/"
-                    + scheduleName + ".xlsx\">Excel</a></td>");
+                out.println("  <td><a href=\"schedules/" + scheduleName
+                    + ".pdf\">PDF</a> <a href=\"schedules/" + scheduleName
+                    + ".xlsx\">Excel</a></td>");
               } else {
                 out.println("  <td>&nbsp;</td>");
               }
@@ -173,12 +175,13 @@ public class ListCodesServlet extends HttpServlet
       out.println("  <tr>");
       out.println("    <td class=\"" + displayClass + "\">" + cvxCode.getCvxCode() + "</td>");
       if (cvxCode.getUseStatus() != CvxCode.UseStatus.NOT_SUPPORTED) {
-        out.println("    <td class=\"" + displayClass + "\"><a href=\"listCodes?cvxCode=" + cvxCode.getCvxCode()
-            + "\">" + cvxCode.getCvxLabel() + "</a></td>");
+        out.println("    <td class=\"" + displayClass + "\"><a href=\"listCodes?cvxCode="
+            + cvxCode.getCvxCode() + "\">" + cvxCode.getCvxLabel() + "</a></td>");
       } else {
         out.println("    <td class=\"" + displayClass + "\">" + cvxCode.getCvxLabel() + "</td>");
       }
-      out.println("    <td class=\"" + displayClass + "\">" + getUseStatusDisplay(cvxCode) + "</td>");
+      out.println(
+          "    <td class=\"" + displayClass + "\">" + getUseStatusDisplay(cvxCode) + "</td>");
       out.println("    <td class=\"" + displayClass + "\">"
           + (cvxCode.getVaccineId() == 0 ? "&nbsp;" : "" + cvxCode.getVaccineId()) + "</td>");
       out.println("    <td class=\"" + displayClass + "\">" + cvxCode.getVaccineLabel() + "</td>");
@@ -186,7 +189,8 @@ public class ListCodesServlet extends HttpServlet
         out.println("    <td class=\"" + displayClass + "\">&nbsp;</td>");
       } else {
         if (cvxCode.getUseStatus() == CvxCode.UseStatus.SUPPORTED) {
-          out.println("    <td class=\"fail\">Problem: No forecast series references this code</td>");
+          out.println(
+              "    <td class=\"fail\">Problem: No forecast series references this code</td>");
         } else if (cvxCode.getUseStatus() == CvxCode.UseStatus.PENDING) {
           out.println("    <td class=\"fail\">Code is being added to the forecaster</td>");
         } else {

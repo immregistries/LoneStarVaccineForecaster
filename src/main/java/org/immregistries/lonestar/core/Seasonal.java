@@ -1,8 +1,7 @@
 package org.immregistries.lonestar.core;
 
 
-public class Seasonal
-{
+public class Seasonal {
   private TimePeriod due = null;
   private TimePeriod overdue = null;
   private TimePeriod end = null;
@@ -41,7 +40,7 @@ public class Seasonal
   public void setEnd(TimePeriod end) {
     this.end = end;
   }
-  
+
   public TimePeriod getFinished() {
     return finished;
   }

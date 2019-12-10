@@ -16,8 +16,7 @@ import org.immregistries.lonestar.core.api.impl.ForecastOptions;
 import org.immregistries.lonestar.core.api.impl.VaccineForecastManager;
 import org.immregistries.lonestar.core.model.PatientRecordDataBean;
 
-public class ForecastRunner
-{
+public class ForecastRunner {
   private VaccineForecastManager vaccineForecastManager;
 
   private List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
@@ -73,7 +72,8 @@ public class ForecastRunner
   private PatientRecordDataBean patient = new PatientRecordDataBean();
   private List<ImmunizationInterface> imms = new ArrayList<ImmunizationInterface>();
   private Date forecastDate = null;
-  private List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
+  private List<ImmunizationForecastDataBean> resultList =
+      new ArrayList<ImmunizationForecastDataBean>();
   private Map traceMap = new HashMap();
   private List<ImmunizationForecastDataBean> forecastListDueToday;
   private List<ImmunizationForecastDataBean> forecastListDueLater;
@@ -107,16 +107,16 @@ public class ForecastRunner
     StringWriter stringOut = new StringWriter();
     PrintWriter out = new PrintWriter(stringOut);
     ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(vaccineForecastManager);
-    forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, imms, forecasterScheduleName, new DateTime(
-        forecastDate), doseList, out, true, patient.getDob());
+    forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, imms, forecasterScheduleName,
+        new DateTime(forecastDate), doseList, out, true, patient.getDob());
     out.close();
     return stringOut.toString();
   }
 
   public void printTextReport(PrintWriter out) {
     ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(vaccineForecastManager);
-    forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, imms, forecasterScheduleName, new DateTime(
-        forecastDate), doseList, out, true, patient.getDob());
+    forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, imms, forecasterScheduleName,
+        new DateTime(forecastDate), doseList, out, true, patient.getDob());
     out.close();
   }
 
@@ -149,8 +149,8 @@ public class ForecastRunner
 
     ForecastHandlerCore forecastHandlerCore = new ForecastHandlerCore(vaccineForecastManager);
     forecastHandlerCore.setKeepDetailLog(keepDetailLog);
-    forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms, new DateTime(forecastDate),
-        traceMap, resultList, forecastOptions);
+    forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms,
+        new DateTime(forecastDate), traceMap, resultList, forecastOptions);
     if (keepDetailLog) {
       detailLog = forecastHandlerCore.getDetailLog();
     }
@@ -171,12 +171,14 @@ public class ForecastRunner
         traceMap.remove(ImmunizationForecastDataBean.DIPHTHERIA);
       }
 
-      if (forecastExamine.getStatusDescriptionInternal().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)
-          || forecastExamine.getStatusDescriptionInternal().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)) {
+      if (forecastExamine.getStatusDescriptionInternal()
+          .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)
+          || forecastExamine.getStatusDescriptionInternal()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)) {
         forecastListDueToday.add(forecastExamine);
         traceMap.remove(forecastExamine.getForecastName());
-      } else if (forecastExamine.getStatusDescriptionInternal().equals(
-          ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)) {
+      } else if (forecastExamine.getStatusDescriptionInternal()
+          .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)) {
         forecastListDueLater.add(forecastExamine);
         traceMap.remove(forecastExamine.getForecastName());
       }

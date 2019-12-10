@@ -25,8 +25,7 @@ import org.immregistries.lonestar.core.model.Immunization;
 import org.immregistries.lonestar.core.model.PatientRecordDataBean;
 import org.immregistries.lonestar.core.server.ForecastReportPrinter;
 
-public class ForecastServlet extends HttpServlet
-{
+public class ForecastServlet extends HttpServlet {
   private static final String PARAM_VACCINE_MVX = "vaccineMvx";
   private static final String PARAM_VACCINE_CVX = "vaccineCvx";
   private static final String PARAM_VACCINE_CONDITION_CODE = "vaccineConditionCode";
@@ -40,16 +39,21 @@ public class ForecastServlet extends HttpServlet
   private static final String PARAM_FLU_SEASON_OVERDUE = "fluSeasonOverdue";
   private static final String PARAM_FLU_SEASON_END = "fluSeasonEnd";
   private static final String PARAM_DUE_USE_EARLY = "dueUseEarly";
-  private static final String PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE = "assumeDtapSeriesCompleteAtAge";
-  private static final String PARAM_ASSUME_HEPA_SERIES_COMPLETE_AT_AGE = "assumeHepASeriesCompleteAtAge";
-  private static final String PARAM_ASSUME_HEPB_SERIES_COMPLETE_AT_AGE = "assumeHepBSeriesCompleteAtAge";
-  private static final String PARAM_ASSUME_MMR_SERIES_COMPLETE_AT_AGE = "assumeMMRSeriesCompleteAtAge";
-  private static final String PARAM_ASSUME_VAR_SERIES_COMPLETE_AT_AGE = "assumeVarSeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE =
+      "assumeDtapSeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_HEPA_SERIES_COMPLETE_AT_AGE =
+      "assumeHepASeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_HEPB_SERIES_COMPLETE_AT_AGE =
+      "assumeHepBSeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_MMR_SERIES_COMPLETE_AT_AGE =
+      "assumeMMRSeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_VAR_SERIES_COMPLETE_AT_AGE =
+      "assumeVarSeriesCompleteAtAge";
   private static final String PARAM_IGNORE_FOUR_DAY_GRACE = "ignoreFourDayGrace";
   private static final String PARAM_SCHEDULE_NAME = "scheduleName";
   private static final String PARAM_ASSUME_SERIES_COMPLETED = "assumeSeriesCompleted";
   private static final String PARAM_USE_INTERNAL_EVALUATION_STATUS = "useInternalEvaluationStatus";
-  
+
   public static final String RESULT_FORMAT_TEXT = "text";
   public static final String RESULT_FORMAT_HTML = "html";
   public static final String RESULT_FORMAT_COMPACT = "compact";
@@ -65,8 +69,10 @@ public class ForecastServlet extends HttpServlet
     super.init();
   }
 
-  private static Map<String, VaccineForecastManager> forecastManagerMap = new HashMap<String, VaccineForecastManager>();
-  private static Map<String, ForecastHandlerCore> forecastHandlerCoreMap = new HashMap<String, ForecastHandlerCore>();
+  private static Map<String, VaccineForecastManager> forecastManagerMap =
+      new HashMap<String, VaccineForecastManager>();
+  private static Map<String, ForecastHandlerCore> forecastHandlerCoreMap =
+      new HashMap<String, ForecastHandlerCore>();
 
   protected VaccineForecastManager forecastManager = null;
   protected ForecastHandlerCore forecastHandlerCore = null;
@@ -91,8 +97,7 @@ public class ForecastServlet extends HttpServlet
 
   }
 
-  protected static class ForecastInput
-  {
+  protected static class ForecastInput {
     protected List<VaccinationDoseDataBean> doseList = null;
     protected PatientRecordDataBean patient = null;
     protected List<ImmunizationInterface> imms = null;
@@ -103,7 +108,8 @@ public class ForecastServlet extends HttpServlet
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
     try {
       ForecastInput forecastInput = new ForecastInput();
       readRequest(req, forecastInput);
@@ -116,8 +122,9 @@ public class ForecastServlet extends HttpServlet
       String forecasterScheduleName = "";
       try {
         Map<String, List<Trace>> traceMap = new HashMap<String, List<Trace>>();
-        forecasterScheduleName = forecastHandlerCore.forecast(forecastInput.doseList, forecastInput.patient,
-            forecastInput.imms, forecastInput.forecastDate, traceMap, resultList, forecastInput.forecastOptions);
+        forecasterScheduleName = forecastHandlerCore.forecast(forecastInput.doseList,
+            forecastInput.patient, forecastInput.imms, forecastInput.forecastDate, traceMap,
+            resultList, forecastInput.forecastOptions);
       } catch (Exception e) {
         throw new ServletException("Unable to forecast", e);
       }
@@ -129,21 +136,22 @@ public class ForecastServlet extends HttpServlet
         resp.setContentType("text/html");
         PrintWriter out = new PrintWriter(resp.getOutputStream());
 
-        forecastReportPrinter.printHTMLVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
-            forecastInput.forecastDate, forecastInput.doseList, out);
+        forecastReportPrinter.printHTMLVersionOfForecast(resultList, forecastInput.imms,
+            forecasterScheduleName, forecastInput.forecastDate, forecastInput.doseList, out);
         out.close();
 
       } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_TEXT)) {
         resp.setContentType("text/plain");
         PrintWriter out = new PrintWriter(resp.getOutputStream());
-        forecastReportPrinter.printTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
-            forecastInput.forecastDate, forecastInput.doseList, out);
+        forecastReportPrinter.printTextVersionOfForecast(resultList, forecastInput.imms,
+            forecasterScheduleName, forecastInput.forecastDate, forecastInput.doseList, out);
         out.close();
       } else if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_COMPACT)) {
         resp.setContentType("text/plain");
         PrintWriter out = new PrintWriter(resp.getOutputStream());
-        forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, forecastInput.imms, forecasterScheduleName,
-            forecastInput.forecastDate, forecastInput.doseList, out, true, forecastInput.patient.getDob());
+        forecastReportPrinter.printNarrowTextVersionOfForecast(resultList, forecastInput.imms,
+            forecasterScheduleName, forecastInput.forecastDate, forecastInput.doseList, out, true,
+            forecastInput.patient.getDob());
         out.close();
       } else {
         throw new ServletException("Unrecognized result format '" + resultFormat + "'");
@@ -163,7 +171,8 @@ public class ForecastServlet extends HttpServlet
     out.println("  </head>");
     out.println("  <body>");
     out.println("    <h1>Oops...</h1>");
-    out.println("    <p>The Lone Star Vaccine Forecaster encountered a problem and was unable to return a forecast result. </p>");
+    out.println(
+        "    <p>The Lone Star Vaccine Forecaster encountered a problem and was unable to return a forecast result. </p>");
     out.println("    <h2>Technical Details</h2>");
     out.println("    <pre>");
     e.printStackTrace(out);
@@ -183,14 +192,16 @@ public class ForecastServlet extends HttpServlet
     if (value == null || value.equals("")) {
       return false;
     }
-    if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("yes") || value.equalsIgnoreCase("t")
-        || value.equalsIgnoreCase("1") || value.equalsIgnoreCase("y")) {
+    if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("yes")
+        || value.equalsIgnoreCase("t") || value.equalsIgnoreCase("1")
+        || value.equalsIgnoreCase("y")) {
       return true;
     }
     return false;
   }
 
-  protected void readRequest(HttpServletRequest req, ForecastInput forecastInput) throws ServletException {
+  protected void readRequest(HttpServletRequest req, ForecastInput forecastInput)
+      throws ServletException {
 
     Map<String, CvxCode> cvxToVaccineIdMap = null;
     try {
@@ -209,18 +220,22 @@ public class ForecastServlet extends HttpServlet
 
     String evalDateString = req.getParameter(PARAM_EVAL_DATE);
     if (evalDateString != null && evalDateString.length() != 8) {
-      throw new ServletException("Parameter 'evalDate' is optional, but if sent must be in YYYYMMDD format. ");
+      throw new ServletException(
+          "Parameter 'evalDate' is optional, but if sent must be in YYYYMMDD format. ");
     }
     forecastInput.forecastDate = new DateTime(evalDateString == null ? "today" : evalDateString);
     String patientDobString = req.getParameter(PARAM_PATIENT_DOB);
     if (patientDobString == null || patientDobString.length() != 8) {
-      throw new ServletException("Parameter 'patientDob' is required and must be in YYYYMMDD format. ");
+      throw new ServletException(
+          "Parameter 'patientDob' is required and must be in YYYYMMDD format. ");
     }
     DateTime patientDob = new DateTime(patientDobString);
     forecastInput.patient.setDob(patientDob);
     String patientSex = req.getParameter(PARAM_PATIENT_SEX);
-    if (patientSex == null || (!patientSex.equalsIgnoreCase("M") && !patientSex.equalsIgnoreCase("F"))) {
-      throw new ServletException("Parameter 'patientSex' is required and must have a value of 'M' or 'F'. ");
+    if (patientSex == null
+        || (!patientSex.equalsIgnoreCase("M") && !patientSex.equalsIgnoreCase("F"))) {
+      throw new ServletException(
+          "Parameter 'patientSex' is required and must have a value of 'M' or 'F'. ");
     }
     forecastInput.patient.setSex(patientSex.toUpperCase());
     int n = 1;
@@ -236,9 +251,10 @@ public class ForecastServlet extends HttpServlet
       if (vaccineCvx == null) {
         throw new ServletException("Parameter 'vaccineCvx" + n + "' is required.");
       } else {
-        if (!cvxToVaccineIdMap.containsKey(vaccineCvx) && !cvxToVaccineIdMap.containsKey("0" + vaccineCvx)) {
-          throw new ServletException("CVX code '" + vaccineCvx + "' is not recognized in parameter named 'vaccineCvx"
-              + n + "'");
+        if (!cvxToVaccineIdMap.containsKey(vaccineCvx)
+            && !cvxToVaccineIdMap.containsKey("0" + vaccineCvx)) {
+          throw new ServletException("CVX code '" + vaccineCvx
+              + "' is not recognized in parameter named 'vaccineCvx" + n + "'");
         }
         CvxCode cvxCode = null;
         if (cvxToVaccineIdMap.containsKey(vaccineCvx)) {
@@ -248,8 +264,8 @@ public class ForecastServlet extends HttpServlet
         }
 
         if (cvxCode == null) {
-          throw new ServletException("CVX code '" + vaccineCvx + "' is not recognized in parameter named 'vaccineCvx"
-              + n + "'");
+          throw new ServletException("CVX code '" + vaccineCvx
+              + "' is not recognized in parameter named 'vaccineCvx" + n + "'");
         } else {
           vaccineId = cvxCode.getVaccineId();
         }
@@ -272,13 +288,16 @@ public class ForecastServlet extends HttpServlet
 
     forecastInput.forecastOptions.setFluSeasonDue(readTimePeriod(req, PARAM_FLU_SEASON_DUE));
     forecastInput.forecastOptions.setFluSeasonEnd(readTimePeriod(req, PARAM_FLU_SEASON_END));
-    forecastInput.forecastOptions.setFluSeasonOverdue(readTimePeriod(req, PARAM_FLU_SEASON_OVERDUE));
-    forecastInput.forecastOptions.setIgnoreFourDayGrace(readBoolean(req, PARAM_IGNORE_FOUR_DAY_GRACE));
+    forecastInput.forecastOptions
+        .setFluSeasonOverdue(readTimePeriod(req, PARAM_FLU_SEASON_OVERDUE));
+    forecastInput.forecastOptions
+        .setIgnoreFourDayGrace(readBoolean(req, PARAM_IGNORE_FOUR_DAY_GRACE));
 
     forecastInput.dueUseEarly = readBoolean(req, PARAM_DUE_USE_EARLY);
     forecastInput.forecastOptions.setUseEarlyDue(forecastInput.dueUseEarly);
     forecastInput.forecastOptions.setUseEarlyOverdue(forecastInput.dueUseEarly);
-    forecastInput.forecastOptions.setUseInternalEvaluationStatus(readBoolean(req, PARAM_USE_INTERNAL_EVALUATION_STATUS));
+    forecastInput.forecastOptions
+        .setUseInternalEvaluationStatus(readBoolean(req, PARAM_USE_INTERNAL_EVALUATION_STATUS));
 
     setAssumeParam(req, forecastInput, patientDob, PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE,
         "Adult assumed to have completed DTaP series.", Immunization.ASSUME_DTAP_SERIES_COMPLETE);
@@ -305,8 +324,8 @@ public class ForecastServlet extends HttpServlet
     }
   }
 
-  public void setAssumeParam(HttpServletRequest req, ForecastInput forecastInput, DateTime patientDob,
-      String paramName, String label, int vaccineId) {
+  public void setAssumeParam(HttpServletRequest req, ForecastInput forecastInput,
+      DateTime patientDob, String paramName, String label, int vaccineId) {
     TimePeriod assumeSeriesCompleteAtAge = readTimePeriod(req, paramName);
 
     if (assumeSeriesCompleteAtAge != null) {

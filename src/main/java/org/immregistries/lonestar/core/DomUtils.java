@@ -3,23 +3,18 @@ package org.immregistries.lonestar.core;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class DomUtils
-{
+public class DomUtils {
 
-  public static String getAttributeValue(Node node, String attributeName)
-  {
+  public static String getAttributeValue(Node node, String attributeName) {
     String result = "";
 
-    if (node.hasAttributes())
-    {
+    if (node.hasAttributes()) {
       NamedNodeMap attributeNodeMap = node.getAttributes();
       Node attributeNode = attributeNodeMap.getNamedItem(attributeName);
 
-      if (attributeNode != null)
-      {
+      if (attributeNode != null) {
         result = attributeNode.getNodeValue();
-        if (result == null)
-        {
+        if (result == null) {
           result = "";
         }
       }
@@ -27,20 +22,16 @@ public class DomUtils
     return result;
   }
 
-  public static int getAttributeValueInt(Node node, String attributeName)
-  {
+  public static int getAttributeValueInt(Node node, String attributeName) {
     String result = "0";
 
-    if (node.hasAttributes())
-    {
+    if (node.hasAttributes()) {
       NamedNodeMap attributeNodeMap = node.getAttributes();
       Node attributeNode = attributeNodeMap.getNamedItem(attributeName);
 
-      if (attributeNode != null)
-      {
+      if (attributeNode != null) {
         result = attributeNode.getNodeValue();
-        if (result == null || result.equals(""))
-        {
+        if (result == null || result.equals("")) {
           result = "0";
         }
       }
@@ -48,20 +39,16 @@ public class DomUtils
     return Integer.parseInt(result);
   }
 
-  public static boolean getAttributeValueBoolean(Node node, String attributeName)
-  {
+  public static boolean getAttributeValueBoolean(Node node, String attributeName) {
     String result = "false";
 
-    if (node.hasAttributes())
-    {
+    if (node.hasAttributes()) {
       NamedNodeMap attributeNodeMap = node.getAttributes();
       Node attributeNode = attributeNodeMap.getNamedItem(attributeName);
 
-      if (attributeNode != null)
-      {
+      if (attributeNode != null) {
         result = attributeNode.getNodeValue();
-        if (result == null || result.equals(""))
-        {
+        if (result == null || result.equals("")) {
           result = "false";
         }
       }
@@ -70,45 +57,36 @@ public class DomUtils
     return result.equals("t") || result.equals("y");
   }
 
-  public static String getInternalValue(Node node)
-  {
+  public static String getInternalValue(Node node) {
     String s = "";
     node = node.getFirstChild();
-    if (node != null)
-    {
+    if (node != null) {
       s = node.getNodeValue();
-      if (s == null)
-      {
+      if (s == null) {
         s = "";
       }
     }
     return s;
   }
 
-  public static int getInternalValueInt(Node node)
-  {
+  public static int getInternalValueInt(Node node) {
     String s = "0";
     node = node.getFirstChild();
-    if (node != null)
-    {
+    if (node != null) {
       s = node.getNodeValue();
-      if (s == null || s.equals(""))
-      {
+      if (s == null || s.equals("")) {
         s = "0";
       }
     }
     return Integer.parseInt(s);
   }
 
-  public static boolean getInternalValueBoolean(Node node)
-  {
+  public static boolean getInternalValueBoolean(Node node) {
     String s = "false";
     node = node.getFirstChild();
-    if (node != null)
-    {
+    if (node != null) {
       s = node.getNodeValue();
-      if (s == null || s.equals(""))
-      {
+      if (s == null || s.equals("")) {
         s = "false";
       }
     }
@@ -116,39 +94,32 @@ public class DomUtils
     return s.equals("t") || s.equals("y");
   }
 
-  public static String escape(String s)
-  {
+  public static String escape(String s) {
     String result = "";
-    if (s != null)
-    {
+    if (s != null) {
       char[] c = s.toCharArray();
-      for (int i = 0; i < c.length; i++)
-      {
-        switch (c[i])
-        {
-          case '&' :
+      for (int i = 0; i < c.length; i++) {
+        switch (c[i]) {
+          case '&':
             result += "&amp;";
             break;
-          case '<' :
+          case '<':
             result += "&lt;";
             break;
-          case '>' :
+          case '>':
             result += "&gt;";
             break;
-          case '\'' :
+          case '\'':
             result += "&apos;";
             break;
-          case '\"' :
+          case '\"':
             result += "&quot;";
             break;
-          default :
-            if (c[i] < ' ')
-            {
+          default:
+            if (c[i] < ' ') {
               result += "&#" + ((int) c[i]) + ";";
-            }
-            else
-            {
-              result += c[i];              
+            } else {
+              result += c[i];
             }
         }
       }

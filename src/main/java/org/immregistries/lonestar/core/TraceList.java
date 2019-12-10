@@ -5,8 +5,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TraceList extends ArrayList<Trace>
-{
+public class TraceList extends ArrayList<Trace> {
   private static final String BULLET_POINT_START = "+";
   private static final String RED = "[RED]";
   private static final String BLUE = "[BLUE]";
@@ -67,18 +66,18 @@ public class TraceList extends ArrayList<Trace>
     printWriter.close();
     return stringWriter.toString();
   }
-  
-  public void printExplanation(DecisionProcessFormat decisionProcessFormat, PrintWriter printWriter) {
+
+  public void printExplanation(DecisionProcessFormat decisionProcessFormat,
+      PrintWriter printWriter) {
     if (decisionProcessFormat == DecisionProcessFormat.HTML) {
       getExplanationInHtml(printWriter);
     } else {
       getExplanationInText(printWriter);
     }
   }
-  
-  public void printExplanation(PrintWriter out, DecisionProcessFormat decisionProcessFormat)
-  {
-    
+
+  public void printExplanation(PrintWriter out, DecisionProcessFormat decisionProcessFormat) {
+
   }
 
   public void getExplanationInHtml(PrintWriter out) {

@@ -27,22 +27,19 @@ import org.immregistries.lonestar.core.VaccineForecastManagerInterface;
 import org.immregistries.lonestar.core.api.impl.ForecastOptions;
 import org.immregistries.lonestar.core.model.Assumption;
 
-public class DataStore
-{
+public class DataStore {
 
   public static final TimePeriod NO_GRACE_PERIOD = new TimePeriod("");
-  
+
   protected DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
   public static final int VARICELLA_HISTORY = 378;
 
-  public DateFormat getDateFormat()
-  {
+  public DateFormat getDateFormat() {
     return dateFormat;
   }
 
-  public void setDateFormat(DateFormat dateFormat)
-  {
+  public void setDateFormat(DateFormat dateFormat) {
     this.dateFormat = dateFormat;
   }
 
@@ -122,462 +119,371 @@ public class DataStore
     this.forecastManager = forecastManager;
   }
 
-  public DateTime getBeforePreviousEventDate()
-  {
+  public DateTime getBeforePreviousEventDate() {
     return beforePreviousEventDate;
   }
 
-  public List<BlackOut> getBlackOutDates()
-  {
+  public List<BlackOut> getBlackOutDates() {
     return blackOutDates;
   }
 
-  public StringBuffer getDetailLog()
-  {
+  public StringBuffer getDetailLog() {
     return detailLog;
   }
 
-  public List<VaccinationDoseDataBean> getDoseList()
-  {
+  public List<VaccinationDoseDataBean> getDoseList() {
     return doseList;
   }
 
-  public DateTime getDue()
-  {
+  public DateTime getDue() {
     return due;
   }
 
-  public String getDueReason()
-  {
+  public String getDueReason() {
     return dueReason;
   }
 
-  public Event getEvent()
-  {
+  public Event getEvent() {
     return event;
   }
 
-  public List<Event> getEventList()
-  {
+  public List<Event> getEventList() {
     return eventList;
   }
 
-  public int getEventPosition()
-  {
+  public int getEventPosition() {
     return eventPosition;
   }
 
-  public DateTime getFinished()
-  {
+  public DateTime getFinished() {
     return finished;
   }
 
-  public VaccineForecastDataBean getForecast()
-  {
+  public VaccineForecastDataBean getForecast() {
     return forecast;
   }
 
-  public String getForecastCode()
-  {
+  public String getForecastCode() {
     return forecastCode;
   }
 
-  public Date getForecastDate()
-  {
+  public Date getForecastDate() {
     return forecastDateTime.getDate();
   }
 
-  public VaccineForecastManagerInterface getForecastManager()
-  {
+  public VaccineForecastManagerInterface getForecastManager() {
     return forecastManager;
   }
 
-  public VaccineForecastDataBean.Indicate[] getIndicates()
-  {
+  public VaccineForecastDataBean.Indicate[] getIndicates() {
     return indicates;
   }
 
-  public int getIndicatesPos()
-  {
+  public int getIndicatesPos() {
     return indicatesPos;
   }
 
-  public String getNextAction()
-  {
+  public String getNextAction() {
     return nextAction;
   }
 
-  public List<Event> getOriginalEventList()
-  {
+  public List<Event> getOriginalEventList() {
     return originalEventList;
   }
 
-  public DateTime getOverdue()
-  {
+  public DateTime getOverdue() {
     return overdue;
   }
 
-  public PatientForecastRecordDataBean getPatient()
-  {
+  public PatientForecastRecordDataBean getPatient() {
     return patient;
   }
 
-  public TimePeriod getPreviousAfterInvalidInterval()
-  {
+  public TimePeriod getPreviousAfterInvalidInterval() {
     return previousAfterInvalidInterval;
   }
 
-  public DateTime getPreviousEventDate()
-  {
+  public DateTime getPreviousEventDate() {
     return previousEventDate;
   }
 
-  public DateTime getPreviousEventDateValid()
-  {
+  public DateTime getPreviousEventDateValid() {
     return previousEventDateValid;
   }
 
-  public Set<Integer> getPreviousVaccineIdHistory()
-  {
+  public Set<Integer> getPreviousVaccineIdHistory() {
     return previousVaccineIdHistory;
   }
 
-  public List<Integer> getPreviousVaccineIdList()
-  {
+  public List<Integer> getPreviousVaccineIdList() {
     return previousVaccineIdList;
   }
 
-  public List<ImmunizationForecastDataBean> getResultList()
-  {
+  public List<ImmunizationForecastDataBean> getResultList() {
     return resultList;
   }
 
-  public VaccineForecastDataBean.Schedule getSchedule()
-  {
+  public VaccineForecastDataBean.Schedule getSchedule() {
     return schedule;
   }
 
-  public List<Schedule> getScheduleList()
-  {
+  public List<Schedule> getScheduleList() {
     return scheduleList;
   }
 
-  public int getScheduleListPos()
-  {
+  public int getScheduleListPos() {
     return scheduleListPos;
   }
 
-  public Seasonal getSeasonal()
-  {
+  public Seasonal getSeasonal() {
     return seasonal;
   }
-  
-  public void setTransitionList(List<Transition> transitionList)
-  {
+
+  public void setTransitionList(List<Transition> transitionList) {
     this.transitionList = transitionList;
   }
-  
-  public List<Transition> getTransitionList()
-  {
+
+  public List<Transition> getTransitionList() {
     return transitionList;
   }
 
-  public DateTime getSeasonEndDateTime()
-  {
+  public DateTime getSeasonEndDateTime() {
     return seasonEndDateTime;
   }
 
-  public DateTime getSeasonStartDateTime()
-  {
+  public DateTime getSeasonStartDateTime() {
     return seasonStartDateTime;
   }
 
-  public Trace getTrace()
-  {
+  public Trace getTrace() {
     return trace;
   }
 
-  public TraceList getTraceList()
-  {
+  public TraceList getTraceList() {
     return traceList;
   }
 
-  public Map<String, List<Trace>> getTraces()
-  {
+  public Map<String, List<Trace>> getTraces() {
     return traces;
   }
 
-  public List<ImmunizationInterface> getVaccinations()
-  {
+  public List<ImmunizationInterface> getVaccinations() {
     return vaccinations;
   }
 
-  public DateTime getValid()
-  {
+  public DateTime getValid() {
     return valid;
   }
 
-  public int getValidDoseCount()
-  {
+  public int getValidDoseCount() {
     return validDoseCount;
   }
 
-  public DateTime getValidGrace()
-  {
+  public DateTime getValidGrace() {
     return validGrace;
   }
 
-  public boolean isHasHistoryOfVaricella()
-  {
+  public boolean isHasHistoryOfVaricella() {
     return hasHistoryOfVaricella;
   }
 
-  public boolean isPreviousEventWasContra()
-  {
+  public boolean isPreviousEventWasContra() {
     return previousEventWasContra;
   }
 
-  public void log(String s)
-  {
-    if (s != null && detailLog != null)
-    {
+  public void log(String s) {
+    if (s != null && detailLog != null) {
       detailLog.append(s);
       detailLog.append("\n");
     }
   }
-  
-  public boolean isLog()
-  {
+
+  public boolean isLog() {
     return detailLog != null;
   }
 
-  public void setBeforePreviousEventDate(DateTime beforePreviousEventDate)
-  {
+  public void setBeforePreviousEventDate(DateTime beforePreviousEventDate) {
     this.beforePreviousEventDate = beforePreviousEventDate;
   }
 
-  public void setBlackOutDates(List<BlackOut> blackOutDates)
-  {
+  public void setBlackOutDates(List<BlackOut> blackOutDates) {
     this.blackOutDates = blackOutDates;
   }
 
-  public void setDetailLog(StringBuffer detailLog)
-  {
+  public void setDetailLog(StringBuffer detailLog) {
     this.detailLog = detailLog;
   }
 
-  public void setDoseList(List<VaccinationDoseDataBean> doseList)
-  {
+  public void setDoseList(List<VaccinationDoseDataBean> doseList) {
     this.doseList = doseList;
   }
 
-  public void setDue(DateTime due)
-  {
+  public void setDue(DateTime due) {
     this.due = due;
   }
 
-  public void setDueReason(String dueReason)
-  {
+  public void setDueReason(String dueReason) {
     this.dueReason = dueReason;
   }
 
-  public void setEvent(Event event)
-  {
+  public void setEvent(Event event) {
     this.event = event;
   }
 
-  public void setEventList(List<Event> eventList)
-  {
+  public void setEventList(List<Event> eventList) {
     this.eventList = eventList;
   }
 
-  public void setEventPosition(int eventPosition)
-  {
+  public void setEventPosition(int eventPosition) {
     this.eventPosition = eventPosition;
   }
 
-  public void setFinished(DateTime finished)
-  {
+  public void setFinished(DateTime finished) {
     this.finished = finished;
   }
 
-  public void setForecast(VaccineForecastDataBean forecast)
-  {
+  public void setForecast(VaccineForecastDataBean forecast) {
     this.forecast = forecast;
   }
 
-  public void setForecastCode(String forecastCode)
-  {
+  public void setForecastCode(String forecastCode) {
     this.forecastCode = forecastCode;
   }
 
-  public void setForecastDate(Date forecastDate)
-  {
+  public void setForecastDate(Date forecastDate) {
     this.forecastDateTime = new DateTime(forecastDate);
   }
 
-  public void setForecastManager(VaccineForecastManagerInterface forecastManager)
-  {
+  public void setForecastManager(VaccineForecastManagerInterface forecastManager) {
     this.forecastManager = forecastManager;
   }
 
-  public void setHasHistoryOfVaricella(boolean hasHistoryOfVaricella)
-  {
+  public void setHasHistoryOfVaricella(boolean hasHistoryOfVaricella) {
     this.hasHistoryOfVaricella = hasHistoryOfVaricella;
   }
 
-  public void setIndicates(VaccineForecastDataBean.Indicate[] indicates)
-  {
+  public void setIndicates(VaccineForecastDataBean.Indicate[] indicates) {
     this.indicates = indicates;
   }
 
-  public void setIndicatesPos(int indicatesPos)
-  {
+  public void setIndicatesPos(int indicatesPos) {
     this.indicatesPos = indicatesPos;
   }
 
-  public void setNextAction(String nextAction)
-  {
+  public void setNextAction(String nextAction) {
     this.nextAction = nextAction;
   }
 
-  public void setOriginalEventList(List<Event> originalEventList)
-  {
+  public void setOriginalEventList(List<Event> originalEventList) {
     this.originalEventList = originalEventList;
   }
 
-  public void setOverdue(DateTime overdue)
-  {
+  public void setOverdue(DateTime overdue) {
     this.overdue = overdue;
   }
 
-  public void setPatient(PatientForecastRecordDataBean patient)
-  {
+  public void setPatient(PatientForecastRecordDataBean patient) {
     this.patient = patient;
   }
 
-  public void setPreviousAfterInvalidInterval(TimePeriod previousAfterInvalidInterval)
-  {
+  public void setPreviousAfterInvalidInterval(TimePeriod previousAfterInvalidInterval) {
     this.previousAfterInvalidInterval = previousAfterInvalidInterval;
   }
 
-  public void setPreviousEventDate(DateTime previousEventDate)
-  {
+  public void setPreviousEventDate(DateTime previousEventDate) {
     this.previousEventDate = previousEventDate;
   }
 
-  public void setPreviousEventDateValid(DateTime previousEventDateValid)
-  {
+  public void setPreviousEventDateValid(DateTime previousEventDateValid) {
     this.previousEventDateValid = previousEventDateValid;
   }
 
-  public void setPreviousEventWasContra(boolean previousEventWasContra)
-  {
+  public void setPreviousEventWasContra(boolean previousEventWasContra) {
     this.previousEventWasContra = previousEventWasContra;
   }
 
-  public void setPreviousVaccineIdHistory(Set<Integer> previousVaccineIdHistory)
-  {
+  public void setPreviousVaccineIdHistory(Set<Integer> previousVaccineIdHistory) {
     this.previousVaccineIdHistory = previousVaccineIdHistory;
   }
 
-  public void setPreviousVaccineIdList(List<Integer> previousVaccineIdList)
-  {
+  public void setPreviousVaccineIdList(List<Integer> previousVaccineIdList) {
     this.previousVaccineIdList = previousVaccineIdList;
   }
 
-  public void setResultList(List<ImmunizationForecastDataBean> resultList)
-  {
+  public void setResultList(List<ImmunizationForecastDataBean> resultList) {
     this.resultList = resultList;
   }
 
-  public void setSchedule(VaccineForecastDataBean.Schedule schedule)
-  {
+  public void setSchedule(VaccineForecastDataBean.Schedule schedule) {
     this.schedule = schedule;
   }
 
-  public void setScheduleList(List<Schedule> scheduleList)
-  {
+  public void setScheduleList(List<Schedule> scheduleList) {
     this.scheduleList = scheduleList;
   }
 
-  public void setScheduleListPos(int scheduleListPos)
-  {
+  public void setScheduleListPos(int scheduleListPos) {
     this.scheduleListPos = scheduleListPos;
   }
 
-  public void setSeasonal(Seasonal seasonal)
-  {
+  public void setSeasonal(Seasonal seasonal) {
     this.seasonal = seasonal;
   }
 
-  public void setSeasonEndDateTime(DateTime seasonEnd)
-  {
+  public void setSeasonEndDateTime(DateTime seasonEnd) {
     this.seasonEndDateTime = seasonEnd;
   }
 
-  public void setSeasonStartDateTime(DateTime seasonStart)
-  {
+  public void setSeasonStartDateTime(DateTime seasonStart) {
     this.seasonStartDateTime = seasonStart;
   }
 
-  public void setTrace(Trace trace)
-  {
+  public void setTrace(Trace trace) {
     this.trace = trace;
   }
 
-  public void setTraceList(TraceList traceList)
-  {
+  public void setTraceList(TraceList traceList) {
     this.traceList = traceList;
   }
 
-  public void setTraces(Map<String, List<Trace>> traces)
-  {
+  public void setTraces(Map<String, List<Trace>> traces) {
     this.traces = traces;
   }
 
-  public void setVaccinations(List<ImmunizationInterface> vaccList)
-  {
+  public void setVaccinations(List<ImmunizationInterface> vaccList) {
     this.vaccinations = new ArrayList<ImmunizationInterface>(vaccList);
     vaccList = new ArrayList<ImmunizationInterface>(vaccList);
     Collections.sort(vaccList, new Comparator<ImmunizationInterface>() {
-      public int compare(ImmunizationInterface imm1, ImmunizationInterface imm2)
-      {
+      public int compare(ImmunizationInterface imm1, ImmunizationInterface imm2) {
         return imm1.getDateOfShot().compareTo(imm2.getDateOfShot());
       }
     });
     eventList = new ArrayList<Event>();
     Event event = null;
     hasHistoryOfVaricella = false;
-    for (Iterator<ImmunizationInterface> it = vaccList.iterator(); it.hasNext();)
-    {
+    for (Iterator<ImmunizationInterface> it = vaccList.iterator(); it.hasNext();) {
       ImmunizationInterface imm = it.next();
-      if (event == null || !event.eventDate.equals(imm.getDateOfShot()))
-      {
+      if (event == null || !event.eventDate.equals(imm.getDateOfShot())) {
         event = new Event();
         eventList.add(event);
         event.eventDate = imm.getDateOfShot();
       }
-      if (imm.getVaccineId() == VARICELLA_HISTORY)
-      {
+      if (imm.getVaccineId() == VARICELLA_HISTORY) {
         hasHistoryOfVaricella = true;
       }
       event.immList.add(imm);
     }
   }
 
-  public void setValid(DateTime valid)
-  {
+  public void setValid(DateTime valid) {
     this.valid = valid;
   }
 
-  public void setValidDoseCount(int validDoseCount)
-  {
+  public void setValidDoseCount(int validDoseCount) {
     this.validDoseCount = validDoseCount;
   }
 
-  public void setValidGrace(DateTime validGrace)
-  {
+  public void setValidGrace(DateTime validGrace) {
     this.validGrace = validGrace;
   }
 

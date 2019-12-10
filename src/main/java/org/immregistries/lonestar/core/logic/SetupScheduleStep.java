@@ -10,8 +10,7 @@ import org.immregistries.lonestar.core.TraceList;
 import org.immregistries.lonestar.core.Transition;
 import org.immregistries.lonestar.core.model.Assumption;
 
-public class SetupScheduleStep extends ActionStep
-{
+public class SetupScheduleStep extends ActionStep {
   public static final String NAME = "Setup Schedule";
 
   @Override
@@ -124,9 +123,12 @@ public class SetupScheduleStep extends ActionStep
     public int compare(Event event1, Event event2) {
       DateTime dt1 = new DateTime(event1.getEventDate());
       DateTime dt2 = new DateTime(event2.getEventDate());
-      if (dt1.getYear() == dt2.getYear() && dt1.getDay() == dt2.getDay() && dt1.getMonth() == dt2.getMonth()) {
-        Integer vaccineId1 = event1.getImmList().size() > 0 ? event1.getImmList().get(0).getVaccineId() : 0;
-        Integer vaccineId2 = event2.getImmList().size() > 0 ? event2.getImmList().get(0).getVaccineId() : 0;
+      if (dt1.getYear() == dt2.getYear() && dt1.getDay() == dt2.getDay()
+          && dt1.getMonth() == dt2.getMonth()) {
+        Integer vaccineId1 =
+            event1.getImmList().size() > 0 ? event1.getImmList().get(0).getVaccineId() : 0;
+        Integer vaccineId2 =
+            event2.getImmList().size() > 0 ? event2.getImmList().get(0).getVaccineId() : 0;
         return vaccineId1.compareTo(vaccineId2);
       }
       return event1.eventDate.compareTo(event2.eventDate);

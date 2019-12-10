@@ -12,19 +12,16 @@ public class Vaccines {
     vaccineIdToCvx.put(vaccineId, cvxCode);
     cvxToVaccineId.put(cvxCode, vaccineId);
   }
-  
-  public String mapToCvx(int vaccineid)
-  {
+
+  public String mapToCvx(int vaccineid) {
     return vaccineIdToCvx.get(vaccineid);
   }
-  
-  public Integer mapToVaccineid(String cvxCode)
-  {
+
+  public Integer mapToVaccineid(String cvxCode) {
     return cvxToVaccineId.get(cvxCode);
   }
-  
-  public boolean isRecognizedCvxCode(String cvxCode)
-  {
+
+  public boolean isRecognizedCvxCode(String cvxCode) {
     return cvxToVaccineId.containsKey(cvxCode);
   }
 

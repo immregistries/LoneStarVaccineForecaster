@@ -5,8 +5,7 @@ import org.immregistries.lonestar.core.VaccinationDoseDataBean;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.ValidVaccine;
 import org.immregistries.lonestar.core.logic.DataStore;
 
-public class Flu2014DecisionLogic extends DecisionLogic
-{
+public class Flu2014DecisionLogic extends DecisionLogic {
 
   public static final String SEASON_2013_START = "Season 2013 Start";
   public static final String SEASON_2010_START = "Season 2010 Start";
@@ -37,16 +36,16 @@ public class Flu2014DecisionLogic extends DecisionLogic
     if (nineYearsOld.isLessThanOrEquals(new DateTime(ds.getForecastDate()))) {
       return noMoreDosesNeeded;
     }
-    
+
     ds.log("Setting up valid vaccines");
     ValidVaccine[] vaccines;
     try {
       vaccines = ds.getForecast().convertToVaccineIds(validVaccine);
     } catch (Exception e) {
-      throw new RuntimeException("Unable to convert vaccine '" + validVaccine + "' to vaccine ids", e);
+      throw new RuntimeException("Unable to convert vaccine '" + validVaccine + "' to vaccine ids",
+          e);
     }
-    for (ValidVaccine v : vaccines)
-    {
+    for (ValidVaccine v : vaccines) {
       ds.log(" + " + v.getVaccineId());
     }
 
@@ -55,13 +54,13 @@ public class Flu2014DecisionLogic extends DecisionLogic
     try {
       vaccinesH1N1 = ds.getForecast().convertToVaccineIds(validH1N1Vaccine);
     } catch (Exception e) {
-      throw new RuntimeException("Unable to convert vaccine '" + validH1N1Vaccine + "' to vaccine ids", e);
+      throw new RuntimeException(
+          "Unable to convert vaccine '" + validH1N1Vaccine + "' to vaccine ids", e);
     }
-    for (ValidVaccine v : vaccinesH1N1)
-    {
+    for (ValidVaccine v : vaccinesH1N1) {
       ds.log(" + " + v.getVaccineId());
     }
-    
+
     ds.log("Checking for: 1 valid dose before current season and since Season 2013 start");
     if (countValidVaccinesGiven(ds, vaccines, season2013Start, currentSeasonStart) >= 1) {
       ds.getTraceList().addExplanation(
@@ -78,22 +77,25 @@ public class Flu2014DecisionLogic extends DecisionLogic
       return noMoreDosesNeeded;
     }
 
-    ds.log("Checking for: 2 valid doses before Season 2010 Start AND 1 valid dose of 2009 H1N1 vaccine");
+    ds.log(
+        "Checking for: 2 valid doses before Season 2010 Start AND 1 valid dose of 2009 H1N1 vaccine");
     if (countValidVaccinesGiven(ds, vaccines, null, season2010Start) >= 2
         && countValidVaccinesGiven(ds, vaccinesH1N1, null, null) >= 1) {
       ds.getTraceList().addExplanation(
           "An additional dose is not needed because at least two valid doses were given before "
-              + season2010Start.toString("M/D/Y") + " and at least one dose of H1N1 novel vaccine.");
+              + season2010Start.toString("M/D/Y")
+              + " and at least one dose of H1N1 novel vaccine.");
       return noMoreDosesNeeded;
     }
 
-    ds.log("Checking for: 1 valid dose before Season 2010 Start AND 1 valid dose before current season and since Season 2010 Start");
+    ds.log(
+        "Checking for: 1 valid dose before Season 2010 Start AND 1 valid dose before current season and since Season 2010 Start");
     if (countValidVaccinesGiven(ds, vaccines, null, season2010Start) >= 1
         && countValidVaccinesGiven(ds, vaccines, season2010Start, currentSeasonStart) >= 1) {
       ds.getTraceList().addExplanation(
           "An additional dose is not needed because at least one valid dose were given before "
-              + season2010Start.toString("M/D/Y") + " and at least one dose after " + season2010Start.toString("M/D/Y")
-              + " and before current season.");
+              + season2010Start.toString("M/D/Y") + " and at least one dose after "
+              + season2010Start.toString("M/D/Y") + " and before current season.");
       return noMoreDosesNeeded;
     }
 
@@ -102,7 +104,8 @@ public class Flu2014DecisionLogic extends DecisionLogic
     return secondDoseNeeded;
   }
 
-  public int countValidVaccinesGiven(DataStore ds, ValidVaccine[] vaccines, DateTime startDate, DateTime endDate) {
+  public int countValidVaccinesGiven(DataStore ds, ValidVaccine[] vaccines, DateTime startDate,
+      DateTime endDate) {
     int count = 0;
     for (VaccinationDoseDataBean vaccinationDose : ds.getDoseList()) {
       DateTime adminDate = new DateTime(vaccinationDose.getAdminDate());
@@ -110,7 +113,8 @@ public class Flu2014DecisionLogic extends DecisionLogic
           && (endDate == null || endDate.isGreaterThan(adminDate))) {
         for (ValidVaccine vaccine : vaccines) {
           if (vaccinationDose.getVaccineId() == vaccine.getVaccineId()) {
-            ds.log(" + valid vaccine " + vaccinationDose.getVaccineId() + " given " + new DateTime(vaccinationDose.getAdminDate()).toString("M/D/Y"));
+            ds.log(" + valid vaccine " + vaccinationDose.getVaccineId() + " given "
+                + new DateTime(vaccinationDose.getAdminDate()).toString("M/D/Y"));
             count++;
             break;
           }

@@ -10,8 +10,7 @@ import org.immregistries.lonestar.core.ForecastSchedule;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.Schedule;
 import org.immregistries.lonestar.core.VaccineForecastManagerInterface;
 
-public class VaccineForecastManager implements VaccineForecastManagerInterface
-{
+public class VaccineForecastManager implements VaccineForecastManagerInterface {
   private boolean initialized = false;
   private Map<String, List<Schedule>> indications = new HashMap<String, List<Schedule>>();
   private ForecastSchedule forecastSchedule = null;

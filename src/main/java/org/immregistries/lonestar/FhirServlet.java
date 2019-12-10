@@ -42,6 +42,8 @@ import com.google.gson.stream.JsonToken;
 
 public class FhirServlet extends HttpServlet {
 
+  private static final long serialVersionUID = 2387316620226319243L;
+
   protected static final String SCHEDULE_NAME_DEFAULT = "default";
 
   @Override

@@ -26,8 +26,7 @@ import org.immregistries.lonestar.core.api.impl.VaccineForecastManager;
 import org.immregistries.lonestar.core.model.Immunization;
 import org.immregistries.lonestar.core.model.ImmunizationMDA;
 
-public class CaretForecaster
-{
+public class CaretForecaster {
 
   private static final String SECTION_SEPARATOR = "~~~";
   private static final String DOSE_SEPARATOR = "|||";
@@ -194,9 +193,11 @@ public class CaretForecaster
   //  4 Dose Due Next Dependent Dose Index
   private static final int FIELD_OUT_DOSE_DUE_NEXT_4_DOSE_DUE_NEXT_DEPENDENT_DOSE_INDEX = 4;
   //  5 Dose due Next Acceptable Administration Date 
-  private static final int FIELD_OUT_DOSE_DUE_NEXT_5_DOSE_DUE_NEXT_ACCEPTABLE_ADMINISTRATION_DATE_ = 5;
+  private static final int FIELD_OUT_DOSE_DUE_NEXT_5_DOSE_DUE_NEXT_ACCEPTABLE_ADMINISTRATION_DATE_ =
+      5;
   //  6 Dose due Next Recommended Administration Date
-  private static final int FIELD_OUT_DOSE_DUE_NEXT_6_DOSE_DUE_NEXT_RECOMMENDED_ADMINISTRATION_DATE = 6;
+  private static final int FIELD_OUT_DOSE_DUE_NEXT_6_DOSE_DUE_NEXT_RECOMMENDED_ADMINISTRATION_DATE =
+      6;
   //  7 Dose due Next Exceeds Date 
   private static final int FIELD_OUT_DOSE_DUE_NEXT_7_DOSE_DUE_NEXT_EXCEEDS_DATE = 7;
   //  8 Reserved for future use
@@ -239,7 +240,8 @@ public class CaretForecaster
   private StringBuilder response = new StringBuilder();
   private int currentPosition = 1;
 
-  private static HashMap<String, Map<String, String>> combinationInvalidParts = new HashMap<String, Map<String, String>>();
+  private static HashMap<String, Map<String, String>> combinationInvalidParts =
+      new HashMap<String, Map<String, String>>();
 
   static {
     {
@@ -487,8 +489,8 @@ public class CaretForecaster
 
     if (caseDetailFieldList.size() < FIELD_IN_CASE_DETAIL_29_H1N1_CONTRAINDICATED_INDICATION) {
       runCode = -19;
-      runProblem = "Input is too short expecting at least " + FIELD_IN_CASE_DETAIL_29_H1N1_CONTRAINDICATED_INDICATION
-          + " fields";
+      runProblem = "Input is too short expecting at least "
+          + FIELD_IN_CASE_DETAIL_29_H1N1_CONTRAINDICATED_INDICATION + " fields";
     }
 
     inputDoseFieldListList = new ArrayList<List<String>>();
@@ -540,8 +542,8 @@ public class CaretForecaster
 
   }
 
-  public String forecast(VaccineForecastManager vaccineForecastManager, Map<String, Integer> cvxToVaccineIdMap)
-      throws Exception {
+  public String forecast(VaccineForecastManager vaccineForecastManager,
+      Map<String, Integer> cvxToVaccineIdMap) throws Exception {
 
     String errorCode = "";
     String description = "";
@@ -550,59 +552,74 @@ public class CaretForecaster
         throw new Exception("Unable to process input because: " + runProblem);
       }
 
-      Date forecastDate = readDate(caseDetailFieldList, FIELD_IN_CASE_DETAIL_01_DATE_USED_FOR_FORECAST);
+      Date forecastDate =
+          readDate(caseDetailFieldList, FIELD_IN_CASE_DETAIL_01_DATE_USED_FOR_FORECAST);
       Date dateOfBirth = readDate(caseDetailFieldList, FIELD_IN_CASE_DETAIL_08_DATE_OF_BIRTH);
       String gender = readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_09_GENDER);
-      boolean use4DayGracePeriod = readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_03_USE_4_DAY_GRACE_PERIOD)
-          .equals("1");
+      boolean use4DayGracePeriod =
+          readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_03_USE_4_DAY_GRACE_PERIOD)
+              .equals("1");
 
       Set<String> filterSet = new HashSet<String>();
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_11_PERTUSSIS_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList,
+          FIELD_IN_CASE_DETAIL_11_PERTUSSIS_CONTRAINDICATED_INDICATION).equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.PERTUSSIS);
       }
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_12_DIPHTHERIA_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList,
+          FIELD_IN_CASE_DETAIL_12_DIPHTHERIA_CONTRAINDICATED_INDICATION).equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.DIPHTHERIA);
       }
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_13_TETANUS_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_13_TETANUS_CONTRAINDICATED_INDICATION)
+          .equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.DIPHTHERIA);
       }
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_14_HIB_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_14_HIB_CONTRAINDICATED_INDICATION)
+          .equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.HIB);
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_16_HEPB_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_16_HEPB_CONTRAINDICATED_INDICATION)
+          .equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.HEPB);
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_18_IPV_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_18_IPV_CONTRAINDICATED_INDICATION)
+          .equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.POLIO);
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_19_MEASLES_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_19_MEASLES_CONTRAINDICATED_INDICATION)
+          .equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.MEASLES);
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_20_MUMPS_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_20_MUMPS_CONTRAINDICATED_INDICATION)
+          .equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.MUMPS);
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_21_RUBELLA_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_21_RUBELLA_CONTRAINDICATED_INDICATION)
+          .equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.RUBELLA);
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_22_VARICELLA_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList,
+          FIELD_IN_CASE_DETAIL_22_VARICELLA_CONTRAINDICATED_INDICATION).equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.VARICELLA);
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_23_HEPA_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_23_HEPA_CONTRAINDICATED_INDICATION)
+          .equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.HEPA);
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_24_RV_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_24_RV_CONTRAINDICATED_INDICATION)
+          .equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.ROTAVIRUS);
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_25_S_PN_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_25_S_PN_CONTRAINDICATED_INDICATION)
+          .equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.PNEUMO);
         filterSet.add(ImmunizationForecastDataBean.PCV13);
         filterSet.add(ImmunizationForecastDataBean.PPSV);
@@ -620,8 +637,10 @@ public class CaretForecaster
           filterSet.add(ImmunizationForecastDataBean.INFLUENZA);
         } else if ((pos = influenzaControlField.indexOf("%")) > 0) {
           try {
-            fluSeasonDue = determineTimePeriod(fluSeasonDue, influenzaControlField.substring(0, pos).trim(), true);
-            fluSeasonFinished = determineTimePeriod(null, influenzaControlField.substring(pos + 1).trim(), true);
+            fluSeasonDue = determineTimePeriod(fluSeasonDue,
+                influenzaControlField.substring(0, pos).trim(), true);
+            fluSeasonFinished =
+                determineTimePeriod(null, influenzaControlField.substring(pos + 1).trim(), true);
           } catch (Exception e) {
             // problem happened while trying to setup forecast dates, just ignore it and continue
             e.printStackTrace();
@@ -629,16 +648,18 @@ public class CaretForecaster
         }
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_27_MENINGOCOCCAL_CONTRAINDICATED_INDICATION)
-          .equals("1")) {
+      if (readField(caseDetailFieldList,
+          FIELD_IN_CASE_DETAIL_27_MENINGOCOCCAL_CONTRAINDICATED_INDICATION).equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.MENING);
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_28_HPV_CONTRAINDICATED_INDICATION).equals("1")) {
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_28_HPV_CONTRAINDICATED_INDICATION)
+          .equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.HPV);
       }
 
-      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_30_ZOSTER_CONTRAINDICATION).equals("1")) {
+      if (readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_30_ZOSTER_CONTRAINDICATION)
+          .equals("1")) {
         filterSet.add(ImmunizationForecastDataBean.ZOSTER);
       }
 
@@ -653,7 +674,8 @@ public class CaretForecaster
       forecastRunner.getForecastOptions().setIgnoreFourDayGrace(!use4DayGracePeriod);
       forecastRunner.getForecastOptions().setUseEarlyOverdue(true);
       forecastRunner.getForecastOptions().setUseEarlyDue(true);
-      forecastRunner.getForecastOptions().setDecisionProcessFormat(DecisionProcessFormat.FORMATTED_TEXT);
+      forecastRunner.getForecastOptions()
+          .setDecisionProcessFormat(DecisionProcessFormat.FORMATTED_TEXT);
       forecastRunner.getPatient().setDob(new DateTime(dateOfBirth));
       forecastRunner.getPatient().setSex(gender.toUpperCase().startsWith("M") ? "M" : "F");
       forecastRunner.setForecastDate(forecastDate);
@@ -674,7 +696,8 @@ public class CaretForecaster
         }
         Integer vaccineId = null;
 
-        Date doseAdminDate = readDate(inputDoseFieldList, FIELD_IN_INPUT_DOSE_3_DATE_OF_DOSE_ADMINISTRATION);
+        Date doseAdminDate =
+            readDate(inputDoseFieldList, FIELD_IN_INPUT_DOSE_3_DATE_OF_DOSE_ADMINISTRATION);
         boolean wasAdultWhenDoseGiven = determineIfAdultWhenDoseGiven(dateOfBirth, doseAdminDate);
         cvxCode = cleanupHepA(wasAdultWhenDoseGiven, cvxCode);
 
@@ -682,7 +705,8 @@ public class CaretForecaster
           vaccineId = cvxToVaccineIdMap.get(cvxCode);
         }
 
-        if (readField(inputDoseFieldList, FIELD_IN_INPUT_DOSE_3_DATE_OF_DOSE_ADMINISTRATION).equals("")) {
+        if (readField(inputDoseFieldList, FIELD_IN_INPUT_DOSE_3_DATE_OF_DOSE_ADMINISTRATION)
+            .equals("")) {
           continue;
         }
 
@@ -712,14 +736,16 @@ public class CaretForecaster
       {
         setAssumeParam(forecastRunner, "Adult assumed to have completed DTaP series.",
             Immunization.ASSUME_DTAP_SERIES_COMPLETE);
-        setAssumeParam(forecastRunner, "Adult assumed to have completed MMR series.", Immunization.ASSUME_MMR_COMPLETE);
+        setAssumeParam(forecastRunner, "Adult assumed to have completed MMR series.",
+            Immunization.ASSUME_MMR_COMPLETE);
         setAssumeParam(forecastRunner, "Adult assumed to have completed Varicella series.",
             Immunization.ASSUME_VAR_COMPLETE);
         forecastRunner.getForecastOptions().setAssumeCompleteScheduleName("HepA");
         forecastRunner.getForecastOptions().setAssumeCompleteScheduleName("HepB");
       }
 
-      String forecastingMode = readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_02_FORECASTING_MODE);
+      String forecastingMode =
+          readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_02_FORECASTING_MODE);
       if (forecastingMode.equals(FORECASTING_MODE_ACCEPTABLE)) {
         forecastRunner.getForecastOptions().setRecommendWhenValid(true);
         forecastRunner.getForecastOptions().setRecommendWhenValidSet(useValidForDueSet);
@@ -736,20 +762,25 @@ public class CaretForecaster
       DateTime today = new DateTime();
 
       // Put together response
-      addValue("Lone Star Vaccine Forecaster version " + SoftwareVersion.VERSION, FIELD_OUT_CASE_DATA_01_COPYRIGHT_NOTICE);
+      addValue("Lone Star Vaccine Forecaster version " + SoftwareVersion.VERSION,
+          FIELD_OUT_CASE_DATA_01_COPYRIGHT_NOTICE);
       addValue(today.toString("YMDHTS"), FIELD_OUT_CASE_DATA_02_RUN_DATE_AND_TIME);
-      addValue((new DateTime(forecastDate)).toString("YMD"), FIELD_OUT_CASE_DATA_03_DATE_USED_FOR_FORECAST);
+      addValue((new DateTime(forecastDate)).toString("YMD"),
+          FIELD_OUT_CASE_DATA_03_DATE_USED_FOR_FORECAST);
       addValue(forecastingMode, FIELD_OUT_CASE_DATA_04_FORECASTING_MODE);
       addValue("", FIELD_OUT_CASE_DATA_05_VERSION);
 
       // addValue(SoftwareVersion.VERSION, FIELD_OUT_06_RULE_SET_MAJOR_VERSION);
       // addValue(forecastRunner.getForecasterScheduleName(), FIELD_OUT_07_RULE_SET_MINOR_VERSION);
       // addValue(SoftwareVersion.VERSION_RELEASE, FIELD_OUT_08_RULE_SET_RELEASE_DATE);
-      addValue(readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_06_PERSONAL_ID), FIELD_OUT_CASE_DATA_09_PERSONAL_ID);
-      addValue(readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_07_USER_NOTE), FIELD_OUT_CASE_DATA_10_USER_NOTE);
+      addValue(readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_06_PERSONAL_ID),
+          FIELD_OUT_CASE_DATA_09_PERSONAL_ID);
+      addValue(readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_07_USER_NOTE),
+          FIELD_OUT_CASE_DATA_10_USER_NOTE);
       addValue(readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_08_DATE_OF_BIRTH),
           FIELD_OUT_CASE_DATA_11_DATE_OF_BIRTH);
-      addValue(readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_09_GENDER), FIELD_OUT_CASE_DATA_12_GENDER);
+      addValue(readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_09_GENDER),
+          FIELD_OUT_CASE_DATA_12_GENDER);
 
       // #2 History Segment
       response.append(SECTION_SEPARATOR);
@@ -766,7 +797,8 @@ public class CaretForecaster
             currentPosition = 1;
             addValue(imm.getDoseNote(), FIELD_OUT_INPUT_DOSE_01_DOSE_NOTE);
             addValue(imm.getCvx(), FIELD_OUT_INPUT_DOSE_02_DOSE_INPUT_HL7_CODE);
-            addValue(imm.getHl7CodeErrorCode(), FIELD_OUT_INPUT_DOSE_03_DOSE_INPUT_HL7_CODE_ERROR_CODE);
+            addValue(imm.getHl7CodeErrorCode(),
+                FIELD_OUT_INPUT_DOSE_03_DOSE_INPUT_HL7_CODE_ERROR_CODE);
             addValue(new DateTime(imm.getDateOfShot()).toString("YMD"),
                 FIELD_OUT_INPUT_DOSE_04_DATE_OF_DOSE_ADMINISTRATION);
             addValue(imm.getDoseOverride(), FIELD_OUT_INPUT_DOSE_05_DOSE_OVERRIDE);
@@ -779,8 +811,8 @@ public class CaretForecaster
                 if (dose.getStatusCode().equals(VaccinationDoseDataBean.STATUS_INVALID)) {
                   // adding special rule to skip marking a Hep B as invalid for third dose that is
                   // pediatric
-                  if (dose.getForecastCode().equals(ImmunizationForecastDataBean.HEPB) && dose.getDoseCode().equals("3")
-                      && imm.getCvx().equals("110")) {
+                  if (dose.getForecastCode().equals(ImmunizationForecastDataBean.HEPB)
+                      && dose.getDoseCode().equals("3") && imm.getCvx().equals("110")) {
                     continue;
                   }
 
@@ -835,7 +867,8 @@ public class CaretForecaster
         endSuppressDate.setMonth(8);
         endSuppressDate.setDay(1);
         DateTime suppressDate = new DateTime(forecastDate);
-        if (suppressDate.isGreaterThanOrEquals(startSuppressDate) && suppressDate.isLessThan(endSuppressDate)) {
+        if (suppressDate.isGreaterThanOrEquals(startSuppressDate)
+            && suppressDate.isLessThan(endSuppressDate)) {
           inInfluenzaSuppressRange = true;
         }
       }
@@ -844,10 +877,12 @@ public class CaretForecaster
       Set<String> nc = new HashSet<String>();
       {
 
-        List<ImmunizationForecastDataBean> forecastListDueToday = new ArrayList<ImmunizationForecastDataBean>();
-        List<ImmunizationForecastDataBean> forecastListDueTodayAdd = new ArrayList<ImmunizationForecastDataBean>(
-            forecastRunner.getForecastListDueToday());
-        for (Iterator<ImmunizationForecastDataBean> it = forecastListDueTodayAdd.iterator(); it.hasNext();) {
+        List<ImmunizationForecastDataBean> forecastListDueToday =
+            new ArrayList<ImmunizationForecastDataBean>();
+        List<ImmunizationForecastDataBean> forecastListDueTodayAdd =
+            new ArrayList<ImmunizationForecastDataBean>(forecastRunner.getForecastListDueToday());
+        for (Iterator<ImmunizationForecastDataBean> it = forecastListDueTodayAdd.iterator(); it
+            .hasNext();) {
           ImmunizationForecastDataBean forecastResult = it.next();
           nc.add(forecastResult.getForecastName());
           if (!doseDueOutHash.containsKey(forecastResult.getForecastName())) {
@@ -862,7 +897,8 @@ public class CaretForecaster
           for (ImmunizationForecastDataBean forecastResult : forecastListDueToday) {
             if (inInfluenzaSuppressRange
                 && (forecastResult.getForecastName().equals(ImmunizationForecastDataBean.INFLUENZA)
-                    || forecastResult.getForecastName().equals(ImmunizationForecastDataBean.INFLUENZA_IIV))
+                    || forecastResult.getForecastName()
+                        .equals(ImmunizationForecastDataBean.INFLUENZA_IIV))
                 && forecastResult.getDose().equals("1")) {
               continue;
             }
@@ -895,10 +931,12 @@ public class CaretForecaster
           }
           response.append(SECTION_SEPARATOR);
         }
-        List<ImmunizationForecastDataBean> forecastListDueLater = new ArrayList<ImmunizationForecastDataBean>(
-            forecastRunner.getForecastListDueLater());
-        List<ImmunizationForecastDataBean> forecastListDueLaterAdd = new ArrayList<ImmunizationForecastDataBean>();
-        for (Iterator<ImmunizationForecastDataBean> it = forecastListDueLater.iterator(); it.hasNext();) {
+        List<ImmunizationForecastDataBean> forecastListDueLater =
+            new ArrayList<ImmunizationForecastDataBean>(forecastRunner.getForecastListDueLater());
+        List<ImmunizationForecastDataBean> forecastListDueLaterAdd =
+            new ArrayList<ImmunizationForecastDataBean>();
+        for (Iterator<ImmunizationForecastDataBean> it = forecastListDueLater.iterator(); it
+            .hasNext();) {
           ImmunizationForecastDataBean forecastResult = it.next();
           nc.add(forecastResult.getForecastName());
           if (!doseDueOutHash.containsKey(forecastResult.getForecastName())) {
@@ -928,7 +966,8 @@ public class CaretForecaster
                 FIELD_OUT_DOSE_DUE_NEXT_5_DOSE_DUE_NEXT_ACCEPTABLE_ADMINISTRATION_DATE_);
             addValue(d(forecastResult.getDue()),
                 FIELD_OUT_DOSE_DUE_NEXT_6_DOSE_DUE_NEXT_RECOMMENDED_ADMINISTRATION_DATE);
-            addValue(d(forecastResult.getOverdue()), FIELD_OUT_DOSE_DUE_NEXT_7_DOSE_DUE_NEXT_EXCEEDS_DATE);
+            addValue(d(forecastResult.getOverdue()),
+                FIELD_OUT_DOSE_DUE_NEXT_7_DOSE_DUE_NEXT_EXCEEDS_DATE);
             //        addValue("", FIELD_OUT_160_DOSE_DUE_NEXT_VFC_PAYMENT_INDICATOR + base);
             addValue("", FIELD_OUT_DOSE_DUE_NEXT_8_RESERVED_FOR_FUTURE_USE);
             response.append(DOSE_SEPARATOR);
@@ -937,20 +976,30 @@ public class CaretForecaster
         }
       }
       currentPosition = 1;
-      addValue(c(nc, ImmunizationForecastDataBean.HIB), FIELD_OUT_SERIES_01_HIB_SERIES_COMPLETED_INDICATOR);
-      addValue(c(nc, ImmunizationForecastDataBean.HEPA), FIELD_OUT_SERIES_02_HEPATITIS_A_SERIES_COMPLETED_INDICATOR);
-      addValue(c(nc, ImmunizationForecastDataBean.HEPB), FIELD_OUT_SERIES_03_HEPATITIS_B_SERIES_COMPLETED_INDICATOR);
-      addValue(c(nc, ImmunizationForecastDataBean.DTAP), FIELD_OUT_SERIES_04_PRIMARY_DTP_SERIES_COMPLETED_INDICATOR);
-      addValue(c(nc, ImmunizationForecastDataBean.POLIO), FIELD_OUT_SERIES_05_POLIO_VACCINE_SERIES_COMPLETED_INDICATOR);
-      addValue(c(nc, ImmunizationForecastDataBean.MMR), FIELD_OUT_SERIES_06_MMR_SERIES_COMPLETED_INDICATOR);
-      addValue(c(nc, ImmunizationForecastDataBean.VARICELLA), FIELD_OUT_SERIES_07_VARICELLA_SERIES_COMPLETED_INDICATOR);
-      addValue(c(nc, ImmunizationForecastDataBean.ROTAVIRUS), FIELD_OUT_SERIES_08_RV_SERIES_COMPLETED_INDICATOR);
+      addValue(c(nc, ImmunizationForecastDataBean.HIB),
+          FIELD_OUT_SERIES_01_HIB_SERIES_COMPLETED_INDICATOR);
+      addValue(c(nc, ImmunizationForecastDataBean.HEPA),
+          FIELD_OUT_SERIES_02_HEPATITIS_A_SERIES_COMPLETED_INDICATOR);
+      addValue(c(nc, ImmunizationForecastDataBean.HEPB),
+          FIELD_OUT_SERIES_03_HEPATITIS_B_SERIES_COMPLETED_INDICATOR);
+      addValue(c(nc, ImmunizationForecastDataBean.DTAP),
+          FIELD_OUT_SERIES_04_PRIMARY_DTP_SERIES_COMPLETED_INDICATOR);
+      addValue(c(nc, ImmunizationForecastDataBean.POLIO),
+          FIELD_OUT_SERIES_05_POLIO_VACCINE_SERIES_COMPLETED_INDICATOR);
+      addValue(c(nc, ImmunizationForecastDataBean.MMR),
+          FIELD_OUT_SERIES_06_MMR_SERIES_COMPLETED_INDICATOR);
+      addValue(c(nc, ImmunizationForecastDataBean.VARICELLA),
+          FIELD_OUT_SERIES_07_VARICELLA_SERIES_COMPLETED_INDICATOR);
+      addValue(c(nc, ImmunizationForecastDataBean.ROTAVIRUS),
+          FIELD_OUT_SERIES_08_RV_SERIES_COMPLETED_INDICATOR);
       addValue(c(nc, ImmunizationForecastDataBean.PNEUMO),
           FIELD_OUT_SERIES_09_STREP_PNEUMOCOCCAL_SERIES_COMPLETED_INDICATOR);
       addValue(c(nc, ImmunizationForecastDataBean.MENING),
           FIELD_OUT_SERIES_10_MENINGOCOCCAL_SERIES_COMPLETED_INDICATOR);
-      addValue(c(nc, ImmunizationForecastDataBean.HPV), FIELD_OUT_SERIES_11_HPV_SERIES_COMPLETED_INDICATOR);
-      addValue(c(nc, ImmunizationForecastDataBean.ZOSTER), FIELD_OUT_SERIES_12_ZOSTER_SERIES_COMPLETED_INDICATOR);
+      addValue(c(nc, ImmunizationForecastDataBean.HPV),
+          FIELD_OUT_SERIES_11_HPV_SERIES_COMPLETED_INDICATOR);
+      addValue(c(nc, ImmunizationForecastDataBean.ZOSTER),
+          FIELD_OUT_SERIES_12_ZOSTER_SERIES_COMPLETED_INDICATOR);
       addValue("", FIELD_OUT_SERIES_13_RESERVED_FOR_FUTURE_USE);
 
       StringWriter stringWriter = new StringWriter();
@@ -966,7 +1015,8 @@ public class CaretForecaster
     return errorCode + "&&&" + response.toString() + "&&&" + description;
   }
 
-  private TimePeriod determineTimePeriod(TimePeriod tp, String startDateString, boolean subtractDay) {
+  private TimePeriod determineTimePeriod(TimePeriod tp, String startDateString,
+      boolean subtractDay) {
     int pos2 = startDateString.indexOf("/");
     if (pos2 > 0) {
       int month = Integer.parseInt(startDateString.substring(0, pos2).trim());
@@ -999,7 +1049,8 @@ public class CaretForecaster
   public String cleanupHepA(boolean adultRecord, String cvxCode) {
     if (adultRecord) {
       // force all Hep A's to be adult
-      if (cvxCode.equals("83") || cvxCode.equals("84") || cvxCode.equals("31") || cvxCode.equals("85")) {
+      if (cvxCode.equals("83") || cvxCode.equals("84") || cvxCode.equals("31")
+          || cvxCode.equals("85")) {
         cvxCode = "52";
       }
     } else {
@@ -1015,7 +1066,8 @@ public class CaretForecaster
     TimePeriod assumeSeriesCompleteAtAge = new TimePeriod("18 years");
 
     if (assumeSeriesCompleteAtAge != null) {
-      DateTime assumptionAge = assumeSeriesCompleteAtAge.getDateTimeFrom(forecastRunner.getPatient().getDob());
+      DateTime assumptionAge =
+          assumeSeriesCompleteAtAge.getDateTimeFrom(forecastRunner.getPatient().getDob());
       if (forecastRunner.getForecastDate().after(assumptionAge.getDate())) {
         DateTime assumptionDate = new DateTime(assumptionAge);
         Immunization imm = new Immunization();
@@ -1028,7 +1080,8 @@ public class CaretForecaster
     }
   }
 
-  public boolean filter(Set<String> filterSet, List<ImmunizationForecastDataBean> forecastListDueTodayAdd,
+  public boolean filter(Set<String> filterSet,
+      List<ImmunizationForecastDataBean> forecastListDueTodayAdd,
       Iterator<ImmunizationForecastDataBean> it, ImmunizationForecastDataBean forecastResult) {
     if (filterSet.contains(forecastResult.getForecastName())) {
       it.remove();
@@ -1081,7 +1134,8 @@ public class CaretForecaster
     return false;
   }
 
-  public ImmunizationForecastDataBean createForecastCopy(ImmunizationForecastDataBean forecastResult) {
+  public ImmunizationForecastDataBean createForecastCopy(
+      ImmunizationForecastDataBean forecastResult) {
     ImmunizationForecastDataBean forecastResultAdd = new ImmunizationForecastDataBean();
     forecastResultAdd.setComment(forecastResult.getComment());
     forecastResultAdd.setDateDue(forecastResult.getDateDue());
@@ -1143,8 +1197,8 @@ public class CaretForecaster
 
   private void addValue(String value, int position) {
     if (position < currentPosition) {
-      throw new IllegalArgumentException(
-          "Unable to add value to output in position " + position + ", already at position " + currentPosition);
+      throw new IllegalArgumentException("Unable to add value to output in position " + position
+          + ", already at position " + currentPosition);
     }
     while (currentPosition < position) {
       response.append("^");
@@ -1213,8 +1267,7 @@ public class CaretForecaster
 
   }
 
-  private static class RpmsWriter extends PrintWriter
-  {
+  private static class RpmsWriter extends PrintWriter {
 
     public RpmsWriter(Writer out) {
       super(out);

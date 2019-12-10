@@ -11,5 +11,6 @@ public interface ForecastHandlerInterface {
    * @return
    * @throws Exception
    */
-  public ForecastResponseInterface forecast(ForecastRequestInterface forecastRequest) throws Exception;
+  public ForecastResponseInterface forecast(ForecastRequestInterface forecastRequest)
+      throws Exception;
 }

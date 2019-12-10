@@ -3,8 +3,7 @@ package org.immregistries.lonestar.core.model;
 import java.util.Date;
 import org.immregistries.lonestar.core.ImmunizationInterface;
 
-public class Immunization implements ImmunizationInterface
-{
+public class Immunization implements ImmunizationInterface {
   public static final int ASSUME_DTAP_SERIES_COMPLETE = -110;
   public static final int ASSUME_HEPA_COMPLETE = -145;
   public static final int ASSUME_HEPB_COMPLETE = -137;

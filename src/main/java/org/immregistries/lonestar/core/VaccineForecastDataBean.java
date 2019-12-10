@@ -18,8 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class VaccineForecastDataBean
-{
+public class VaccineForecastDataBean {
   // private static Map<String, List<Schedule>> indications = new HashMap<String, List<Schedule>>();
 
   private String forecastCode = "";
@@ -44,7 +43,8 @@ public class VaccineForecastDataBean
     // default for ForecastSchedule to build object
   }
 
-  public VaccineForecastDataBean(String source, VaccineForecastManagerInterface forecastManager) throws Exception {
+  public VaccineForecastDataBean(String source, VaccineForecastManagerInterface forecastManager)
+      throws Exception {
     try {
       DocumentBuilderFactory factory;
       DocumentBuilder builder;
@@ -64,7 +64,8 @@ public class VaccineForecastDataBean
     return decisionLogicMap.get(name);
   }
 
-  protected Object processDocument(Document node, VaccineForecastManagerInterface forecastManager) throws Exception {
+  protected Object processDocument(Document node, VaccineForecastManagerInterface forecastManager)
+      throws Exception {
     Node n = node.getFirstChild();
     if (n != null) {
       processNode(n, forecastManager);
@@ -72,10 +73,12 @@ public class VaccineForecastDataBean
     return null;
   }
 
-  protected void processNode(Node n, VaccineForecastManagerInterface forecastManager) throws Exception {
+  protected void processNode(Node n, VaccineForecastManagerInterface forecastManager)
+      throws Exception {
     String name = n.getNodeName();
     if (!name.equals("forecast")) {
-      throw new Exception("Root node in definition xml should be 'forecast', instead found '" + name + "'");
+      throw new Exception(
+          "Root node in definition xml should be 'forecast', instead found '" + name + "'");
     }
     forecastCode = DomUtils.getAttributeValue(n, "seriesName");
     if (forecastCode == null || forecastCode.equals("")) {
@@ -92,15 +95,15 @@ public class VaccineForecastDataBean
     }
     String[] completes = completesString.split("\\,");
     if (completes.length == 0 || completes[0] == null || completes[0].equals("")) {
-      throw new Exception("completes must indicate at least one completion for forecastCode " + forecastCode
-          + ", trying to read '" + completesString + "'");
+      throw new Exception("completes must indicate at least one completion for forecastCode "
+          + forecastCode + ", trying to read '" + completesString + "'");
     }
     List<ForecastAntigen> completesList = new ArrayList<ForecastAntigen>();
     for (String complete : completes) {
       ForecastAntigen fa = ForecastAntigen.getForecastAntigen(complete);
       if (fa == null) {
-        throw new Exception("forecastCode '" + complete + "' in completes string is not recognized for forecastCode "
-            + forecastCode);
+        throw new Exception("forecastCode '" + complete
+            + "' in completes string is not recognized for forecastCode " + forecastCode);
       }
       completesList.add(fa);
     }
@@ -112,8 +115,8 @@ public class VaccineForecastDataBean
     }
   }
 
-  private void processScheduleOrVaccine(Node n, String name, List<ForecastAntigen> completesList, String forecastCode,
-      VaccineForecastManagerInterface forecastManager) throws Exception {
+  private void processScheduleOrVaccine(Node n, String name, List<ForecastAntigen> completesList,
+      String forecastCode, VaccineForecastManagerInterface forecastManager) throws Exception {
     if (name != null) {
       if (name.equals("schedule")) {
         Schedule schedule = new Schedule();
@@ -213,7 +216,8 @@ public class VaccineForecastDataBean
     }
   }
 
-  private void addToIndicationList(Schedule schedule, VaccineForecastManagerInterface forecastManager) throws Exception {
+  private void addToIndicationList(Schedule schedule,
+      VaccineForecastManagerInterface forecastManager) throws Exception {
     if (schedule.getIndication() != null && !schedule.getIndication().equals("")) {
       Map<String, List<Schedule>> indicationsMap = forecastManager.getIndicationsMap();
       List<Schedule> indicationList = indicationsMap.get(schedule.getIndication());
@@ -225,7 +229,8 @@ public class VaccineForecastDataBean
     }
   }
 
-  private void processDecisionLogicItem(Node n, String name, DecisionLogic decisionLogic) throws Exception {
+  private void processDecisionLogicItem(Node n, String name, DecisionLogic decisionLogic)
+      throws Exception {
     if (name != null) {
       String mapName = DomUtils.getAttributeValue(n, "name");
       String mapValue = DomUtils.getAttributeValue(n, "value");
@@ -280,7 +285,8 @@ public class VaccineForecastDataBean
         schedule.setAfterContraInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
         schedule.setAfterContraGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
       } else if (name.equals("before-previous")) {
-        schedule.setBeforePreviousInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
+        schedule
+            .setBeforePreviousInterval(new TimePeriod(DomUtils.getAttributeValue(n, "interval")));
         schedule.setBeforePreviousGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
       } else if (name.equals("pos")) {
         schedule.setPosColumn(DomUtils.getAttributeValueInt(n, "column"));
@@ -303,7 +309,8 @@ public class VaccineForecastDataBean
         contraindicate.setVaccineName(vaccineName);
         contraindicate.setVaccines(convertToVaccineIds(vaccineName));
         contraindicate.setAge(new TimePeriod(DomUtils.getAttributeValue(n, "age")));
-        contraindicate.setAfterInterval(new TimePeriod(DomUtils.getAttributeValue(n, "afterInterval")));
+        contraindicate
+            .setAfterInterval(new TimePeriod(DomUtils.getAttributeValue(n, "afterInterval")));
         contraindicate.setReason(DomUtils.getAttributeValue(n, "reason"));
         contraindicate.setGrace(new TimePeriod(DomUtils.getAttributeValue(n, "grace")));
         contraindicate.setAgainst(DomUtils.getAttributeValue(n, "against"));
@@ -330,7 +337,8 @@ public class VaccineForecastDataBean
         indicate.setMinInterval(new TimePeriod(DomUtils.getAttributeValue(n, "minInterval")));
         indicate.setMaxInterval(new TimePeriod(DomUtils.getAttributeValue(n, "maxInterval")));
         indicate.setReason(DomUtils.getAttributeValue(n, "reason"));
-        indicate.setSeasonCompleted("Yes".equalsIgnoreCase(DomUtils.getAttributeValue(n, "seasonCompleted")));
+        indicate.setSeasonCompleted(
+            "Yes".equalsIgnoreCase(DomUtils.getAttributeValue(n, "seasonCompleted")));
         indicate.setHasHad(DomUtils.getAttributeValue(n, "hasHad"));
         if (indicate.isHashHad()) {
           indicate.setHasHadVaccines(convertToVaccineIds(indicate.getHasHad()));
@@ -376,7 +384,8 @@ public class VaccineForecastDataBean
         validVaccine.setVaccineId(0);
       }
       if (validVaccine.getVaccineId() == 0) {
-        throw new IllegalArgumentException("Unrecognized vaccine '" + vaccName + "', must be vaccine id");
+        throw new IllegalArgumentException(
+            "Unrecognized vaccine '" + vaccName + "', must be vaccine id");
       }
       validVaccine.setValidStartDate(namedVaccine.getValidStartDate());
       validVaccine.setValidAge(namedVaccine.getValidAge());
@@ -384,8 +393,7 @@ public class VaccineForecastDataBean
     return validVaccines;
   }
 
-  public class Schedule
-  {
+  public class Schedule {
     private String forecastCode = "";
     private List<ForecastAntigen> completesList = new ArrayList<ForecastAntigen>();
     private String scheduleName = "";
@@ -770,8 +778,7 @@ public class VaccineForecastDataBean
 
   }
 
-  public class Contraindicate
-  {
+  public class Contraindicate {
     private ValidVaccine[] vaccines = new ValidVaccine[0];
     private String vaccineName = "";
     private TimePeriod age = null;
@@ -869,8 +876,7 @@ public class VaccineForecastDataBean
 
   }
 
-  public class IndicationCriteria
-  {
+  public class IndicationCriteria {
     private TimePeriod afterAge = null;
     private TimePeriod beforeAge = null;
     private String vaccineName = "";
@@ -910,8 +916,7 @@ public class VaccineForecastDataBean
 
   }
 
-  public class Indicate
-  {
+  public class Indicate {
     private ValidVaccine[] vaccines = new ValidVaccine[0];
     private String scheduleName = "";
     private TimePeriod age = null;
@@ -1120,14 +1125,13 @@ public class VaccineForecastDataBean
    */
   public boolean isVaccinePresent(String vaccineId) {
     boolean isVaccinePresent = false;
-    for ( NamedVaccine namedVaccine : vaccines.values() ) {
+    for (NamedVaccine namedVaccine : vaccines.values()) {
       isVaccinePresent |= namedVaccine.getVaccineIds().contains(vaccineId);
     }
     return isVaccinePresent;
   }
-  
-  public class NamedVaccine
-  {
+
+  public class NamedVaccine {
     private String vaccineIds = "";
     private String vaccineName = "";
     private Date validStartDate = null;
@@ -1166,8 +1170,7 @@ public class VaccineForecastDataBean
     }
   }
 
-  public class InvalidateSameDay
-  {
+  public class InvalidateSameDay {
     private String invalidateVaccineName = "";
     private ValidVaccine[] invalidateVaccines = new ValidVaccine[0];
     private String ifGivenVaccineName = "";
@@ -1207,8 +1210,7 @@ public class VaccineForecastDataBean
 
   }
 
-  public class ValidVaccine
-  {
+  public class ValidVaccine {
     private int vaccineId = 0;
     private Date validStartDate = null;
     private Date validEndDate = null;

@@ -1,8 +1,7 @@
 package org.immregistries.lonestar.core.logic;
 
 
-public class FinishScheduleStep extends ActionStep
-{
+public class FinishScheduleStep extends ActionStep {
   public static final String NAME = "Finish Schedule";
 
   @Override

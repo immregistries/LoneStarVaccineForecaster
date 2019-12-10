@@ -35,7 +35,7 @@ public class ForecastHandler implements ForecastHandlerInterface {
       cvxToVaccineIdMap = CvxCodes.getCvxToCvxCodeMap();
     }
   }
- 
+
 
   private static ForecastHandlerCore forecastHandlerCore = null;
 
@@ -43,7 +43,8 @@ public class ForecastHandler implements ForecastHandlerInterface {
     initCvxCodes();
   }
 
-  public ForecastResponseInterface forecast(ForecastRequestInterface forecastRequest) throws Exception {
+  public ForecastResponseInterface forecast(ForecastRequestInterface forecastRequest)
+      throws Exception {
 
     ForecastResponseInterface forecastResponse = new ForecastResponse();
 
@@ -67,7 +68,8 @@ public class ForecastHandler implements ForecastHandlerInterface {
       if (vaccineCvx == null) {
         throw new Exception("CVX code not indicated, required field");
       } else {
-        if (!cvxToVaccineIdMap.containsKey(vaccineCvx) && !cvxToVaccineIdMap.containsKey("0" + vaccineCvx)) {
+        if (!cvxToVaccineIdMap.containsKey(vaccineCvx)
+            && !cvxToVaccineIdMap.containsKey("0" + vaccineCvx)) {
           throw new Exception("CVX code '" + vaccineCvx + "' is not recognized");
         }
         CvxCode cvxCode = null;
@@ -76,8 +78,7 @@ public class ForecastHandler implements ForecastHandlerInterface {
         } else {
           cvxCode = cvxToVaccineIdMap.get("0" + vaccineCvx);
         }
-        if (cvxCode != null)
-        {
+        if (cvxCode != null) {
           vaccineId = cvxCode.getVaccineId();
         }
         if (vaccineId == 0) {
@@ -92,19 +93,20 @@ public class ForecastHandler implements ForecastHandlerInterface {
       imm.setVaccinationId(forecastVaccination.getVaccinationId());
       imms.add(imm);
     }
-    
+
     ForecastOptions forecastOptions = new ForecastOptions();
 
     Map traceMap = new HashMap();
     List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
     VaccineForecastManager vaccineForecastManager = new VaccineForecastManager();
     ForecastHandlerCore forecastHandlerCore = new ForecastHandlerCore(vaccineForecastManager);
-    String forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms, forecastDate, traceMap,
-        resultList, forecastOptions);
+    String forecasterScheduleName = forecastHandlerCore.forecast(doseList, patient, imms,
+        forecastDate, traceMap, resultList, forecastOptions);
 
     forecastResponse.setEvaluationSchedule(forecasterScheduleName);
 
-    List<ForecastRecommendationInterface> forecastRecommendationList = new ArrayList<ForecastRecommendationInterface>();
+    List<ForecastRecommendationInterface> forecastRecommendationList =
+        new ArrayList<ForecastRecommendationInterface>();
     forecastResponse.setRecommendationList(forecastRecommendationList);
 
     {
@@ -122,12 +124,14 @@ public class ForecastHandler implements ForecastHandlerInterface {
         forecastRecommendation.setValidDate(forecast.getValid());
         forecastRecommendation.setOverdueDate(forecast.getOverdue());
         forecastRecommendation.setFinishedDate(forecast.getFinished());
-        forecastRecommendation.setDecisionProcessTextHTML(forecast.getTraceList().getExplanation(DecisionProcessFormat.HTML).toString());
+        forecastRecommendation.setDecisionProcessTextHTML(
+            forecast.getTraceList().getExplanation(DecisionProcessFormat.HTML).toString());
         forecastRecommendation.setStatusDescription(forecast.getStatusDescriptionExternal());
         forecastRecommendationList.add(forecastRecommendation);
       }
     }
-    List<ForecastVaccinationInterface> forecastVaccinationList = new ArrayList<ForecastVaccinationInterface>();
+    List<ForecastVaccinationInterface> forecastVaccinationList =
+        new ArrayList<ForecastVaccinationInterface>();
     for (VaccinationDoseDataBean dose : doseList) {
       ForecastVaccinationInterface fv = new ForecastVaccination();
       fv.setAdminDate(dose.getAdminDate());

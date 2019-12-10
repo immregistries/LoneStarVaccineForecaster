@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.Schedule;
 
-public class Trace
-{
+public class Trace {
   private boolean complete = false;
   private boolean finished = false;
   private boolean contraindicated = false;
@@ -20,133 +19,107 @@ public class Trace
   private String validReason = "";
   private String validBecause = "";
 
-  public String getValidBecause()
-  {
+  public String getValidBecause() {
     return validBecause;
   }
 
-  public void setValidBecause(String validBecause)
-  {
+  public void setValidBecause(String validBecause) {
     this.validBecause = validBecause;
   }
 
-  public List<VaccinationDoseDataBean> getDoses()
-  {
+  public List<VaccinationDoseDataBean> getDoses() {
     return doses;
   }
 
-  public void setDoses(List<VaccinationDoseDataBean> doses)
-  {
+  public void setDoses(List<VaccinationDoseDataBean> doses) {
     this.doses = doses;
   }
 
-  public String getReason()
-  {
+  public String getReason() {
     return reason;
   }
 
-  public void setReason(String reason)
-  {
+  public void setReason(String reason) {
     this.reason = reason;
   }
 
-  public boolean isInvalid()
-  {
+  public boolean isInvalid() {
     return invalid;
   }
 
-  public void setInvalid(boolean invalid)
-  {
+  public void setInvalid(boolean invalid) {
     this.invalid = invalid;
   }
 
-  public boolean isContraindicated()
-  {
+  public boolean isContraindicated() {
     return contraindicated;
   }
 
-  public void setContraindicated(boolean contraindicated)
-  {
+  public void setContraindicated(boolean contraindicated) {
     this.contraindicated = contraindicated;
   }
 
-  public boolean isComplete()
-  {
+  public boolean isComplete() {
     return complete;
   }
 
-  public void setComplete(boolean complete)
-  {
+  public void setComplete(boolean complete) {
     this.complete = complete;
   }
 
-  public boolean isFinished()
-  {
+  public boolean isFinished() {
     return finished;
   }
 
-  public void setFinished(boolean finished)
-  {
+  public void setFinished(boolean finished) {
     this.finished = finished;
   }
 
-  public Schedule getSchedule()
-  {
+  public Schedule getSchedule() {
     return schedule;
   }
 
-  public void setSchedule(Schedule schedule)
-  {
+  public void setSchedule(Schedule schedule) {
     this.schedule = schedule;
   }
 
-  public DateTime getFinishedDate()
-  {
+  public DateTime getFinishedDate() {
     return finishedDate;
   }
 
-  public void setFinishedDate(DateTime finishedDate)
-  {
+  public void setFinishedDate(DateTime finishedDate) {
     this.finishedDate = finishedDate;
   }
 
-  public DateTime getDueDate()
-  {
+  public DateTime getDueDate() {
     return dueDate;
   }
 
-  public void setDueDate(DateTime dueDate)
-  {
+  public void setDueDate(DateTime dueDate) {
     this.dueDate = dueDate;
   }
 
-  public DateTime getOverdueDate()
-  {
+  public DateTime getOverdueDate() {
     return overdueDate;
   }
 
-  public void setOverdueDate(DateTime overdueDate)
-  {
+  public void setOverdueDate(DateTime overdueDate) {
     this.overdueDate = overdueDate;
   }
 
-  public DateTime getValidDate()
-  {
+  public DateTime getValidDate() {
     return validDate;
   }
 
-  public void setValidDate(DateTime validDate)
-  {
+  public void setValidDate(DateTime validDate) {
     this.validDate = validDate;
   }
 
-  public String getValidReason()
-  {
+  public String getValidReason() {
     return validReason;
   }
 
-  public void setValidReason(String validReason)
-  {
+  public void setValidReason(String validReason) {
     this.validReason = validReason;
   }
 

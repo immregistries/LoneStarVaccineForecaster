@@ -23,7 +23,7 @@ public class VaccinationDoseDataBean {
     }
     return status;
   }
-  
+
   public static String getStatusCodeLabelA(String status) {
     if (status == null) {
       return "";
@@ -136,18 +136,16 @@ public class VaccinationDoseDataBean {
   public boolean isStatusCodeInvalid() {
     return statusCode != null ? STATUS_INVALID.equalsIgnoreCase(statusCode) : false;
   }
-  
+
   public String getStatusCode() {
     return statusCode;
   }
-  
-  public String getStatusCodeLabel()
-  {
+
+  public String getStatusCodeLabel() {
     return getStatusCodeLabel(statusCode);
   }
 
-  public String getStatusCodeLabelA()
-  {
+  public String getStatusCodeLabelA() {
     return getStatusCodeLabelA(statusCode);
   }
 

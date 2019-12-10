@@ -7,9 +7,11 @@ import org.immregistries.lonestar.core.api.model.ForecastResponseInterface;
 import org.immregistries.lonestar.core.api.model.ForecastVaccinationInterface;
 
 public class ForecastResponse implements ForecastResponseInterface {
-  private List<ForecastRecommendationInterface> recommendationList = new ArrayList<ForecastRecommendationInterface>();
+  private List<ForecastRecommendationInterface> recommendationList =
+      new ArrayList<ForecastRecommendationInterface>();
   private String evaluationSchedule = "";
-  private List<ForecastVaccinationInterface> forecastVaccinationList = new ArrayList<ForecastVaccinationInterface>();
+  private List<ForecastVaccinationInterface> forecastVaccinationList =
+      new ArrayList<ForecastVaccinationInterface>();
 
   public List<ForecastVaccinationInterface> getVaccinationList() {
     return forecastVaccinationList;

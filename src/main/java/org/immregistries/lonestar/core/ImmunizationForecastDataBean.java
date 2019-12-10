@@ -8,8 +8,7 @@ import org.immregistries.lonestar.core.model.Assumption;
 /**
  * @author Nathan Bunker
  */
-public class ImmunizationForecastDataBean
-{
+public class ImmunizationForecastDataBean {
 
   public static final String HIB = "Hib";
   public static final String POLIO = "Polio";
@@ -41,7 +40,7 @@ public class ImmunizationForecastDataBean
   public static final String TDAP = "Tdap";
   public static final String TD = "Td";
   public static final String DT = "DT";
-  
+
 
   public static final String STATUS_DESCRIPTION_DUE_LATER = "due later";
   public static final String STATUS_DESCRIPTION_DUE_MUCH_LATER = "due much later";
@@ -53,7 +52,8 @@ public class ImmunizationForecastDataBean
   public static final String STATUS_DESCRIPTION_NOT_COMPLETE = "not complete";
   public static final String STATUS_DESCRIPTION_CONTRAINDICATED = "contraindicated";
   public static final String STATUS_DESCRIPTION_COMPLETE_FOR_SEASON = "complete for season";
-  public static final String STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE = "assumed complete or immune";
+  public static final String STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE =
+      "assumed complete or immune";
 
   public static final String SCHEDULE_COMPLETED = "COMP";
 
@@ -161,8 +161,8 @@ public class ImmunizationForecastDataBean
    * @see java.lang.Object#toString()
    */
   public String toString() {
-    return " {" + immregid + "," + forecastName + "," + new DateTime(due == null ? 0 : due.getTime()).toString("M/D/Y")
-        + "}";
+    return " {" + immregid + "," + forecastName + ","
+        + new DateTime(due == null ? 0 : due.getTime()).toString("M/D/Y") + "}";
   }
 
   public Date getDateDue() {

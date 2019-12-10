@@ -1,24 +1,20 @@
 package org.immregistries.lonestar.core.logic;
 
 
-public class ChooseIndicatorStep extends ActionStep
-{
+public class ChooseIndicatorStep extends ActionStep {
   public static final String NAME = "Choose Indicator";
 
   @Override
-  public String getName()
-  {
+  public String getName() {
     return NAME;
   }
 
   @Override
-  public String doAction(DataStore ds) throws Exception
-  {
+  public String doAction(DataStore ds) throws Exception {
     ds.log("Choose Indicator Step");
     ds.nextAction = null;
     ds.indicatesPos++;
-    if (ds.indicatesPos < ds.indicates.length)
-    {
+    if (ds.indicatesPos < ds.indicates.length) {
       ds.log("Looking for dose that matches next indicator");
       ds.invalidatedSameDayVaccineIdMapToReason = null;
       return LookForDoseStep.NAME;

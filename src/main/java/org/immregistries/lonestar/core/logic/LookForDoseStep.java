@@ -15,8 +15,7 @@ import org.immregistries.lonestar.core.VaccineForecastDataBean.ValidVaccine;
 import org.immregistries.lonestar.core.decisionLogic.DecisionLogic;
 import org.immregistries.lonestar.core.model.Assumption;
 
-public class LookForDoseStep extends ActionStep
-{
+public class LookForDoseStep extends ActionStep {
   public static final String NAME = "Look For Dose";
 
   private static final String COMPLETE = "COMPLETE";
@@ -36,7 +35,8 @@ public class LookForDoseStep extends ActionStep
     ds.nextAction = lookForDose(ds, indicate);
     ds.log("Next action = " + ds.nextAction);
     if (ds.nextAction == null || ds.nextAction.equalsIgnoreCase(COMPLETE)
-        || (ds.nextAction.equalsIgnoreCase(KEEP_LOOKING) && (ds.indicatesPos + 1) == ds.indicates.length)) {
+        || (ds.nextAction.equalsIgnoreCase(KEEP_LOOKING)
+            && (ds.indicatesPos + 1) == ds.indicates.length)) {
       if (ds.trace != null) {
         if (ds.nextAction != null) {
           if (ds.nextAction.equalsIgnoreCase(COMPLETE)) {
@@ -59,13 +59,16 @@ public class LookForDoseStep extends ActionStep
         forecastBean.setImmregid(ds.patient.getImmregid());
         forecastBean.setTraceList(ds.traceList);
         if (ds.assumptionList.size() > 0) {
-          forecastBean.setStatusDescriptionExternal(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE);
+          forecastBean.setStatusDescriptionExternal(
+              ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE);
           forecastBean.getAssumptionList().addAll(ds.assumptionList);
         } else {
           if (ds.seasonal != null) {
-            forecastBean.setStatusDescriptionExternal(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON);
+            forecastBean.setStatusDescriptionExternal(
+                ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON);
           } else {
-            forecastBean.setStatusDescriptionExternal(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE);
+            forecastBean.setStatusDescriptionExternal(
+                ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE);
           }
         }
         addResultToList(ds, forecastBean);
@@ -138,7 +141,8 @@ public class LookForDoseStep extends ActionStep
               ds.log(" + Ignoring subpotent immunization " + imm.getVaccineId());
               continue;
             }
-            ds.log(" + Looking at indicated vaccine " + vaccineIds[j] + " and given vaccine " + imm.getVaccineId());
+            ds.log(" + Looking at indicated vaccine " + vaccineIds[j] + " and given vaccine "
+                + imm.getVaccineId());
             if (vaccineIds[j].isSame(imm, ds.event)) {
               ds.event.hasEvent = true;
               return;
@@ -153,19 +157,21 @@ public class LookForDoseStep extends ActionStep
     ValidVaccine[] vaccineIds = indicate.getVaccines();
     while (ds.event != null) {
 
-      
-      if (ds.forecast.getInvalidateSameDayList().size() > 0 && ds.invalidatedSameDayVaccineIdMapToReason == null) {
+
+      if (ds.forecast.getInvalidateSameDayList().size() > 0
+          && ds.invalidatedSameDayVaccineIdMapToReason == null) {
         ds.log("Ensuring that invalid vaccination combinations are not given");
         ds.invalidatedSameDayVaccineIdMapToReason = new HashMap<Integer, String>();
         for (InvalidateSameDay invalidateSameDay : ds.forecast.getInvalidateSameDayList()) {
           String givenSameDayVaccineName = null;
-          
+
           for (ImmunizationInterface imm : ds.event.getImmList()) {
             for (int i = 0; i < invalidateSameDay.getIfGivenVaccines().length; i++) {
               ValidVaccine validVaccine = invalidateSameDay.getIfGivenVaccines()[i];
               if (validVaccine.getVaccineId() == imm.getVaccineId()) {
                 givenSameDayVaccineName = invalidateSameDay.getIfGivenVaccineName();
-                ds.log(" + found vaccination that should not be given in combination: " + givenSameDayVaccineName);
+                ds.log(" + found vaccination that should not be given in combination: "
+                    + givenSameDayVaccineName);
                 break;
               }
             }
@@ -179,7 +185,8 @@ public class LookForDoseStep extends ActionStep
                   ds.log(" + found vaccination that should not be given today: "
                       + invalidateSameDay.getInvalidateVaccineName());
                   String reason = "invalid when given same day as " + givenSameDayVaccineName;
-                  ds.invalidatedSameDayVaccineIdMapToReason.put(validVaccine.getVaccineId(), reason);
+                  ds.invalidatedSameDayVaccineIdMapToReason.put(validVaccine.getVaccineId(),
+                      reason);
                   VaccinationDoseDataBean dose = new VaccinationDoseDataBean();
                   dose.setAdminDate(imm.getDateOfShot());
                   dose.setDoseCode(getValidDose(ds, ds.schedule));
@@ -191,8 +198,9 @@ public class LookForDoseStep extends ActionStep
                   dose.setCvxCode(imm.getCvx());
                   dose.setMvxCode(imm.getMvx());
                   dose.setVaccinationId(imm.getVaccinationId());
-                  dose.setReason((ds.forecastManager.getVaccineName(imm.getVaccineId()) + (" given " + ds.dateFormat
-                      .format(imm.getDateOfShot()))) + " is invalid when given same day as " + givenSameDayVaccineName);
+                  dose.setReason((ds.forecastManager.getVaccineName(imm.getVaccineId())
+                      + (" given " + ds.dateFormat.format(imm.getDateOfShot())))
+                      + " is invalid when given same day as " + givenSameDayVaccineName);
                   dose.setWhenValidText(ds.whenValidText);
                   ds.doseList.add(dose);
                   if (ds.trace != null) {
@@ -222,8 +230,8 @@ public class LookForDoseStep extends ActionStep
             ds.log(" + Event has been forced to be valid");
             if (ds.trace != null) {
               ds.traceList.setExplanationRed();
-              ds.traceList
-                  .addExplanation("Dose is being forced valid by requester. Valid ages and interval will NOT be checked. ");
+              ds.traceList.addExplanation(
+                  "Dose is being forced valid by requester. Valid ages and interval will NOT be checked. ");
             }
             allowInvalid = false;
           }
@@ -241,7 +249,8 @@ public class LookForDoseStep extends ActionStep
           }
           nextEvent(ds);
           return getNextScheduleName(ds, indicate);
-        } else if (allowInvalid && (invalidReason = checkInvalid(ds, vaccDate, vaccineIds)) != null) {
+        } else if (allowInvalid
+            && (invalidReason = checkInvalid(ds, vaccDate, vaccineIds)) != null) {
           ds.log("Dose is invalid.");
           addInvalidDose(ds, vaccineIds, invalidReason);
           addPreviousDose(ds, vaccineIds);
@@ -269,8 +278,9 @@ public class LookForDoseStep extends ActionStep
           return INVALID;
         } else if (indicate.isContra()) {
           ds.log("Dose is contraindication.");
-          addContra(ds, vaccineIds, indicate.getVaccineName() + " dose"
-              + (indicate.getAge().isEmpty() ? "" : " given before " + indicate.getAge().toString()));
+          addContra(ds, vaccineIds,
+              indicate.getVaccineName() + " dose" + (indicate.getAge().isEmpty() ? ""
+                  : " given before " + indicate.getAge().toString()));
           addPreviousDose(ds, vaccineIds);
           if (ds.trace != null) {
             ds.trace.setReason(indicate.getReason());
@@ -301,7 +311,8 @@ public class LookForDoseStep extends ActionStep
           return getNextScheduleName(ds, indicate);
         }
       } else {
-        ds.log("This event was not indicated for in this schedule. Skipping event and going to next.");
+        ds.log(
+            "This event was not indicated for in this schedule. Skipping event and going to next.");
       }
       nextEvent(ds);
     }
@@ -311,7 +322,8 @@ public class LookForDoseStep extends ActionStep
   public String getNextScheduleName(DataStore ds, VaccineForecastDataBean.Indicate indicate) {
     String nextScheduleName = indicate.getScheduleName();
     if (nextScheduleName.startsWith("DL")) {
-      ds.log("Schedule transition is a decision logic dependent one. Calling logic " + nextScheduleName + ".");
+      ds.log("Schedule transition is a decision logic dependent one. Calling logic "
+          + nextScheduleName + ".");
       DecisionLogic decisionLogic = ds.forecast.getDecisionLogic(nextScheduleName);
       if (decisionLogic != null) {
         nextScheduleName = decisionLogic.getTransition(ds);
@@ -323,7 +335,8 @@ public class LookForDoseStep extends ActionStep
     return nextScheduleName;
   }
 
-  protected boolean indicatedEvent(DataStore ds, VaccineForecastDataBean.Indicate indicate, ValidVaccine[] vaccineIds) {
+  protected boolean indicatedEvent(DataStore ds, VaccineForecastDataBean.Indicate indicate,
+      ValidVaccine[] vaccineIds) {
     ds.log("Looking at " + indicate.getVaccineName() + " indication.");
     return indicatedEventVaccine(ds, vaccineIds) && indicatedEventAfterPrevious(ds, indicate)
         && indicatedHasHistory(ds, indicate) && indicatedEventWithinDateRange(ds, indicate)
@@ -334,8 +347,9 @@ public class LookForDoseStep extends ActionStep
     if (!indicate.isHashHad() || ds.getEventList() == null || ds.getEvent() == null) {
       return true;
     }
-    ds.log("Looking to see if " + indicate.getHasHad() + " vaccine has been administered on or before "
-        + new DateTime(ds.getEvent().getEventDate()));
+    ds.log(
+        "Looking to see if " + indicate.getHasHad() + " vaccine has been administered on or before "
+            + new DateTime(ds.getEvent().getEventDate()));
     for (Event event : ds.eventList) {
       if (event.getEventDate().after(ds.getEvent().getEventDate())) {
         break;
@@ -348,7 +362,8 @@ public class LookForDoseStep extends ActionStep
     return false;
   }
 
-  protected boolean indicatedEventWithinDateRange(DataStore ds, VaccineForecastDataBean.Indicate indicate) {
+  protected boolean indicatedEventWithinDateRange(DataStore ds,
+      VaccineForecastDataBean.Indicate indicate) {
     DateTime vaccDate = new DateTime(new DateTime(ds.event.eventDate).toString("M/D/Y"));
     DateTime minDate = figureMinDate(ds, indicate);
     DateTime maxDate = figureMaxDate(ds, indicate);
@@ -376,7 +391,8 @@ public class LookForDoseStep extends ActionStep
     return true;
   }
 
-  protected boolean indicatedEventAfterPrevious(DataStore ds, VaccineForecastDataBean.Indicate indicate) {
+  protected boolean indicatedEventAfterPrevious(DataStore ds,
+      VaccineForecastDataBean.Indicate indicate) {
     boolean foundPreviousMatch = true;
     if (indicate.getPreviousVaccines() != null && indicate.getPreviousVaccines().length > 0) {
       foundPreviousMatch = false;
@@ -385,8 +401,8 @@ public class LookForDoseStep extends ActionStep
           for (ValidVaccine indicatedVaccineId : indicate.getPreviousVaccines()) {
             if (indicatedVaccineId.isSame(previousVaccineId, ds.previousEventDate.getDate())) {
               if (indicatedVaccineId.getValidAge() != null) {
-                DateTime validAgeDate = indicatedVaccineId.getValidAge().getDateTimeFrom(
-                    ds.getPatient().getDobDateTime());
+                DateTime validAgeDate = indicatedVaccineId.getValidAge()
+                    .getDateTimeFrom(ds.getPatient().getDobDateTime());
                 if (validAgeDate.isGreaterThanOrEquals(ds.previousEventDate)) {
                   foundPreviousMatch = true;
                   break;
@@ -402,7 +418,8 @@ public class LookForDoseStep extends ActionStep
       if (foundPreviousMatch) {
         ds.log(" + Indicated event after previous event of " + indicate.getPreviousVaccineName());
       } else {
-        ds.log(" + Indicated event NOT after previous event of " + indicate.getPreviousVaccineName());
+        ds.log(
+            " + Indicated event NOT after previous event of " + indicate.getPreviousVaccineName());
       }
     }
     return foundPreviousMatch;
@@ -410,7 +427,8 @@ public class LookForDoseStep extends ActionStep
 
   private boolean indicatedHasHistory(DataStore ds, VaccineForecastDataBean.Indicate indicate) {
     boolean foundHistory = true;
-    if (indicate.getHistoryOfVaccineName() != null && indicate.getHistoryOfVaccineName().length() > 0) {
+    if (indicate.getHistoryOfVaccineName() != null
+        && indicate.getHistoryOfVaccineName().length() > 0) {
       foundHistory = findHistory(ds, indicate);
       if (foundHistory) {
         ds.log("Indicated event has history of " + indicate.getHistoryOfVaccineName());
@@ -424,7 +442,8 @@ public class LookForDoseStep extends ActionStep
   public boolean findHistory(DataStore ds, VaccineForecastDataBean.Indicate indicate) {
     DateTime givenOnOrAfter = null;
     if (indicate.getHistoryOfVaccineValidAge() != null) {
-      givenOnOrAfter = indicate.getHistoryOfVaccineValidAge().getDateTimeFrom(ds.getPatient().getDobDateTime());
+      givenOnOrAfter =
+          indicate.getHistoryOfVaccineValidAge().getDateTimeFrom(ds.getPatient().getDobDateTime());
       ds.log("Vaccine given on or after " + givenOnOrAfter.toString("M/D/Y"));
     }
     for (Event event : ds.eventList) {
@@ -488,7 +507,8 @@ public class LookForDoseStep extends ActionStep
     return indicatedEventVaccine(vaccineIds, ds, event);
   }
 
-  protected static boolean indicatedEventVaccine(ValidVaccine[] vaccineIds, DataStore ds, Event event) {
+  protected static boolean indicatedEventVaccine(ValidVaccine[] vaccineIds, DataStore ds,
+      Event event) {
     boolean indicatedEvent = false;
     if (event != null && event.immList != null) {
       for (Iterator<ImmunizationInterface> it = event.immList.iterator(); it.hasNext();) {
@@ -516,7 +536,8 @@ public class LookForDoseStep extends ActionStep
     return indicatedEvent;
   }
 
-  protected static String createIndicatedEventVaccineLabel(ValidVaccine[] vaccineIds, DataStore ds, Event event) {
+  protected static String createIndicatedEventVaccineLabel(ValidVaccine[] vaccineIds, DataStore ds,
+      Event event) {
     if (event != null && event.immList != null) {
       for (Iterator<ImmunizationInterface> it = event.immList.iterator(); it.hasNext();) {
         ImmunizationInterface imm = it.next();
@@ -531,7 +552,8 @@ public class LookForDoseStep extends ActionStep
     return null;
   }
 
-  private boolean checkTransition(DataStore ds, Event event, VaccineForecastDataBean.Indicate indicate) {
+  private boolean checkTransition(DataStore ds, Event event,
+      VaccineForecastDataBean.Indicate indicate) {
     boolean indicatedEvent = false;
     for (Iterator<ImmunizationInterface> it = event.immList.iterator(); it.hasNext();) {
       ImmunizationInterface imm = it.next();
@@ -561,7 +583,8 @@ public class LookForDoseStep extends ActionStep
         ds.log("Checking black out to vaccine " + blackOut.getVaccineName());
         boolean shouldBlackOut = true;
         if (blackOut.getAgainstVaccineIds() != null) {
-          ds.log("Checking validity against specific vaccine types, this black out does not apply to all vaccinations");
+          ds.log(
+              "Checking validity against specific vaccine types, this black out does not apply to all vaccinations");
           shouldBlackOut = false;
           for (ValidVaccine cvi : blackOut.getAgainstVaccineIds()) {
             ds.log("  + looking at black out against vaccine " + cvi.getVaccineId());
@@ -590,7 +613,8 @@ public class LookForDoseStep extends ActionStep
     }
     if (ds.invalidatedSameDayVaccineIdMapToReason != null) {
       for (ValidVaccine validVaccine : vaccineIds) {
-        if (ds.invalidatedSameDayVaccineIdMapToReason.keySet().contains(validVaccine.getVaccineId())) {
+        if (ds.invalidatedSameDayVaccineIdMapToReason.keySet()
+            .contains(validVaccine.getVaccineId())) {
           ds.log("Vaccine has been invalidated, so this transition is invalid");
           return ds.invalidatedSameDayVaccineIdMapToReason.get(validVaccine.getVaccineId());
         }
@@ -620,7 +644,8 @@ public class LookForDoseStep extends ActionStep
         for (int i = 0; i < vaccineIds.length; i++) {
           if (vaccineIds[i].isSame(imm, ds.event)) {
             if (ds.invalidatedSameDayVaccineIdMapToReason == null
-                || !ds.invalidatedSameDayVaccineIdMapToReason.keySet().contains(vaccineIds[i].getVaccineId())) {
+                || !ds.invalidatedSameDayVaccineIdMapToReason.keySet()
+                    .contains(vaccineIds[i].getVaccineId())) {
               VaccinationDoseDataBean dose = new VaccinationDoseDataBean();
               dose.setAdminDate(imm.getDateOfShot());
               dose.setDoseCode(getValidDose(ds, ds.schedule));
@@ -632,8 +657,9 @@ public class LookForDoseStep extends ActionStep
               dose.setCvxCode(imm.getCvx());
               dose.setMvxCode(imm.getMvx());
               dose.setVaccinationId(imm.getVaccinationId());
-              dose.setReason((ds.forecastManager.getVaccineName(imm.getVaccineId()) + (" given " + ds.dateFormat
-                  .format(imm.getDateOfShot()))) + " is invalid " + invalidReason + "");
+              dose.setReason((ds.forecastManager.getVaccineName(imm.getVaccineId())
+                  + (" given " + ds.dateFormat.format(imm.getDateOfShot()))) + " is invalid "
+                  + invalidReason + "");
               dose.setWhenValidText(ds.whenValidText);
               ds.doseList.add(dose);
               if (ds.trace != null) {
@@ -665,8 +691,9 @@ public class LookForDoseStep extends ActionStep
             if (vaccineIds[i].isSame(imm, ds.event)) {
               if (ds.trace != null) {
                 ds.traceList.setExplanationRed();
-                ds.traceList.addExplanation(ds.forecastManager.getVaccineName(imm.getVaccineId()) + " given "
-                    + ds.dateFormat.format(imm.getDateOfShot()) + " is a contraindicated " + contraReason);
+                ds.traceList.addExplanation(ds.forecastManager.getVaccineName(imm.getVaccineId())
+                    + " given " + ds.dateFormat.format(imm.getDateOfShot())
+                    + " is a contraindicated " + contraReason);
               }
             }
           }
@@ -682,7 +709,8 @@ public class LookForDoseStep extends ActionStep
         for (int i = 0; i < vaccineIds.length; i++) {
           if (vaccineIds[i].isSame(imm, ds.event)) {
             if (ds.invalidatedSameDayVaccineIdMapToReason == null
-                || !ds.invalidatedSameDayVaccineIdMapToReason.keySet().contains(vaccineIds[i].getVaccineId())) {
+                || !ds.invalidatedSameDayVaccineIdMapToReason.keySet()
+                    .contains(vaccineIds[i].getVaccineId())) {
               VaccinationDoseDataBean dose = new VaccinationDoseDataBean();
               dose.setAdminDate(imm.getDateOfShot());
               dose.setDoseCode(getValidDose(ds, ds.schedule));
@@ -699,8 +727,9 @@ public class LookForDoseStep extends ActionStep
               if (ds.trace != null) {
                 ds.trace.getDoses().add(dose);
                 ds.traceList.setExplanationBlue();
-                ds.traceList.addExplanation(ds.forecastManager.getVaccineName(imm.getVaccineId()) + " given "
-                    + ds.dateFormat.format(imm.getDateOfShot()) + " is valid (dose #" + ds.validDoseCount + ")");
+                ds.traceList.addExplanation(ds.forecastManager.getVaccineName(imm.getVaccineId())
+                    + " given " + ds.dateFormat.format(imm.getDateOfShot()) + " is valid (dose #"
+                    + ds.validDoseCount + ")");
               }
             }
           }
@@ -719,8 +748,8 @@ public class LookForDoseStep extends ActionStep
             if (ds.trace != null) {
               ds.traceList.setExplanationBlue();
               if (ds.seasonal == null) {
-                ds.traceList.addExplanation("Transitioning because patient is " + imm.getLabel() + " as of "
-                    + ds.dateFormat.format(imm.getDateOfShot()));
+                ds.traceList.addExplanation("Transitioning because patient is " + imm.getLabel()
+                    + " as of " + ds.dateFormat.format(imm.getDateOfShot()));
               } else {
                 ds.traceList.addExplanation("Transitioning because of " + imm.getLabel() + " on "
                     + ds.dateFormat.format(imm.getDateOfShot()));

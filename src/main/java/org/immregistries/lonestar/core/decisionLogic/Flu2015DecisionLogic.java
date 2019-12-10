@@ -6,8 +6,7 @@ import org.immregistries.lonestar.core.VaccinationDoseDataBean;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.ValidVaccine;
 import org.immregistries.lonestar.core.logic.DataStore;
 
-public class Flu2015DecisionLogic extends DecisionLogic
-{
+public class Flu2015DecisionLogic extends DecisionLogic {
 
   public static final String VALID_VACCINE = "Valid Vaccine";
 
@@ -30,16 +29,16 @@ public class Flu2015DecisionLogic extends DecisionLogic
     if (nineYearsOld.isLessThanOrEquals(new DateTime(ds.getForecastDate()))) {
       return noMoreDosesNeeded;
     }
-    
+
     ds.log("Setting up valid vaccines");
     ValidVaccine[] vaccines;
     try {
       vaccines = ds.getForecast().convertToVaccineIds(validVaccine);
     } catch (Exception e) {
-      throw new RuntimeException("Unable to convert vaccine '" + validVaccine + "' to vaccine ids", e);
+      throw new RuntimeException("Unable to convert vaccine '" + validVaccine + "' to vaccine ids",
+          e);
     }
-    for (ValidVaccine v : vaccines)
-    {
+    for (ValidVaccine v : vaccines) {
       ds.log(" + " + v.getVaccineId());
     }
 
@@ -55,21 +54,23 @@ public class Flu2015DecisionLogic extends DecisionLogic
     return secondDoseNeeded;
   }
 
-  public int countValidVaccinesGiven(DataStore ds, ValidVaccine[] vaccines, DateTime startDate, DateTime endDate) {
+  public int countValidVaccinesGiven(DataStore ds, ValidVaccine[] vaccines, DateTime startDate,
+      DateTime endDate) {
     int count = 0;
-    HashSet<String> dateSet= new HashSet<String>();
+    HashSet<String> dateSet = new HashSet<String>();
     for (VaccinationDoseDataBean vaccinationDose : ds.getDoseList()) {
       DateTime adminDate = new DateTime(vaccinationDose.getAdminDate());
       String dateStr = adminDate.getDate().toString();
 
       if ((startDate == null || startDate.isLessThanOrEquals(adminDate))
           && (endDate == null || endDate.isGreaterThan(adminDate))
-          && ! vaccinationDose.isStatusCodeInvalid()) {
+          && !vaccinationDose.isStatusCodeInvalid()) {
         for (ValidVaccine vaccine : vaccines) {
           if (vaccinationDose.getVaccineId() == vaccine.getVaccineId()) {
             if (!(dateSet.contains(dateStr))) {
               dateSet.add(dateStr);
-              ds.log(" + valid vaccine " + vaccinationDose.getVaccineId() + " given " + new DateTime(vaccinationDose.getAdminDate()).toString("M/D/Y"));
+              ds.log(" + valid vaccine " + vaccinationDose.getVaccineId() + " given "
+                  + new DateTime(vaccinationDose.getAdminDate()).toString("M/D/Y"));
               count++;
             }
 

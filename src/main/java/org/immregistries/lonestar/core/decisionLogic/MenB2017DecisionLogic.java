@@ -21,24 +21,26 @@ public abstract class MenB2017DecisionLogic extends DecisionLogic {
 
   // grace period
   protected static final int GRACE_PERIOD_IN_DAYS = -4;
-  
+
   // use half a year less four-day grace period
   protected static final int SIX_MONTHS_IN_DAYS_LESS_GRACE_PERIOD = 182 - 4; // (365 / 2 - 4)
-  
+
   // apply 4-day grace period
   protected static final int TEN_YEARS = 10;
   protected static final int TWENTY_FOUR_YEARS = 24;
 
   protected ValidVaccine[] trumenbaVaccineIdList;
   protected ValidVaccine[] bexseroVaccineIdList;
-  
-  protected boolean isSixMonthsBetweenFirstAndSecondTrumenba(DataStore ds, List<VaccinationDoseDataBean> validVaccinations) {
+
+  protected boolean isSixMonthsBetweenFirstAndSecondTrumenba(DataStore ds,
+      List<VaccinationDoseDataBean> validVaccinations) {
     boolean past = false;
     VaccinationDoseDataBean firstTrumenbaVaccination = getFirstTrumenbaDose(ds, validVaccinations);
-    VaccinationDoseDataBean secondTrumenbaVaccination = getSecondTrumenbaDose(ds, validVaccinations);
+    VaccinationDoseDataBean secondTrumenbaVaccination =
+        getSecondTrumenbaDose(ds, validVaccinations);
     DateTime firstAdminDate = new DateTime(firstTrumenbaVaccination.getAdminDate());
     DateTime secondAdminDate = new DateTime(secondTrumenbaVaccination.getAdminDate());
-    
+
     long daysBetween = firstAdminDate.getDaysBetween(secondAdminDate);
     past = daysBetween >= SIX_MONTHS_IN_DAYS_LESS_GRACE_PERIOD;
     return past;
@@ -53,60 +55,62 @@ public abstract class MenB2017DecisionLogic extends DecisionLogic {
     return false;
   }
 
-  protected VaccinationDoseDataBean getFirstTrumenbaDose(DataStore ds, List<VaccinationDoseDataBean> validVaccinations) {
+  protected VaccinationDoseDataBean getFirstTrumenbaDose(DataStore ds,
+      List<VaccinationDoseDataBean> validVaccinations) {
     int ptr = validVaccinations.size();
-    while (ptr > 0 ) {
+    while (ptr > 0) {
       ptr--;
       VaccinationDoseDataBean test = validVaccinations.get(ptr);
-      if ( isTrumenbaDose(test) ) {
-         return test;
+      if (isTrumenbaDose(test)) {
+        return test;
       }
     }
     ds.log("Didn't find any Trumenba doses");
     return null;
   }
 
-  protected VaccinationDoseDataBean getSecondTrumenbaDose(DataStore ds, List<VaccinationDoseDataBean> validVaccinations) {
+  protected VaccinationDoseDataBean getSecondTrumenbaDose(DataStore ds,
+      List<VaccinationDoseDataBean> validVaccinations) {
     int ptr = validVaccinations.size();
     int numTrumenbasAdministered = 0;
     VaccinationDoseDataBean test = null;
     while (ptr > 0 && numTrumenbasAdministered < 2) {
       ptr--;
       test = validVaccinations.get(ptr);
-      if ( isTrumenbaDose(test) ) {
+      if (isTrumenbaDose(test)) {
         numTrumenbasAdministered++;
       }
     }
-    if ( test == null ) ds.log("Didn't find any Trumenba doses");
+    if (test == null)
+      ds.log("Didn't find any Trumenba doses");
     return test;
   }
-  
+
   protected List<ImmunizationInterface> getValidVaccinations(DataStore ds) {
     List<ImmunizationInterface> validVaccinations = new ArrayList<ImmunizationInterface>();
-    
+
     DateTime ageTen = new DateTime(ds.getPatient().getDobDateTime());
     ageTen.addYears(TEN_YEARS);
     ageTen.addDays(GRACE_PERIOD_IN_DAYS);
-    
+
     DateTime ageTwentyFour = new DateTime(ds.getPatient().getDobDateTime());
     ageTwentyFour.addYears(TWENTY_FOUR_YEARS);
-    
+
     for (ImmunizationInterface vaccination : ds.getVaccinations()) {
       DateTime dateOfShot = new DateTime(vaccination.getDateOfShot());
-      if ( dateOfShot.isLessThan(ageTen) ) {
-        ds.log("Excluded shot: given before age 10 years (grace 4 days): "+vaccination);
-      }
-      else if ( dateOfShot.isGreaterThanOrEquals(ageTwentyFour) ) {
-        ds.log("Excluded shot: given after age 24 years old: "+vaccination);
-      }
-      else {
+      if (dateOfShot.isLessThan(ageTen)) {
+        ds.log("Excluded shot: given before age 10 years (grace 4 days): " + vaccination);
+      } else if (dateOfShot.isGreaterThanOrEquals(ageTwentyFour)) {
+        ds.log("Excluded shot: given after age 24 years old: " + vaccination);
+      } else {
         validVaccinations.add(vaccination);
       }
     }
     return validVaccinations;
   }
-  
-  protected int countBexseroVaccinations(DataStore ds, List<VaccinationDoseDataBean> validVaccinations) {
+
+  protected int countBexseroVaccinations(DataStore ds,
+      List<VaccinationDoseDataBean> validVaccinations) {
     ds.log("Counting Bexsero Vaccinations");
     int numBexsero = 0;
     for (VaccinationDoseDataBean vaccination : validVaccinations) {
@@ -121,7 +125,8 @@ public abstract class MenB2017DecisionLogic extends DecisionLogic {
     return numBexsero;
   }
 
-  protected int countTrumenbaVaccinations(DataStore ds, List<VaccinationDoseDataBean> validVaccinations) {
+  protected int countTrumenbaVaccinations(DataStore ds,
+      List<VaccinationDoseDataBean> validVaccinations) {
     ds.log("Counting Trumenba Vaccinations");
     int numTrumenba = 0;
     for (VaccinationDoseDataBean vaccination : validVaccinations) {

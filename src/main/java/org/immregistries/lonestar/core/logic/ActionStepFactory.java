@@ -3,14 +3,11 @@ package org.immregistries.lonestar.core.logic;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ActionStepFactory
-{
+public class ActionStepFactory {
   private static Map<String, ActionStep> actionStepMap;
-  
-  public static ActionStep get(String name)
-  {
-    if (actionStepMap == null)
-    {
+
+  public static ActionStep get(String name) {
+    if (actionStepMap == null) {
       actionStepMap = new HashMap<String, ActionStep>();
       addToMap(new StartStep());
       addToMap(new SetupStep());
@@ -28,9 +25,8 @@ public class ActionStepFactory
     }
     return actionStepMap.get(name);
   }
-  
-  private static void addToMap(ActionStep actionStep)
-  {
+
+  private static void addToMap(ActionStep actionStep) {
     actionStepMap.put(actionStep.getName(), actionStep);
   }
 }

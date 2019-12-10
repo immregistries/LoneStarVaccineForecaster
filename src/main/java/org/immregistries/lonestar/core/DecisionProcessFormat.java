@@ -1,5 +1,6 @@
 package org.immregistries.lonestar.core;
 
 public enum DecisionProcessFormat {
-  HTML, FORMATTED_TEXT
+                                   HTML,
+                                   FORMATTED_TEXT
 }

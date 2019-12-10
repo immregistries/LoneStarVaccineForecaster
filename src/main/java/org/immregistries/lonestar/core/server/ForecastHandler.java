@@ -7,14 +7,13 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 
-public class ForecastHandler extends Thread
-{
+public class ForecastHandler extends Thread {
   private Socket socket;
   private DataInputStream input = null;
   private PrintStream output = null;
   private ForecastServer forecastServer = null;
 
-  
+
   public ForecastHandler(Socket socket, ForecastServer forecastServer) {
     this.socket = socket;
     this.forecastServer = forecastServer;
@@ -35,7 +34,8 @@ public class ForecastHandler extends Thread
       String response = "";
       try {
         CaretForecaster caretForecaster = new CaretForecaster(request);
-        response = caretForecaster.forecast(ForecastServer.vaccineForecastManager, ForecastServer.cvxToVaccineIdMap);
+        response = caretForecaster.forecast(ForecastServer.vaccineForecastManager,
+            ForecastServer.cvxToVaccineIdMap);
       } catch (Exception e) {
         response = "Unexpected problem: " + e.getMessage();
         e.printStackTrace();

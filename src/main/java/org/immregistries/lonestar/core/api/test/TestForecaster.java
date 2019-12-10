@@ -22,7 +22,8 @@ public class TestForecaster {
   // 2. from project directory, run: java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.api.test.TestForecaster
   public static void main(String[] args) throws Exception {
     System.out.println("TCH Forecaster");
-    System.out.println("------------------------------------------------------------------------------");
+    System.out
+        .println("------------------------------------------------------------------------------");
     System.out.println("Testing functionality ");
     System.out.println();
     System.out.println("Instantiating Forecaster");
@@ -67,7 +68,8 @@ public class TestForecaster {
       patient.setBirthDate(calendar.getTime());
       patient.setSex("M");
       request.setPatient(patient);
-      List<ForecastVaccinationInterface> vaccinationList = new ArrayList<ForecastVaccinationInterface>();
+      List<ForecastVaccinationInterface> vaccinationList =
+          new ArrayList<ForecastVaccinationInterface>();
       request.setVaccinationList(vaccinationList);
       ForecastVaccination vaccination = new ForecastVaccination();
       vaccinationList.add(vaccination);
@@ -94,7 +96,8 @@ public class TestForecaster {
       patient.setBirthDate(calendar.getTime());
       patient.setSex("M");
       request.setPatient(patient);
-      List<ForecastVaccinationInterface> vaccinationList = new ArrayList<ForecastVaccinationInterface>();
+      List<ForecastVaccinationInterface> vaccinationList =
+          new ArrayList<ForecastVaccinationInterface>();
       request.setVaccinationList(vaccinationList);
       ForecastVaccination vaccination = new ForecastVaccination();
       vaccinationList.add(vaccination);
@@ -121,7 +124,7 @@ public class TestForecaster {
       Calendar calendar = Calendar.getInstance();
       calendar.add(Calendar.YEAR, -1);
       calendar.add(Calendar.DAY_OF_MONTH, -3);
-      
+
       SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
       request.setEvaluationDate(new Date());
@@ -129,7 +132,8 @@ public class TestForecaster {
       patient.setBirthDate(sdf.parse("06/26/2008"));
       patient.setSex("M");
       request.setPatient(patient);
-      List<ForecastVaccinationInterface> vaccinationList = new ArrayList<ForecastVaccinationInterface>();
+      List<ForecastVaccinationInterface> vaccinationList =
+          new ArrayList<ForecastVaccinationInterface>();
       request.setVaccinationList(vaccinationList);
 
       ForecastVaccination vaccination = new ForecastVaccination();
@@ -150,7 +154,7 @@ public class TestForecaster {
       forecastAndPrintResults(forecastHandler, request);
     }
     System.out.println();
-    
+
     {
       System.out.println("Test 6: MMR Contraindication");
       ForecastRequestInterface request = new ForecastRequest();
@@ -161,7 +165,8 @@ public class TestForecaster {
       patient.setBirthDate(sdf.parse("07/27/2008"));
       patient.setSex("M");
       request.setPatient(patient);
-      List<ForecastVaccinationInterface> vaccinationList = new ArrayList<ForecastVaccinationInterface>();
+      List<ForecastVaccinationInterface> vaccinationList =
+          new ArrayList<ForecastVaccinationInterface>();
       request.setVaccinationList(vaccinationList);
 
       ForecastVaccination vaccination = new ForecastVaccination();
@@ -188,7 +193,8 @@ public class TestForecaster {
       patient.setBirthDate(sdf.parse("07/27/2008"));
       patient.setSex("M");
       request.setPatient(patient);
-      List<ForecastVaccinationInterface> vaccinationList = new ArrayList<ForecastVaccinationInterface>();
+      List<ForecastVaccinationInterface> vaccinationList =
+          new ArrayList<ForecastVaccinationInterface>();
       request.setVaccinationList(vaccinationList);
 
       ForecastVaccination vaccination = new ForecastVaccination();
@@ -219,8 +225,8 @@ public class TestForecaster {
 
   }
 
-  public static void forecastAndPrintResults(ForecastHandlerInterface forecastHandler, ForecastRequestInterface request)
-      throws Exception {
+  public static void forecastAndPrintResults(ForecastHandlerInterface forecastHandler,
+      ForecastRequestInterface request) throws Exception {
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
     ForecastResponseInterface response = forecastHandler.forecast(request);
     System.out.println("Patient Birth Date: " + sdf.format(request.getPatient().getBirthDate()));
@@ -228,13 +234,13 @@ public class TestForecaster {
       System.out.println("Vaccination: " + forecastVaccination.getCvxCode() + " given "
           + sdf.format(forecastVaccination.getAdminDate()));
     }
-    
+
     PrintStream out = System.out;
 
     ForecastReportPrinter.printTables(sdf, response, out);
 
   }
 
- 
+
 
 }

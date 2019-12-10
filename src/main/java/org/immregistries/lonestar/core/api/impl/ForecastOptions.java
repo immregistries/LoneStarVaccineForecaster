@@ -6,8 +6,7 @@ import org.immregistries.lonestar.core.DecisionProcessFormat;
 import org.immregistries.lonestar.core.ImmunizationForecastDataBean;
 import org.immregistries.lonestar.core.TimePeriod;
 
-public class ForecastOptions
-{
+public class ForecastOptions {
 
   private TimePeriod fluSeasonDue = null;
   private TimePeriod fluSeasonOverdue = null;
@@ -20,7 +19,7 @@ public class ForecastOptions
   private boolean useEarlyOverdue = false;
   private boolean recommendWhenValid = false;
   private Set<String> recommendWhenValidSet = null;
-  private boolean useInternalEvaluationStatus = false; 
+  private boolean useInternalEvaluationStatus = false;
 
   public boolean isUseInternalEvaluationStatus() {
     return useInternalEvaluationStatus;
@@ -44,7 +43,8 @@ public class ForecastOptions
 
   public boolean isRecommendWhenValid(ImmunizationForecastDataBean forecastBean) {
     if (recommendWhenValid && recommendWhenValidSet != null) {
-      return recommendWhenValidSet.contains(forecastBean.getForecastName() + "-" + forecastBean.getDose());
+      return recommendWhenValidSet
+          .contains(forecastBean.getForecastName() + "-" + forecastBean.getDose());
     }
     return recommendWhenValid;
   }

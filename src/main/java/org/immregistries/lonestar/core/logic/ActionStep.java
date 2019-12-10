@@ -3,17 +3,19 @@ package org.immregistries.lonestar.core.logic;
 import org.immregistries.lonestar.core.ImmunizationForecastDataBean;
 import org.immregistries.lonestar.core.api.impl.ForecastAntigen;
 
-public abstract class ActionStep
-{
+public abstract class ActionStep {
   public abstract String getName();
 
   public abstract String doAction(DataStore dataStore) throws Exception;
 
   public void addResultToList(DataStore ds, ImmunizationForecastDataBean forecastBean) {
     boolean added = false;
-    if (forecastBean.getStatusDescriptionExternal().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
-        || forecastBean.getStatusDescriptionExternal().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)) {
-      ds.log("Adding a complete or finished schedule, checking to see if there is a need to add alternative completes instead");
+    if (forecastBean.getStatusDescriptionExternal()
+        .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
+        || forecastBean.getStatusDescriptionExternal()
+            .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)) {
+      ds.log(
+          "Adding a complete or finished schedule, checking to see if there is a need to add alternative completes instead");
       if (ds.schedule.getCompletesList().size() > 1) {
         for (int i = 0; i < ds.schedule.getCompletesList().size(); i++) {
           ForecastAntigen fa = ds.schedule.getCompletesList().get(i);

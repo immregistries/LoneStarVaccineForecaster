@@ -52,7 +52,7 @@ public class TransitionEvent implements ImmunizationInterface {
   public String getVaccinationId() {
     return "";
   }
-  
+
   // JDK 1.5 Override is not applicable to interfaces
   //@Override
   public boolean isAssumption() {

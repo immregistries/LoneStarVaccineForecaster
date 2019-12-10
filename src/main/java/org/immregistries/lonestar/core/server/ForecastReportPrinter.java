@@ -479,8 +479,10 @@ public class ForecastReportPrinter {
           out.println("              <code value=\"duelater\"/>");
           out.println("              <display value=\"duelater\"/>");
         } else {
-          out.println("              <code value=\"" + forecast.getStatusDescriptionExternal() + "\"/>");
-          out.println("              <display value=\"" + forecast.getStatusDescriptionExternal() + "\"/>");
+          out.println(
+              "              <code value=\"" + forecast.getStatusDescriptionExternal() + "\"/>");
+          out.println(
+              "              <display value=\"" + forecast.getStatusDescriptionExternal() + "\"/>");
         }
         out.println("            </coding>");
         out.println("          </forecastStatus>");
@@ -613,8 +615,7 @@ public class ForecastReportPrinter {
     out.println("        },");
     out.println("        \"text\": {");
     out.println("          \"status\": \"generated\",");
-    out.println(
-        "          \"div\": \"<pre>");
+    out.println("          \"div\": \"<pre>");
     printTextVersionOfForecast(resultList, imms, forecasterScheduleName, forecastDate, doseList,
         out);
     out.println("        </pre>\"");
@@ -841,7 +842,6 @@ public class ForecastReportPrinter {
 
 
 
-    
     out.println("            <gender value=\"" + (patient.getSex().equals("M") ? "male" : "female")
         + "\"/>");
     out.println("            <birthDate value=\"" + sdf.format(patient.getDob()) + "\"/>");
@@ -888,8 +888,10 @@ public class ForecastReportPrinter {
           out.println("              <code value=\"duelater\"/>");
           out.println("              <display value=\"duelater\"/>");
         } else {
-          out.println("              <code value=\"" + forecast.getStatusDescriptionExternal() + "\"/>");
-          out.println("              <display value=\"" + forecast.getStatusDescriptionExternal() + "\"/>");
+          out.println(
+              "              <code value=\"" + forecast.getStatusDescriptionExternal() + "\"/>");
+          out.println(
+              "              <display value=\"" + forecast.getStatusDescriptionExternal() + "\"/>");
         }
         out.println("            </coding>");
         out.println("          </forecastStatus>");

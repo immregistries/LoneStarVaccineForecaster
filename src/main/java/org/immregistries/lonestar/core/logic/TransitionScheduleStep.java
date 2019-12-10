@@ -4,8 +4,7 @@ import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.ImmunizationForecastDataBean;
 import org.immregistries.lonestar.core.Trace;
 
-public class TransitionScheduleStep extends ActionStep
-{
+public class TransitionScheduleStep extends ActionStep {
   public static final String NAME = "Transition Schedule";
 
   @Override
@@ -47,7 +46,8 @@ public class TransitionScheduleStep extends ActionStep
       ds.log(" + Patient is now too old to get any more doses");
       if (ds.trace != null) {
         ds.trace.setFinished(true);
-        ds.traceList.addExplanation("No need for further vaccinations after " + ds.finished.toString("M/D/Y"));
+        ds.traceList.addExplanation(
+            "No need for further vaccinations after " + ds.finished.toString("M/D/Y"));
       }
       ImmunizationForecastDataBean forecastBean = new ImmunizationForecastDataBean();
       forecastBean.setFinished(ds.finished.getDate());
@@ -57,10 +57,12 @@ public class TransitionScheduleStep extends ActionStep
       forecastBean.setImmregid(ds.patient.getImmregid());
       forecastBean.setTraceList(ds.traceList);
       if (ds.assumptionList.size() > 0) {
-        forecastBean.setStatusDescriptionExternal(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE);
+        forecastBean.setStatusDescriptionExternal(
+            ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE);
         forecastBean.getAssumptionList().addAll(ds.assumptionList);
       } else {
-        forecastBean.setStatusDescriptionExternal(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED);
+        forecastBean
+            .setStatusDescriptionExternal(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED);
       }
       addResultToList(ds, forecastBean);
       return FinishScheduleStep.NAME;

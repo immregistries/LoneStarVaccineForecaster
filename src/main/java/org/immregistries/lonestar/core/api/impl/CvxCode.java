@@ -3,10 +3,11 @@ package org.immregistries.lonestar.core.api.impl;
 import java.util.Map;
 import java.util.Set;
 
-public class CvxCode
-{
+public class CvxCode {
   public static enum UseStatus {
-    SUPPORTED, NOT_SUPPORTED, PENDING
+                                SUPPORTED,
+                                NOT_SUPPORTED,
+                                PENDING
   };
 
   private String cvxCode = "";
@@ -15,7 +16,7 @@ public class CvxCode
   private int vaccineId = 0;
   private UseStatus useStatus = null;
   private boolean locationSet = false;
-  
+
   public boolean isLocationSet() {
     return locationSet;
   }

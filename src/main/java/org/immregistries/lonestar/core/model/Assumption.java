@@ -1,11 +1,9 @@
 package org.immregistries.lonestar.core.model;
 
-public class Assumption
-{
+public class Assumption {
   private String description = "";
-  
-  public Assumption(String description)
-  {
+
+  public Assumption(String description) {
     this.description = description;
   }
 

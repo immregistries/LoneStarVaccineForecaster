@@ -42,7 +42,7 @@ public interface ForecastResponseInterface {
    * @param recommendationList
    */
   public void setRecommendationList(List<ForecastRecommendationInterface> recommendationList);
-  
+
   /**
    * List of vaccinations the patient has received. These are the vaccinations submitted for the evaluation and have evalution results attached.
    * 

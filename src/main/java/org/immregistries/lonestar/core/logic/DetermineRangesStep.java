@@ -6,8 +6,7 @@ import org.immregistries.lonestar.core.TimePeriod;
 import org.immregistries.lonestar.core.VaccineForecastDataBean;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.Contraindicate;
 
-public class DetermineRangesStep extends ActionStep
-{
+public class DetermineRangesStep extends ActionStep {
   public static final String NAME = "Determine Ranges";
 
   @Override
@@ -52,19 +51,20 @@ public class DetermineRangesStep extends ActionStep
               blackOut.setAgainstContra(contraindicate.getAgainstContra());
               blackOut.setAgainstAllowed(contraindicate.getAgainstAllowed());
             }
-            String contraindicationDoseLabel = LookForDoseStep.createIndicatedEventVaccineLabel(
-                contraindicate.getVaccines(), ds, event);
+            String contraindicationDoseLabel = LookForDoseStep
+                .createIndicatedEventVaccineLabel(contraindicate.getVaccines(), ds, event);
             if (contraindicationDoseLabel != null) {
               blackOut.setReason(" - must be given at least " + contraindicate.getAfterInterval()
                   + " after previous dose of " + contraindicationDoseLabel + " given "
                   + new DateTime(event.eventDate).toString("M/D/Y"));
             } else {
               blackOut.setReason(" - must be given at least " + contraindicate.getAfterInterval()
-                  + " after previous dose given " + new DateTime(event.eventDate).toString("M/D/Y"));
+                  + " after previous dose given "
+                  + new DateTime(event.eventDate).toString("M/D/Y"));
             }
             ds.blackOutDates.add(blackOut);
-            ds.log("Contraindicating event found, setting black out dates from " + startBlackOut.toString("M/D/Y")
-                + " to " + endBlackOut.toString("M/D/Y"));
+            ds.log("Contraindicating event found, setting black out dates from "
+                + startBlackOut.toString("M/D/Y") + " to " + endBlackOut.toString("M/D/Y"));
           }
         }
       }
@@ -91,13 +91,15 @@ public class DetermineRangesStep extends ActionStep
         ds.log("Setting validity " + ds.schedule.getValidAge() + " of age");
       }
       if (!ds.schedule.getValidInterval().isEmpty() && ds.previousEventDateValidNotBirth != null) {
-        DateTime validInterval = ds.schedule.getValidInterval().getDateTimeFrom(ds.previousEventDateValidNotBirth);
+        DateTime validInterval =
+            ds.schedule.getValidInterval().getDateTimeFrom(ds.previousEventDateValidNotBirth);
         if (validInterval.isGreaterThan(ds.valid)) {
           ds.valid = validInterval;
           validReason = ds.schedule.getValidInterval() + " after previous valid dose";
           validBecause = "INTERVAL";
           usingInterval = true;
-          ds.log("Interval has later date than age, so re-setting validity to " + ds.schedule.getValidAge() + " from "
+          ds.log("Interval has later date than age, so re-setting validity to "
+              + ds.schedule.getValidAge() + " from "
               + ds.previousEventDateValidNotBirth.toString("M/D/Y"));
         }
       }
@@ -107,66 +109,74 @@ public class DetermineRangesStep extends ActionStep
 
     ds.finished = ds.schedule.getFinishedAge().getDateTimeFrom(ds.patient.getDobDateTime());
     if (ds.previousEventDate.equals(ds.previousEventDateValid)) {
-      if (usingInterval && ds.schedule.getValidIntervalGrace() != null && notIgnoreGracePeriod(ds, ds.schedule.getValidIntervalGrace()))
-      {
+      if (usingInterval && ds.schedule.getValidIntervalGrace() != null
+          && notIgnoreGracePeriod(ds, ds.schedule.getValidIntervalGrace())) {
         ds.validGrace = ds.schedule.getValidIntervalGrace().getDateTimeBefore(ds.valid);
-      }
-      else if (notIgnoreGracePeriod(ds, ds.schedule.getValidGrace())) {
+      } else if (notIgnoreGracePeriod(ds, ds.schedule.getValidGrace())) {
         ds.validGrace = ds.schedule.getValidGrace().getDateTimeBefore(ds.valid);
       }
     } else {
       if (ds.previousEventWasContra && ds.schedule.getAfterContraInterval() != null
           && !ds.schedule.getAfterContraInterval().isEmpty()) {
-        DateTime validInterval = ds.schedule.getAfterContraInterval().getDateTimeFrom(ds.previousEventDate);
+        DateTime validInterval =
+            ds.schedule.getAfterContraInterval().getDateTimeFrom(ds.previousEventDate);
         if (validInterval.isGreaterThan(ds.valid)) {
           ds.valid = validInterval;
           // catch grace up to valid date
-//          ds.validGrace = ds.valid;
+          //          ds.validGrace = ds.valid;
           validReason = "Must be given at least " + ds.schedule.getAfterContraInterval()
               + " after previous contraindicating dose";
           validBecause = "CONTRA";
-          ds.log("Contraindication indication pushes validity date back by " + ds.schedule.getAfterContraInterval());
-        }        
+          ds.log("Contraindication indication pushes validity date back by "
+              + ds.schedule.getAfterContraInterval());
+        }
         setGrace(ds, ds.schedule.getAfterContraGrace());
 
       } else {
-        DateTime validInterval = ds.schedule.getAfterInvalidInterval().getDateTimeFrom(ds.previousEventDate);
+        DateTime validInterval =
+            ds.schedule.getAfterInvalidInterval().getDateTimeFrom(ds.previousEventDate);
         if (validInterval.isGreaterThan(ds.valid)) {
           ds.valid = validInterval;
           // catch grace up to valid date
-//          ds.validGrace = ds.valid;
+          //          ds.validGrace = ds.valid;
           validReason = ds.schedule.getAfterInvalidInterval() + " after previous invalid dose";
           validBecause = "INVALID";
-          ds.log("Applying minimum interval after invalid vaccination of " + ds.schedule.getAfterInvalidInterval());
+          ds.log("Applying minimum interval after invalid vaccination of "
+              + ds.schedule.getAfterInvalidInterval());
         }
         setGrace(ds, ds.schedule.getAfterInvalidGrace());
       }
     }
     if (!ds.schedule.getBeforePreviousInterval().isEmpty() && ds.beforePreviousEventDate != null) {
-      DateTime beforePreviousInterval = ds.schedule.getBeforePreviousInterval().getDateTimeFrom(
-          ds.beforePreviousEventDate);
+      DateTime beforePreviousInterval =
+          ds.schedule.getBeforePreviousInterval().getDateTimeFrom(ds.beforePreviousEventDate);
       if (beforePreviousInterval.isGreaterThan(ds.valid)) {
         ds.valid = new DateTime(beforePreviousInterval);
         // reversing fix as requested by TCH March 2017 (Brady)
         // with this un-fixed, the "recommended date" is forecast correctly but still accepts early doses
-//        ds.validGrace = new DateTime(beforePreviousInterval);
-//        
-//        // apply check if the beforePreviousInterval grace period should be used instead
-//        if ( ds.schedule.getBeforePreviousGrace() != null ) {
-//          ds.validGrace = ds.schedule.getBeforePreviousGrace().getDateTimeBefore(ds.valid);
-//        }
-        validReason = ds.schedule.getBeforePreviousInterval() + " after valid dose given before previous valid dose";
+        //        ds.validGrace = new DateTime(beforePreviousInterval);
+        //        
+        //        // apply check if the beforePreviousInterval grace period should be used instead
+        //        if ( ds.schedule.getBeforePreviousGrace() != null ) {
+        //          ds.validGrace = ds.schedule.getBeforePreviousGrace().getDateTimeBefore(ds.valid);
+        //        }
+        validReason = ds.schedule.getBeforePreviousInterval()
+            + " after valid dose given before previous valid dose";
         validBecause = "BEFORE";
-        ds.log("Setting minimum interval for before previous dose of " + ds.schedule.getBeforePreviousInterval());
+        ds.log("Setting minimum interval for before previous dose of "
+            + ds.schedule.getBeforePreviousInterval());
       }
     }
     if (ds.previousAfterInvalidInterval != null) {
-      DateTime previousAfterInvalidIntervalDate = ds.previousAfterInvalidInterval.getDateTimeFrom(ds.previousEventDate);
+      DateTime previousAfterInvalidIntervalDate =
+          ds.previousAfterInvalidInterval.getDateTimeFrom(ds.previousEventDate);
       if (previousAfterInvalidIntervalDate.isGreaterThan(ds.valid)) {
         ds.valid = previousAfterInvalidIntervalDate;
-        validReason = ds.previousAfterInvalidInterval + " after previous invalid/contraindicated dose";
+        validReason =
+            ds.previousAfterInvalidInterval + " after previous invalid/contraindicated dose";
         validBecause = "INVALID";
-        ds.log("Setting minimum interval for after previous invalid of " + ds.previousAfterInvalidInterval);
+        ds.log("Setting minimum interval for after previous invalid of "
+            + ds.previousAfterInvalidInterval);
       }
     }
     ds.log("Now determining due date");
@@ -221,7 +231,8 @@ public class DetermineRangesStep extends ActionStep
         } else {
           ds.dueReason = ds.seasonal.getDue() + " after season start";
         }
-        ds.log("Season start is after due date, moving due date forward to " + ds.due.toString("M/D/Y"));
+        ds.log("Season start is after due date, moving due date forward to "
+            + ds.due.toString("M/D/Y"));
       }
     }
 
@@ -232,14 +243,18 @@ public class DetermineRangesStep extends ActionStep
       if (blackOut.isAgainstSpecificVaccines()) {
         ds.log("Black out is against specific dates so not changing the due or valid dates");
       } else {
-        if (ds.valid.isGreaterThan(blackOut.getStartBlackOut()) && ds.valid.isLessThan(blackOut.getEndBlackOutGrace())) {
+        if (ds.valid.isGreaterThan(blackOut.getStartBlackOut())
+            && ds.valid.isLessThan(blackOut.getEndBlackOutGrace())) {
           ds.valid = blackOut.getEndBlackOutGrace();
-          ds.log("Moving valid date to end of blackOut period, setting to " + ds.due.toString("M/D/Y"));
+          ds.log("Moving valid date to end of blackOut period, setting to "
+              + ds.due.toString("M/D/Y"));
         }
-        if (ds.due.isGreaterThan(blackOut.getStartBlackOut()) && ds.due.isLessThan(blackOut.getEndBlackOutGrace())) {
+        if (ds.due.isGreaterThan(blackOut.getStartBlackOut())
+            && ds.due.isLessThan(blackOut.getEndBlackOutGrace())) {
           ds.due = blackOut.getEndBlackOutGrace();
           ds.dueReason = blackOut.getReason();
-          ds.log("Moving due date to end of blackOut period, setting to " + ds.due.toString("M/D/Y"));
+          ds.log(
+              "Moving due date to end of blackOut period, setting to " + ds.due.toString("M/D/Y"));
         }
       }
     }
@@ -297,13 +312,14 @@ public class DetermineRangesStep extends ActionStep
         ds.log("Adjusting due date to not be after the over due date");
         if (ds.due.isLessThan(ds.valid)) {
           ds.valid = new DateTime(ds.due);
-          ds.log("Vaccination is not valid to be administered before time has finished for vaccinating");
+          ds.log(
+              "Vaccination is not valid to be administered before time has finished for vaccinating");
           validReason = "vaccine does not need to be administered";
         }
       }
     }
-    ds.whenValidText = "Dose " + getNextValidDose(ds, ds.schedule) + " valid at " + validReason + ", "
-        + ds.valid.toString("M/D/Y");
+    ds.whenValidText = "Dose " + getNextValidDose(ds, ds.schedule) + " valid at " + validReason
+        + ", " + ds.valid.toString("M/D/Y");
     if (ds.trace != null) {
       ds.trace.setDueDate(ds.due);
       ds.trace.setOverdueDate(ds.overdue);
@@ -320,16 +336,16 @@ public class DetermineRangesStep extends ActionStep
     if (notIgnoreGracePeriod(ds, grace)) {
       DateTime validIntervalGrace = grace.getDateTimeBefore(ds.valid);
       if (validIntervalGrace.isLessThan(ds.validGrace)) {
-// old line
-//      if (validIntervalGrace.isGreaterThan(ds.validGrace)) { 
+        // old line
+        //      if (validIntervalGrace.isGreaterThan(ds.validGrace)) { 
         ds.validGrace = validIntervalGrace;
       }
     }
   }
 
   private static boolean notIgnoreGracePeriod(DataStore ds, TimePeriod validGrace) {
-    boolean ignoreGrace = ds.getForecastOptions() != null && ds.getForecastOptions().isIgnoreFourDayGrace()
-        && validGrace.isFourDay();
+    boolean ignoreGrace = ds.getForecastOptions() != null
+        && ds.getForecastOptions().isIgnoreFourDayGrace() && validGrace.isFourDay();
     if (ignoreGrace) {
       ds.log("Standard grace period of 4 days is being ignored, no grace period will be applied");
       return false;
@@ -337,7 +353,8 @@ public class DetermineRangesStep extends ActionStep
     return true;
   }
 
-  protected static String getNextValidDose(DataStore ds, VaccineForecastDataBean.Schedule schedule) {
+  protected static String getNextValidDose(DataStore ds,
+      VaccineForecastDataBean.Schedule schedule) {
     String dose = schedule.getDose();
     if (dose.equals("*")) {
       dose = Integer.toString(ds.validDoseCount + 1);
