@@ -11,6 +11,7 @@ public class PatientRecordDataBean implements PatientForecastRecordDataBean
   private DateTime dob = null;
   private String sex = "";
   private int immregid = 0;
+  private String id = "";
 
   public int getImmregid()
   {
@@ -46,5 +47,13 @@ public class PatientRecordDataBean implements PatientForecastRecordDataBean
   public void setDob(DateTime dob)
   {
     this.dob = dob;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
   }
 }

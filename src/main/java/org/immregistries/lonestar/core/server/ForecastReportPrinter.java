@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.DecisionProcessFormat;
 import org.immregistries.lonestar.core.ImmunizationForecastDataBean;
@@ -29,8 +28,9 @@ public class ForecastReportPrinter {
     this.forecastManager = forecastManager;
   }
 
-  public void printHTMLVersionOfForecast(List<ImmunizationForecastDataBean> resultList, List<ImmunizationInterface> imms,
-      String forecasterScheduleName, DateTime forecastDate, List<VaccinationDoseDataBean> doseList, PrintWriter out) {
+  public void printHTMLVersionOfForecast(List<ImmunizationForecastDataBean> resultList,
+      List<ImmunizationInterface> imms, String forecasterScheduleName, DateTime forecastDate,
+      List<VaccinationDoseDataBean> doseList, PrintWriter out) {
     out.println("<html>");
     out.println("  <head>");
     out.println("    <title>Lone Star Vaccine Forecaster Results</title>");
@@ -61,7 +61,8 @@ public class ForecastReportPrinter {
       }
       out.println("    </table>");
     }
-    out.println("    <h2>Vaccinations Recommended For " + new DateTime(forecastDate.getDate()).toString("M/D/Y") + "</h2>");
+    out.println("    <h2>Vaccinations Recommended For "
+        + new DateTime(forecastDate.getDate()).toString("M/D/Y") + "</h2>");
 
     out.println("    <table border=\"1\" cellpadding=\"2\" cellspacing=\"0\">");
     out.println("      <tr>");
@@ -75,9 +76,12 @@ public class ForecastReportPrinter {
     out.println("        <th>Finished</th>");
     out.println("      </tr>");
     for (ImmunizationForecastDataBean forecast : resultList) {
-      if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
+      if (forecast.getStatusDescription()
+          .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
         DateTime validDate = new DateTime(forecast.getValid());
         DateTime dueDate = new DateTime(forecast.getDue());
         DateTime overdueDate = new DateTime(forecast.getOverdue());
@@ -98,7 +102,8 @@ public class ForecastReportPrinter {
     }
     out.println("    </table>");
 
-    out.println("<h2>Vaccinations Due After " + new DateTime(forecastDate.getDate()).toString("M/D/Y") + "</h2>");
+    out.println("<h2>Vaccinations Due After "
+        + new DateTime(forecastDate.getDate()).toString("M/D/Y") + "</h2>");
 
     out.println("    <table border=\"1\" cellpadding=\"2\" cellspacing=\"0\">");
     out.println("      <tr>");
@@ -112,7 +117,8 @@ public class ForecastReportPrinter {
     out.println("        <th>Finished</th>");
     out.println("      </tr>");
     for (ImmunizationForecastDataBean forecast : resultList) {
-      if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)) {
+      if (forecast.getStatusDescription()
+          .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)) {
         DateTime validDate = new DateTime(forecast.getValid());
         DateTime dueDate = new DateTime(forecast.getDue());
         DateTime overdueDate = new DateTime(forecast.getOverdue());
@@ -139,10 +145,14 @@ public class ForecastReportPrinter {
     out.println("        <th>Status</th>");
     out.println("      </tr>");
     for (ImmunizationForecastDataBean forecast : resultList) {
-      if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
+      if (forecast.getStatusDescription()
+          .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
         out.println("      <tr>");
         out.println("        <td>" + forecast.getForecastLabel() + "</td>");
         out.println("        <td>" + forecast.getStatusDescription() + "</td>");
@@ -181,7 +191,8 @@ public class ForecastReportPrinter {
     }
     out.println("    </table>");
     out.println();
-    out.println("<p>Forecast generated " + new DateTime().toString("M/D/Y") + " according to schedule " + forecasterScheduleName + " using version "
+    out.println("<p>Forecast generated " + new DateTime().toString("M/D/Y")
+        + " according to schedule " + forecasterScheduleName + " using version "
         + SoftwareVersion.VERSION + " of the Lone Star Vaccine Forecaster.</p>");
 
     out.println("<h2>Explanation of Decision Process</h2>");
@@ -193,16 +204,21 @@ public class ForecastReportPrinter {
     out.println("</html>");
   }
 
-  public void printTextVersionOfForecast(List<ImmunizationForecastDataBean> resultList, List<ImmunizationInterface> imms,
-      String forecasterScheduleName, DateTime forecastDate, List<VaccinationDoseDataBean> doseList, PrintWriter out) {
+  public void printTextVersionOfForecast(List<ImmunizationForecastDataBean> resultList,
+      List<ImmunizationInterface> imms, String forecasterScheduleName, DateTime forecastDate,
+      List<VaccinationDoseDataBean> doseList, PrintWriter out) {
     out.println("Lone Star Vaccine Forecaster");
     out.println();
-    out.println("VACCINATIONS RECOMMENDED " + new DateTime(forecastDate.getDate()).toString("M/D/Y"));
+    out.println(
+        "VACCINATIONS RECOMMENDED " + new DateTime(forecastDate.getDate()).toString("M/D/Y"));
 
     for (ImmunizationForecastDataBean forecast : resultList) {
-      if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
+      if (forecast.getStatusDescription()
+          .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
         DateTime validDate = new DateTime(forecast.getValid());
         DateTime dueDate = new DateTime(forecast.getDue());
         DateTime overdueDate = new DateTime(forecast.getOverdue());
@@ -219,10 +235,12 @@ public class ForecastReportPrinter {
       }
     }
     out.println();
-    out.println("VACCCINATIONS RECOMMENDED AFTER " + new DateTime(forecastDate.getDate()).toString("M/D/Y"));
+    out.println("VACCCINATIONS RECOMMENDED AFTER "
+        + new DateTime(forecastDate.getDate()).toString("M/D/Y"));
 
     for (ImmunizationForecastDataBean forecast : resultList) {
-      if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)) {
+      if (forecast.getStatusDescription()
+          .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)) {
         DateTime validDate = null;
         if (forecast.getValid() != null) {
           validDate = new DateTime(forecast.getValid());
@@ -262,11 +280,16 @@ public class ForecastReportPrinter {
     out.println("VACCINATIONS COMPLETED OR NOT RECOMMENDED");
 
     for (ImmunizationForecastDataBean forecast : resultList) {
-      if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
-        out.println("Forecasting " + forecast.getForecastLabel() + " status " + forecast.getStatusDescription());
+      if (forecast.getStatusDescription()
+          .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
+        out.println("Forecasting " + forecast.getForecastLabel() + " status "
+            + forecast.getStatusDescription());
       }
     }
 
@@ -289,7 +312,8 @@ public class ForecastReportPrinter {
       out.println("DETAILS FOR: " + forecast.getForecastLabel());
 
       out.print("<h3>Forecast Recommendation for " + forecast.getForecastLabel() + "</h3>");
-      out.print("<table><tr><th>Vaccine</th><th>Status</th><th>Dose</th><th>Valid</th><th>Due</th><th>Overdue</th><th>Finished</th></tr>");
+      out.print(
+          "<table><tr><th>Vaccine</th><th>Status</th><th>Dose</th><th>Valid</th><th>Due</th><th>Overdue</th><th>Finished</th></tr>");
       String forecastDose = forecast.getDose();
       out.print("<tr>");
       out.print("<td>" + forecast.getForecastLabel() + "</td>");
@@ -330,18 +354,22 @@ public class ForecastReportPrinter {
       out.println();
     }
 
-    out.println("Forecast generated " + new DateTime().toString("M/D/Y") + " according to schedule " + forecasterScheduleName + " using version "
-        + SoftwareVersion.VERSION + " of the Lone Star Vaccine Forecaster.");
+    out.println("Forecast generated " + new DateTime().toString("M/D/Y") + " according to schedule "
+        + forecasterScheduleName + " using version " + SoftwareVersion.VERSION
+        + " of the Lone Star Vaccine Forecaster.");
   }
 
-  public void printFhirVersionOfForecast(List<ImmunizationForecastDataBean> resultList, List<ImmunizationInterface> imms,
-      String forecasterScheduleName, DateTime forecastDate, List<VaccinationDoseDataBean> doseList, PrintWriter out, PatientRecordDataBean patient) {
+  public void printFhirVersionOfForecastXML(List<ImmunizationForecastDataBean> resultList,
+      List<ImmunizationInterface> imms, String forecasterScheduleName, DateTime forecastDate,
+      List<VaccinationDoseDataBean> doseList, PrintWriter out, PatientRecordDataBean patient) {
 
     StringBuilder summaryText = new StringBuilder();
-    summaryText.append("Lone Star Vaccine Forecaster recommendation for patient born on " + new DateTime(patient.getDob()).toString("M/D/Y") + ". ");
+    summaryText.append("Lone Star Vaccine Forecaster recommendation for patient born on "
+        + new DateTime(patient.getDob()).toString("M/D/Y") + ". ");
 
     {
-      String s = makeCheckForList(resultList, ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE);
+      String s =
+          makeCheckForList(resultList, ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE);
       if (!s.equals("")) {
         summaryText.append("Overdue to receive: " + s + ". ");
       }
@@ -353,13 +381,15 @@ public class ForecastReportPrinter {
       }
     }
     {
-      String s = makeCheckForList(resultList, ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED);
+      String s = makeCheckForList(resultList,
+          ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED);
       if (!s.equals("")) {
         summaryText.append("CONTRAINDICATION! Must NOT recieve: " + s + ". ");
       }
     }
     {
-      String s = makeCheckForList(resultList, ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER);
+      String s =
+          makeCheckForList(resultList, ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER);
       if (!s.equals("")) {
         summaryText.append("Should receive later: " + s + ". ");
       }
@@ -384,13 +414,15 @@ public class ForecastReportPrinter {
     out.println("        </meta>");
     out.println("        <text>");
     out.println("          <div xmlns=\"http://www.w3.org/1999/xhtml\">");
-    printTextVersionOfForecast(resultList, imms, forecasterScheduleName, forecastDate, doseList, out);
+    printTextVersionOfForecast(resultList, imms, forecasterScheduleName, forecastDate, doseList,
+        out);
     out.println("</div>");
     out.println("        </text>");
     out.println("        <contained>");
     out.println("          <Patient>");
     out.println("            <id value=\"patient-forecast-data\"/>");
-    out.println("            <gender value=\"" + (patient.getSex().equals("M") ? "male" : "female") + "\"/>");
+    out.println("            <gender value=\"" + (patient.getSex().equals("M") ? "male" : "female")
+        + "\"/>");
     out.println("            <birthDate value=\"" + sdf.format(patient.getDob()) + "\"/>");
     out.println("          </Patient>");
     out.println("        </contained>");
@@ -398,12 +430,18 @@ public class ForecastReportPrinter {
     out.println("          <reference value=\"#patient-forecast-data\"/>");
     out.println("        </patient>");
     for (ImmunizationForecastDataBean forecast : resultList) {
-      if (!forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)
-          && !forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED_FOR_SEASON)
-          && !forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
-          && !forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_MUCH_LATER)
-          && !forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)
-          && !forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
+      if (!forecast.getStatusDescription()
+          .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)
+          && !forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED_FOR_SEASON)
+          && !forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
+          && !forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_MUCH_LATER)
+          && !forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)
+          && !forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
         String doseDueCode = CaretForecaster.doseDueOutHash.get(forecast.getForecastName());
         if (doseDueCode == null) {
           doseDueCode = forecast.getForecastName();
@@ -422,17 +460,22 @@ public class ForecastReportPrinter {
         }
         out.println("          <forecastStatus>");
         out.println("            <coding>");
-        out.println("              <system value=\"http://hl7.org/fhir/immunization-recommendation-status\"/>");
-        if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
+        out.println(
+            "              <system value=\"http://hl7.org/fhir/immunization-recommendation-status\"/>");
+        if (forecast.getStatusDescription()
+            .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
           out.println("              <code value=\"contraindicated\"/>");
           out.println("              <display value=\"contraindicated\"/>");
-        } else if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)) {
+        } else if (forecast.getStatusDescription()
+            .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)) {
           out.println("              <code value=\"due\"/>");
           out.println("              <display value=\"due\"/>");
-        } else if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)) {
+        } else if (forecast.getStatusDescription()
+            .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)) {
           out.println("              <code value=\"overdue\"/>");
           out.println("              <display value=\"overdue\"/>");
-        } else if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)) {
+        } else if (forecast.getStatusDescription()
+            .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)) {
           out.println("              <code value=\"duelater\"/>");
           out.println("              <display value=\"duelater\"/>");
         } else {
@@ -445,7 +488,8 @@ public class ForecastReportPrinter {
           out.println("          <dateCriterion>");
           out.println("            <code>");
           out.println("              <coding>");
-          out.println("                <system value=\"http://hl7.org/fhir/immunization-recommendation-date-criterion\"/>");
+          out.println(
+              "                <system value=\"http://hl7.org/fhir/immunization-recommendation-date-criterion\"/>");
           out.println("                <code value=\"due\"/>");
           out.println("                <display value=\"due\"/>");
           out.println("              </coding>");
@@ -457,31 +501,36 @@ public class ForecastReportPrinter {
           out.println("          <dateCriterion>");
           out.println("            <code>");
           out.println("              <coding>");
-          out.println("                <system value=\"http://hl7.org/fhir/immunization-recommendation-date-criterion\"/>");
+          out.println(
+              "                <system value=\"http://hl7.org/fhir/immunization-recommendation-date-criterion\"/>");
           out.println("                <code value=\"overdue\"/>");
           out.println("                <display value=\"overdue\"/>");
           out.println("              </coding>");
           out.println("            </code>");
-          out.println("            <value value=\"" + sdfFull.format(forecast.getOverdue()) + "\"/>");
+          out.println(
+              "            <value value=\"" + sdfFull.format(forecast.getOverdue()) + "\"/>");
           out.println("          </dateCriterion>");
         }
         if (forecast.getFinished() != null) {
           out.println("          <dateCriterion>");
           out.println("            <code>");
           out.println("              <coding>");
-          out.println("                <system value=\"http://hl7.org/fhir/immunization-recommendation-date-criterion\"/>");
+          out.println(
+              "                <system value=\"http://hl7.org/fhir/immunization-recommendation-date-criterion\"/>");
           out.println("                <code value=\"latest\"/>");
           out.println("                <display value=\"latest\"/>");
           out.println("              </coding>");
           out.println("            </code>");
-          out.println("            <value value=\"" + sdfFull.format(forecast.getFinished()) + "\"/>");
+          out.println(
+              "            <value value=\"" + sdfFull.format(forecast.getFinished()) + "\"/>");
           out.println("          </dateCriterion>");
         }
         if (forecast.getValid() != null) {
           out.println("          <dateCriterion>");
           out.println("            <code>");
           out.println("              <coding>");
-          out.println("                <system value=\"http://hl7.org/fhir/immunization-recommendation-date-criterion-extended\"/>");
+          out.println(
+              "                <system value=\"http://hl7.org/fhir/immunization-recommendation-date-criterion-extended\"/>");
           out.println("                <code value=\"valid\"/>");
           out.println("                <display value=\"valid\"/>");
           out.println("              </coding>");
@@ -498,6 +547,411 @@ public class ForecastReportPrinter {
     out.println("</Parameters>");
   }
 
+  private static long recommendationId = 1;
+  private static String recommendationBase = System.currentTimeMillis() + ".";
+
+  private static String getNextRecommendationId() {
+    synchronized (recommendationBase) {
+      recommendationId++;
+    }
+    return recommendationBase + recommendationId;
+  }
+
+  public void printFhirVersionOfForecastJSON(List<ImmunizationForecastDataBean> resultList,
+      List<ImmunizationInterface> imms, String forecasterScheduleName, DateTime forecastDate,
+      List<VaccinationDoseDataBean> doseList, PrintWriter out, PatientRecordDataBean patient) {
+
+    StringBuilder summaryText = new StringBuilder();
+    summaryText.append("Lone Star Vaccine Forecaster recommendation for patient born on "
+        + new DateTime(patient.getDob()).toString("M/D/Y") + ". ");
+
+    {
+      String s =
+          makeCheckForList(resultList, ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE);
+      if (!s.equals("")) {
+        summaryText.append("Overdue to receive: " + s + ". ");
+      }
+    }
+    {
+      String s = makeCheckForList(resultList, ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE);
+      if (!s.equals("")) {
+        summaryText.append("Due to receive: " + s + ". ");
+      }
+    }
+    {
+      String s = makeCheckForList(resultList,
+          ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED);
+      if (!s.equals("")) {
+        summaryText.append("CONTRAINDICATION! Must NOT recieve: " + s + ". ");
+      }
+    }
+    {
+      String s =
+          makeCheckForList(resultList, ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER);
+      if (!s.equals("")) {
+        summaryText.append("Should receive later: " + s + ". ");
+      }
+    }
+
+    SimpleDateFormat sdfFull = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+    Date now = new Date();
+
+    out.println("{");
+    out.println("  \"resourceType\": \"Parameters\",");
+    out.println("  \"id\": \"" + patient.getId() + "\",");
+    out.println("  \"parameter\": [");
+    out.println("    {");
+    out.println("      \"name\": \"recommendation\",");
+    out.println("      \"resource\": {");
+    out.println("        \"resourceType\": \"ImmunizationRecommendation\",");
+    out.println("        \"id\": \"" + getNextRecommendationId() + "\",");
+    out.println("        \"meta\": {");
+    out.println("          \"versionId\": \"1\",");
+    out.println("          \"lastUpdated\": \"" + sdfFull.format(now) + "\"");
+    out.println("        },");
+    out.println("        \"text\": {");
+    out.println("          \"status\": \"generated\",");
+    out.println(
+        "          \"div\": \"<pre>");
+    printTextVersionOfForecast(resultList, imms, forecasterScheduleName, forecastDate, doseList,
+        out);
+    out.println("        </pre>\"");
+    out.println("        },");
+    out.println("        \"contained\": [");
+    out.println("          {");
+    out.println("            \"resourceType\": \"Patient\",");
+    out.println("            \"id\": \"patient-forecast-data\",");
+    out.println("            \"meta\" : {");
+    out.println("              \"profile\" : [");
+    out.println(
+        "                \"http://hl7.org/fhir/uv/immds/StructureDefinition/immds-patient\"");
+    out.println("              ]");
+    out.println("            },");
+    out.println("            \"identifier\" : [");
+    out.println("              {");
+    out.println("                \"_system\" : {");
+    out.println("                  \"extension\" : [");
+    out.println("                    {");
+    out.println(
+        "                      \"url\" : \"http://hl7.org/fhir/StructureDefinition/data-absent-reason\",");
+    out.println("                      \"valueCode\" : \"masked\"");
+    out.println("                    }");
+    out.println("                  ]");
+    out.println("                },");
+    out.println("                \"_value\" : {");
+    out.println("                  \"extension\" : [");
+    out.println("                    {");
+    out.println(
+        "                      \"url\" : \"http://hl7.org/fhir/StructureDefinition/data-absent-reason\",");
+    out.println("                      \"valueCode\" : \"masked\"");
+    out.println("                    }");
+    out.println("                  ]");
+    out.println("                }");
+    out.println("              }");
+    out.println("            ],");
+    out.println("            \"name\" : [");
+    out.println("              {");
+    out.println("                \"_family\" : {");
+    out.println("                  \"extension\" : [");
+    out.println("                    {");
+    out.println(
+        "                      \"url\" : \"http://hl7.org/fhir/StructureDefinition/data-absent-reason\",");
+    out.println("                      \"valueCode\" : \"masked\"");
+    out.println("                    }");
+    out.println("                  ]");
+    out.println("                },");
+    out.println("                \"_given\" : [");
+    out.println("                  {");
+    out.println("                    \"extension\" : [");
+    out.println("                      {");
+    out.println(
+        "                        \"url\" : \"http://hl7.org/fhir/StructureDefinition/data-absent-reason\",");
+    out.println("                        \"valueCode\" : \"masked\"");
+    out.println("                      }");
+    out.println("                    ]");
+    out.println("                  }");
+    out.println("                ]");
+    out.println("              }");
+    out.println("            ],");
+    out.println("            \"gender\": \"male\",");
+    out.println("            \"birthDate\": \"2019-04-28\"");
+    out.println("          }");
+    out.println("        ],");
+    out.println("        \"patient\": {");
+    out.println("          \"reference\": \"#patient-forecast-data\"");
+    out.println("        },");
+    out.println("        \"date\": \"2019-06-27\",");
+    out.println("        \"recommendation\": [");
+    out.println("          {");
+    out.println("            \"vaccineCode\": [");
+    out.println("              {");
+    out.println("                \"coding\": [");
+    out.println("                  {");
+    out.println("                    \"system\": \"http://example.org/cdc/cvx/vaccine-code\",");
+    out.println("                    \"code\": \"45\",");
+    out.println("                    \"display\": \"HepB\"");
+    out.println("                  }");
+    out.println("                ]");
+    out.println("              }");
+    out.println("            ],");
+    out.println("            \"forecastStatus\": {");
+    out.println("              \"coding\": [");
+    out.println("                {");
+    out.println(
+        "                  \"system\": \"http://terminology.hl7.org/CodeSystem/immunization-recommendation-status\",");
+    out.println("                  \"code\": \"due\",");
+    out.println("                  \"display\": \"Due\"");
+    out.println("                }");
+    out.println("              ]");
+    out.println("            },");
+    out.println("            \"dateCriterion\": [");
+    out.println("              {");
+    out.println("                \"code\": {");
+    out.println("                  \"coding\": [");
+    out.println("                    {");
+    out.println("                      \"system\": \"http://loinc.org\",");
+    out.println("                      \"code\": \"30980-7\",");
+    out.println("                      \"display\": \"Date vaccine due\"");
+    out.println("                    }");
+    out.println("                  ]");
+    out.println("                },");
+    out.println("                \"value\": \"2019-05-27T00:00:00-04:00\"");
+    out.println("              },");
+    out.println("              {");
+    out.println("                \"code\": {");
+    out.println("                  \"coding\": [");
+    out.println("                    {");
+    out.println("                      \"system\": \"http://loinc.org\",");
+    out.println("                      \"code\": \"59778-1\",");
+    out.println("                      \"display\": \"Date when overdue for immunization\"");
+    out.println("                    }");
+    out.println("                  ]");
+    out.println("                },");
+    out.println("                \"value\": \"2019-07-28T00:00:00-04:00\"");
+    out.println("              },");
+    out.println("              {");
+    out.println("                \"code\": {");
+    out.println("                  \"coding\": [");
+    out.println("                    {");
+    out.println("                      \"system\": \"http://loinc.org\",");
+    out.println("                      \"code\": \"59777-3\",");
+    out.println("                      \"display\": \"Latest date to give immunization\"");
+    out.println("                    }");
+    out.println("                  ]");
+    out.println("                },");
+    out.println("                \"value\": \"2219-04-28T00:00:00-04:00\"");
+    out.println("              },");
+    out.println("              {");
+    out.println("                \"code\": {");
+    out.println("                  \"coding\": [");
+    out.println("                    {");
+    out.println("                      \"system\": \"http://loinc.org\",");
+    out.println("                      \"code\": \"30981-5\",");
+    out.println("                      \"display\": \"Earliest date to give\"");
+    out.println("                    }");
+    out.println("                  ]");
+    out.println("                },");
+    out.println("                \"value\": \"2019-05-27T00:00:00-04:00\"");
+    out.println("              }");
+    out.println("            ],");
+    out.println("            \"doseNumberPositiveInt\": 2");
+    out.println("          },");
+    out.println("          {");
+    out.println("            \"vaccineCode\": [");
+    out.println("              {");
+    out.println("                \"coding\": [");
+    out.println("                  {");
+    out.println("                    \"system\": \"http://example.org/cdc/cvx/vaccine-code\",");
+    out.println("                    \"code\": \"20\",");
+    out.println("                    \"display\": \"DTaP\"");
+    out.println("                  }");
+    out.println("                ]");
+    out.println("              }");
+    out.println("            ],");
+    out.println("            \"forecastStatus\": {");
+    out.println("              \"coding\": [");
+    out.println("                {");
+    out.println(
+        "                  \"system\": \"http://example.org/fhir/immunization-recommendation-status\",");
+    out.println("                  \"code\": \"duelater\",");
+    out.println("                  \"display\": \"duelater\"");
+    out.println("                }");
+    out.println("              ]");
+    out.println("            },");
+    out.println("            \"dateCriterion\": [");
+    out.println("              {");
+    out.println("                \"code\": {");
+    out.println("                  \"coding\": [");
+    out.println("                    {");
+    out.println("                      \"system\": \"http://loinc.org\",");
+    out.println("                      \"code\": \"30980-7\",");
+    out.println("                      \"display\": \"Date vaccine due\"");
+    out.println("                    }");
+    out.println("                  ]");
+    out.println("                },");
+    out.println("                \"value\": \"2019-06-28T00:00:00-04:00\"");
+    out.println("              },");
+    out.println("              {");
+    out.println("                \"code\": {");
+    out.println("                  \"coding\": [");
+    out.println("                    {");
+    out.println("                      \"system\": \"http://loinc.org\",");
+    out.println("                      \"code\": \"59778-1\",");
+    out.println("                      \"display\": \"Date when overdue for immunization\"");
+    out.println("                    }");
+    out.println("                  ]");
+    out.println("                },");
+    out.println("                \"value\": \"2019-07-28T00:00:00-04:00\"");
+    out.println("              },");
+    out.println("              {");
+    out.println("                \"code\": {");
+    out.println("                  \"coding\": [");
+    out.println("                    {");
+    out.println("                      \"system\": \"http://loinc.org\",");
+    out.println("                      \"code\": \"59777-3\",");
+    out.println("                      \"display\": \"Latest date to give immunization\"");
+    out.println("                    }");
+    out.println("                  ]");
+    out.println("                },");
+    out.println("                \"value\": \"2169-04-28T00:00:00-04:00\"");
+    out.println("              },");
+    out.println("              {");
+    out.println("                \"code\": {");
+    out.println("                  \"coding\": [");
+    out.println("                    {");
+    out.println("                      \"system\": \"http://loinc.org\",");
+    out.println("                      \"code\": \"30981-5\",");
+    out.println("                      \"display\": \"Earliest date to give\"");
+    out.println("                    }");
+    out.println("                  ]");
+    out.println("                },");
+    out.println("                \"value\": \"2019-06-09T00:00:00-04:00\"");
+    out.println("              }");
+    out.println("            ],");
+    out.println("            \"doseNumberPositiveInt\": 1");
+    out.println("          },");
+    out.println("          [Snipped for brevity...]");
+    out.println("        ]");
+    out.println("      }");
+    out.println("    }");
+    out.println("  ]");
+    out.println("}");
+
+
+
+    
+    out.println("            <gender value=\"" + (patient.getSex().equals("M") ? "male" : "female")
+        + "\"/>");
+    out.println("            <birthDate value=\"" + sdf.format(patient.getDob()) + "\"/>");
+    for (ImmunizationForecastDataBean forecast : resultList) {
+      if (!forecast.getStatusDescription()
+          .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)
+          && !forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED_FOR_SEASON)
+          && !forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)
+          && !forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_MUCH_LATER)
+          && !forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)
+          && !forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
+        String doseDueCode = CaretForecaster.doseDueOutHash.get(forecast.getForecastName());
+        if (doseDueCode == null) {
+          doseDueCode = forecast.getForecastName();
+        }
+        out.println("          <date value=\"" + sdfFull.format(new Date()) + "\"/>");
+        out.println("              <code value=\"" + doseDueCode + "\"/>");
+        out.println("              <display value=\"" + forecast.getForecastName() + "\"/>");
+        if (!forecast.getDose().equals("")) {
+          out.println("          <doseNumber value=\"" + forecast.getDose() + "\"/>");
+        }
+        out.println("            <coding>");
+        out.println(
+            "              <system value=\"http://hl7.org/fhir/immunization-recommendation-status\"/>");
+        if (forecast.getStatusDescription()
+            .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
+          out.println("              <code value=\"contraindicated\"/>");
+          out.println("              <display value=\"contraindicated\"/>");
+        } else if (forecast.getStatusDescription()
+            .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)) {
+          out.println("              <code value=\"due\"/>");
+          out.println("              <display value=\"due\"/>");
+        } else if (forecast.getStatusDescription()
+            .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)) {
+          out.println("              <code value=\"overdue\"/>");
+          out.println("              <display value=\"overdue\"/>");
+        } else if (forecast.getStatusDescription()
+            .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)) {
+          out.println("              <code value=\"duelater\"/>");
+          out.println("              <display value=\"duelater\"/>");
+        } else {
+          out.println("              <code value=\"" + forecast.getStatusDescription() + "\"/>");
+          out.println("              <display value=\"" + forecast.getStatusDescription() + "\"/>");
+        }
+        out.println("            </coding>");
+        out.println("          </forecastStatus>");
+        if (forecast.getDue() != null) {
+          out.println("          <dateCriterion>");
+          out.println("            <code>");
+          out.println("              <coding>");
+          out.println(
+              "                <system value=\"http://hl7.org/fhir/immunization-recommendation-date-criterion\"/>");
+          out.println("                <code value=\"due\"/>");
+          out.println("                <display value=\"due\"/>");
+          out.println("              </coding>");
+          out.println("            </code>");
+          out.println("            <value value=\"" + sdfFull.format(forecast.getDue()) + "\"/>");
+          out.println("          </dateCriterion>");
+        }
+        if (forecast.getOverdue() != null) {
+          out.println("          <dateCriterion>");
+          out.println("            <code>");
+          out.println("              <coding>");
+          out.println(
+              "                <system value=\"http://hl7.org/fhir/immunization-recommendation-date-criterion\"/>");
+          out.println("                <code value=\"overdue\"/>");
+          out.println("                <display value=\"overdue\"/>");
+          out.println("              </coding>");
+          out.println("            </code>");
+          out.println(
+              "            <value value=\"" + sdfFull.format(forecast.getOverdue()) + "\"/>");
+          out.println("          </dateCriterion>");
+        }
+        if (forecast.getFinished() != null) {
+          out.println("          <dateCriterion>");
+          out.println("            <code>");
+          out.println("              <coding>");
+          out.println(
+              "                <system value=\"http://hl7.org/fhir/immunization-recommendation-date-criterion\"/>");
+          out.println("                <code value=\"latest\"/>");
+          out.println("                <display value=\"latest\"/>");
+          out.println("              </coding>");
+          out.println("            </code>");
+          out.println(
+              "            <value value=\"" + sdfFull.format(forecast.getFinished()) + "\"/>");
+          out.println("          </dateCriterion>");
+        }
+        if (forecast.getValid() != null) {
+          out.println("          <dateCriterion>");
+          out.println("            <code>");
+          out.println("              <coding>");
+          out.println(
+              "                <system value=\"http://hl7.org/fhir/immunization-recommendation-date-criterion-extended\"/>");
+          out.println("                <code value=\"valid\"/>");
+          out.println("                <display value=\"valid\"/>");
+          out.println("              </coding>");
+          out.println("            </code>");
+          out.println("            <value value=\"" + sdfFull.format(forecast.getValid()) + "\"/>");
+          out.println("          </dateCriterion>");
+        }
+        out.println("        </recommendation>");
+      }
+    }
+  }
+
   private String makeCheckForList(List<ImmunizationForecastDataBean> resultList, String checkFor) {
     String dueString = "";
     for (ImmunizationForecastDataBean forecast : resultList) {
@@ -512,8 +966,9 @@ public class ForecastReportPrinter {
     return dueString;
   }
 
-  public void printNarrowTextVersionOfForecast(List<ImmunizationForecastDataBean> resultList, List<ImmunizationInterface> imms,
-      String forecasterScheduleName, DateTime forecastDate, List<VaccinationDoseDataBean> doseList, PrintWriter out, boolean suppressExtraInfo,
+  public void printNarrowTextVersionOfForecast(List<ImmunizationForecastDataBean> resultList,
+      List<ImmunizationInterface> imms, String forecasterScheduleName, DateTime forecastDate,
+      List<VaccinationDoseDataBean> doseList, PrintWriter out, boolean suppressExtraInfo,
       Date birthDate) {
 
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -583,7 +1038,8 @@ public class ForecastReportPrinter {
     out.println("VACCINE TYPE   STATUS           DOSE VALID      DUE        OVERDUE    ");
 
     for (ImmunizationForecastDataBean forecast : resultList) {
-      if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)) {
+      if (forecast.getStatusDescription()
+          .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_OVERDUE)) {
         DateTime validDate = new DateTime(forecast.getValid());
         DateTime dueDate = new DateTime(forecast.getDue());
         DateTime overdueDate = new DateTime(forecast.getOverdue());
@@ -603,8 +1059,10 @@ public class ForecastReportPrinter {
     }
 
     for (ImmunizationForecastDataBean forecast : resultList) {
-      if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
+      if (forecast.getStatusDescription()
+          .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED)) {
         DateTime validDate = new DateTime(forecast.getValid());
         DateTime dueDate = new DateTime(forecast.getDue());
         DateTime overdueDate = new DateTime(forecast.getOverdue());
@@ -624,9 +1082,12 @@ public class ForecastReportPrinter {
     }
 
     for (ImmunizationForecastDataBean forecast : resultList) {
-      if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)
-          || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
+      if (forecast.getStatusDescription()
+          .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE_LATER)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE_FOR_SEASON)
+          || forecast.getStatusDescription()
+              .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_ASSUMED_COMPLETE_OR_IMMUNE)) {
         if (suppressionDate != null) {
           if (forecast.getDateDue() == null || suppressionDate.before(forecast.getDateDue())) {
             continue;
@@ -673,8 +1134,10 @@ public class ForecastReportPrinter {
 
     if (!suppressExtraInfo) {
       for (ImmunizationForecastDataBean forecast : resultList) {
-        if (forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)
-            || forecast.getStatusDescription().equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)) {
+        if (forecast.getStatusDescription()
+            .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED)
+            || forecast.getStatusDescription()
+                .equals(ImmunizationForecastDataBean.STATUS_DESCRIPTION_COMPLETE)) {
           out.print(pad(forecast.getForecastLabel(), 14));
           out.print(" ");
           out.print(pad(forecast.getStatusDescription(), 16));
@@ -716,7 +1179,8 @@ public class ForecastReportPrinter {
     return s;
   }
 
-  public static void printTables(SimpleDateFormat sdf, ForecastResponseInterface response, PrintStream out) {
+  public static void printTables(SimpleDateFormat sdf, ForecastResponseInterface response,
+      PrintStream out) {
     out.println();
     out.println("-- FORECAST ------------------------------------------------------------------");
     out.println("LABEL     ANTIGEN   STATUS   DOSE  VALID      DUE        OVERDUE    FINISHED ");
@@ -771,9 +1235,11 @@ public class ForecastReportPrinter {
       out.print(pad(forecastVaccination.getReasonText(), 42));
       out.println();
       if (forecastVaccination.getReasonText().length() > 42) {
-        out.println("                                     " + pad(forecastVaccination.getReasonText().substring(42), 42));
+        out.println("                                     "
+            + pad(forecastVaccination.getReasonText().substring(42), 42));
         if (forecastVaccination.getReasonText().length() > 84) {
-          out.println("                                     " + pad(forecastVaccination.getReasonText().substring(84), 42));
+          out.println("                                     "
+              + pad(forecastVaccination.getReasonText().substring(84), 42));
         }
       }
     }
