@@ -159,8 +159,6 @@ public class ListCodesServlet extends HttpServlet {
     out.println("    <th>CVX</th>");
     out.println("    <th>CVX Label</th>");
     out.println("    <th>Use Status</th>");
-    out.println("    <th>Internal Id</th>");
-    out.println("    <th>Internal Label</th>");
     out.println("    <th>Comment</th>");
     out.println("  </tr>");
     for (CvxCode cvxCode : listCodes.getCvxCodeList()) {
@@ -182,9 +180,6 @@ public class ListCodesServlet extends HttpServlet {
       }
       out.println(
           "    <td class=\"" + displayClass + "\">" + getUseStatusDisplay(cvxCode) + "</td>");
-      out.println("    <td class=\"" + displayClass + "\">"
-          + (cvxCode.getVaccineId() == 0 ? "&nbsp;" : "" + cvxCode.getVaccineId()) + "</td>");
-      out.println("    <td class=\"" + displayClass + "\">" + cvxCode.getVaccineLabel() + "</td>");
       if (cvxCode.isLocationSet()) {
         out.println("    <td class=\"" + displayClass + "\">&nbsp;</td>");
       } else {

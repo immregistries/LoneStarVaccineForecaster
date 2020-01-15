@@ -2,10 +2,10 @@
 
 
 <forecast seriesName="Varicella">
-  <vaccine vaccineName="Single" vaccineIds="178"/>
-  <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Same Live" vaccineIds="160, 161, 158, 162, 171, 175, 180, 2020, 1990, 148, 203"/>
-  <vaccine vaccineName="Other Live" vaccineIds="1690, 1700, 210"/>
+  <vaccine vaccineName="Single" vaccineIds="21"/>
+  <vaccine vaccineName="MMRV" vaccineIds="94"/>
+  <vaccine vaccineName="Same Live" vaccineIds="04, 05, 05, 07, 06, 38, 111, 149, 37, 80, 02"/>
+  <vaccine vaccineName="Other Live" vaccineIds="18"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-178"/>
   <schedule scheduleName="P1" dose="1" indication="NO-VAR-HIS" label="1 year">
     <pos row="1" column="1"/>
@@ -62,12 +62,12 @@
 
 
 <forecast seriesName="Rubella">
-  <vaccine vaccineName="Measles" vaccineIds="158, 159, 1560, 160, 161"/>
-  <vaccine vaccineName="Mumps" vaccineIds="158, 159, 1560, 162, 175"/>
-  <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
-  <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Same Live" vaccineIds="178, 161, 162"/>
-  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 1690, 1700, 210, 203"/>
+  <vaccine vaccineName="Measles" vaccineIds="94, 03, 04, 05"/>
+  <vaccine vaccineName="Mumps" vaccineIds="94, 03, 04, 07"/>
+  <vaccine vaccineName="Rubella" vaccineIds="94, 03, 04, 06"/>
+  <vaccine vaccineName="MMRV" vaccineIds="94"/>
+  <vaccine vaccineName="Same Live" vaccineIds="21, 05, 07"/>
+  <vaccine vaccineName="Other Live" vaccineIds="111, 149, 37, 80, 18"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-158"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
@@ -111,12 +111,12 @@
 
 
 <forecast seriesName="Measles">
-  <vaccine vaccineName="Measles" vaccineIds="158, 159, 1560, 160, 161"/>
-  <vaccine vaccineName="Mumps" vaccineIds="158, 159, 1560, 162, 175"/>
-  <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
-  <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Same Live" vaccineIds="178, 162, 171, 175"/>
-  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 1690, 1700, 210, 203"/>
+  <vaccine vaccineName="Measles" vaccineIds="94, 03, 04, 05"/>
+  <vaccine vaccineName="Mumps" vaccineIds="94, 03, 04, 07"/>
+  <vaccine vaccineName="Rubella" vaccineIds="94, 03, 04, 06"/>
+  <vaccine vaccineName="MMRV" vaccineIds="94"/>
+  <vaccine vaccineName="Same Live" vaccineIds="21, 38, 06, 07"/>
+  <vaccine vaccineName="Other Live" vaccineIds="111, 149, 37, 80, 18"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-158"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
@@ -160,10 +160,10 @@
 
 
 <forecast seriesName="Influenza">
-  <vaccine vaccineName="Flu" vaccineIds="2050, 180, 181, 1430, 1440, 179, 200, 201, 185, 205, 204, 203, 202, 217, 218, 219, 220, 221, 222, 223, 229"/>
-  <vaccine vaccineName="Nasal" vaccineIds="180, 203"/>
-  <vaccine vaccineName="Live" vaccineIds="180, 187, 203, 204, 220"/>
-  <vaccine vaccineName="H1N1" vaccineIds="186, 187, 188, 189"/>
+  <vaccine vaccineName="Flu" vaccineIds="111, 15, 88, 140, 141, 135, 158, 161, 149, 144, 166, 168, 171, 151, 185, 186, 155, 153"/>
+  <vaccine vaccineName="Nasal" vaccineIds="111, 149"/>
+  <vaccine vaccineName="Live" vaccineIds="111, 125, 161, 149, 151"/>
+  <vaccine vaccineName="H1N1" vaccineIds="128, 125, 126, 127"/>
   <vaccine vaccineName="Season Start" vaccineIds="-503"/>
   <seasonal due="1 month" overdue="5 months" end="6 months"/>
   <transition name="Influenza injectable MDCK quadrivalent" age="" vaccineId=""/>
@@ -219,10 +219,10 @@
 
 
 <forecast seriesName="Hib">
-  <vaccine vaccineName="PRP-OMP" vaccineIds="136, 1350"/>
-  <vaccine vaccineName="Series Dose" vaccineIds="128, 1320, 1330, 1340, 136, 1350, 115, 121, 142, 213, 227"/>
-  <vaccine vaccineName="Booster Dose" vaccineIds="128, 1330, 1340, 136, 1350, 113, 121, 1320, 115, 121, 213, 227"/>
-  <vaccine vaccineName="TriHIBit" vaccineIds="113"/>
+  <vaccine vaccineName="PRP-OMP" vaccineIds="51, 49"/>
+  <vaccine vaccineName="Series Dose" vaccineIds="120, 17, 47, 49, 48, 51, 22, 46, 132, 120, 148"/>
+  <vaccine vaccineName="Booster Dose" vaccineIds="50, 120, 17, 47, 49, 48, 51, 22, 46, 120, 148"/>
+  <vaccine vaccineName="TriHIBit" vaccineIds="50"/>
   <vaccine vaccineName="7 Months Old" vaccineIds="-7"/>
   <vaccine vaccineName="12 Months Old" vaccineIds="-12"/>
   <vaccine vaccineName="15 Months Old" vaccineIds="-15"/>
@@ -352,7 +352,7 @@
 
 
 <forecast seriesName="HPV">
-  <vaccine vaccineName="HPV" vaccineIds="390, 391, 214"/>
+  <vaccine vaccineName="HPV" vaccineIds="62, 118, 165"/>
   <schedule scheduleName="F1" dose="1" indication="FEMALE" label="1st">
     <pos row="1" column="1"/>
     <valid age="9 years" interval="" grace="4 days"/>
@@ -429,7 +429,7 @@
 
 
 <forecast seriesName="HepB">
-  <vaccine vaccineName="Series" vaccineIds="137, 114, 1150, 146, 1240, 1250, 1270, 2100, 136, 142, 2090, 1260"/>
+  <vaccine vaccineName="Series" vaccineIds="102,104,43,44,37,37,51,146,45,110,08,42"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-137"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="birth">
     <pos row="1" column="1"/>
@@ -475,9 +475,9 @@
 
 
 <forecast seriesName="HepA">
-  <vaccine vaccineName="Child" vaccineIds="145, 1180, 1190, 1200"/>
-  <vaccine vaccineName="Adult" vaccineIds="1170"/>
-  <vaccine vaccineName="Twinrix" vaccineIds="146"/>
+  <vaccine vaccineName="Child" vaccineIds="31, 83, 84, 85"/>
+  <vaccine vaccineName="Adult" vaccineIds="52"/>
+  <vaccine vaccineName="Twinrix" vaccineIds="104"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-145"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1st">
     <pos row="1" column="1"/>
@@ -548,10 +548,10 @@
 
 
 <forecast seriesName="Diphtheria">
-  <vaccine vaccineName="Child" vaccineIds="110, 112, 114, 115, 116, 2060, 111, 2070, 113, 121, 1150, 142, 227"/>
-  <vaccine vaccineName="Adult" vaccineIds="122, 124, 123"/>
-  <vaccine vaccineName="Td" vaccineIds="122, 124"/>
-  <vaccine vaccineName="Tdap" vaccineIds="123, 110, 114, 113, 115, 116, 121, 142, 227, 2060, 111, 2070" validAge="7 years"/>
+  <vaccine vaccineName="Child" vaccineIds="28, 20, 110, 50, 120, 130, 22, 01, 102, 120, 132, 115"/>
+  <vaccine vaccineName="Adult" vaccineIds="09, 113, 115"/>
+  <vaccine vaccineName="Td" vaccineIds="09, 113"/>
+  <vaccine vaccineName="Tdap" vaccineIds="20, 110, 50, 120, 130, 22, 01, 120, 132, 115" validAge="7 years"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-110"/>
   <vaccine vaccineName="12 Months Old" vaccineIds="-12"/>
   <vaccine vaccineName="4 Years Old" vaccineIds="-4"/>
@@ -772,17 +772,17 @@
 
 
 <forecast seriesName="Mening">
-  <vaccine vaccineName="MCV4" vaccineIds="183, 184, 198"/>
-  <vaccine vaccineName="MPSV4" vaccineIds="182"/>
-  <vaccine vaccineName="Menveo" vaccineIds="198"/>
-  <vaccine vaccineName="Menactra" vaccineIds="183"/>
+  <vaccine vaccineName="MCV4" vaccineIds="114, 147, 136"/>
+  <vaccine vaccineName="MPSV4" vaccineIds="32"/>
+  <vaccine vaccineName="Menveo" vaccineIds="136"/>
+  <vaccine vaccineName="Menactra" vaccineIds="114"/>
   <schedule scheduleName="A1" dose="1" indication="BIRTH" label="1st">
     <pos row="1" column="1"/>
     <valid age="8 weeks" interval="8 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="11 years" interval="" grace=""/>
     <overdue age="13 years" interval="" grace=""/>
-    <finished age="22 years" interval="" grace=""/>
+    <finished age="19 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="Menactra" schedule="INVALID" age="9 months -4 days" reason="Menactra not licensed before 9 months."/>
@@ -800,7 +800,7 @@
     <early age="" interval="" grace=""/>
     <due age="16 years" interval="" grace=""/>
     <overdue age="17 years" interval="" grace=""/>
-    <finished age="22 years" interval="" grace=""/>
+    <finished age="19 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
     <indicate vaccineName="MCV4" schedule="A2" age="16 years -4 days" reason="Received dose before 16 years of age, not counting towards completion."/>
@@ -814,9 +814,9 @@
 
 
 <forecast seriesName="MeningococcalB">
-  <vaccine vaccineName="Bexsero" vaccineIds="216"/>
-  <vaccine vaccineName="Trumenba" vaccineIds="215"/>
-  <vaccine vaccineName="Men B" vaccineIds="215, 216"/>
+  <vaccine vaccineName="Bexsero" vaccineIds="163"/>
+  <vaccine vaccineName="Trumenba" vaccineIds="162"/>
+  <vaccine vaccineName="Men B" vaccineIds="163, 162, 164"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1st">
     <pos row="1" column="1"/>
     <valid age="10 years" interval="" grace="4 days"/>
@@ -954,13 +954,14 @@
 
 
 
+
 <forecast seriesName="Mumps">
-  <vaccine vaccineName="Measles" vaccineIds="158, 159, 1560, 160, 161"/>
-  <vaccine vaccineName="Mumps" vaccineIds="158, 159, 1560, 162, 175"/>
-  <vaccine vaccineName="Rubella" vaccineIds="158, 159, 1560, 160, 171, 175"/>
-  <vaccine vaccineName="MMRV" vaccineIds="159, 1560"/>
-  <vaccine vaccineName="Same Live" vaccineIds="178, 160, 161, 171"/>
-  <vaccine vaccineName="Other Live" vaccineIds="180, 2020, 1990, 1690, 1700, 210, 203"/>
+  <vaccine vaccineName="Measles" vaccineIds="94, 03, 04, 05"/>
+  <vaccine vaccineName="Mumps" vaccineIds="94, 03, 04, 07"/>
+  <vaccine vaccineName="Rubella" vaccineIds="94, 03, 04, 06"/>
+  <vaccine vaccineName="MMRV" vaccineIds="94"/>
+  <vaccine vaccineName="Same Live" vaccineIds="04, 05, 06, 21"/>
+  <vaccine vaccineName="Other Live" vaccineIds="111, 149, 37, 80, 18"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-158"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1 year">
     <pos row="1" column="1"/>
@@ -1004,7 +1005,7 @@
 
 
 <forecast seriesName="Pertussis">
-  <vaccine vaccineName="Pertussis" vaccineIds="123"/>
+  <vaccine vaccineName="Pertussis" vaccineIds="115"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="first">
     <pos row="1" column="1"/>
     <valid age="6 weeks" interval="" grace="4 days"/>
@@ -1035,7 +1036,7 @@
 
 <forecast seriesName="Pneumo">
   <transition name="12 Months Old" age="12 months -4 d" vaccineId="-12"/>
-  <vaccine vaccineName="PCV" vaccineIds="154, 156, 3143"/>
+  <vaccine vaccineName="PCV" vaccineIds="100, 109, 133"/>
   <vaccine vaccineName="12 Months Old" vaccineIds="-12"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months" indicationEnd="19 years">
     <pos row="1" column="1"/>
@@ -1126,9 +1127,10 @@
 
 
 <forecast seriesName="Pneumo65" completes="PCV,PPSV">
-  <vaccine vaccineName="PCV13" vaccineIds="3143"/>
-  <vaccine vaccineName="PPSV" vaccineIds="155, 156"/>
-  <vaccine vaccineName="Menactra" vaccineIds="183, 184"/>
+
+  <vaccine vaccineName="PCV13" vaccineIds="133"/>
+  <vaccine vaccineName="PPSV" vaccineIds="109, 33"/>
+  <vaccine vaccineName="Menactra" vaccineIds="114, 108"/>
   <invalidateSameDay vaccineName="PCV13" ifGiven="PPSV"/>
   <schedule scheduleName="P1" dose="1" indication="Age 19 Years" label="PCV-13">
     <pos row="1" column="1"/>
@@ -1199,9 +1201,9 @@
 
 
 <forecast seriesName="Polio">
-  <vaccine vaccineName="IPV" vaccineIds="147, 114, 115, 153, 116, 142, 227"/>
-  <vaccine vaccineName="OPV" vaccineIds="148"/>
-  <vaccine vaccineName="Any" vaccineIds="147, 114, 115, 153, 148, 116, 142, 227"/>
+  <vaccine vaccineName="IPV" vaccineIds="110, 120, 170, 10, 89, 130, 132"/>
+  <vaccine vaccineName="OPV" vaccineIds="02"/>
+  <vaccine vaccineName="Any" vaccineIds="110, 120, 170, 10, 02, 89, 130, 132"/>
   <vaccine vaccineName="4 Years Old" vaccineIds="-4"/>
   <transition name="4 Years Old" age="4 years -4 d" vaccineId="-4"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
@@ -1292,9 +1294,9 @@
 
 
 <forecast seriesName="Rotavirus">
-  <vaccine vaccineName="RotaTeq" vaccineIds="207"/>
-  <vaccine vaccineName="Rotarix" vaccineIds="206"/>
-  <vaccine vaccineName="Rotavirus" vaccineIds="206, 207, 208, 212"/>
+  <vaccine vaccineName="RotaTeq" vaccineIds="116"/>
+  <vaccine vaccineName="Rotarix" vaccineIds="119"/>
+  <vaccine vaccineName="Rotavirus" vaccineIds="116, 119, 74, 122"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="2 months">
     <pos row="1" column="1"/>
     <valid age="6 weeks" interval="" grace="4 days"/>
@@ -1348,9 +1350,9 @@
 
 
 <forecast seriesName="Zoster">
-  <vaccine vaccineName="Live Zoster" vaccineIds="2110"/>
-  <vaccine vaccineName="RZV" vaccineIds="237"/>
-  <vaccine vaccineName="Varicella" vaccineIds="178"/>
+  <vaccine vaccineName="Live Zoster" vaccineIds="121"/>
+  <vaccine vaccineName="RZV" vaccineIds="187"/>
+  <vaccine vaccineName="Varicella" vaccineIds="21"/>
   <schedule scheduleName="P1" dose="1" indication="BIRTH" label="P1 / Start">
     <pos row="1" column="1"/>
     <valid age="50 years" interval="" grace="32 years 4 days"/>
