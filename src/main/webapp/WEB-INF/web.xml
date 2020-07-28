@@ -37,12 +37,20 @@
         <servlet-class>org.immregistries.lonestar.FhirServlet</servlet-class>
     </servlet> 
 	<servlet>
+        <servlet-name>fhirr4</servlet-name>
+        <servlet-class>org.immregistries.lonestar.fhir.FhirR4Servlet</servlet-class>
+    </servlet> 
+	<servlet>
         <servlet-name>fhirTest</servlet-name>
         <servlet-class>org.immregistries.lonestar.FhirTestServlet</servlet-class>
     </servlet> 
     <servlet-mapping>
         <servlet-name>forecast</servlet-name>
         <url-pattern>/forecast</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>fhirr4</servlet-name>
+        <url-pattern>/fhir/*</url-pattern>
     </servlet-mapping>
 <!-- 
     <servlet-mapping>

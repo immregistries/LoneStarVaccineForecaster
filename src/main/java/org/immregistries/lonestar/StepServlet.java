@@ -28,6 +28,7 @@ import org.immregistries.lonestar.core.VaccineForecastDataBean.NamedVaccine;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.Schedule;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.ValidVaccine;
 import org.immregistries.lonestar.core.api.impl.ForecastAntigen;
+import org.immregistries.lonestar.core.api.impl.ForecastHandlerCore;
 import org.immregistries.lonestar.core.api.impl.ForecastOptions;
 import org.immregistries.lonestar.core.logic.ActionStep;
 import org.immregistries.lonestar.core.logic.ActionStepFactory;
@@ -54,7 +55,8 @@ public class StepServlet extends ForecastServlet {
     if (nextActionName == null) {
       nextActionName = StartStep.NAME;
     }
-    initSchedule(SCHEDULE_NAME_DEFAULT);
+    ForecastHandlerCore forecastHandlerCore = ForecastManagerSingleton.getForecastManagerSingleton().getForecastHandlerCore();
+    
 
     resp.setContentType("text/html");
     PrintWriter out = new PrintWriter(resp.getOutputStream());
@@ -91,7 +93,7 @@ public class StepServlet extends ForecastServlet {
         ForecastInput forecastInput = new ForecastInput();
         super.readRequest(req, forecastInput);
 
-        dataStore = new DataStore(forecastManager);
+        dataStore = new DataStore(forecastHandlerCore.getVaccineForecastManager());
         session.setAttribute("dataStore", dataStore);
         dataStore.setPatient(forecastInput.patient);
         dataStore.setVaccinations(forecastInput.imms);
@@ -184,7 +186,7 @@ public class StepServlet extends ForecastServlet {
                 out.println("    <th class=\"smallHeader\"\">Date</th>");
                 out.println("  </tr>");
               }
-              String vaccineName = forecastManager.getVaccineName(dose.getVaccineId());
+              String vaccineName = forecastHandlerCore.getVaccineForecastManager().getVaccineName(dose.getVaccineId());
               out.println("    <td class=\"insideValue\">" + vaccineName + "</td>");
               out.println("    <td class=\"insideValue\">" + safe(dose.getAdminDate()) + "</td>");
             }
@@ -786,7 +788,7 @@ public class StepServlet extends ForecastServlet {
       } else {
         boolean first = true;
         for (Integer vaccineId : dataStore.getPreviousVaccineIdList()) {
-          String vaccineName = forecastManager.getVaccineName(vaccineId);
+          String vaccineName = dataStore.getForecastManager().getVaccineName(vaccineId);
           if (!first) {
             out.print(", ");
           }

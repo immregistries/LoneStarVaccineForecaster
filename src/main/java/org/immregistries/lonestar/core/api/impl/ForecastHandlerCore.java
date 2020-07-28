@@ -128,6 +128,10 @@ public class ForecastHandlerCore {
 
   private VaccineForecastManagerInterface vaccineForecastManager = null;
 
+  public VaccineForecastManagerInterface getVaccineForecastManager() {
+    return vaccineForecastManager;
+  }
+
   public ForecastHandlerCore(VaccineForecastManagerInterface vaccineForecastManager) {
     this.vaccineForecastManager = vaccineForecastManager;
   }

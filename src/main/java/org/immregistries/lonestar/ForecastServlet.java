@@ -69,34 +69,6 @@ public class ForecastServlet extends HttpServlet {
     super.init();
   }
 
-  private static Map<String, VaccineForecastManager> forecastManagerMap =
-      new HashMap<String, VaccineForecastManager>();
-  private static Map<String, ForecastHandlerCore> forecastHandlerCoreMap =
-      new HashMap<String, ForecastHandlerCore>();
-
-  protected VaccineForecastManager forecastManager = null;
-  protected ForecastHandlerCore forecastHandlerCore = null;
-
-  protected void initSchedule(String scheduleName) throws ServletException {
-    forecastHandlerCore = forecastHandlerCoreMap.get(scheduleName);
-    forecastManager = forecastManagerMap.get(scheduleName);
-    if (forecastHandlerCore == null) {
-      try {
-        if (scheduleName.equals(SCHEDULE_NAME_DEFAULT)) {
-          forecastManager = new VaccineForecastManager();
-        } else {
-          forecastManager = new VaccineForecastManager(scheduleName + ".xml");
-        }
-        forecastManagerMap.put(scheduleName, forecastManager);
-      } catch (Exception e) {
-        throw new ServletException("Unable to initialize forecaster", e);
-      }
-      forecastHandlerCore = new ForecastHandlerCore(forecastManager);
-      forecastHandlerCoreMap.put(scheduleName, forecastHandlerCore);
-    }
-
-  }
-
   protected static class ForecastInput {
     protected List<VaccinationDoseDataBean> doseList = null;
     protected PatientRecordDataBean patient = null;
@@ -112,7 +84,7 @@ public class ForecastServlet extends HttpServlet {
       throws ServletException, IOException {
     try {
       ForecastInput forecastInput = new ForecastInput();
-      readRequest(req, forecastInput);
+      ForecastHandlerCore forecastHandlerCore = readRequest(req, forecastInput);
       String resultFormat = req.getParameter(PARAM_RESULT_FORMAT);
       if (resultFormat == null || resultFormat.equals("")) {
         throw new ServletException("Parameter 'resultFormat' is required. ");
@@ -131,7 +103,8 @@ public class ForecastServlet extends HttpServlet {
 
       ForecastHandlerCore.sort(resultList);
 
-      ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(forecastManager);
+      ForecastReportPrinter forecastReportPrinter =
+          new ForecastReportPrinter(forecastHandlerCore.getVaccineForecastManager());
       if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_HTML)) {
         resp.setContentType("text/html");
         PrintWriter out = new PrintWriter(resp.getOutputStream());
@@ -200,7 +173,7 @@ public class ForecastServlet extends HttpServlet {
     return false;
   }
 
-  protected void readRequest(HttpServletRequest req, ForecastInput forecastInput)
+  protected ForecastHandlerCore readRequest(HttpServletRequest req, ForecastInput forecastInput)
       throws ServletException {
 
     Map<String, CvxCode> cvxToVaccineIdMap = null;
@@ -213,7 +186,8 @@ public class ForecastServlet extends HttpServlet {
     if (scheduleName == null || scheduleName.equals("")) {
       scheduleName = SCHEDULE_NAME_DEFAULT;
     }
-    initSchedule(scheduleName);
+    ForecastHandlerCore forecastHandlerCore =
+        ForecastManagerSingleton.getForecastManagerSingleton().getForecastHandlerCore(scheduleName);
     forecastInput.doseList = new ArrayList<VaccinationDoseDataBean>();
     forecastInput.patient = new PatientRecordDataBean();
     forecastInput.imms = new ArrayList<ImmunizationInterface>();
@@ -322,6 +296,7 @@ public class ForecastServlet extends HttpServlet {
         }
       }
     }
+    return forecastHandlerCore;
   }
 
   public void setAssumeParam(HttpServletRequest req, ForecastInput forecastInput,

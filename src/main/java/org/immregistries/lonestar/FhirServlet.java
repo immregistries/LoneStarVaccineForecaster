@@ -422,7 +422,6 @@ public class FhirServlet extends HttpServlet {
       if (indent.equals(ID)) {
         forecastInput.patient.setId(s);
       } else if (indent.equals(RESOURCE_TYPE) && s.equals(IMMUNIZATION)) {
-        System.out.println("--> found imm!");
         Immunization imm = new Immunization();
         forecastInput.imms.add(imm);
         imm.setVaccinationId("" + forecastInput.imms.size());
