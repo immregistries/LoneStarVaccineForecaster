@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.immregistries</groupId>
 	<artifactId>lonestar</artifactId>
-	<version>4.2.1</version>
+	<version>4.3</version>
 	<packaging>war</packaging>
 	<name>Lone Star Vaccine Forecaster</name>
 	<properties>
@@ -62,6 +62,16 @@
 		<dependency>
 			<groupId>ca.uhn.hapi.fhir</groupId>
 			<artifactId>hapi-fhir-server</artifactId>
+			<version>${hapi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ca.uhn.hapi.fhir</groupId>
+			<artifactId>hapi-fhir-validation</artifactId>
+			<version>${hapi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ca.uhn.hapi.fhir</groupId>
+			<artifactId>hapi-fhir-validation-resources-r4</artifactId>
 			<version>${hapi.version}</version>
 		</dependency>
 		<dependency>

@@ -40,6 +40,7 @@ public class ImmunizationForecastDataBean {
   public static final String TDAP = "Tdap";
   public static final String TD = "Td";
   public static final String DT = "DT";
+  public static final String COVID = "Covid";
 
 
   public static final String STATUS_DESCRIPTION_DUE_LATER = "due later";

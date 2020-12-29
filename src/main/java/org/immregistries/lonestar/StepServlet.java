@@ -461,8 +461,8 @@ public class StepServlet extends ForecastServlet {
 
         if (dataStore.getResultList() != null) {
           List<ImmunizationForecastDataBean> resultList = dataStore.getResultList();
+          out.println("<h3>Forecast Result</h3>");
           for (ImmunizationForecastDataBean result : resultList) {
-            out.println("<h3>Forecast Result</h3>");
             out.println("<table>");
             out.println("  <tr>");
             out.println("    <th>Immregid</th>");
@@ -475,6 +475,14 @@ public class StepServlet extends ForecastServlet {
             out.println("  <tr>");
             out.println("    <th>Forecast Label</th>");
             out.println("    <td>" + safe(result.getForecastLabel()) + "</td>");
+            out.println("  </tr>");
+            out.println("  <tr>");
+            out.println("    <th>Internal Description</th>");
+            out.println("    <td>" + safe(result.getStatusDescriptionInternal()) + "</td>");
+            out.println("  </tr>");
+            out.println("  <tr>");
+            out.println("    <th>External Description</th>");
+            out.println("    <td>" + safe(result.getStatusDescriptionExternal()) + "</td>");
             out.println("  </tr>");
             out.println("  <tr>");
             out.println("    <th>Schedule</th>");

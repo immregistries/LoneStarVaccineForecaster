@@ -37,6 +37,10 @@
         <servlet-class>org.immregistries.lonestar.FhirServlet</servlet-class>
     </servlet> 
 	<servlet>
+        <servlet-name>fhirValidate</servlet-name>
+        <servlet-class>org.immregistries.lonestar.fhir.ValidateServlet</servlet-class>
+    </servlet> 
+	<servlet>
         <servlet-name>fhirr4</servlet-name>
         <servlet-class>org.immregistries.lonestar.fhir.FhirR4Servlet</servlet-class>
     </servlet> 
@@ -58,6 +62,10 @@
         <url-pattern>Patient/$cdsimmunization</url-pattern>
     </servlet-mapping>
  -->
+    <servlet-mapping>
+        <servlet-name>fhirValidate</servlet-name>
+        <url-pattern>/fhirValidate</url-pattern>
+    </servlet-mapping>	 
     <servlet-mapping>
         <servlet-name>fhirTest</servlet-name>
         <url-pattern>/fhirTest</url-pattern>

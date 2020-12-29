@@ -36,6 +36,7 @@ public class ListCodesServlet extends HttpServlet {
     scheduleNameMap.put("Rotavirus", "Rotavirus");
     scheduleNameMap.put("Varicella", "Varicella");
     scheduleNameMap.put("Zoster", "Zoster");
+    scheduleNameMap.put("Covid", "Covid");
   }
 
   @Override

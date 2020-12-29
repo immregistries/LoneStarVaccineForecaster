@@ -353,7 +353,8 @@ public class CaretForecaster {
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "171"); // Influenza, injectable, MDCK, preservative free, quadrivalent
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "171"); // Influenza, injectable, MDCK, preservative free, quadrivalent
     doseDueOutHash.put(ImmunizationForecastDataBean.ZOSTER, "187"); // Shingrix (Zoster)
-
+    doseDueOutHash.put(ImmunizationForecastDataBean.COVID, "113"); // Hep A  pediatric
+    
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-10"); // Td Adult  Booster
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-12"); // Unspecified D/T
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-13"); // Tdap Adult Booster

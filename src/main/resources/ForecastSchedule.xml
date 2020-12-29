@@ -1408,4 +1408,53 @@
 </forecast>
 
 
+
+
+
+
+
+<forecast seriesName="Covid">
+  <vaccine vaccineName="Pfizer" vaccineIds="208"/>
+  <vaccine vaccineName="Moderna" vaccineIds="207"/>
+  <vaccine vaccineName="Covid" vaccineIds="213, 208, 207"/>
+  <schedule scheduleName="P1" dose="1" indication="BIRTH" label="1st">
+    <pos row="1" column="1"/>
+    <valid age="16 years" interval="" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="16 years" interval="" grace=""/>
+    <overdue age="120 years" interval="" grace=""/>
+    <finished age="120 years" interval="" grace=""/>
+    <after-invalid interval="0 days" grace=""/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Moderna" schedule="P1" age="18 years" reason="Moderna is not licensed for less than 16 years"/>
+    <indicate vaccineName="Moderna" schedule="M2" age="" reason=""/>
+    <indicate vaccineName="Covid" schedule="P2" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="P2" dose="2" indication="" label="2nd">
+    <pos row="1" column="2"/>
+    <valid age="16 years" interval="21 days" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="21 days" grace=""/>
+    <overdue age="120 years" interval="" grace=""/>
+    <finished age="120 years" interval="" grace=""/>
+    <after-invalid interval="0 days" grace=""/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Moderna" schedule="P2" age="18 years" reason="Moderna is not licenses for less than 16 years"/>
+    <indicate vaccineName="Covid" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
+  <schedule scheduleName="M2" dose="2" indication="" label="2nd Moderna">
+    <pos row="2" column="2"/>
+    <valid age="18 years" interval="28 days" grace="4 days"/>
+    <early age="" interval="" grace=""/>
+    <due age="" interval="28 days" grace=""/>
+    <overdue age="120 years" interval="" grace=""/>
+    <finished age="120 years" interval="" grace=""/>
+    <after-invalid interval="0 days" grace=""/>
+    <before-previous interval=""/>
+    <indicate vaccineName="Covid" schedule="COMPLETE" age="" reason=""/>
+  </schedule>
+</forecast>
+
+
+
 </schedule>
