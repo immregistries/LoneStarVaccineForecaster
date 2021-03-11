@@ -75,6 +75,14 @@
         <url-pattern>/fv/step</url-pattern>
     </servlet-mapping>	 
     <servlet-mapping>
+        <servlet-name>step</servlet-name>
+        <url-pattern>/step</url-pattern>
+    </servlet-mapping>	 
+    <servlet-mapping>
+        <servlet-name>step</servlet-name>
+        <url-pattern>/step/step</url-pattern>
+    </servlet-mapping>	 
+    <servlet-mapping>
         <servlet-name>listCodes</servlet-name>
         <url-pattern>/listCodes</url-pattern>
     </servlet-mapping>	 

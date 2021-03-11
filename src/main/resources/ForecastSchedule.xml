@@ -548,7 +548,7 @@
 
 
 <forecast seriesName="Diphtheria">
-  <vaccine vaccineName="Child" vaccineIds="28, 20, 110, 50, 120, 130, 22, 01, 102, 120, 132, 115"/>
+  <vaccine vaccineName="Child" vaccineIds="28, 20, 110, 50, 120, 130, 22, 01, 102, 120, 132, 115, 107, 106, 198"/>
   <vaccine vaccineName="Adult" vaccineIds="09, 113, 115"/>
   <vaccine vaccineName="Td" vaccineIds="09, 113"/>
   <vaccine vaccineName="Tdap" vaccineIds="20, 110, 50, 120, 130, 22, 01, 120, 132, 115" validAge="7 years"/>
