@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.immregistries</groupId>
 	<artifactId>lonestar</artifactId>
-	<version>4.3</version>
+	<version>4.4</version>
 	<packaging>war</packaging>
 	<name>Lone Star Vaccine Forecaster</name>
 	<properties>
@@ -86,7 +86,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.3.2</version>
 				<configuration>
 					<attachClasses>true</attachClasses>
 				</configuration>
