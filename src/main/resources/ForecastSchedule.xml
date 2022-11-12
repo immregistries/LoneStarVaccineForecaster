@@ -493,7 +493,7 @@
     <indicate vaccineName="Child" schedule="INVALID" age="" reason=""/>
     <indicate vaccineName="Twinrix" schedule="INVALID" age="18 years" reason=""/>
     <indicate vaccineName="Twinrix" schedule="A2" age="" reason="Switching to Twinrix 3 dose schedule."/>
-    <indicate vaccineName="Adult" schedule="INVALID" age="18 years" reason=""/>
+    <indicate vaccineName="Adult" schedule="P2" age="18 years" reason="Adult dose given, but will be accepted"/>
     <indicate vaccineName="Adult" schedule="P2" age="" reason=""/>
     <indicate vaccineName="Assume Comp" schedule="COMPLETE" age="" reason="Assuming adult received full Hep A series."/>
   </schedule>
