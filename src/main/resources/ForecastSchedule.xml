@@ -548,10 +548,10 @@
 
 
 <forecast seriesName="Diphtheria">
-  <vaccine vaccineName="Child" vaccineIds="28, 20, 110, 50, 120, 130, 22, 01, 102, 132, 107, 106, 198"/>
+  <vaccine vaccineName="Child" vaccineIds="28, 20, 110, 50, 120, 130, 22, 01, 102, 120, 132, 115, 107, 106, 198"/>
   <vaccine vaccineName="Adult" vaccineIds="09, 113, 115"/>
   <vaccine vaccineName="Td" vaccineIds="09, 113"/>
-  <vaccine vaccineName="Tdap" vaccineIds="20, 110, 50, 120, 130, 22, 01, 132, 115" validAge="7 years"/>
+  <vaccine vaccineName="Tdap" vaccineIds="20, 110, 50, 120, 130, 22, 01, 120, 132, 115" validAge="7 years"/>
   <vaccine vaccineName="Assume Comp" vaccineIds="-110"/>
   <vaccine vaccineName="12 Months Old" vaccineIds="-12"/>
   <vaccine vaccineName="4 Years Old" vaccineIds="-4"/>
@@ -601,8 +601,8 @@
   </schedule>
   <schedule scheduleName="P4" dose="4" indication="" label="15-18 months">
     <pos row="1" column="4"/>
-    <valid age="12 months" interval="4 months" grace="4 days"/>
-    <early age="12 months" interval="" grace=""/>
+    <valid age="15 months" interval="6 months" grace="2 months"/>
+    <early age="15 months" interval="" grace=""/>
     <due age="15 months" interval="" grace=""/>
     <overdue age="19 months" interval="" grace=""/>
     <finished age="150 years" interval="" grace=""/>
