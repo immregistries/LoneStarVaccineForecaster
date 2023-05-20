@@ -5,3 +5,5 @@ deploy/
 object/
 .project
 target/
+.idea/
+.settings/
