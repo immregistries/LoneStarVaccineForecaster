@@ -137,7 +137,7 @@ public class StepServlet extends ForecastServlet {
         out.println("    <td valign=\"top\" class=\"layout\" width=\"667\">");
         String baseLink;
         baseLink = "step?nextActionName=" + URLEncoder.encode(nextActionName, "UTF-8");
-        out.println("      <a href=\"" + baseLink + "\"><img src=\"img/" + imageName
+        out.println("      <a href=\"" + baseLink + "\"><img src=\"fv/img/" + imageName
             + "\"/ width=\"662\" height=\"240\" class=\"stepimg\"></a>");
         out.println("    <br/>");
 
