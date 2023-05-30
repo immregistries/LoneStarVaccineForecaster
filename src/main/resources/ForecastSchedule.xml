@@ -499,7 +499,7 @@
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="booster">
     <pos row="2" column="1"/>
-    <valid age="" interval="6 months" grace="4 days"/>
+    <valid age="18 months" interval="6 months" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="18 months" interval="" grace=""/>
     <overdue age="42 months" interval="" grace=""/>
