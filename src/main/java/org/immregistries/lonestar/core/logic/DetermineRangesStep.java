@@ -70,7 +70,6 @@ public class DetermineRangesStep extends ActionStep {
       }
     }
 
-    boolean usingInterval = false;
     String validReason = "";
     String validBecause = "";
     if (ds.schedule.getValidAge().isEmpty()) {
@@ -97,7 +96,6 @@ public class DetermineRangesStep extends ActionStep {
           ds.valid = validInterval;
           validReason = ds.schedule.getValidInterval() + " after previous valid dose";
           validBecause = "INTERVAL";
-          usingInterval = true;
           ds.log("Interval has later date than age, so re-setting validity to "
               + ds.schedule.getValidAge() + " from "
               + ds.previousEventDateValidNotBirth.toString("M/D/Y"));
@@ -109,11 +107,18 @@ public class DetermineRangesStep extends ActionStep {
 
     ds.finished = ds.schedule.getFinishedAge().getDateTimeFrom(ds.patient.getDobDateTime());
     if (ds.previousEventDate.equals(ds.previousEventDateValid)) {
-      if (usingInterval && ds.schedule.getValidIntervalGrace() != null
-          && notIgnoreGracePeriod(ds, ds.schedule.getValidIntervalGrace())) {
-        ds.validGrace = ds.schedule.getValidIntervalGrace().getDateTimeBefore(ds.valid);
-      } else if (notIgnoreGracePeriod(ds, ds.schedule.getValidGrace())) {
-        ds.validGrace = ds.schedule.getValidGrace().getDateTimeBefore(ds.valid);
+      ds.validGrace = ds.schedule.getValidGrace().getDateTimeBefore(ds.valid);
+      if (ds.schedule.getValidIntervalGrace() != null && !ds.schedule.getValidInterval().isEmpty()
+          && ds.previousEventDateValidNotBirth != null) {
+        ds.log("Grace period for interval is defined. Will check to see if grace period needs modification.");
+        DateTime validInterval =
+            ds.schedule.getValidInterval().getDateTimeFrom(ds.previousEventDateValidNotBirth);
+        DateTime validGraceInterval =
+            ds.schedule.getValidIntervalGrace().getDateTimeBefore(validInterval);
+        if (validGraceInterval.isGreaterThan(ds.validGrace)) {
+          ds.validGrace = validGraceInterval;
+          ds.log("Grace period for interval is after grace period so moving backwards to " + ds.validGrace + ".");
+        }
       }
     } else {
       if (ds.previousEventWasContra && ds.schedule.getAfterContraInterval() != null

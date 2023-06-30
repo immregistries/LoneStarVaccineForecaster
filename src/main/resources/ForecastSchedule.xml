@@ -548,7 +548,7 @@
 
 
 <forecast seriesName="Diphtheria">
-  <vaccine vaccineName="Child" vaccineIds="28, 20, 110, 50, 120, 130, 22, 01, 102, 120, 132, 115, 107, 106, 198"/>
+  <vaccine vaccineName="Child" vaccineIds="28, 20, 110, 50, 120, 130, 22, 01, 102, 120, 132, 107, 106, 198"/>
   <vaccine vaccineName="Adult" vaccineIds="09, 113, 115"/>
   <vaccine vaccineName="Td" vaccineIds="09, 113"/>
   <vaccine vaccineName="Tdap" vaccineIds="20, 110, 50, 120, 130, 22, 01, 120, 132, 115" validAge="7 years"/>
@@ -601,7 +601,7 @@
   </schedule>
   <schedule scheduleName="P4" dose="4" indication="" label="15-18 months">
     <pos row="1" column="4"/>
-    <valid age="15 months" interval="6 months" grace="3 months 4 days"/>
+    <valid age="15 months" interval="6 months" grace="3 months 4 days" intervalGrace="2 months 4 days"/>
     <early age="15 months" interval="" grace=""/>
     <due age="15 months" interval="" grace=""/>
     <overdue age="19 months" interval="" grace=""/>
@@ -772,6 +772,7 @@
 
 
 
+
 <forecast seriesName="Mening">
   <vaccine vaccineName="MCV4" vaccineIds="114, 147, 136"/>
   <vaccine vaccineName="MPSV4" vaccineIds="32"/>
@@ -786,7 +787,7 @@
     <finished age="19 years" interval="" grace=""/>
     <after-invalid interval="8 weeks" grace="4 days"/>
     <before-previous interval=""/>
-    <indicate vaccineName="Menactra" schedule="INVALID" age="9 months -4 days" reason="Menactra not licensed before 9 months."/>
+    <indicate vaccineName="Menactra" schedule="INVALID" age="10 years" reason="Menactra allowed earlier but not valid before 10 years of age"/>
     <indicate vaccineName="MPSV4" schedule="INVALID" age="2 years -4 days" reason="MPSV4 not licensed before 2 years."/>
     <indicate vaccineName="Menveo" schedule="INVALID" age="2 months -4 days" reason="Menveo not licensed before 2 months."/>
     <indicate vaccineName="MCV4" schedule="A1" age="10 years" reason="Received dose of MCV4 before 10 years, not counting towards completion."/>
@@ -809,6 +810,7 @@
     <indicate vaccineName="MCV4" schedule="COMPLETE" age="" reason=""/>
   </schedule>
 </forecast>
+
 
 
 
@@ -1369,7 +1371,7 @@
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="P2 / 2nd RZV">
     <pos row="1" column="2"/>
-    <valid age="50 years" interval="4 weeks" grace=""/>
+    <valid age="50 years" interval="4 weeks" grace="1"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="8 weeks" grace=""/>
     <overdue age="" interval="7 months" grace=""/>
