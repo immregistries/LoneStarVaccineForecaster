@@ -1371,7 +1371,7 @@
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="P2 / 2nd RZV">
     <pos row="1" column="2"/>
-    <valid age="50 years" interval="4 weeks" grace="1"/>
+    <valid age="50 years" interval="4 weeks" grace="1 year"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="8 weeks" grace=""/>
     <overdue age="" interval="7 months" grace=""/>
