@@ -98,6 +98,7 @@
 					<attachClasses>true</attachClasses>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -113,6 +114,129 @@
 							<includes>
 								<include>**</include>
 							</includes>
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
+
+			<!-- Stop tomcat service -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<id>stop-tomcat</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>sc</executable>
+							<arguments>
+								<argument>stop</argument>
+								<argument>Tomcat9</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Wait for 10 seconds -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<id>wait-10-seconds</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>ping</executable>
+							<arguments>
+								<argument>-n</argument>
+								<argument>11</argument> <!-- Wait for 10 seconds -->
+								<argument>127.0.0.1</argument> <!-- You can ping localhost or another valid IP -->
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Rename the WAR file -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>rename-war</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<move file="${project.build.directory}/${project.build.finalName}.war"
+									  tofile="${project.build.directory}/lonestar.war" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Copy the renamed WAR file to the webapps folder -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<id>copy-war-to-webapps</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${env.CATALINA_BASE}/webapps</outputDirectory>
+							<overwrite>true</overwrite>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}</directory>
+									<includes>
+										<include>lonestar.war</include>
+									</includes>
+								</resource>
+							</resources>
+							<!-- Add verbose for debugging -->
+							<verbose>true</verbose>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Start the Tomcat9 service -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<id>start-tomcat</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>sc</executable>
+							<arguments>
+								<argument>start</argument>
+								<argument>Tomcat9</argument>
+							</arguments>
 						</configuration>
 					</execution>
 				</executions>
