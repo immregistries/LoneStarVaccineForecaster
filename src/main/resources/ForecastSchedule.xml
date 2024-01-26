@@ -202,7 +202,7 @@
   </decisionLogic>
   <schedule scheduleName="S2" dose="2" indication="" label="2nd seasonal">
     <pos row="1" column="2"/>
-    <valid age="" interval="4 weeks" grace=""/>
+    <valid age="" interval="4 weeks" grace="4 days"/>
     <early age="" interval="" grace=""/>
     <due age="" interval="1 month" grace=""/>
     <overdue age="" interval="2 months" grace=""/>
