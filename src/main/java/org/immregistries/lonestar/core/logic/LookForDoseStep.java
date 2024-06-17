@@ -162,7 +162,7 @@ public class LookForDoseStep extends ActionStep {
   private String lookForDose(DataStore ds, VaccineForecastDataBean.Indicate indicate) {
     ValidVaccine[] vaccineIds = indicate.getVaccines();
     while (ds.event != null) {
-
+    ds.log("Looking at this event: " + ds.event);
 
       if (ds.forecast.getInvalidateSameDayList().size() > 0
           && ds.invalidatedSameDayVaccineIdMapToReason == null) {
