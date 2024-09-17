@@ -7,3 +7,5 @@ object/
 target/
 .idea/
 .settings/
+.settings/org.eclipse.jdt.core.prefs
+.settings/org.eclipse.jdt.core.prefs
