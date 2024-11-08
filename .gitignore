@@ -7,3 +7,5 @@ object/
 target/
 .idea/
 .settings/
+LoneStarVaccineForecaster.code-workspace
+.settings/org.eclipse.jdt.core.prefs
