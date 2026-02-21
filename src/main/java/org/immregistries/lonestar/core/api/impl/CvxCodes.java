@@ -1,7 +1,5 @@
 package org.immregistries.lonestar.core.api.impl;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +12,6 @@ public class CvxCodes {
     Map<String, CvxCode> cvxToVaccineIdMap = null;
     try {
       cvxToVaccineIdMap = new HashMap<String, CvxCode>();
-
 
       CodeMap codeMap = CodeMapManager.getCodeMap();
 
@@ -40,12 +37,4 @@ public class CvxCodes {
     return cvxToVaccineIdMap;
   }
 
-  private static String clean(String s) {
-    if (s == null) {
-      return "";
-    } else if (s.startsWith("\"") && s.endsWith("\"")) {
-      return s.substring(1, s.length() - 1);
-    }
-    return s;
-  }
 }

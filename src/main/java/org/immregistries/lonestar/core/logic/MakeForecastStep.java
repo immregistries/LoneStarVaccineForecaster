@@ -22,16 +22,15 @@ public class MakeForecastStep extends ActionStep {
 
   private void addForecastRecommendations(DataStore ds) {
     ds.log("Making recommendations");
-    //    if (ds.seasonStartThis != null && ds.seasonCompleted) {
-    //      ds.log("Adjusting for season start");
-    //      DetermineRangesStep.determineRanges(ds);
-    //    }
+    // if (ds.seasonStartThis != null && ds.seasonCompleted) {
+    // ds.log("Adjusting for season start");
+    // DetermineRangesStep.determineRanges(ds);
+    // }
     if (ds.trace != null) {
       ds.traceList.setExplanationBulletPointStart();
     }
     if (ds.schedule.getIndicationEndAge() != null) {
-      DateTime indicationEndDate =
-          ds.schedule.getIndicationEndAge().getDateTimeFrom(ds.patient.getDobDateTime());
+      DateTime indicationEndDate = ds.schedule.getIndicationEndAge().getDateTimeFrom(ds.patient.getDobDateTime());
       if (indicationEndDate.isLessThanOrEquals(ds.forecastDateTime)) {
         if (ds.trace != null) {
           ds.traceList.addExplanation(
@@ -45,7 +44,6 @@ public class MakeForecastStep extends ActionStep {
     if (ds.blackOutDates != null && ds.blackOutDates.size() > 0) {
       ds.log("Looking to see if forecast needs to be adjusted to after black out dates");
       String validReason = null;
-      DateTime contraValid = ds.valid;
 
       for (BlackOut blackOut : ds.blackOutDates) {
 
@@ -142,8 +140,8 @@ public class MakeForecastStep extends ActionStep {
               "Too late to complete. Next dose was expected before " + ds.finished + ".");
         }
       } else {
-        statusDescriptionExternal =
-            ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED_FOR_SEASON;;
+        statusDescriptionExternal = ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED_FOR_SEASON;
+        ;
         if (ds.traceList != null) {
           ds.traceList.setExplanationBulletPointStart();
           ds.traceList.addExplanation(
@@ -194,7 +192,6 @@ public class MakeForecastStep extends ActionStep {
     // Adjust around black out dates
     if (ds.blackOutDates != null && ds.blackOutDates.size() > 0) {
       ds.log("Checking to see if there is a need to create contraindication forecast");
-      String validReason = null;
       ImmunizationForecastDataBean forecastContraindication = null;
       DateTime contraValid = ds.valid;
       DateTime contraDue = ds.due;
@@ -230,7 +227,7 @@ public class MakeForecastStep extends ActionStep {
                   + blackOut.getEndBlackOut().toString("M/D/Y"));
             }
             contraValid = blackOut.getEndBlackOut();
-            validReason = blackOut.getReason();
+            // validReason = blackOut.getReason();
             if (contraDue.isLessThan(contraValid)) {
               contraDue = new DateTime(contraValid);
             }
@@ -239,7 +236,7 @@ public class MakeForecastStep extends ActionStep {
             }
             if (contraFinished.isLessThan(contraValid)) {
               contraValid = new DateTime(contraFinished);
-              validReason = "because it is too late to administer vaccination";
+              // validReason = "because it is too late to administer vaccination";
             }
 
             ds.log("Administration is contraindicated now or sometime in the future for "
@@ -270,8 +267,7 @@ public class MakeForecastStep extends ActionStep {
               statusDescriptionExternal = ImmunizationForecastDataBean.STATUS_DESCRIPTION_FINISHED;
             } else {
               if (ds.forecastDateTime.isLessThan(contraDue)) {
-                statusDescriptionExternal =
-                    ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED;
+                statusDescriptionExternal = ImmunizationForecastDataBean.STATUS_DESCRIPTION_CONTRAINDICATED;
               } else if (ds.forecastDateTime.isLessThan(contraOverdue)) {
                 statusDescriptionExternal = ImmunizationForecastDataBean.STATUS_DESCRIPTION_DUE;
               } else if (ds.forecastDateTime.isLessThan(contraFinished)) {
@@ -297,7 +293,6 @@ public class MakeForecastStep extends ActionStep {
     }
 
   }
-
 
   private boolean isAssumeComplete(DataStore ds) {
     if (!ds.forecastOptions.getAssumeCompleteScheduleNameSet()

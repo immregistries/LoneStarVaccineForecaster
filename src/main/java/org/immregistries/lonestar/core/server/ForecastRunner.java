@@ -10,6 +10,7 @@ import java.util.Map;
 import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.ImmunizationForecastDataBean;
 import org.immregistries.lonestar.core.ImmunizationInterface;
+import org.immregistries.lonestar.core.Trace;
 import org.immregistries.lonestar.core.VaccinationDoseDataBean;
 import org.immregistries.lonestar.core.api.impl.ForecastHandlerCore;
 import org.immregistries.lonestar.core.api.impl.ForecastOptions;
@@ -61,20 +62,19 @@ public class ForecastRunner {
     this.resultList = resultList;
   }
 
-  public Map getTraceMap() {
+  public Map<String, List<Trace>> getTraceMap() {
     return traceMap;
   }
 
-  public void setTraceMap(Map traceMap) {
+  public void setTraceMap(Map<String, List<Trace>> traceMap) {
     this.traceMap = traceMap;
   }
 
   private PatientRecordDataBean patient = new PatientRecordDataBean();
   private List<ImmunizationInterface> imms = new ArrayList<ImmunizationInterface>();
   private Date forecastDate = null;
-  private List<ImmunizationForecastDataBean> resultList =
-      new ArrayList<ImmunizationForecastDataBean>();
-  private Map traceMap = new HashMap();
+  private List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
+  private Map<String, List<Trace>> traceMap = new HashMap<String, List<Trace>>();
   private List<ImmunizationForecastDataBean> forecastListDueToday;
   private List<ImmunizationForecastDataBean> forecastListDueLater;
   private String forecasterScheduleName = "";

@@ -1,0 +1,59 @@
+@startuml
+hide empty description
+skinparam shadowing false
+
+state "Start" as Start
+state "Setup" as Setup
+state "Choose Start Indicator" as ChooseStartIndicator
+state "Setup Schedule" as SetupSchedule
+state "Traverse Schedule" as TraverseSchedule
+state "Determine Ranges" as DetermineRanges
+state "Choose Indicator" as ChooseIndicator
+state "Look For Dose" as LookForDose
+state "Transition Schedule" as TransitionSchedule
+state "Make Forecast" as MakeForecast
+state "Finish Schedule" as FinishSchedule
+state "Finish" as Finish
+state "End" as End
+
+[*] --> Start
+
+Start --> Setup
+Setup --> ChooseStartIndicator
+
+ChooseStartIndicator --> SetupSchedule : scheduleListPos < scheduleList.size
+ChooseStartIndicator --> Finish : scheduleList exhausted
+
+SetupSchedule --> TraverseSchedule
+
+TraverseSchedule --> DetermineRanges : schedule != null
+TraverseSchedule --> ChooseStartIndicator : schedule == null
+
+DetermineRanges --> ChooseIndicator
+
+ChooseIndicator --> LookForDose : indicatesPos < indicates.length
+ChooseIndicator --> FinishSchedule : no more indicators
+
+LookForDose --> MakeForecast : nextAction == null
+LookForDose --> MakeForecast : nextAction == KEEP_LOOKING && last indicator
+LookForDose --> FinishSchedule : nextAction == COMPLETE
+LookForDose --> ChooseIndicator : nextAction == KEEP_LOOKING && has next indicator
+LookForDose --> TraverseSchedule : nextAction == CONTRA
+LookForDose --> TraverseSchedule : nextAction == INVALID
+LookForDose --> TransitionSchedule : nextAction == schedule name/code
+
+TransitionSchedule --> FinishSchedule : referenceDate > finished
+TransitionSchedule --> TraverseSchedule : continue transitioned schedule
+
+MakeForecast --> FinishSchedule
+FinishSchedule --> ChooseStartIndicator
+
+Finish --> End
+End --> [*]
+
+note right of End
+Forecaster loop stops when current step is End.
+End.doAction(...) is not executed by Forecaster.
+end note
+
+@enduml

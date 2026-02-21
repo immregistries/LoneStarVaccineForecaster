@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.ImmunizationForecastDataBean;
 import org.immregistries.lonestar.core.ImmunizationInterface;
@@ -20,13 +22,12 @@ import org.immregistries.lonestar.core.api.impl.CvxCode;
 import org.immregistries.lonestar.core.api.impl.ForecastHandler;
 import org.immregistries.lonestar.core.api.impl.ForecastHandlerCore;
 import org.immregistries.lonestar.core.api.impl.ForecastOptions;
-import org.immregistries.lonestar.core.api.impl.VaccineForecastManager;
 import org.immregistries.lonestar.core.model.Immunization;
 import org.immregistries.lonestar.core.model.PatientRecordDataBean;
 import org.immregistries.lonestar.core.server.ForecastReportPrinter;
 
 public class ForecastServlet extends HttpServlet {
-  private static final String PARAM_VACCINE_MVX = "vaccineMvx";
+  // private static final String PARAM_VACCINE_MVX = "vaccineMvx";
   private static final String PARAM_VACCINE_CVX = "vaccineCvx";
   private static final String PARAM_VACCINE_CONDITION_CODE = "vaccineConditionCode";
   private static final String PARAM_VACCINE_DATE = "vaccineDate";
@@ -34,21 +35,15 @@ public class ForecastServlet extends HttpServlet {
   private static final String PARAM_PATIENT_DOB = "patientDob";
   private static final String PARAM_RESULT_FORMAT = "resultFormat";
   private static final String PARAM_EVAL_DATE = "evalDate";
-  private static final String PARAM_FLU_SEASON_START = "fluSeasonStart";
   private static final String PARAM_FLU_SEASON_DUE = "fluSeasonDue";
   private static final String PARAM_FLU_SEASON_OVERDUE = "fluSeasonOverdue";
   private static final String PARAM_FLU_SEASON_END = "fluSeasonEnd";
   private static final String PARAM_DUE_USE_EARLY = "dueUseEarly";
-  private static final String PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE =
-      "assumeDtapSeriesCompleteAtAge";
-  private static final String PARAM_ASSUME_HEPA_SERIES_COMPLETE_AT_AGE =
-      "assumeHepASeriesCompleteAtAge";
-  private static final String PARAM_ASSUME_HEPB_SERIES_COMPLETE_AT_AGE =
-      "assumeHepBSeriesCompleteAtAge";
-  private static final String PARAM_ASSUME_MMR_SERIES_COMPLETE_AT_AGE =
-      "assumeMMRSeriesCompleteAtAge";
-  private static final String PARAM_ASSUME_VAR_SERIES_COMPLETE_AT_AGE =
-      "assumeVarSeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_DTAP_SERIES_COMPLETE_AT_AGE = "assumeDtapSeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_HEPA_SERIES_COMPLETE_AT_AGE = "assumeHepASeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_HEPB_SERIES_COMPLETE_AT_AGE = "assumeHepBSeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_MMR_SERIES_COMPLETE_AT_AGE = "assumeMMRSeriesCompleteAtAge";
+  private static final String PARAM_ASSUME_VAR_SERIES_COMPLETE_AT_AGE = "assumeVarSeriesCompleteAtAge";
   private static final String PARAM_IGNORE_FOUR_DAY_GRACE = "ignoreFourDayGrace";
   private static final String PARAM_SCHEDULE_NAME = "scheduleName";
   private static final String PARAM_ASSUME_SERIES_COMPLETED = "assumeSeriesCompleted";
@@ -103,8 +98,8 @@ public class ForecastServlet extends HttpServlet {
 
       ForecastHandlerCore.sort(resultList);
 
-      ForecastReportPrinter forecastReportPrinter =
-          new ForecastReportPrinter(forecastHandlerCore.getVaccineForecastManager());
+      ForecastReportPrinter forecastReportPrinter = new ForecastReportPrinter(
+          forecastHandlerCore.getVaccineForecastManager());
       if (resultFormat.equalsIgnoreCase(RESULT_FORMAT_HTML)) {
         resp.setContentType("text/html");
         PrintWriter out = new PrintWriter(resp.getOutputStream());
@@ -186,8 +181,8 @@ public class ForecastServlet extends HttpServlet {
     if (scheduleName == null || scheduleName.equals("")) {
       scheduleName = SCHEDULE_NAME_DEFAULT;
     }
-    ForecastHandlerCore forecastHandlerCore =
-        ForecastManagerSingleton.getForecastManagerSingleton().getForecastHandlerCore(scheduleName);
+    ForecastHandlerCore forecastHandlerCore = ForecastManagerSingleton.getForecastManagerSingleton()
+        .getForecastHandlerCore(scheduleName);
     forecastInput.doseList = new ArrayList<VaccinationDoseDataBean>();
     forecastInput.patient = new PatientRecordDataBean();
     forecastInput.imms = new ArrayList<ImmunizationInterface>();
@@ -219,7 +214,6 @@ public class ForecastServlet extends HttpServlet {
         throw new ServletException("Parameter 'vaccineDate" + n + "' must be in YYYYMMDD format.");
       }
       String vaccineCvx = req.getParameter(PARAM_VACCINE_CVX + n);
-      String vaccineMvx = req.getParameter(PARAM_VACCINE_MVX + n);
       String vaccineConditionCode = req.getParameter(PARAM_VACCINE_CONDITION_CODE + n);
       int vaccineId = 0;
       if (vaccineCvx == null) {
