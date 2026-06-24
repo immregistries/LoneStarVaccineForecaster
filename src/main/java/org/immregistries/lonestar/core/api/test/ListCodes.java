@@ -9,9 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.immregistries.lonestar.core.VaccineForecastDataBean.NamedVaccine;
 import org.immregistries.lonestar.core.VaccineForecastDataBean.Schedule;
-import org.immregistries.lonestar.core.VaccineForecastDataBean.ValidVaccine;
 import org.immregistries.lonestar.core.api.impl.CvxCode;
 import org.immregistries.lonestar.core.api.impl.ForecastHandler;
 import org.immregistries.lonestar.core.api.impl.VaccineForecastManager;
@@ -19,11 +19,12 @@ import org.immregistries.lonestar.core.api.impl.VaccineForecastManager;
 public class ListCodes {
 
   public static enum Format {
-                             SPACED,
-                             STANDARD
+    SPACED,
+    STANDARD
   }
 
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.api.test.ListCodes
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.api.test.ListCodes
   public static void main(String[] args) throws Exception {
 
     PrintStream out = System.out;
@@ -63,7 +64,7 @@ public class ListCodes {
 
     Collections.sort(cvxCodeList, new Comparator<CvxCode>() {
       // JDK 1.5 Override is not applicable to interfaces
-      //Override
+      // Override
       public int compare(CvxCode o1, CvxCode o2) {
         return o1.getCvxLabel().compareTo(o2.getCvxLabel());
       }
@@ -75,7 +76,6 @@ public class ListCodes {
 
     Set<String> forecastCodeSet = new HashSet<String>();
 
-    VaccineForecastManager vacccineForecastManager = new VaccineForecastManager();
     vaccineForecastManager.init();
     Map<String, List<Schedule>> indicationsMap = vaccineForecastManager.getIndicationsMap();
 
@@ -89,7 +89,6 @@ public class ListCodes {
             throw new Exception("Unrecognized vaccine name '" + vaccineName + "'");
           }
           String[] vaccNames = vaccineString.split("\\,");
-          ValidVaccine[] validVaccines = new ValidVaccine[vaccNames.length];
           for (int i = 0; i < vaccNames.length; i++) {
             String vaccName = vaccNames[i].trim();
             int vaccineId = 0;
@@ -104,8 +103,7 @@ public class ListCodes {
             for (CvxCode cvxCode : cvxCodeList) {
               if (cvxCode.getVaccineId() == vaccineId) {
                 forecastCodeSet.add(schedule.getForecastCode());
-                Set<String> locationSet =
-                    cvxCode.getLocationMapSet().get(schedule.getForecastCode());
+                Set<String> locationSet = cvxCode.getLocationMapSet().get(schedule.getForecastCode());
                 if (locationSet == null) {
                   locationSet = new HashSet<String>();
                   cvxCode.getLocationMapSet().put(schedule.getForecastCode(), locationSet);
@@ -187,7 +185,6 @@ public class ListCodes {
         } else {
           out.print("\"\"");
         }
-
 
         if (cvxCode.isLocationSet()) {
           out.print("\t");

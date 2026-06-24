@@ -126,7 +126,6 @@ public class Forecaster {
   private class Event {
     private Date eventDate = null;
     private List<ImmunizationInterface> immList = new ArrayList<ImmunizationInterface>();
-    private boolean hasEvent = false;
   }
 
 }

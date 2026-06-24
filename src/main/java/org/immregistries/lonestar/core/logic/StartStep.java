@@ -10,7 +10,6 @@ public class StartStep extends ActionStep {
 
   @Override
   public String doAction(DataStore dataStore) throws Exception {
-    // TODO Auto-generated method stub
     return SetupStep.NAME;
   }
 

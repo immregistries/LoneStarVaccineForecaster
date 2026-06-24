@@ -2,20 +2,19 @@ package org.immregistries.lonestar.fhir;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.hl7.fhir.common.hapi.validation.validator.FhirInstanceValidator;
+
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.validation.FhirValidator;
-import ca.uhn.fhir.validation.IValidatorModule;
 import ca.uhn.fhir.validation.SingleValidationMessage;
 import ca.uhn.fhir.validation.ValidationResult;
 
 public class ValidateServlet extends HttpServlet {
-  
+
   private static final String ACTION_VALIDATE = "Validate";
   private static final String PARAM_ACTION = "action";
   private static final String FHIR_CONTENT = "fhirContent";
@@ -35,7 +34,6 @@ public class ValidateServlet extends HttpServlet {
 
     resp.setContentType("text/html");
     PrintWriter out = new PrintWriter(resp.getOutputStream());
-    HttpSession session = req.getSession(true);
     try {
       ValidationResult result = null;
       String fhirContent = req.getParameter(FHIR_CONTENT);
@@ -47,9 +45,7 @@ public class ValidateServlet extends HttpServlet {
         if (action.equals(ACTION_VALIDATE)) {
           FhirContext ctx = FhirContext.forR4();
           FhirValidator validator = ctx.newValidator();
-          IValidatorModule module = new FhirInstanceValidator(ctx);
           result = validator.validateWithResult(fhirContent);
-
         }
       }
 
@@ -116,7 +112,4 @@ public class ValidateServlet extends HttpServlet {
     out.println("</html>");
     out.close();
   }
-
-
-
 }

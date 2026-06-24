@@ -30,218 +30,214 @@ public class CaretForecaster {
 
   private static final String SECTION_SEPARATOR = "~~~";
   private static final String DOSE_SEPARATOR = "|||";
-  private static final String DOSE_OVERRIDE_EXCLUDED = "2";
-  private static final String DOSE_OVERRIDE_INCLUDED = "1";
-  private static final String DOSE_OVERRIDE_DEFAULT = "0";
+  public static final String DOSE_OVERRIDE_EXCLUDED = "2";
+  public static final String DOSE_OVERRIDE_INCLUDED = "1";
+  public static final String DOSE_OVERRIDE_DEFAULT = "0";
 
-  private static final String FORECASTING_MODE_ACCEPTABLE = "1";
-  private static final String FORECASTING_MODE_RECOMMENDED = "0";
+  public static final String FORECASTING_MODE_ACCEPTABLE = "1";
+  public static final String FORECASTING_MODE_RECOMMENDED = "0";
 
-  private static final String HL7_CODE_ERROR_CODE_NONE = "0";
-  private static final String HL7_CODE_ERROR_CODE_UNRECOGNIZED = "1";
-  private static final String HL7_CODE_ERROR_CODE_UNSUPPORTED = "2";
+  public static final String HL7_CODE_ERROR_CODE_NONE = "0";
+  public static final String HL7_CODE_ERROR_CODE_UNRECOGNIZED = "1";
+  public static final String HL7_CODE_ERROR_CODE_UNSUPPORTED = "2";
 
-  private static final String DOSE_OVERRIDE_FORCE_VALID = "1";
-  private static final String DOSE_OVERRIDE_FORCE_INVALID = "2";
+  public static final String DOSE_OVERRIDE_FORCE_VALID = "1";
+  public static final String DOSE_OVERRIDE_FORCE_INVALID = "2";
 
-  private static final boolean USE_EARLY_DUE_AND_OVERDUE = true;
+  public static final boolean USE_EARLY_DUE_AND_OVERDUE = true;
 
-  //  1 Date used for forecast
-  private static final int FIELD_IN_CASE_DETAIL_01_DATE_USED_FOR_FORECAST = 1;
-  //  2 Forecasting Mode
-  private static final int FIELD_IN_CASE_DETAIL_02_FORECASTING_MODE = 2;
-  //  3 Version
-  private static final int FIELD_IN_CASE_DETAIL_03_USE_4_DAY_GRACE_PERIOD = 3;
-  //  4 Use 4-day Grace Period
-  private static final int FIELD_IN_CASE_DETAIL_04_RESERVED_FOR_FUTURE_USE = 4;
-  //  5 Reserved for future use
-  private static final int FIELD_IN_CASE_DETAIL_05_RESERVED_FOR_FUTURE_USE = 5;
-  //  6 Personal ID - Chart#
-  private static final int FIELD_IN_CASE_DETAIL_06_PERSONAL_ID = 6;
-  //  7 User Note (Patient IEN)
-  private static final int FIELD_IN_CASE_DETAIL_07_USER_NOTE = 7;
-  //  8 Date of Birth
-  private static final int FIELD_IN_CASE_DETAIL_08_DATE_OF_BIRTH = 8;
-  //  9 Gender
-  private static final int FIELD_IN_CASE_DETAIL_09_GENDER = 9;
-  //  10  Mother HBsAg Status
-  private static final int FIELD_IN_CASE_DETAIL_10_MOTHER_HBSAG_STATUS = 10; // NOT USED YET
-  //  11  Pertussis Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_11_PERTUSSIS_CONTRAINDICATED_INDICATION = 11;
-  //  12  Diphtheria Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_12_DIPHTHERIA_CONTRAINDICATED_INDICATION = 12;
-  //  13  Tetanus Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_13_TETANUS_CONTRAINDICATED_INDICATION = 13;
-  //  14  Hib Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_14_HIB_CONTRAINDICATED_INDICATION = 14;
-  //  15  HBIG Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_15_HBIG_CONTRAINDICATED_INDICATION = 15; // NOT USED YET
-  //  16  HepB Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_16_HEPB_CONTRAINDICATED_INDICATION = 16;
-  //  17  OPV Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_17_OPV_CONTRAINDICATED_INDICATION = 17; // NOT USED YET
-  //  18  IPV Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_18_IPV_CONTRAINDICATED_INDICATION = 18;
-  //  19  Measles Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_19_MEASLES_CONTRAINDICATED_INDICATION = 19;
-  //  20  Mumps Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_20_MUMPS_CONTRAINDICATED_INDICATION = 20;
-  //  21  Rubella Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_21_RUBELLA_CONTRAINDICATED_INDICATION = 21;
-  //  22  Varicella Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_22_VARICELLA_CONTRAINDICATED_INDICATION = 22;
-  //  23  HepA Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_23_HEPA_CONTRAINDICATED_INDICATION = 23;
-  //  24  Rv Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_24_RV_CONTRAINDICATED_INDICATION = 24;
-  //  25  S-Pn Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_25_S_PN_CONTRAINDICATED_INDICATION = 25;
-  //  26  Influenza Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_26_INFLUENZA_CONTRAINDICATED_INDICATION = 26;
-  //  27  Meningococcal Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_27_MENINGOCOCCAL_CONTRAINDICATED_INDICATION = 27;
-  //  28  HPV Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_28_HPV_CONTRAINDICATED_INDICATION = 28;
-  //  29  H1N1 Contraindicated Indication
-  private static final int FIELD_IN_CASE_DETAIL_29_H1N1_CONTRAINDICATED_INDICATION = 29; // NOT USED YET
+  // 1 Date used for forecast
+  public static final int FIELD_IN_CASE_DETAIL_01_DATE_USED_FOR_FORECAST = 1;
+  // 2 Forecasting Mode
+  public static final int FIELD_IN_CASE_DETAIL_02_FORECASTING_MODE = 2;
+  // 3 Version
+  public static final int FIELD_IN_CASE_DETAIL_03_USE_4_DAY_GRACE_PERIOD = 3;
+  // 4 Use 4-day Grace Period
+  public static final int FIELD_IN_CASE_DETAIL_04_RESERVED_FOR_FUTURE_USE = 4;
+  // 5 Reserved for future use
+  public static final int FIELD_IN_CASE_DETAIL_05_RESERVED_FOR_FUTURE_USE = 5;
+  // 6 Personal ID - Chart#
+  public static final int FIELD_IN_CASE_DETAIL_06_PERSONAL_ID = 6;
+  // 7 User Note (Patient IEN)
+  public static final int FIELD_IN_CASE_DETAIL_07_USER_NOTE = 7;
+  // 8 Date of Birth
+  public static final int FIELD_IN_CASE_DETAIL_08_DATE_OF_BIRTH = 8;
+  // 9 Gender
+  public static final int FIELD_IN_CASE_DETAIL_09_GENDER = 9;
+  // 10 Mother HBsAg Status
+  public static final int FIELD_IN_CASE_DETAIL_10_MOTHER_HBSAG_STATUS = 10; // NOT USED YET
+  // 11 Pertussis Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_11_PERTUSSIS_CONTRAINDICATED_INDICATION = 11;
+  // 12 Diphtheria Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_12_DIPHTHERIA_CONTRAINDICATED_INDICATION = 12;
+  // 13 Tetanus Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_13_TETANUS_CONTRAINDICATED_INDICATION = 13;
+  // 14 Hib Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_14_HIB_CONTRAINDICATED_INDICATION = 14;
+  // 15 HBIG Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_15_HBIG_CONTRAINDICATED_INDICATION = 15; // NOT USED YET
+  // 16 HepB Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_16_HEPB_CONTRAINDICATED_INDICATION = 16;
+  // 17 OPV Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_17_OPV_CONTRAINDICATED_INDICATION = 17; // NOT USED YET
+  // 18 IPV Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_18_IPV_CONTRAINDICATED_INDICATION = 18;
+  // 19 Measles Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_19_MEASLES_CONTRAINDICATED_INDICATION = 19;
+  // 20 Mumps Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_20_MUMPS_CONTRAINDICATED_INDICATION = 20;
+  // 21 Rubella Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_21_RUBELLA_CONTRAINDICATED_INDICATION = 21;
+  // 22 Varicella Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_22_VARICELLA_CONTRAINDICATED_INDICATION = 22;
+  // 23 HepA Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_23_HEPA_CONTRAINDICATED_INDICATION = 23;
+  // 24 Rv Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_24_RV_CONTRAINDICATED_INDICATION = 24;
+  // 25 S-Pn Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_25_S_PN_CONTRAINDICATED_INDICATION = 25;
+  // 26 Influenza Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_26_INFLUENZA_CONTRAINDICATED_INDICATION = 26;
+  // 27 Meningococcal Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_27_MENINGOCOCCAL_CONTRAINDICATED_INDICATION = 27;
+  // 28 HPV Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_28_HPV_CONTRAINDICATED_INDICATION = 28;
+  // 29 H1N1 Contraindicated Indication
+  public static final int FIELD_IN_CASE_DETAIL_29_H1N1_CONTRAINDICATED_INDICATION = 29; // NOT USED YET
 
-  private static final int FIELD_IN_CASE_DETAIL_30_ZOSTER_CONTRAINDICATION = 30;
+  public static final int FIELD_IN_CASE_DETAIL_30_ZOSTER_CONTRAINDICATION = 30;
 
-  private static final String FIELD_IN_CASE_DETAIL_SEP = SECTION_SEPARATOR;
+  public static final String FIELD_IN_CASE_DETAIL_SEP = SECTION_SEPARATOR;
 
-  //  1 Dose Note
-  private static final int FIELD_IN_INPUT_DOSE_1_DOSE_NOTE = 1;
-  //  2 Dose HL7 Code
-  private static final int FIELD_IN_INPUT_DOSE_2_DOSE_HL7_CODE = 2;
-  //  3 Date of Dose Administration
-  private static final int FIELD_IN_INPUT_DOSE_3_DATE_OF_DOSE_ADMINISTRATION = 3;
-  //  4 Dose Override
-  private static final int FIELD_IN_INPUT_DOSE_4_DOSE_OVERRIDE = 4;
-  //  5 Reserved for future use
-  private static final int FIELD_IN_INPUT_DOSE_5_RESERVED_FOR_FUTURE_USE = 5;
-  //  6 Reserved for future use
-  private static final int FIELD_IN_INPUT_DOSE_6_RESERVED_FOR_FUTURE_USE = 6;
+  // 1 Dose Note
+  public static final int FIELD_IN_INPUT_DOSE_1_DOSE_NOTE = 1;
+  // 2 Dose HL7 Code
+  public static final int FIELD_IN_INPUT_DOSE_2_DOSE_HL7_CODE = 2;
+  // 3 Date of Dose Administration
+  public static final int FIELD_IN_INPUT_DOSE_3_DATE_OF_DOSE_ADMINISTRATION = 3;
+  // 4 Dose Override
+  public static final int FIELD_IN_INPUT_DOSE_4_DOSE_OVERRIDE = 4;
+  // 5 Reserved for future use
+  public static final int FIELD_IN_INPUT_DOSE_5_RESERVED_FOR_FUTURE_USE = 5;
+  // 6 Reserved for future use
+  public static final int FIELD_IN_INPUT_DOSE_6_RESERVED_FOR_FUTURE_USE = 6;
 
-  private static final String FIELD_IN_INPUT_DOSE_SEP = "|||";
+  public static final String FIELD_IN_INPUT_DOSE_SEP = "|||";
 
   // ++ Out fields +++++++++++++++++++++++++++++++++++++
-  private static final int FIELD_OUT_00_ERROR = 0;
+  public static final int FIELD_OUT_00_ERROR = 0;
 
-  //  1 Copyright Notice
-  private static final int FIELD_OUT_CASE_DATA_01_COPYRIGHT_NOTICE = 1;
-  //  2 Run Date and Time
-  private static final int FIELD_OUT_CASE_DATA_02_RUN_DATE_AND_TIME = 2;
-  //  3 Date Used for Forecast 
-  private static final int FIELD_OUT_CASE_DATA_03_DATE_USED_FOR_FORECAST = 3;
-  //  4 Forecasting Mode
-  private static final int FIELD_OUT_CASE_DATA_04_FORECASTING_MODE = 4;
-  //  5 Version
-  private static final int FIELD_OUT_CASE_DATA_05_VERSION = 5;
-  //  6 Reserved for future use
-  private static final int FIELD_OUT_CASE_DATA_06_FUTURE_USE = 6;
-  //  7 Reserved for future use
-  private static final int FIELD_OUT_CASE_DATA_07_FUTURE_USE = 7;
-  //  8 Reserved for future use
-  private static final int FIELD_OUT_CASE_DATA_08_FUTURE_USE = 8;
-  //  9 Personal ID - Chart#
-  private static final int FIELD_OUT_CASE_DATA_09_PERSONAL_ID = 9;
-  //  10  User Note (Patient IEN)
-  private static final int FIELD_OUT_CASE_DATA_10_USER_NOTE = 10;
-  //  11  Date of Birth
-  private static final int FIELD_OUT_CASE_DATA_11_DATE_OF_BIRTH = 11;
-  //  12  Gender
-  private static final int FIELD_OUT_CASE_DATA_12_GENDER = 12;
+  // 1 Copyright Notice
+  public static final int FIELD_OUT_CASE_DATA_01_COPYRIGHT_NOTICE = 1;
+  // 2 Run Date and Time
+  public static final int FIELD_OUT_CASE_DATA_02_RUN_DATE_AND_TIME = 2;
+  // 3 Date Used for Forecast
+  public static final int FIELD_OUT_CASE_DATA_03_DATE_USED_FOR_FORECAST = 3;
+  // 4 Forecasting Mode
+  public static final int FIELD_OUT_CASE_DATA_04_FORECASTING_MODE = 4;
+  // 5 Version
+  public static final int FIELD_OUT_CASE_DATA_05_VERSION = 5;
+  // 6 Reserved for future use
+  public static final int FIELD_OUT_CASE_DATA_06_FUTURE_USE = 6;
+  // 7 Reserved for future use
+  public static final int FIELD_OUT_CASE_DATA_07_FUTURE_USE = 7;
+  // 8 Reserved for future use
+  public static final int FIELD_OUT_CASE_DATA_08_FUTURE_USE = 8;
+  // 9 Personal ID - Chart#
+  public static final int FIELD_OUT_CASE_DATA_09_PERSONAL_ID = 9;
+  // 10 User Note (Patient IEN)
+  public static final int FIELD_OUT_CASE_DATA_10_USER_NOTE = 10;
+  // 11 Date of Birth
+  public static final int FIELD_OUT_CASE_DATA_11_DATE_OF_BIRTH = 11;
+  // 12 Gender
+  public static final int FIELD_OUT_CASE_DATA_12_GENDER = 12;
 
-  //  1 Dose Note
-  private static final int FIELD_OUT_INPUT_DOSE_01_DOSE_NOTE = 1;
-  //  2 Dose Input HL7 Code
-  private static final int FIELD_OUT_INPUT_DOSE_02_DOSE_INPUT_HL7_CODE = 2;
-  //  3 Dose Input HL7 Code Error Code
-  private static final int FIELD_OUT_INPUT_DOSE_03_DOSE_INPUT_HL7_CODE_ERROR_CODE = 3;
-  //  4 Date of Dose Administration
-  private static final int FIELD_OUT_INPUT_DOSE_04_DATE_OF_DOSE_ADMINISTRATION = 4;
-  //  5 Dose Override
-  private static final int FIELD_OUT_INPUT_DOSE_05_DOSE_OVERRIDE = 5;
-  //  6 Reserved for future use
-  private static final int FIELD_OUT_INPUT_DOSE_06_INVLIAD_DOSE_AND_REASON = 6;
-  //  7  Reserved for future use
-  private static final int FIELD_OUT_INPUT_DOSE_07_INVALID_CVX_LIST = 7;
+  // 1 Dose Note
+  public static final int FIELD_OUT_INPUT_DOSE_01_DOSE_NOTE = 1;
+  // 2 Dose Input HL7 Code
+  public static final int FIELD_OUT_INPUT_DOSE_02_DOSE_INPUT_HL7_CODE = 2;
+  // 3 Dose Input HL7 Code Error Code
+  public static final int FIELD_OUT_INPUT_DOSE_03_DOSE_INPUT_HL7_CODE_ERROR_CODE = 3;
+  // 4 Date of Dose Administration
+  public static final int FIELD_OUT_INPUT_DOSE_04_DATE_OF_DOSE_ADMINISTRATION = 4;
+  // 5 Dose Override
+  public static final int FIELD_OUT_INPUT_DOSE_05_DOSE_OVERRIDE = 5;
+  // 6 Reserved for future use
+  public static final int FIELD_OUT_INPUT_DOSE_06_INVLIAD_DOSE_AND_REASON = 6;
+  // 7 Reserved for future use
+  public static final int FIELD_OUT_INPUT_DOSE_07_INVALID_CVX_LIST = 7;
 
-  //  1 Dose Due IMM/Serve Series Code
-  private static final int FIELD_OUT_DOSE_DUE_1_DOSE_DUE_IMM_SERVE_SERIES_CODE = 1;
-  //  2 Dose Due Dose Number
-  private static final int FIELD_OUT_DOSE_DUE_02_DOSE_DUE_DOSE_NUMBER = 2;
-  //  3 Dose Due Past Due Indicator
-  private static final int FIELD_OUT_DOSE_DUE_03_DOSE_DUE_PAST_DUE_INDICATOR = 3;
-  //  4 Dose Due Minimum Date
-  private static final int FIELD_OUT_DOSE_DUE_04_DOSE_DUE_MINIMUM_DATE = 4;
-  //  5 Dose Due Recommended Date
-  private static final int FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE = 5;
-  //  6 Dose Due Exceeds Date
-  private static final int FIELD_OUT_DOSE_DUE_06_DOSE_DUE_EXCEEDS_DATE = 6;
-  //  7 Reserved for future use
-  private static final int FIELD_OUT_DOSE_DUE_07_RESERVED_FOR_FUTURE_USE = 7;
-  //  8 Reserved for future use
-  private static final int FIELD_OUT_DOSE_DUE_08_RESERVED_FOR_FUTURE_USE = 8;
+  // 1 Dose Due IMM/Serve Series Code
+  public static final int FIELD_OUT_DOSE_DUE_1_DOSE_DUE_IMM_SERVE_SERIES_CODE = 1;
+  // 2 Dose Due Dose Number
+  public static final int FIELD_OUT_DOSE_DUE_02_DOSE_DUE_DOSE_NUMBER = 2;
+  // 3 Dose Due Past Due Indicator
+  public static final int FIELD_OUT_DOSE_DUE_03_DOSE_DUE_PAST_DUE_INDICATOR = 3;
+  // 4 Dose Due Minimum Date
+  public static final int FIELD_OUT_DOSE_DUE_04_DOSE_DUE_MINIMUM_DATE = 4;
+  // 5 Dose Due Recommended Date
+  public static final int FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE = 5;
+  // 6 Dose Due Exceeds Date
+  public static final int FIELD_OUT_DOSE_DUE_06_DOSE_DUE_EXCEEDS_DATE = 6;
+  // 7 Reserved for future use
+  public static final int FIELD_OUT_DOSE_DUE_07_RESERVED_FOR_FUTURE_USE = 7;
+  // 8 Reserved for future use
+  public static final int FIELD_OUT_DOSE_DUE_08_RESERVED_FOR_FUTURE_USE = 8;
 
-  //  1 Dose Due Next IMM/Serve Series Code
-  private static final int FIELD_OUT_DOSE_DUE_NEXT_1_DOSE_DUE_NEXT_IMM_SERVE_SERIES_CODE = 1;
-  //  2 Reserved for future use
-  private static final int FIELD_OUT_DOSE_DUE_NEXT_2_RESERVED_FOR_FUTURE_USE = 2;
-  //  3 Dose due Next Dose Number
-  private static final int FIELD_OUT_DOSE_DUE_NEXT_3_DOSE_DUE_NEXT_DOSE_NUMBER = 3;
-  //  4 Dose Due Next Dependent Dose Index
-  private static final int FIELD_OUT_DOSE_DUE_NEXT_4_DOSE_DUE_NEXT_DEPENDENT_DOSE_INDEX = 4;
-  //  5 Dose due Next Acceptable Administration Date 
-  private static final int FIELD_OUT_DOSE_DUE_NEXT_5_DOSE_DUE_NEXT_ACCEPTABLE_ADMINISTRATION_DATE_ =
-      5;
-  //  6 Dose due Next Recommended Administration Date
-  private static final int FIELD_OUT_DOSE_DUE_NEXT_6_DOSE_DUE_NEXT_RECOMMENDED_ADMINISTRATION_DATE =
-      6;
-  //  7 Dose due Next Exceeds Date 
-  private static final int FIELD_OUT_DOSE_DUE_NEXT_7_DOSE_DUE_NEXT_EXCEEDS_DATE = 7;
-  //  8 Reserved for future use
-  private static final int FIELD_OUT_DOSE_DUE_NEXT_8_RESERVED_FOR_FUTURE_USE = 8;
+  // 1 Dose Due Next IMM/Serve Series Code
+  public static final int FIELD_OUT_DOSE_DUE_NEXT_1_DOSE_DUE_NEXT_IMM_SERVE_SERIES_CODE = 1;
+  // 2 Reserved for future use
+  public static final int FIELD_OUT_DOSE_DUE_NEXT_2_RESERVED_FOR_FUTURE_USE = 2;
+  // 3 Dose due Next Dose Number
+  public static final int FIELD_OUT_DOSE_DUE_NEXT_3_DOSE_DUE_NEXT_DOSE_NUMBER = 3;
+  // 4 Dose Due Next Dependent Dose Index
+  public static final int FIELD_OUT_DOSE_DUE_NEXT_4_DOSE_DUE_NEXT_DEPENDENT_DOSE_INDEX = 4;
+  // 5 Dose due Next Acceptable Administration Date
+  public static final int FIELD_OUT_DOSE_DUE_NEXT_5_DOSE_DUE_NEXT_ACCEPTABLE_ADMINISTRATION_DATE_ = 5;
+  // 6 Dose due Next Recommended Administration Date
+  public static final int FIELD_OUT_DOSE_DUE_NEXT_6_DOSE_DUE_NEXT_RECOMMENDED_ADMINISTRATION_DATE = 6;
+  // 7 Dose due Next Exceeds Date
+  public static final int FIELD_OUT_DOSE_DUE_NEXT_7_DOSE_DUE_NEXT_EXCEEDS_DATE = 7;
+  // 8 Reserved for future use
+  public static final int FIELD_OUT_DOSE_DUE_NEXT_8_RESERVED_FOR_FUTURE_USE = 8;
 
-  //  1 Hib Series Completed Indicator
-  private static final int FIELD_OUT_SERIES_01_HIB_SERIES_COMPLETED_INDICATOR = 1;
-  //  2 Hepatitis A Series Completed Indicator
-  private static final int FIELD_OUT_SERIES_02_HEPATITIS_A_SERIES_COMPLETED_INDICATOR = 2;
-  //  3 Hepatitis B Series Completed Indicator
-  private static final int FIELD_OUT_SERIES_03_HEPATITIS_B_SERIES_COMPLETED_INDICATOR = 3;
-  //  4 Primary DTP Series Completed Indicator
-  private static final int FIELD_OUT_SERIES_04_PRIMARY_DTP_SERIES_COMPLETED_INDICATOR = 4;
-  //  5 Polio Vaccine Series Completed Indicator
-  private static final int FIELD_OUT_SERIES_05_POLIO_VACCINE_SERIES_COMPLETED_INDICATOR = 5;
-  //  6 MMR Series Completed Indicator
-  private static final int FIELD_OUT_SERIES_06_MMR_SERIES_COMPLETED_INDICATOR = 6;
-  //  7 Varicella Series Completed Indicator
-  private static final int FIELD_OUT_SERIES_07_VARICELLA_SERIES_COMPLETED_INDICATOR = 7;
-  //  8 Rv Series Completed Indicator
-  private static final int FIELD_OUT_SERIES_08_RV_SERIES_COMPLETED_INDICATOR = 8;
-  //  9 Strep-Pneumococcal Series Completed Indicator
-  private static final int FIELD_OUT_SERIES_09_STREP_PNEUMOCOCCAL_SERIES_COMPLETED_INDICATOR = 9;
-  //  10  Meningococcal Series Completed Indicator
-  private static final int FIELD_OUT_SERIES_10_MENINGOCOCCAL_SERIES_COMPLETED_INDICATOR = 10;
-  //  11  HPV Series Completed Indicator
-  private static final int FIELD_OUT_SERIES_11_HPV_SERIES_COMPLETED_INDICATOR = 11;
-  //  12  Reserved for future use
-  private static final int FIELD_OUT_SERIES_12_ZOSTER_SERIES_COMPLETED_INDICATOR = 12;
-  //  13  Reserved for future use
-  private static final int FIELD_OUT_SERIES_13_RESERVED_FOR_FUTURE_USE = 13;
+  // 1 Hib Series Completed Indicator
+  public static final int FIELD_OUT_SERIES_01_HIB_SERIES_COMPLETED_INDICATOR = 1;
+  // 2 Hepatitis A Series Completed Indicator
+  public static final int FIELD_OUT_SERIES_02_HEPATITIS_A_SERIES_COMPLETED_INDICATOR = 2;
+  // 3 Hepatitis B Series Completed Indicator
+  public static final int FIELD_OUT_SERIES_03_HEPATITIS_B_SERIES_COMPLETED_INDICATOR = 3;
+  // 4 Primary DTP Series Completed Indicator
+  public static final int FIELD_OUT_SERIES_04_PRIMARY_DTP_SERIES_COMPLETED_INDICATOR = 4;
+  // 5 Polio Vaccine Series Completed Indicator
+  public static final int FIELD_OUT_SERIES_05_POLIO_VACCINE_SERIES_COMPLETED_INDICATOR = 5;
+  // 6 MMR Series Completed Indicator
+  public static final int FIELD_OUT_SERIES_06_MMR_SERIES_COMPLETED_INDICATOR = 6;
+  // 7 Varicella Series Completed Indicator
+  public static final int FIELD_OUT_SERIES_07_VARICELLA_SERIES_COMPLETED_INDICATOR = 7;
+  // 8 Rv Series Completed Indicator
+  public static final int FIELD_OUT_SERIES_08_RV_SERIES_COMPLETED_INDICATOR = 8;
+  // 9 Strep-Pneumococcal Series Completed Indicator
+  public static final int FIELD_OUT_SERIES_09_STREP_PNEUMOCOCCAL_SERIES_COMPLETED_INDICATOR = 9;
+  // 10 Meningococcal Series Completed Indicator
+  public static final int FIELD_OUT_SERIES_10_MENINGOCOCCAL_SERIES_COMPLETED_INDICATOR = 10;
+  // 11 HPV Series Completed Indicator
+  public static final int FIELD_OUT_SERIES_11_HPV_SERIES_COMPLETED_INDICATOR = 11;
+  // 12 Reserved for future use
+  public static final int FIELD_OUT_SERIES_12_ZOSTER_SERIES_COMPLETED_INDICATOR = 12;
+  // 13 Reserved for future use
+  public static final int FIELD_OUT_SERIES_13_RESERVED_FOR_FUTURE_USE = 13;
 
-  private static final int FIELD_OUT_HUMAN_READABLE_LOG = 0;
+  public static final int FIELD_OUT_HUMAN_READABLE_LOG = 0;
 
   private int runCode = 0;
   private String runProblem = "";
-  private Throwable exception = null;
 
   private String request = "";
   private StringBuilder response = new StringBuilder();
   private int currentPosition = 1;
 
-  private static HashMap<String, Map<String, String>> combinationInvalidParts =
-      new HashMap<String, Map<String, String>>();
+  private static HashMap<String, Map<String, String>> combinationInvalidParts = new HashMap<String, Map<String, String>>();
 
   static {
     {
@@ -323,58 +319,64 @@ public class CaretForecaster {
     doseDueOutHash.put(ImmunizationForecastDataBean.HEPB, "45"); // Hep B adolescent or pediatric
     doseDueOutHash.put(ImmunizationForecastDataBean.TD, "9"); // Td adult
     doseDueOutHash.put(ImmunizationForecastDataBean.TDAP, "115"); // Tdap
-    doseDueOutHash.put(ImmunizationForecastDataBean.HIB, "17"); // Hib  unspecified
+    doseDueOutHash.put(ImmunizationForecastDataBean.HIB, "17"); // Hib unspecified
     doseDueOutHash.put(ImmunizationForecastDataBean.DIPHTHERIA, "20"); // DTaP
     doseDueOutHash.put(ImmunizationForecastDataBean.DTAP, "20"); // DTaP
     doseDueOutHash.put(ImmunizationForecastDataBean.VARICELLA, "21"); // Varicella
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"28"); // DT pediatric
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"30"); // HBIG
-    doseDueOutHash.put(ImmunizationForecastDataBean.HEPA, "85"); // Hep A  pediatric
-    doseDueOutHash.put(ImmunizationForecastDataBean.PCV13, "133"); // Strep  Pneumococcal (polysacchoride)
-    doseDueOutHash.put(ImmunizationForecastDataBean.PNEUMO, "133"); // Strep  Pneumococcal (polysacchoride)
+    doseDueOutHash.put(ImmunizationForecastDataBean.HEPA, "85"); // Hep A pediatric
+    doseDueOutHash.put(ImmunizationForecastDataBean.PCV13, "133"); // Strep Pneumococcal (polysacchoride)
+    doseDueOutHash.put(ImmunizationForecastDataBean.PNEUMO, "133"); // Strep Pneumococcal (polysacchoride)
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"49"); // Hib PRP-OMP
-    doseDueOutHash.put(ImmunizationForecastDataBean.HPV, "137"); // HPV,  quadrivalent
+    doseDueOutHash.put(ImmunizationForecastDataBean.HPV, "137"); // HPV, quadrivalent
     doseDueOutHash.put(ImmunizationForecastDataBean.POLIO, "89"); // Unspecified Polio
     doseDueOutHash.put(ImmunizationForecastDataBean.MCV4, "147"); // Meningococcal (MCV4)
     doseDueOutHash.put(ImmunizationForecastDataBean.MENING, "147"); // Meningococcal (MCV4)
     doseDueOutHash.put(ImmunizationForecastDataBean.MENINGOCOCCAL_B, "164"); // meningococcal B, unspecified
     doseDueOutHash.put(ImmunizationForecastDataBean.MENING_BEXSERO, "163"); // meningococcal B, OMV
     doseDueOutHash.put(ImmunizationForecastDataBean.MENING_TRUMEMBA, "162"); // meningococcal B, recombinant
-    // doseDueOutHash.put(ImmunizationForecastDataBean. ,"116"); // Rotavirus, pentavalent
-    // doseDueOutHash.put(ImmunizationForecastDataBean. ,"119"); // Rotavirus,monovalent
+    // doseDueOutHash.put(ImmunizationForecastDataBean. ,"116"); // Rotavirus,
+    // pentavalent
+    // doseDueOutHash.put(ImmunizationForecastDataBean. ,"119"); //
+    // Rotavirus,monovalent
     doseDueOutHash.put(ImmunizationForecastDataBean.ROTAVIRUS, "122"); // Rotavirus, NOS
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"128"); // H1N1-09, NOS
-    doseDueOutHash.put(ImmunizationForecastDataBean.PPSV, "33"); // Pneumococcal,  PCV13
+    doseDueOutHash.put(ImmunizationForecastDataBean.PPSV, "33"); // Pneumococcal, PCV13
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA, "88"); // Influenza, seasonal, injectable
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "141"); // Influenza, seasonal, injectable
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "168"); // Influenza, trivalent, adjuvanted
-    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "171"); // Influenza, injectable, MDCK, preservative free, quadrivalent
+    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "171"); // Influenza, injectable, MDCK, preservative
+                                                                           // free, quadrivalent
     doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_LAIV, "151"); // Influenza nasal, unspecified formulation
-    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "171"); // Influenza, injectable, MDCK, preservative free, quadrivalent
-    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "171"); // Influenza, injectable, MDCK, preservative free, quadrivalent
+    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "171"); // Influenza, injectable, MDCK, preservative
+                                                                           // free, quadrivalent
+    doseDueOutHash.put(ImmunizationForecastDataBean.INFLUENZA_IIV, "171"); // Influenza, injectable, MDCK, preservative
+                                                                           // free, quadrivalent
     doseDueOutHash.put(ImmunizationForecastDataBean.ZOSTER, "187"); // Shingrix (Zoster)
-    doseDueOutHash.put(ImmunizationForecastDataBean.COVID, "113"); // Hep A  pediatric
-    
-    // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-10"); // Td Adult  Booster
+    doseDueOutHash.put(ImmunizationForecastDataBean.COVID, "113"); // Hep A pediatric
+
+    // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-10"); // Td Adult Booster
     // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-12"); // Unspecified D/T
-    // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-13"); // Tdap Adult Booster
+    // doseDueOutHash.put(ImmunizationForecastDataBean. ,"-13"); // Tdap Adult
+    // Booster
 
   }
 
   private static Set<String> useValidForDueSet = new HashSet<String>();
 
   static {
-    //    HepB1
-    //    HepB2
-    //    HepB3
+    // HepB1
+    // HepB2
+    // HepB3
     useValidForDueSet.add(ImmunizationForecastDataBean.HEPB + "-1");
     useValidForDueSet.add(ImmunizationForecastDataBean.HEPB + "-2");
     useValidForDueSet.add(ImmunizationForecastDataBean.HEPB + "-3");
-    //    DTorP1
-    //    DTorP2
-    //    DTorP3
-    //    DTorP4
-    //    DTorP5
+    // DTorP1
+    // DTorP2
+    // DTorP3
+    // DTorP4
+    // DTorP5
     useValidForDueSet.add(ImmunizationForecastDataBean.DTAP + "-1");
     useValidForDueSet.add(ImmunizationForecastDataBean.DTAP + "-2");
     useValidForDueSet.add(ImmunizationForecastDataBean.DTAP + "-3");
@@ -385,44 +387,44 @@ public class CaretForecaster {
     useValidForDueSet.add(ImmunizationForecastDataBean.DIPHTHERIA + "-3");
     useValidForDueSet.add(ImmunizationForecastDataBean.DIPHTHERIA + "-4");
     useValidForDueSet.add(ImmunizationForecastDataBean.DIPHTHERIA + "-5");
-    //    Hib1
-    //    Hib2
-    //    HibTITER3
-    //    HibTITER4
-    //    PedvaxHIB3
+    // Hib1
+    // Hib2
+    // HibTITER3
+    // HibTITER4
+    // PedvaxHIB3
     useValidForDueSet.add(ImmunizationForecastDataBean.HIB + "-1");
     useValidForDueSet.add(ImmunizationForecastDataBean.HIB + "-2");
     useValidForDueSet.add(ImmunizationForecastDataBean.HIB + "-3");
     useValidForDueSet.add(ImmunizationForecastDataBean.HIB + "-4");
 
-    //    IPV1
-    //    IPV2
-    //    IPV3
-    //    IPV4
+    // IPV1
+    // IPV2
+    // IPV3
+    // IPV4
     useValidForDueSet.add(ImmunizationForecastDataBean.POLIO + "-1");
     useValidForDueSet.add(ImmunizationForecastDataBean.POLIO + "-2");
     useValidForDueSet.add(ImmunizationForecastDataBean.POLIO + "-3");
     useValidForDueSet.add(ImmunizationForecastDataBean.POLIO + "-4");
 
-    //    Pneum-conj
-    //    Pneum-conj
-    //    Pneum-conj
-    //    Pneum-conj
+    // Pneum-conj
+    // Pneum-conj
+    // Pneum-conj
+    // Pneum-conj
     useValidForDueSet.add(ImmunizationForecastDataBean.PNEUMO + "-1");
     useValidForDueSet.add(ImmunizationForecastDataBean.PCV13 + "-1");
     useValidForDueSet.add(ImmunizationForecastDataBean.PCV13 + "-2");
     useValidForDueSet.add(ImmunizationForecastDataBean.PCV13 + "-3");
     useValidForDueSet.add(ImmunizationForecastDataBean.PCV13 + "-4");
 
-    //    Rota1
-    //    Rota2
-    //    Rota3
+    // Rota1
+    // Rota2
+    // Rota3
     useValidForDueSet.add(ImmunizationForecastDataBean.ROTAVIRUS + "-1");
     useValidForDueSet.add(ImmunizationForecastDataBean.ROTAVIRUS + "-2");
     useValidForDueSet.add(ImmunizationForecastDataBean.ROTAVIRUS + "-3");
 
-    //    MMR1
-    //    MMR2
+    // MMR1
+    // MMR2
     useValidForDueSet.add(ImmunizationForecastDataBean.MMR + "-1");
     useValidForDueSet.add(ImmunizationForecastDataBean.MMR + "-2");
     useValidForDueSet.add(ImmunizationForecastDataBean.MEASLES + "-1");
@@ -432,22 +434,22 @@ public class CaretForecaster {
     useValidForDueSet.add(ImmunizationForecastDataBean.RUBELLA + "-1");
     useValidForDueSet.add(ImmunizationForecastDataBean.RUBELLA + "-2");
 
-    //    Varicella1
-    //    Varicella2
+    // Varicella1
+    // Varicella2
     useValidForDueSet.add(ImmunizationForecastDataBean.VARICELLA + "-1");
     useValidForDueSet.add(ImmunizationForecastDataBean.VARICELLA + "-2");
 
-    //    HepA1
-    //    HepA2
+    // HepA1
+    // HepA2
     useValidForDueSet.add(ImmunizationForecastDataBean.HEPA + "-1");
     useValidForDueSet.add(ImmunizationForecastDataBean.HEPA + "-2");
 
-    //    Influenza
+    // Influenza
     useValidForDueSet.add(ImmunizationForecastDataBean.INFLUENZA + "-1");
 
-    //    HPV1
-    //    HPV2
-    //    HPV3
+    // HPV1
+    // HPV2
+    // HPV3
     useValidForDueSet.add(ImmunizationForecastDataBean.HPV + "-1");
     useValidForDueSet.add(ImmunizationForecastDataBean.HPV + "-2");
     useValidForDueSet.add(ImmunizationForecastDataBean.HPV + "-3");
@@ -553,13 +555,11 @@ public class CaretForecaster {
         throw new Exception("Unable to process input because: " + runProblem);
       }
 
-      Date forecastDate =
-          readDate(caseDetailFieldList, FIELD_IN_CASE_DETAIL_01_DATE_USED_FOR_FORECAST);
+      Date forecastDate = readDate(caseDetailFieldList, FIELD_IN_CASE_DETAIL_01_DATE_USED_FOR_FORECAST);
       Date dateOfBirth = readDate(caseDetailFieldList, FIELD_IN_CASE_DETAIL_08_DATE_OF_BIRTH);
       String gender = readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_09_GENDER);
-      boolean use4DayGracePeriod =
-          readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_03_USE_4_DAY_GRACE_PERIOD)
-              .equals("1");
+      boolean use4DayGracePeriod = readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_03_USE_4_DAY_GRACE_PERIOD)
+          .equals("1");
 
       Set<String> filterSet = new HashSet<String>();
       if (readField(caseDetailFieldList,
@@ -640,10 +640,10 @@ public class CaretForecaster {
           try {
             fluSeasonDue = determineTimePeriod(fluSeasonDue,
                 influenzaControlField.substring(0, pos).trim(), true);
-            fluSeasonFinished =
-                determineTimePeriod(null, influenzaControlField.substring(pos + 1).trim(), true);
+            fluSeasonFinished = determineTimePeriod(null, influenzaControlField.substring(pos + 1).trim(), true);
           } catch (Exception e) {
-            // problem happened while trying to setup forecast dates, just ignore it and continue
+            // problem happened while trying to setup forecast dates, just ignore it and
+            // continue
             e.printStackTrace();
           }
         }
@@ -688,7 +688,6 @@ public class CaretForecaster {
 
         String doseNote = readField(inputDoseFieldList, FIELD_IN_INPUT_DOSE_1_DOSE_NOTE);
         String cvxCode = readField(inputDoseFieldList, FIELD_IN_INPUT_DOSE_2_DOSE_HL7_CODE);
-        // TODO mapping code to cvx
         // for now, tack on 0 for single digit codes
         if (cvxCode.length() == 0) {
           continue;
@@ -697,8 +696,7 @@ public class CaretForecaster {
         }
         Integer vaccineId = null;
 
-        Date doseAdminDate =
-            readDate(inputDoseFieldList, FIELD_IN_INPUT_DOSE_3_DATE_OF_DOSE_ADMINISTRATION);
+        Date doseAdminDate = readDate(inputDoseFieldList, FIELD_IN_INPUT_DOSE_3_DATE_OF_DOSE_ADMINISTRATION);
         boolean wasAdultWhenDoseGiven = determineIfAdultWhenDoseGiven(dateOfBirth, doseAdminDate);
         cvxCode = cleanupHepA(wasAdultWhenDoseGiven, cvxCode);
 
@@ -745,8 +743,7 @@ public class CaretForecaster {
         forecastRunner.getForecastOptions().setAssumeCompleteScheduleName("HepB");
       }
 
-      String forecastingMode =
-          readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_02_FORECASTING_MODE);
+      String forecastingMode = readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_02_FORECASTING_MODE);
       if (forecastingMode.equals(FORECASTING_MODE_ACCEPTABLE)) {
         forecastRunner.getForecastOptions().setRecommendWhenValid(true);
         forecastRunner.getForecastOptions().setRecommendWhenValidSet(useValidForDueSet);
@@ -772,8 +769,10 @@ public class CaretForecaster {
       addValue("", FIELD_OUT_CASE_DATA_05_VERSION);
 
       // addValue(SoftwareVersion.VERSION, FIELD_OUT_06_RULE_SET_MAJOR_VERSION);
-      // addValue(forecastRunner.getForecasterScheduleName(), FIELD_OUT_07_RULE_SET_MINOR_VERSION);
-      // addValue(SoftwareVersion.VERSION_RELEASE, FIELD_OUT_08_RULE_SET_RELEASE_DATE);
+      // addValue(forecastRunner.getForecasterScheduleName(),
+      // FIELD_OUT_07_RULE_SET_MINOR_VERSION);
+      // addValue(SoftwareVersion.VERSION_RELEASE,
+      // FIELD_OUT_08_RULE_SET_RELEASE_DATE);
       addValue(readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_06_PERSONAL_ID),
           FIELD_OUT_CASE_DATA_09_PERSONAL_ID);
       addValue(readField(caseDetailFieldList, FIELD_IN_CASE_DETAIL_07_USER_NOTE),
@@ -860,7 +859,8 @@ public class CaretForecaster {
 
       boolean inInfluenzaSuppressRange = false;
       if (fluSeasonFinished == null) {
-        // special suppress flu forecast for first dose between 04/01 and 07/01 of this year
+        // special suppress flu forecast for first dose between 04/01 and 07/01 of this
+        // year
         DateTime startSuppressDate = new DateTime(forecastDate);
         startSuppressDate.setMonth(4);
         startSuppressDate.setDay(1);
@@ -878,10 +878,9 @@ public class CaretForecaster {
       Set<String> nc = new HashSet<String>();
       {
 
-        List<ImmunizationForecastDataBean> forecastListDueToday =
-            new ArrayList<ImmunizationForecastDataBean>();
-        List<ImmunizationForecastDataBean> forecastListDueTodayAdd =
-            new ArrayList<ImmunizationForecastDataBean>(forecastRunner.getForecastListDueToday());
+        List<ImmunizationForecastDataBean> forecastListDueToday = new ArrayList<ImmunizationForecastDataBean>();
+        List<ImmunizationForecastDataBean> forecastListDueTodayAdd = new ArrayList<ImmunizationForecastDataBean>(
+            forecastRunner.getForecastListDueToday());
         for (Iterator<ImmunizationForecastDataBean> it = forecastListDueTodayAdd.iterator(); it
             .hasNext();) {
           ImmunizationForecastDataBean forecastResult = it.next();
@@ -910,32 +909,35 @@ public class CaretForecaster {
             currentPosition = 1;
             String doseDueCode = doseDueOutHash.get(forecastResult.getForecastName());
 
-            //        String doseHL7Code = doseDueOutHash.get(forecastResult.getForecastName());
-            //        if (doseHL7Code == null) {
-            //          doseHL7Code = "";
-            //        }
+            // String doseHL7Code = doseDueOutHash.get(forecastResult.getForecastName());
+            // if (doseHL7Code == null) {
+            // doseHL7Code = "";
+            // }
             addValue(doseDueCode, FIELD_OUT_DOSE_DUE_1_DOSE_DUE_IMM_SERVE_SERIES_CODE);
             // addValue(doseHL7Code, FIELD_OUT_140_DOSE_DUE_DOSE_HL7_CODE + base);
-            // addValue(forecastResult.getForecastLabel(), FIELD_OUT_141_DOSE_DUE_HL7_CODE_PRINT_STRING + base);
+            // addValue(forecastResult.getForecastLabel(),
+            // FIELD_OUT_141_DOSE_DUE_HL7_CODE_PRINT_STRING + base);
             addValue(forecastResult.getDose(), FIELD_OUT_DOSE_DUE_02_DOSE_DUE_DOSE_NUMBER);
             boolean overdue = forecastResult.getStatusDescriptionInternal().equals("overdue");
             addValue(overdue ? "1" : "0", FIELD_OUT_DOSE_DUE_03_DOSE_DUE_PAST_DUE_INDICATOR);
             addValue(d(forecastResult.getValid()), FIELD_OUT_DOSE_DUE_04_DOSE_DUE_MINIMUM_DATE);
             addValue(d(forecastResult.getDue()), FIELD_OUT_DOSE_DUE_05_DOSE_DUE_RECOMMENDED_DATE);
             addValue(d(forecastResult.getOverdue()), FIELD_OUT_DOSE_DUE_06_DOSE_DUE_EXCEEDS_DATE);
-            //        addValue(d(forecastResult.getOverdue()), FIELD_OUT_147_DOSE_DUE_MINIMUM_REMINDER_DATE + base);
-            //        addValue(d(forecastResult.getOverdue()), FIELD_OUT_148_DOSE_DUE_RECOMMENDED_REMINDER_DATE + base);
-            //        addValue(overdue ? "1" : "0", FIELD_OUT_149_DOSE_DUE_EXCEEDS_REMINDER_DATE + base);
-            //        addValue("", FIELD_OUT_150_DOSE_DUE_VFC_PAYMENT_INDICATOR + base);
+            // addValue(d(forecastResult.getOverdue()),
+            // FIELD_OUT_147_DOSE_DUE_MINIMUM_REMINDER_DATE + base);
+            // addValue(d(forecastResult.getOverdue()),
+            // FIELD_OUT_148_DOSE_DUE_RECOMMENDED_REMINDER_DATE + base);
+            // addValue(overdue ? "1" : "0", FIELD_OUT_149_DOSE_DUE_EXCEEDS_REMINDER_DATE +
+            // base);
+            // addValue("", FIELD_OUT_150_DOSE_DUE_VFC_PAYMENT_INDICATOR + base);
             addValue("", FIELD_OUT_DOSE_DUE_08_RESERVED_FOR_FUTURE_USE);
 
           }
           response.append(SECTION_SEPARATOR);
         }
-        List<ImmunizationForecastDataBean> forecastListDueLater =
-            new ArrayList<ImmunizationForecastDataBean>(forecastRunner.getForecastListDueLater());
-        List<ImmunizationForecastDataBean> forecastListDueLaterAdd =
-            new ArrayList<ImmunizationForecastDataBean>();
+        List<ImmunizationForecastDataBean> forecastListDueLater = new ArrayList<ImmunizationForecastDataBean>(
+            forecastRunner.getForecastListDueLater());
+        List<ImmunizationForecastDataBean> forecastListDueLaterAdd = new ArrayList<ImmunizationForecastDataBean>();
         for (Iterator<ImmunizationForecastDataBean> it = forecastListDueLater.iterator(); it
             .hasNext();) {
           ImmunizationForecastDataBean forecastResult = it.next();
@@ -954,13 +956,14 @@ public class CaretForecaster {
             }
             currentPosition = 1;
             String doseDueCode = doseDueOutHash.get(forecastResult.getForecastName());
-            //        String doseHL7Code = doseDueOutHash.get(forecastResult.getForecastName());
-            //        if (doseHL7Code == null) {
-            //          doseHL7Code = "";
-            //        }
+            // String doseHL7Code = doseDueOutHash.get(forecastResult.getForecastName());
+            // if (doseHL7Code == null) {
+            // doseHL7Code = "";
+            // }
             addValue(doseDueCode, FIELD_OUT_DOSE_DUE_NEXT_1_DOSE_DUE_NEXT_IMM_SERVE_SERIES_CODE);
-            //        addValue(doseHL7Code, FIELD_OUT_153_DOSE_DUE_NEXT_DOSE_HL7_CODE + base);
-            //        addValue(forecastResult.getForecastLabel(), FIELD_OUT_154_DOSE_DUE_NEXT_HL7_CODE_PRINT_STRING + base);
+            // addValue(doseHL7Code, FIELD_OUT_153_DOSE_DUE_NEXT_DOSE_HL7_CODE + base);
+            // addValue(forecastResult.getForecastLabel(),
+            // FIELD_OUT_154_DOSE_DUE_NEXT_HL7_CODE_PRINT_STRING + base);
             addValue(forecastResult.getDose(), FIELD_OUT_DOSE_DUE_NEXT_3_DOSE_DUE_NEXT_DOSE_NUMBER);
             addValue("", FIELD_OUT_DOSE_DUE_NEXT_4_DOSE_DUE_NEXT_DEPENDENT_DOSE_INDEX);
             addValue(d(forecastResult.getValid()),
@@ -969,7 +972,7 @@ public class CaretForecaster {
                 FIELD_OUT_DOSE_DUE_NEXT_6_DOSE_DUE_NEXT_RECOMMENDED_ADMINISTRATION_DATE);
             addValue(d(forecastResult.getOverdue()),
                 FIELD_OUT_DOSE_DUE_NEXT_7_DOSE_DUE_NEXT_EXCEEDS_DATE);
-            //        addValue("", FIELD_OUT_160_DOSE_DUE_NEXT_VFC_PAYMENT_INDICATOR + base);
+            // addValue("", FIELD_OUT_160_DOSE_DUE_NEXT_VFC_PAYMENT_INDICATOR + base);
             addValue("", FIELD_OUT_DOSE_DUE_NEXT_8_RESERVED_FOR_FUTURE_USE);
             response.append(DOSE_SEPARATOR);
           }
@@ -1067,8 +1070,7 @@ public class CaretForecaster {
     TimePeriod assumeSeriesCompleteAtAge = new TimePeriod("18 years");
 
     if (assumeSeriesCompleteAtAge != null) {
-      DateTime assumptionAge =
-          assumeSeriesCompleteAtAge.getDateTimeFrom(forecastRunner.getPatient().getDob());
+      DateTime assumptionAge = assumeSeriesCompleteAtAge.getDateTimeFrom(forecastRunner.getPatient().getDob());
       if (forecastRunner.getForecastDate().after(assumptionAge.getDate())) {
         DateTime assumptionDate = new DateTime(assumptionAge);
         Immunization imm = new Immunization();
@@ -1164,14 +1166,6 @@ public class CaretForecaster {
 
   private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
-  private int readInt(List<String> fieldList, int position) throws Exception {
-    String value = readField(fieldList, position);
-    if (value.equals("")) {
-      return 0;
-    }
-    return Integer.parseInt(value);
-  }
-
   private String d(Date d) {
     return new DateTime(d).toString("YMD");
   }
@@ -1210,29 +1204,85 @@ public class CaretForecaster {
     currentPosition++;
   }
 
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
 
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140201^R^IHS_6m26^0^0^^55^19481128^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~55079^9^19990706^0^0^0|||180404^115^20110504^0^0^0|||55078^45^19990706^0^0^0|||183899^33^20060101^0^0^0"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140306^0^1^0^0^BERLASA,ERIN GEORGE  Chart#: 00-00-25^25^19881225^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3367^21^20120415^0^0^0|||3366^141^20131001^0^0^0|||"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140310^0^1^0^0^UVARECKAR,ROSE ANNA  Chart#: 00-01-04^104^20131104^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140328^0^1^0^0^UVARECKAR,TEST^104^20100307^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~^20^20100601^0^0^|||^110^20100801^0^0^|||^20^20110901^0^0^|||^20^20120101^0^0^"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140328^0^1^0^0^UVARECKAR,TEST 2^104^20000307^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~^20^20000601^0^0^|||^110^20000801^0^0^|||^20^20010901^0^0^|||^20^20120001^0^0^"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140328^0^0^0^0^HUEMS,SHEILA LYNN  Chart#: 174226^27654^19620922^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140328^0^0^0^0^HUEMS,TEST 2  Chart#: 174226^27654^20020701^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~^138^20140320^0^0^"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140401^0^1^0^0^ORR,ALBERT JOSEPH  Chart#: 105237^1745^19490331^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^~~~43177^9^19970424^0^0^0|||137440^115^20080820^0^0^0|||183911^121^19980331^1^0^0|||57611^88^19991116^0^0^0|||183909^33^20070410^0^0^0"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140401^0^1^0^0^ORR,ALBERT JOSEPH  Chart#: 105237^1745^19490331^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~43177^9^19970424^0^0^0|||137440^115^20080820^0^0^0|||183911^121^19980331^5^0^0|||57611^88^19991116^0^0^0|||183909^33^20070410^0^0^0"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140402^0^1^0^0^DEMO, BABYMALE  Chart#: 105237^1745^20140219^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140402^1^1^0^0^DEMO, BABYMALE  Chart#: 105237^1745^20140219^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20100527^1^1^0^0^DEMO, PATIENT BILL^1745^20100527^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^~~~^8^20100527^0^0^|||^110^20100714^0^0^|||^110^20100914^0^0^"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140421^0^0^0^0^CREYG,ALLISON RAE  Chart#: 00-00-30^30^19840216^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3477^21^20140328^0^0^0|||3478^149^20140404^0^0^0|||"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^149^20140414^0^0^0|||3482^111^20140421^0^0^0|||"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^52^20140414^0^0^0|||"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^03^20140414^0^0^0|||"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^110^19830215^0^0^0|||"
-  // java -classpath deploy/lsv-forecaster.jar org.immregistries.lonestar.core.server.CaretForecaster "20140424^0^0^0^0^CREYG,ARLIE  Chart#: 00-00-31^31^19330215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^110^19830215^0^0^0|||"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT Chart#:
+  // 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140201^R^IHS_6m26^0^0^^55^19481128^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~55079^9^19990706^0^0^0|||180404^115^20110504^0^0^0|||55078^45^19990706^0^0^0|||183899^33^20060101^0^0^0"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140306^0^1^0^0^BERLASA,ERIN GEORGE Chart#:
+  // 00-00-25^25^19881225^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3367^21^20120415^0^0^0|||3366^141^20131001^0^0^0|||"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140310^0^1^0^0^UVARECKAR,ROSE ANNA Chart#:
+  // 00-01-04^104^20131104^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140328^0^1^0^0^UVARECKAR,TEST^104^20100307^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~^20^20100601^0^0^|||^110^20100801^0^0^|||^20^20110901^0^0^|||^20^20120101^0^0^"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140328^0^1^0^0^UVARECKAR,TEST
+  // 2^104^20000307^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~^20^20000601^0^0^|||^110^20000801^0^0^|||^20^20010901^0^0^|||^20^20120001^0^0^"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140328^0^0^0^0^HUEMS,SHEILA LYNN Chart#:
+  // 174226^27654^19620922^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140328^0^0^0^0^HUEMS,TEST 2 Chart#:
+  // 174226^27654^20020701^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~^138^20140320^0^0^"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140401^0^1^0^0^ORR,ALBERT JOSEPH Chart#:
+  // 105237^1745^19490331^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^~~~43177^9^19970424^0^0^0|||137440^115^20080820^0^0^0|||183911^121^19980331^1^0^0|||57611^88^19991116^0^0^0|||183909^33^20070410^0^0^0"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140401^0^1^0^0^ORR,ALBERT JOSEPH Chart#:
+  // 105237^1745^19490331^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~43177^9^19970424^0^0^0|||137440^115^20080820^0^0^0|||183911^121^19980331^5^0^0|||57611^88^19991116^0^0^0|||183909^33^20070410^0^0^0"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140402^0^1^0^0^DEMO, BABYMALE Chart#:
+  // 105237^1745^20140219^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140402^1^1^0^0^DEMO, BABYMALE Chart#:
+  // 105237^1745^20140219^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20100527^1^1^0^0^DEMO, PATIENT
+  // BILL^1745^20100527^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^1^0^0^0^0^0^~~~^8^20100527^0^0^|||^110^20100714^0^0^|||^110^20100914^0^0^"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140421^0^0^0^0^CREYG,ALLISON RAE Chart#:
+  // 00-00-30^30^19840216^Female^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3477^21^20140328^0^0^0|||3478^149^20140404^0^0^0|||"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140424^0^0^0^0^CREYG,ARLIE Chart#:
+  // 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^149^20140414^0^0^0|||3482^111^20140421^0^0^0|||"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140424^0^0^0^0^CREYG,ARLIE Chart#:
+  // 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^52^20140414^0^0^0|||"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140424^0^0^0^0^CREYG,ARLIE Chart#:
+  // 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^03^20140414^0^0^0|||"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140424^0^0^0^0^CREYG,ARLIE Chart#:
+  // 00-00-31^31^19830215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^110^19830215^0^0^0|||"
+  // java -classpath deploy/lsv-forecaster.jar
+  // org.immregistries.lonestar.core.server.CaretForecaster
+  // "20140424^0^0^0^0^CREYG,ARLIE Chart#:
+  // 00-00-31^31^19330215^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~3484^110^19830215^0^0^0|||"
 
-  //  110 
+  // 110
 
   public static void main(String[] args) throws Exception {
     boolean displayDetailLog = false;

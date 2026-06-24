@@ -16,8 +16,8 @@ import org.immregistries.lonestar.core.VaccineForecastManagerInterface;
 import org.immregistries.lonestar.core.model.PatientRecordDataBean;
 
 public class ForecastHandlerCore {
-  private static final String[] MMR_FORECASTS = {ImmunizationForecastDataBean.MEASLES,
-      ImmunizationForecastDataBean.MUMPS, ImmunizationForecastDataBean.RUBELLA};
+  private static final String[] MMR_FORECASTS = { ImmunizationForecastDataBean.MEASLES,
+      ImmunizationForecastDataBean.MUMPS, ImmunizationForecastDataBean.RUBELLA };
 
   public static boolean consolidate(List<ImmunizationForecastDataBean> forecastList, String[] f,
       String label) {
@@ -29,7 +29,7 @@ public class ForecastHandlerCore {
         same = false;
         break;
       }
-      if (forecastB != null) {
+      if (forecastB != null && forecastA != null) {
         if (!sameDate(forecastB.getValid(), forecastA.getValid())) {
           same = false;
           break;
@@ -101,9 +101,10 @@ public class ForecastHandlerCore {
     }
   }
 
-  private static void comment(List forecastList, String forecastName, String dose, String comment) {
-    for (Iterator it = forecastList.iterator(); it.hasNext();) {
-      ImmunizationForecastDataBean forecastExamine = (ImmunizationForecastDataBean) it.next();
+  private static void comment(List<ImmunizationForecastDataBean> forecastList,
+      String forecastName, String dose, String comment) {
+    for (Iterator<ImmunizationForecastDataBean> it = forecastList.iterator(); it.hasNext();) {
+      ImmunizationForecastDataBean forecastExamine = it.next();
       if (forecastExamine.getForecastName().equals(forecastName)) {
         if (dose == null || dose.equals(forecastExamine.getDose())) {
           forecastExamine.setComment(comment);
@@ -182,8 +183,8 @@ public class ForecastHandlerCore {
         DateTime dob = new DateTime(patient.getDob());
         consolidate(resultList, MMR_FORECASTS, "MMR");
         String label;
-        ImmunizationForecastDataBean forecastDiphtheria =
-            getForecast(resultList, ImmunizationForecastDataBean.DIPHTHERIA);
+        ImmunizationForecastDataBean forecastDiphtheria = getForecast(resultList,
+            ImmunizationForecastDataBean.DIPHTHERIA);
         if (forecastDiphtheria != null) {
           DateTime nextGiveTime = new DateTime(forecastDiphtheria.getDue());
           if (nextGiveTime.isLessThan(today)) {
@@ -195,8 +196,8 @@ public class ForecastHandlerCore {
           if (nextGiveTime.isLessThan(age7)) {
             label = "DTaP";
           } else {
-            ImmunizationForecastDataBean forecastPertussis =
-                getForecast(resultList, ImmunizationForecastDataBean.PERTUSSIS);
+            ImmunizationForecastDataBean forecastPertussis = getForecast(resultList,
+                ImmunizationForecastDataBean.PERTUSSIS);
             label = forecastPertussis == null || forecastPertussis.getDose().equals("1") ? "Tdap"
                 : "Td";
             moveTo = age7;

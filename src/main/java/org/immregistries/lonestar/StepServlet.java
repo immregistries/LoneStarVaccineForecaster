@@ -55,8 +55,8 @@ public class StepServlet extends ForecastServlet {
     if (nextActionName == null) {
       nextActionName = StartStep.NAME;
     }
-    ForecastHandlerCore forecastHandlerCore = ForecastManagerSingleton.getForecastManagerSingleton().getForecastHandlerCore();
-    
+    ForecastHandlerCore forecastHandlerCore = ForecastManagerSingleton.getForecastManagerSingleton()
+        .getForecastHandlerCore();
 
     resp.setContentType("text/html");
     PrintWriter out = new PrintWriter(resp.getOutputStream());
@@ -99,8 +99,7 @@ public class StepServlet extends ForecastServlet {
         dataStore.setVaccinations(forecastInput.imms);
         dataStore.setForecastDate(forecastInput.forecastDate.getDate());
         dataStore.setForecastOptions(forecastInput.forecastOptions);
-        List<ImmunizationForecastDataBean> resultList =
-            new ArrayList<ImmunizationForecastDataBean>();
+        List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
         List<VaccinationDoseDataBean> doseList = new ArrayList<VaccinationDoseDataBean>();
         Map<String, List<Trace>> traces = new HashMap<String, List<Trace>>();
         dataStore.setResultList(resultList);
@@ -112,7 +111,7 @@ public class StepServlet extends ForecastServlet {
       } else {
         if (nextActionName.equals(SetupStep.NAME)) {
           String lineCode = req.getParameter("lineCode");
-          //            lineCode = convertLineCode(lineCode);
+          // lineCode = convertLineCode(lineCode);
           dataStore.setForecastCode(lineCode);
         }
         StringBuffer detailLog = new StringBuffer();
@@ -130,7 +129,6 @@ public class StepServlet extends ForecastServlet {
             nextActionName = actionStep.doAction(dataStore);
           }
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         String imageName = previousActionName + "-" + nextActionName + ".png";
         out.println("<table class=\"layout\">");
         out.println("  <tr class=\"layout\">");
@@ -349,15 +347,15 @@ public class StepServlet extends ForecastServlet {
           }
           out.println("</table>");
 
-          //          private DateTime startBlackOut = null;
-          //          private DateTime endBlackOut = null;
-          //          private DateTime endBlackOutGrace = null;
-          //          private DateTime eventDate = null;
-          //          private String vaccineName = "";
-          //          private ValidVaccine[] againstVaccineIds = null;
-          //          private String againstContra = "";
-          //          private String againstAllowed = "";
-          //          private String reason = "";
+          // private DateTime startBlackOut = null;
+          // private DateTime endBlackOut = null;
+          // private DateTime endBlackOutGrace = null;
+          // private DateTime eventDate = null;
+          // private String vaccineName = "";
+          // private ValidVaccine[] againstVaccineIds = null;
+          // private String againstContra = "";
+          // private String againstAllowed = "";
+          // private String reason = "";
         }
 
         if (dataStore.getForecastOptions() != null) {
@@ -1136,6 +1134,10 @@ public class StepServlet extends ForecastServlet {
         }
       }
       out.println("</table>");
+
+      if (dataStore == null) {
+        throw new RuntimeException("Data store should not be null");
+      }
 
       if (dataStore.getEventList() != null) {
         // protected int eventPosition = 0;

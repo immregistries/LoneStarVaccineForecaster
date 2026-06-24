@@ -9,6 +9,7 @@ import org.immregistries.lonestar.core.DateTime;
 import org.immregistries.lonestar.core.DecisionProcessFormat;
 import org.immregistries.lonestar.core.ImmunizationForecastDataBean;
 import org.immregistries.lonestar.core.ImmunizationInterface;
+import org.immregistries.lonestar.core.Trace;
 import org.immregistries.lonestar.core.VaccinationDoseDataBean;
 import org.immregistries.lonestar.core.api.model.ForecastHandlerInterface;
 import org.immregistries.lonestar.core.api.model.ForecastPatientInterface;
@@ -35,9 +36,6 @@ public class ForecastHandler implements ForecastHandlerInterface {
       cvxToVaccineIdMap = CvxCodes.getCvxToCvxCodeMap();
     }
   }
-
-
-  private static ForecastHandlerCore forecastHandlerCore = null;
 
   public ForecastHandler() throws Exception {
     initCvxCodes();
@@ -96,7 +94,7 @@ public class ForecastHandler implements ForecastHandlerInterface {
 
     ForecastOptions forecastOptions = new ForecastOptions();
 
-    Map traceMap = new HashMap();
+    Map<String, List<Trace>> traceMap = new HashMap<String, List<Trace>>();
     List<ImmunizationForecastDataBean> resultList = new ArrayList<ImmunizationForecastDataBean>();
     VaccineForecastManager vaccineForecastManager = new VaccineForecastManager();
     ForecastHandlerCore forecastHandlerCore = new ForecastHandlerCore(vaccineForecastManager);
@@ -105,8 +103,7 @@ public class ForecastHandler implements ForecastHandlerInterface {
 
     forecastResponse.setEvaluationSchedule(forecasterScheduleName);
 
-    List<ForecastRecommendationInterface> forecastRecommendationList =
-        new ArrayList<ForecastRecommendationInterface>();
+    List<ForecastRecommendationInterface> forecastRecommendationList = new ArrayList<ForecastRecommendationInterface>();
     forecastResponse.setRecommendationList(forecastRecommendationList);
 
     {
@@ -130,8 +127,7 @@ public class ForecastHandler implements ForecastHandlerInterface {
         forecastRecommendationList.add(forecastRecommendation);
       }
     }
-    List<ForecastVaccinationInterface> forecastVaccinationList =
-        new ArrayList<ForecastVaccinationInterface>();
+    List<ForecastVaccinationInterface> forecastVaccinationList = new ArrayList<ForecastVaccinationInterface>();
     for (VaccinationDoseDataBean dose : doseList) {
       ForecastVaccinationInterface fv = new ForecastVaccination();
       fv.setAdminDate(dose.getAdminDate());
