@@ -1,0 +1,17 @@
+{
+  "uid": "LONESTAR-EMPTY-HEPA",
+  "testPlanId": "local",
+  "testPlanName": "LoneStar FITS smoke fixtures",
+  "groupName": "HepA",
+  "title": "No doses administered",
+  "patientSex": "F",
+  "birthDate": "2020-01-01",
+  "evalDate": "2020-01-15",
+  "vaccinations": [],
+  "expectedForecasts": [
+    {
+      "vaccineCvx": "85",
+      "forecastName": "HepA"
+    }
+  ]
+}
