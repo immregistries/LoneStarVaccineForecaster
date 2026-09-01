@@ -77,7 +77,7 @@ Recommended target schedule pipeline:
 - Add a build-time assembler that validates and combines per-series schedule files into the bundled `ForecastSchedule.xml`.
 - Add a renderer that reads the same schedule model and produces viewable artifacts:
   - HTML is required as the replacement for served PDF/PNG schedule views.
-  - SVG is desirable for the high-level transition graphic at the top of each HTML page, but this is the most design-sensitive piece. The first version should support attaching or preserving curated images while the generated graph renderer matures.
+  - SVG should be generated in the first pass for the high-level transition graphic at the top of each HTML page. The old materials should remain archived as references in case manual comparison or future refinement is needed.
 - Add validation gates:
   - XML schema or model validation.
   - Schedule graph validation: all `indicate/@schedule` targets either exist or are terminal states (`COMPLETE`, `INVALID`, `CONTRA`, `FINISHED`).
@@ -86,14 +86,14 @@ Recommended target schedule pipeline:
 
 Suggested generated output:
 
-- `lonestar-core/src/main/resources/ForecastSchedule.xml`: generated combined runtime schedule. Keeping this single file is desirable because it is a compact, self-contained way to configure one complete forecaster behavior, and it leaves room for multiple complete schedule versions later.
-- `lonestar-web/src/main/webapp/schedules/*.html`: generated human-readable schedule views available at runtime.
-- Optional `lonestar-web/src/main/webapp/schedules/*.svg`: generated or curated transition graphics used by the HTML views.
-- Archived Excel files should remain in source control for a while in case they are needed to regenerate or verify XML, but they should be moved out of the served webapp path.
+- `lonestar-core/src/main/resources/ForecastSchedule.xml`: checked-in generated combined runtime schedule. Keeping this single file is desirable because it is a compact, self-contained way to configure one complete forecaster behavior, and it leaves room for multiple complete schedule versions later.
+- `lonestar-web/src/main/webapp/schedules/*.html`: checked-in generated human-readable schedule views available at runtime.
+- `lonestar-web/src/main/webapp/schedules/*.svg`: checked-in generated transition graphics used by the HTML views.
+- `docs/archive/schedules/*.xlsx`: archived Excel files retained temporarily in source control in case they are needed to regenerate or verify XML, but moved out of the served webapp path.
 
 Open design point:
 
-- The transition diagram may require a hybrid approach. A generated SVG can provide a good baseline from schedule graph data, but some schedules may still need hand-curated layout hints or attached images because the existing diagrams encode human judgment about how to explain the schedule.
+- The transition diagram may require layout iteration. The first implementation should attempt generated SVG from schedule graph data, but the archived PNG/PDF/XLSX materials should be used as references when the generated graph is hard to understand.
 
 ## FITS Testing Direction
 
@@ -108,6 +108,7 @@ The StepIntoCDSI `cdsi-fits-tests` project uses a strong pattern worth copying:
 Recommended LoneStar version:
 
 - Put fixture model, JSON loader, CVX equivalence, date parsing, NIST download tooling, and comparison helpers in `lonestar-test-support`.
+- Keep the FITS fixture downloader in `lonestar-test-support` as a main-class tool.
 - Put actual regression tests where they can be run by a normal Maven build, likely in `lonestar-test-support` or a dedicated test module that depends on `lonestar-core`.
 - Write a LoneStar adapter that maps FITS patient, sex, assessment date, vaccination CVX/MVX/date, and dose condition into:
   - `PatientRecordDataBean`
@@ -179,17 +180,17 @@ Phase 2: XML source pipeline
 
 - Define `src/main/schedules` source layout.
 - Create schedule assembler and validator.
-- Move each `<forecast>` section into per-series files.
-- Generate combined runtime `ForecastSchedule.xml`.
-- Generate HTML schedule views from the same parsed model and serve them from the web app.
-- Generate or attach transition graphics at the top of each series page.
-- Move Excel files to an archive location and stop serving them from the app after the XML source workflow is stable.
+- Move each `<forecast>` section into a per-series file containing exactly one raw `<forecast seriesName="...">` element.
+- Generate the combined runtime `ForecastSchedule.xml` and check it into source control.
+- Generate HTML schedule views from the same parsed model, check them into source control, and serve them from the web app.
+- Generate SVG transition graphics at the top of each series page and check them into source control.
+- Move Excel files to `docs/archive/schedules` and stop serving them from the app after the XML source workflow is stable.
 
 Phase 3: FITS testing
 
 - Port the StepIntoCDSI fixture model/loader/downloader pattern.
 - Write LoneStar-specific FITS adapter and comparison layer.
-- Add a fixture refresh process that downloads a fresh FITS set from NIST and writes deterministic JSON fixtures.
+- Add a fixture refresh process in `lonestar-test-support` that downloads a fresh FITS set from NIST and writes deterministic JSON fixtures.
 - Check downloaded fixtures into the project so schedule work can run against a stable set for several days.
 - Compare recommendations and evaluations, using best-effort mapping first.
 - Produce a failure report that groups mismatches by antigen/test UID.
@@ -207,28 +208,24 @@ Phase 4: Java 17/Tomcat 10
 - The real deployable artifacts are a core embeddable JAR and a web WAR.
 - `lonestar-test-support` may build a JAR, but it is for internal schedule development and test execution, not external deployment.
 - There are no current external integrations to preserve, so package layout, artifact coordinates, and helper APIs can change.
-- Keep a generated combined `ForecastSchedule.xml` as the complete runtime schedule bundle.
-- Split schedule XML by series, matching the existing Excel/PDF/PNG series assets.
-- HTML is required as the schedule view replacement and should be served by the runtime app.
-- Transition graphics are desired at the top of the HTML schedule pages, with generated SVG preferred if practical and curated/attached images acceptable where needed.
-- Excel files should be retained temporarily, likely in an archive folder, but no longer served from the web app.
+- Keep a generated combined `ForecastSchedule.xml` as the complete runtime schedule bundle and check it into source control as a permanent build output.
+- Split schedule XML by series, matching the existing Excel/PDF/PNG series assets; each source file should contain one raw `<forecast seriesName="...">` element with no extra metadata wrapper.
+- HTML is required as the schedule view replacement, should be served by the runtime app, and should be checked into source control when generated statically.
+- Generate SVG transition graphics in the first pass and check generated static SVG files into source control.
+- Excel files should be retained temporarily in `docs/archive/schedules`, but no longer served from the web app.
 - FITS fixtures should be refreshable from NIST and then checked in for stable repeatable testing during schedule work.
+- Keep the FITS fixture downloader in `lonestar-test-support`.
 - FITS comparison should include both recommendations and evaluations.
 - Use best-effort FITS status mapping first, then improve mappings or LoneStar statuses based on observed failures.
 - Do the Maven module split before the Java 17/Tomcat 10 upgrade.
 - Target the local Tomcat 10.1 install at `C:\Program Files\Apache Software Foundation\Tomcat 10.1`.
 - Migrate FHIR as part of the Tomcat 10 modernization.
 - First modernization target is local Maven builds, not CI.
+- Legacy socket/CLI behavior does not need to remain as a supported interface. Preserve equivalent useful behavior through Maven test/tool entry points.
 
 ## Remaining Questions
 
-1. Should the generated combined `ForecastSchedule.xml` be checked into source control, or generated only into `target/classes` during the build?
-2. Should the per-series XML files wrap each `<forecast>` in a small metadata envelope, or should each source file contain exactly one raw `<forecast seriesName="...">` element?
-3. Where should archived Excel files live: `docs/archive/schedules`, `schedule-archive`, or another non-webapp location?
-4. Should generated HTML/SVG schedule views be checked into source control, generated only into the WAR, or both?
-5. For transition graphics, should the first pass implement generated SVG with optional manual layout hints, or preserve/attach existing PNGs while generating the rest of the HTML view?
-6. Should the FITS fixture downloader live in `lonestar-test-support` as a main-class tool, or in a separate `lonestar-tools` module to keep test-support focused on offline execution?
-7. Should the legacy socket/CLI behavior be preserved as a supported local tool, or is it enough to preserve equivalent functionality through Maven test/tool entry points?
+No major planning questions remain. The next round of decisions should come from implementation findings, especially HAPI FHIR/Tomcat 10 compatibility and how readable the first generated SVG transition diagrams are.
 
 ## Initial Recommendation
 
