@@ -109,6 +109,7 @@ Recommended LoneStar version:
 
 - Put fixture model, JSON loader, CVX equivalence, date parsing, NIST download tooling, and comparison helpers in `lonestar-test-support`.
 - Keep the FITS fixture downloader in `lonestar-test-support` as a main-class tool.
+- Treat the local StepIntoCDSI reference project and LoneStar `Compiled.xml` as prerequisite reference inputs. Before schedule comparison or FITS-driven schedule work, refresh `C:\dev\cdsi\StepIntoCDSI\cdsi-reference` with the latest CDSi supporting data and refresh `lonestar-core/src/main/resources/Compiled.xml` from the current CVX/code mapping source.
 - Put actual regression tests where they can be run by a normal Maven build, likely in `lonestar-test-support` or a dedicated test module that depends on `lonestar-core`.
 - Write a LoneStar adapter that maps FITS patient, sex, assessment date, vaccination CVX/MVX/date, and dose condition into:
   - `PatientRecordDataBean`
@@ -188,6 +189,7 @@ Phase 2: XML source pipeline
 
 Phase 3: FITS testing
 
+- Refresh the local StepIntoCDSI reference project with the latest CDSi supporting data, commit those changes there, and refresh LoneStar `Compiled.xml` from the current CVX/code mapping source before comparing schedules.
 - Port the StepIntoCDSI fixture model/loader/downloader pattern.
 - Write LoneStar-specific FITS adapter and comparison layer.
 - Add a fixture refresh process in `lonestar-test-support` that downloads a fresh FITS set from NIST and writes deterministic JSON fixtures.
@@ -216,6 +218,7 @@ Phase 4: Java 17/Tomcat 10
 - FITS fixtures should be refreshable from NIST and then checked in for stable repeatable testing during schedule work.
 - Keep the FITS fixture downloader in `lonestar-test-support`.
 - FITS comparison should include both recommendations and evaluations.
+- Refresh StepIntoCDSI CDSi reference data and LoneStar `Compiled.xml` before running CDSi-to-LoneStar comparison or FITS-driven schedule updates.
 - Use best-effort FITS status mapping first, then improve mappings or LoneStar statuses based on observed failures.
 - Do the Maven module split before the Java 17/Tomcat 10 upgrade.
 - Target the local Tomcat 10.1 install at `C:\Program Files\Apache Software Foundation\Tomcat 10.1`.
