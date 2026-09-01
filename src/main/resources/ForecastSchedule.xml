@@ -75,7 +75,7 @@
     <early age="" interval="" grace=""/>
     <due age="12 months" interval="" grace=""/>
     <overdue age="16 months" interval="" grace=""/>
-    <finished age="50 years" interval="" grace=""/>
+    <finished age="50 years" interval="" grace=""/>l
     <after-invalid interval="4 weeks" grace=""/>
     <before-previous interval=""/>
     <contraindicate vaccineName="Same Live" afterInterval="4 weeks" age="" reason="" grace=""/>
@@ -87,7 +87,7 @@
   </schedule>
   <schedule scheduleName="P2" dose="2" indication="" label="4-6 years">
     <pos row="1" column="2"/>
-    <valid age="13 months" interval="4 weeks" grace="4 days"/>
+    <valid age="13 months" interval="4 weeks" grace="3 days"/>
     <early age="" interval="" grace=""/>
     <due age="4 years" interval="" grace=""/>
     <overdue age="7 years" interval="" grace=""/>
