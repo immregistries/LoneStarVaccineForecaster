@@ -197,7 +197,18 @@ Phase 3: FITS testing
 - Compare recommendations and evaluations, using best-effort mapping first.
 - Produce a failure report that groups mismatches by antigen/test UID.
 
-Phase 4: Java 17/Tomcat 10
+Phase 4: CDSi-to-LoneStar suggestion tooling
+
+- Add a checked-in mapping file that connects LoneStar forecast/schedule/dose identifiers to CDSi antigen/series/dose identifiers.
+- Read normalized CDSi supporting data and release diffs from the local StepIntoCDSI `cdsi-reference` project.
+- Read LoneStar per-series schedule XML and current `Compiled.xml`.
+- Generate Markdown and JSON suggestion reports that classify changes as direct suggestions, review-required suggestions, unmapped CDSi changes, LoneStar-only rules, and CVX/code map issues.
+- Start with high-confidence suggestions for CVX mappings, simple age changes, simple previous-dose interval changes, live-virus conflict interval changes, and obvious vaccine relationship changes.
+- Report conditional skips, recurring doses, product-path rules, risk/evaluation-only series, observation-driven rules, and multi-series selection changes as review-required until LoneStar has matching model support.
+- Use FITS results after applying suggestions to measure improvement or regression.
+- Keep the detailed design in `docs/cdsi-lonestar-suggestion-tooling.md`.
+
+Phase 5: Java 17/Tomcat 10
 
 - Set Java release to 17.
 - Move servlet dependencies and imports to Jakarta.
