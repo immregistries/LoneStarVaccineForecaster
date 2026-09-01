@@ -1,0 +1,81 @@
+<forecast seriesName="HepB">
+    
+  <vaccine vaccineIds="102,104,43,44,37,37,51,146,45,110,08,42" vaccineName="Series"/>
+    
+  <vaccine vaccineIds="-137" vaccineName="Assume Comp"/>
+    
+  <schedule dose="1" indication="BIRTH" label="birth" scheduleName="P1">
+        
+    <pos column="1" row="1"/>
+        
+    <valid age="0 days" grace="" interval=""/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="0 days" grace="" interval=""/>
+        
+    <overdue age="4 weeks" grace="" interval=""/>
+        
+    <finished age="200 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <assumeComplete age="18 years" reason="Adult assumed to have completed Hep B series. "/>
+        
+    <indicate age="" reason="" schedule="P2" vaccineName="Series"/>
+        
+    <indicate age="" reason="Assuming adult received full Hep B series." schedule="COMPLETE" vaccineName="Assume Comp"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="1-2 months" scheduleName="P2">
+        
+    <pos column="2" row="1"/>
+        
+    <valid age="4 weeks" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="4 weeks" grace="" interval=""/>
+        
+    <overdue age="3 months" grace="" interval=""/>
+        
+    <finished age="200 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="" schedule="P3" vaccineName="Series"/>
+        
+    <indicate age="" reason="Assuming adult received full Hep B series." schedule="COMPLETE" vaccineName="Assume Comp"/>
+      
+  </schedule>
+    
+  <schedule dose="3" indication="" label="6-18 months" scheduleName="P3">
+        
+    <pos column="3" row="1"/>
+        
+    <valid age="24 weeks" grace="4 days" interval="8 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="6 months" grace="" interval=""/>
+        
+    <overdue age="19 months" grace="" interval=""/>
+        
+    <finished age="200 years" grace="" interval=""/>
+        
+    <after-invalid grace="7 weeks" interval="8 weeks"/>
+        
+    <before-previous interval="16 weeks"/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Series"/>
+        
+    <indicate age="" reason="Assuming adult received full Hep B series." schedule="COMPLETE" vaccineName="Assume Comp"/>
+      
+  </schedule>
+  
+</forecast>

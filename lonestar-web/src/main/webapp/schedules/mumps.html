@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mumps schedule</title>
+<style>body{font-family:system-ui,sans-serif;margin:2rem;max-width:1100px}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #bbb;padding:.45rem;text-align:left;vertical-align:top}th{background:#e8f0ef}img{max-width:100%;border:1px solid #bbb}code{white-space:pre-wrap}</style></head><body>
+<h1>Mumps schedule</h1>
+<img src="mumps.svg" alt="Mumps transition graph">
+<h2>Vaccine groups</h2><table><thead><tr><th>Name</th><th>CVX IDs</th></tr></thead><tbody>
+<tr><td>Measles</td><td>94, 03, 04, 05</td></tr>
+<tr><td>Mumps</td><td>94, 03, 04, 07</td></tr>
+<tr><td>Rubella</td><td>94, 03, 04, 06</td></tr>
+<tr><td>MMRV</td><td>94</td></tr>
+<tr><td>Same Live</td><td>04, 05, 06, 21</td></tr>
+<tr><td>Other Live</td><td>111, 149, 37, 80, 18</td></tr>
+<tr><td>Assume Comp</td><td>-158</td></tr>
+</tbody></table><h2>Schedule nodes</h2><table><thead><tr><th>Node</th><th>Dose</th><th>Label</th><th>Timing</th><th>Transitions</th></tr></thead><tbody>
+<tr><td>P1</td><td>1</td><td>1 year</td><td>valid=1 year;  | early=;  | due=12 months;  | overdue=16 months;  | finished=50 years; </td><td>MMRV -&gt; P2 | MMRV -&gt; P2 | Mumps -&gt; P2 | Assume Comp -&gt; COMPLETE</td></tr>
+<tr><td>P2</td><td>2</td><td>4-6 years</td><td>valid=13 months; 4 weeks | early=;  | due=4 years;  | overdue=7 years;  | finished=50 years; </td><td>MMRV -&gt; COMPLETE | MMRV -&gt; COMPLETE | MMRV -&gt; INVALID | MMRV -&gt; COMPLETE | MMRV -&gt; COMPLETE | Mumps -&gt; COMPLETE | Assume Comp -&gt; COMPLETE</td></tr>
+</tbody></table></body></html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zoster schedule</title>
+<style>body{font-family:system-ui,sans-serif;margin:2rem;max-width:1100px}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #bbb;padding:.45rem;text-align:left;vertical-align:top}th{background:#e8f0ef}img{max-width:100%;border:1px solid #bbb}code{white-space:pre-wrap}</style></head><body>
+<h1>Zoster schedule</h1>
+<img src="zoster.svg" alt="Zoster transition graph">
+<h2>Vaccine groups</h2><table><thead><tr><th>Name</th><th>CVX IDs</th></tr></thead><tbody>
+<tr><td>Live Zoster</td><td>121</td></tr>
+<tr><td>RZV</td><td>187</td></tr>
+<tr><td>Varicella</td><td>21</td></tr>
+<tr><td>Live</td><td>03</td></tr>
+</tbody></table><h2>Schedule nodes</h2><table><thead><tr><th>Node</th><th>Dose</th><th>Label</th><th>Timing</th><th>Transitions</th></tr></thead><tbody>
+<tr><td>P1</td><td>1</td><td>P1 / Start</td><td>valid=50 years;  | early=;  | due=50 years;  | overdue=51 years;  | finished=120 years; </td><td>Live Zoster -&gt; P1a | RZV -&gt; P2</td></tr>
+<tr><td>P2</td><td>2</td><td>P2 / 2nd RZV</td><td>valid=50 years; 4 weeks | early=;  | due=; 8 weeks | overdue=; 7 months | finished=120 years; </td><td>Live Zoster -&gt; P2a | RZV -&gt; COMPLETE</td></tr>
+<tr><td>P1a</td><td>1</td><td>P1a / 1st  RZV (post-ZVL)</td><td>valid=50 years; 8 weeks | early=;  | due=; 5 years | overdue=; 6 years | finished=120 years; </td><td>Live Zoster -&gt; P1a | RZV -&gt; P2</td></tr>
+<tr><td>P2a</td><td>2</td><td>P2a / 2nd RZV (post-ZVL)</td><td>valid=50 years; 8 weeks | early=;  | due=; 8 weeks | overdue=; 7 months | finished=120 years; </td><td>Live Zoster -&gt; P2a | RZV -&gt; Complete</td></tr>
+</tbody></table></body></html>

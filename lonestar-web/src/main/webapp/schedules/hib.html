@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hib schedule</title>
+<style>body{font-family:system-ui,sans-serif;margin:2rem;max-width:1100px}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #bbb;padding:.45rem;text-align:left;vertical-align:top}th{background:#e8f0ef}img{max-width:100%;border:1px solid #bbb}code{white-space:pre-wrap}</style></head><body>
+<h1>Hib schedule</h1>
+<img src="hib.svg" alt="Hib transition graph">
+<h2>Vaccine groups</h2><table><thead><tr><th>Name</th><th>CVX IDs</th></tr></thead><tbody>
+<tr><td>PRP-OMP</td><td>51, 49</td></tr>
+<tr><td>Series Dose</td><td>120, 17, 47, 49, 48, 51, 22, 46, 132, 148</td></tr>
+<tr><td>Booster Dose</td><td>50, 120, 17, 47, 49, 48, 51, 22, 46, 148</td></tr>
+<tr><td>TriHIBit</td><td>50</td></tr>
+<tr><td>7 Months Old</td><td>-7</td></tr>
+<tr><td>12 Months Old</td><td>-12</td></tr>
+<tr><td>15 Months Old</td><td>-15</td></tr>
+</tbody></table><h2>Schedule nodes</h2><table><thead><tr><th>Node</th><th>Dose</th><th>Label</th><th>Timing</th><th>Transitions</th></tr></thead><tbody>
+<tr><td>P1</td><td>1</td><td>2 months</td><td>valid=6 weeks;  | early=6 weeks;  | due=2 months;  | overdue=3 months;  | finished=5 years; </td><td>7 Months Old -&gt; C1 | PRP-OMP -&gt; R2 | Series Dose -&gt; P2 | TriHIBit -&gt; INVALID</td></tr>
+<tr><td>P2</td><td>2</td><td>4 months</td><td>valid=10 weeks; 4 weeks | early=;  | due=4 months;  | overdue=5 months;  | finished=5 years; </td><td>12 Months Old -&gt; D1 | Series Dose -&gt; P3 | Booster Dose -&gt; INVALID</td></tr>
+<tr><td>P3</td><td>3</td><td>6 months</td><td>valid=14 weeks; 4 weeks | early=;  | due=6 months;  | overdue=7 months;  | finished=5 years; </td><td>12 Months Old -&gt; CB | Series Dose -&gt; P4 | Booster Dose -&gt; INVALID | Booster Dose -&gt; P4</td></tr>
+<tr><td>P4</td><td>B</td><td>12 months</td><td>valid=12 months; 8 weeks | early=;  | due=12 months;  | overdue=16 months;  | finished=5 years; </td><td>Booster Dose -&gt; COMPLETE</td></tr>
+<tr><td>R2</td><td>2</td><td>4 month PRP-OMP</td><td>valid=10 weeks; 4 weeks | early=;  | due=4 months;  | overdue=5 months;  | finished=5 years; </td><td>12 Months Old -&gt; D1 | PRP-OMP -&gt; P4 | Series Dose -&gt; P3 | Booster Dose -&gt; INVALID</td></tr>
+<tr><td>C1</td><td>1</td><td>first 7-11 month catch-up</td><td>valid=6 weeks;  | early=6 weeks;  | due=2 months;  | overdue=3 months;  | finished=5 years; </td><td>12 Months Old -&gt; D1 | Series Dose -&gt; C2 | TriHIBit -&gt; INVALID</td></tr>
+<tr><td>C2</td><td>2</td><td>second 7-11 month catch-up</td><td>valid=10 weeks; 4 weeks | early=;  | due=; 4 weeks | overdue=; 4 weeks | finished=5 years; </td><td>12 Months Old -&gt; D1 | Series Dose -&gt; CB | Booster Dose -&gt; INVALID</td></tr>
+<tr><td>D1</td><td>*</td><td>12-14 month catch-up</td><td>valid=12 months; 4 weeks | early=;  | due=12 months;  | overdue=12 months;  | finished=5 years; </td><td>15 Months Old -&gt; CB | Series Dose -&gt; CB | TriHIBit -&gt; INVALID | Booster Dose -&gt; INVALID</td></tr>
+<tr><td>CB</td><td>B</td><td>catch-up booster</td><td>valid=12 months; 8 weeks | early=;  | due=12 months;  | overdue=12 months;  | finished=5 years; </td><td>Booster Dose -&gt; COMPLETE</td></tr>
+</tbody></table></body></html>

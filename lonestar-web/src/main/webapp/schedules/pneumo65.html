@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pneumo65 schedule</title>
+<style>body{font-family:system-ui,sans-serif;margin:2rem;max-width:1100px}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #bbb;padding:.45rem;text-align:left;vertical-align:top}th{background:#e8f0ef}img{max-width:100%;border:1px solid #bbb}code{white-space:pre-wrap}</style></head><body>
+<h1>Pneumo65 schedule</h1>
+<img src="pneumo65.svg" alt="Pneumo65 transition graph">
+<h2>Vaccine groups</h2><table><thead><tr><th>Name</th><th>CVX IDs</th></tr></thead><tbody>
+<tr><td>PCV13</td><td>133</td></tr>
+<tr><td>PPSV</td><td>109, 33</td></tr>
+<tr><td>Menactra</td><td>114, 108</td></tr>
+</tbody></table><h2>Schedule nodes</h2><table><thead><tr><th>Node</th><th>Dose</th><th>Label</th><th>Timing</th><th>Transitions</th></tr></thead><tbody>
+<tr><td>P1</td><td>1</td><td>PCV-13</td><td>valid=65 years;  | early=;  | due=65 years;  | overdue=66 years;  | finished=120 years; </td><td>PPSV -&gt; C1 | PPSV -&gt; C2 | PCV13 -&gt; S1</td></tr>
+<tr><td>S1</td><td>1</td><td>PPSV</td><td>valid=65 years; 1 year | early=;  | due=65 years;  | overdue=66 years; 2 years | finished=120 years; </td><td>PCV13 -&gt; INVALID | PPSV -&gt; S1 | PPSV -&gt; COMPLETE</td></tr>
+<tr><td>C1</td><td>1</td><td>PCV-13 after PPSV</td><td>valid=65 years; 1 year | early=;  | due=65 years;  | overdue=66 years; 2 years | finished=120 years; </td><td>PPSV -&gt; C1 | PPSV -&gt; C2 | PCV13 -&gt; S1</td></tr>
+<tr><td>C2</td><td>1</td><td>PCV-13 after PPSVs</td><td>valid=65 years; 1 year | early=;  | due=65 years;  | overdue=66 years;  | finished=120 years; </td><td>PPSV -&gt; C2 | PCV13 -&gt; COMPLETE</td></tr>
+</tbody></table></body></html>

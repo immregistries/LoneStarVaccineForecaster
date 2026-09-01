@@ -1,0 +1,439 @@
+<forecast seriesName="Diphtheria">
+    
+  <vaccine vaccineIds="28, 20, 110, 50, 120, 130, 22, 01, 102, 120, 132, 107, 106, 198" vaccineName="Child"/>
+    
+  <vaccine vaccineIds="09, 113, 115" vaccineName="Adult"/>
+    
+  <vaccine vaccineIds="09, 113" vaccineName="Td"/>
+    
+  <vaccine vaccineIds="20, 110, 50, 120, 130, 22, 01, 120, 132, 115" vaccineName="Tdap" validAge="7 years"/>
+    
+  <vaccine vaccineIds="-110" vaccineName="Assume Comp"/>
+    
+  <vaccine vaccineIds="-12" vaccineName="12 Months Old"/>
+    
+  <vaccine vaccineIds="-4" vaccineName="4 Years Old"/>
+    
+  <vaccine vaccineIds="-7" vaccineName="7 Years Old"/>
+    
+  <transition age="12 months -4 d" name="12 Months Old" vaccineId="-12"/>
+    
+  <transition age="4 years -4 days" name="4 Years Old" vaccineId="-4"/>
+    
+  <transition age="7 years -4 days" name="7 Years Old" vaccineId="-7"/>
+    
+  <schedule dose="1" indication="BIRTH" label="2 months" scheduleName="P1">
+        
+    <pos column="1" row="1"/>
+        
+    <valid age="6 weeks" grace="4 days" interval=""/>
+        
+    <early age="6 weeks" grace="" interval=""/>
+        
+    <due age="2 months" grace="" interval=""/>
+        
+    <overdue age="3 months" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Patient reached 12 months of age without receiving first DTaP, moving to alternate schedule." schedule="P1a" vaccineName="12 Months Old"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="P2" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Td or Tdap should not be given before 7 years of age. " schedule="INVALID" vaccineName="Adult"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="4 months" scheduleName="P2">
+        
+    <pos column="2" row="1"/>
+        
+    <valid age="10 weeks" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="4 months" grace="" interval=""/>
+        
+    <overdue age="5 months" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Patient reached 7 years of age without completing childhood series, moving adult catchup schedule. " schedule="A1" vaccineName="7 Years Old"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="P3" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Td or Tdap should not be given before 7 years of age. " schedule="INVALID" vaccineName="Adult"/>
+      
+  </schedule>
+    
+  <schedule dose="3" indication="" label="6 months" scheduleName="P3">
+        
+    <pos column="3" row="1"/>
+        
+    <valid age="14 weeks" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="6 months" grace="" interval=""/>
+        
+    <overdue age="7 months" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Patient reached 7 years of age without completing childhood series, moving to 2nd dose in adult catchup schedule. " schedule="A2" vaccineName="7 Years Old"/>
+        
+    <indicate age="4 years" historyOfVaccineName="" reason="" schedule="P4" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Patient received 3rd valid dose after 4 years of age, now expecting final DTaP booster. " schedule="K4" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Td or Tdap should not be given before 7 years of age. " schedule="INVALID" vaccineName="Adult"/>
+      
+  </schedule>
+    
+  <schedule dose="4" indication="" label="15-18 months" scheduleName="P4">
+        
+    <pos column="4" row="1"/>
+        
+    <valid age="15 months" grace="3 months 4 days" interval="6 months" intervalGrace="2 months 4 days"/>
+        
+    <early age="15 months" grace="" interval=""/>
+        
+    <due age="15 months" grace="" interval=""/>
+        
+    <overdue age="19 months" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="2 months" interval="6 months"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Patient reached 4 years of age without receiving 4th valid dose in primary series, moving to catchup dose expected for kindergarten. " schedule="K4" vaccineName="4 Years Old"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="K5" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Td or Tdap should not be given before 7 years of age. " schedule="K5" vaccineName="Adult"/>
+      
+  </schedule>
+    
+  <schedule dose="1" indication="" label="1st catchup" scheduleName="P1a">
+        
+    <pos column="1" row="2"/>
+        
+    <valid age="6 weeks" grace="4 days" interval=""/>
+        
+    <early age="6 weeks" grace="" interval=""/>
+        
+    <due age="2 months" grace="" interval=""/>
+        
+    <overdue age="3 months" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Patient reached 7 years of age without receiving one valid dose of DTaP, moving to adult catchup schedule. " schedule="A1" vaccineName="7 Years Old"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="P2a" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Td or Tdap should not be given before 7 years of age. " schedule="INVALID" vaccineName="Adult"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="2nd catchup" scheduleName="P2a">
+        
+    <pos column="2" row="2"/>
+        
+    <valid age="" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="" grace="" interval="4 weeks"/>
+        
+    <overdue age="" grace="" interval="4 weeks"/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Patient reached 7 years of age, only receiving one valid dose of DTaP after 12 months, moving to 2nd dose in adult catchup schedule. " schedule="A2" vaccineName="7 Years Old"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="P3a" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="INVALID" vaccineName="Adult"/>
+      
+  </schedule>
+    
+  <schedule dose="3" indication="" label="3rd catchup" scheduleName="P3a">
+        
+    <pos column="3" row="2"/>
+        
+    <valid age="" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="" grace="" interval="4 weeks"/>
+        
+    <overdue age="" grace="" interval="4 weeks"/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Patient reached 7 years of age, only receiving two valid doses of DTaP after 12 months, moving to 3rd dose in adult catchup schedule. " schedule="A3" vaccineName="7 Years Old"/>
+        
+    <indicate age="4 years" historyOfVaccineName="" reason="" schedule="P4" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Patient received 3rd valid dose after 4 years of age, now expecting final DTaP booster. " schedule="K4" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="INVALID" vaccineName="Adult"/>
+      
+  </schedule>
+    
+  <schedule dose="B" indication="" label="catchup kindegarten booster" scheduleName="K4">
+        
+    <pos column="4" row="1"/>
+        
+    <valid age="4 years" grace="4 days" interval="6 months"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="4 years" grace="" interval=""/>
+        
+    <overdue age="4 years" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="6 months"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Patient reached 7 years of age without receiving kindergarten booster after age 4 years, moving to 3rd dose in adult catchup schedule. " schedule="A3" vaccineName="7 Years Old"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="T1" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Td or Tdap should not be given before 7 years of age. " schedule="T1" vaccineName="Adult"/>
+      
+  </schedule>
+    
+  <schedule dose="B" indication="" label="kindegarten booster" scheduleName="K5">
+        
+    <pos column="5" row="2"/>
+        
+    <valid age="4 years" grace="4 days" interval="6 months"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="4 years" grace="" interval=""/>
+        
+    <earlyOverdue age="6 years" grace="" interval=""/>
+        
+    <overdue age="7 years" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="6 months"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Patient reached 7 years of age without receiving kindergarten booster after age 4 years, moving to 3rd dose in adult catchup schedule. " schedule="A3" vaccineName="7 Years Old"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="T1" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Td or Tdap should not be given before 7 years of age. " schedule="T1" vaccineName="Adult"/>
+      
+  </schedule>
+    
+  <schedule dose="B" indication="" label="10-year booster" scheduleName="B10">
+        
+    <pos column="4" row="4"/>
+        
+    <valid age="" grace="5 years" interval="5 years"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="" grace="" interval="10 years"/>
+        
+    <overdue age="" grace="" interval="11 years"/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="5 years" interval="5 years"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Child vaccine should not be given has booster." schedule="B10" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="B10" vaccineName="Adult"/>
+      
+  </schedule>
+    
+  <schedule dose="1" indication="" label="1st adult" scheduleName="A1">
+        
+    <pos column="1" row="3"/>
+        
+    <valid age="7 years" grace="0 days" interval=""/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="7 years" grace="" interval=""/>
+        
+    <overdue age="7 years" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Child vaccine should not be given after 7 years of age." schedule="A2" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="A2" vaccineName="Adult"/>
+        
+    <indicate age="" historyOfVaccineName="Tdap" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to 10 year booster schedule." schedule="B10" vaccineName="Assume Comp"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Assuming adult received full DTaP series as a child but now needs to receive Tdap." schedule="TN" vaccineName="Assume Comp"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="2nd adult" scheduleName="A2">
+        
+    <pos column="2" row="3"/>
+        
+    <valid age="" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="" grace="" interval="4 weeks"/>
+        
+    <overdue age="" grace="" interval="4 weeks"/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Child vaccine should not be given after 7 years of age." schedule="A3" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="A3" vaccineName="Adult"/>
+        
+    <indicate age="" historyOfVaccineName="Tdap" reason="Tdap already given, and assuming adult received full DTaP series as a child, moving to 10 year booster schedule." schedule="B10" vaccineName="Assume Comp"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Assuming adult received full DTaP series as a child but now needs to receive Tdap." schedule="TN" vaccineName="Assume Comp"/>
+      
+  </schedule>
+    
+  <schedule dose="3" indication="" label="3rd adult" scheduleName="A3">
+        
+    <pos column="3" row="3"/>
+        
+    <valid age="7 years" grace="4 days" interval="6 months"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="" grace="" interval="6 months"/>
+        
+    <overdue age="" grace="" interval="6 months"/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="2 months" interval="6 months"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="Tdap" reason="Child vaccine should not be given after 7 years of age." schedule="B10" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="Tdap" reason="" schedule="B10" vaccineName="Adult"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="B10" vaccineName="Tdap"/>
+        
+    <indicate age="" historyOfVaccineName="Tdap" reason="Assuming adult received full DTaP series as a child, moving to 10 year booster schedule." schedule="B10" vaccineName="Assume Comp"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Child vaccine should not be given after 7 years of age, Tdap should be administered as soon as possible." schedule="TN" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Tdap should be administered as soon as possible." schedule="TN" vaccineName="Adult"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Assuming adult received full DTaP series as a child but now needs to receive Tdap." schedule="TN" vaccineName="Assume Comp"/>
+      
+  </schedule>
+    
+  <schedule dose="B" indication="" label="Tdap Now" scheduleName="TN">
+        
+    <pos column="4" row="3"/>
+        
+    <valid age="7 years" grace="" interval="0 days"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="7 years" grace="" interval=""/>
+        
+    <overdue age="7 years" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="Tdap" reason="" schedule="B10" vaccineName="Adult"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="B10" vaccineName="Tdap"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Child vaccine should not be given after 7 years of age, Tdap should be administered as soon as possible." schedule="TN" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Tdap should be administered as soon as possible." schedule="TN" vaccineName="Adult"/>
+      
+  </schedule>
+    
+  <schedule dose="B" indication="" label="First Tdap" scheduleName="T1">
+        
+    <pos column="5" row="3"/>
+        
+    <valid age="7 years" grace="" interval="0 days"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="11 years" grace="" interval=""/>
+        
+    <overdue age="13 years" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="Tdap" reason="" schedule="B10" vaccineName="Adult"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="B10" vaccineName="Tdap"/>
+        
+    <indicate age="11 years" historyOfVaccineName="" reason="Patient has not received pertussis vaccine (Tdap) after 7 years of age, Tdap due at 11 years of age." schedule="T1" vaccineName="Child"/>
+        
+    <indicate age="11 years" historyOfVaccineName="" reason="Patient has not received pertussis vaccine (Tdap) after 7 years of age, Tdap due at 11 years of age." schedule="T1" vaccineName="Adult"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Child vaccine should not be given after 7 years of age, Tdap should be administered as soon as possible." schedule="TN" vaccineName="Child"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Tdap should be administered as soon as possible." schedule="TN" vaccineName="Adult"/>
+      
+  </schedule>
+  
+</forecast>

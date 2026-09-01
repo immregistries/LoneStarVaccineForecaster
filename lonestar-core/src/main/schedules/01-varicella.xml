@@ -1,0 +1,109 @@
+<forecast seriesName="Varicella">
+    
+  <vaccine vaccineIds="21" vaccineName="Single"/>
+    
+  <vaccine vaccineIds="94" vaccineName="MMRV"/>
+    
+  <vaccine vaccineIds="04, 05, 05, 07, 06, 38, 111, 149, 37, 80, 02" vaccineName="Same Live"/>
+    
+  <vaccine vaccineIds="18" vaccineName="Other Live"/>
+    
+  <vaccine vaccineIds="-178" vaccineName="Assume Comp"/>
+    
+  <schedule dose="1" indication="NO-VAR-HIS" label="1 year" scheduleName="P1">
+        
+    <pos column="1" row="1"/>
+        
+    <valid age="12 months" grace="4 days" interval=""/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="12 months" grace="" interval=""/>
+        
+    <overdue age="16 months" grace="" interval=""/>
+        
+    <finished age="19 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <contraindicate afterInterval="4 weeks" age="" grace="" reason="" vaccineName="Same Live"/>
+        
+    <contraindicate afterInterval="4 weeks" age="" grace="" reason="" vaccineName="Other Live"/>
+        
+    <indicate age="13 years" reason="" schedule="P2" vaccineName="Single"/>
+        
+    <indicate age="" reason="" schedule="A2" vaccineName="Single"/>
+        
+    <indicate age="13 years" reason="" schedule="P2" vaccineName="MMRV"/>
+        
+    <indicate age="" reason="MMRV should not be administered to persons 13 years of age or older." schedule="A2" vaccineName="MMRV"/>
+        
+    <indicate age="" reason="Assuming adult received full Varicella series as a child or is immune." schedule="COMPLETE" vaccineName="Assume Comp"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="4 years" scheduleName="P2">
+        
+    <pos column="2" row="1"/>
+        
+    <valid age="" grace="8 weeks" interval="12 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="4 years" grace="" interval=""/>
+        
+    <overdue age="7 years" grace="" interval=""/>
+        
+    <finished age="65 years" grace="" interval=""/>
+        
+    <after-invalid grace="8 weeks" interval="12 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <contraindicate afterInterval="4 weeks" age="" grace="" reason="" vaccineName="Same Live"/>
+        
+    <contraindicate afterInterval="4 weeks" age="" grace="" reason="" vaccineName="Other Live"/>
+        
+    <indicate age="" minInterval="" previousVaccineName="" reason="" schedule="COMPLETE" vaccineName="Single"/>
+        
+    <indicate age="13 years" minInterval="" previousVaccineName="" reason="" schedule="COMPLETE" vaccineName="MMRV"/>
+        
+    <indicate age="" minInterval="" previousVaccineName="" reason="MMRV should not be administered to persons 13 years of age or older." schedule="COMPLETE" vaccineName="MMRV"/>
+        
+    <indicate age="" minInterval="" previousVaccineName="" reason="Assuming adult received full Varicella series as a child or is immune." schedule="COMPLETE" vaccineName="Assume Comp"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="13 years +" scheduleName="A2">
+        
+    <pos column="2" row="2"/>
+        
+    <valid age="" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="13 years" grace="" interval=""/>
+        
+    <overdue age="13 years" grace="" interval=""/>
+        
+    <finished age="65 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <contraindicate afterInterval="4 weeks" age="" grace="" reason="" vaccineName="Same Live"/>
+        
+    <contraindicate afterInterval="4 weeks" age="" grace="" reason="" vaccineName="Other Live"/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Single"/>
+        
+    <indicate age="" reason="MMRV should not be administered to persons 13 years of age or older." schedule="COMPLETE" vaccineName="MMRV"/>
+        
+    <indicate age="" reason="Assuming adult received full Varicella series as a child or is immune." schedule="COMPLETE" vaccineName="Assume Comp"/>
+      
+  </schedule>
+  
+</forecast>

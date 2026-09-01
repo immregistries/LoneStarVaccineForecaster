@@ -1,0 +1,135 @@
+<forecast seriesName="HepA">
+    
+  <vaccine vaccineIds="31, 83, 84, 85" vaccineName="Child"/>
+    
+  <vaccine vaccineIds="52" vaccineName="Adult"/>
+    
+  <vaccine vaccineIds="104" vaccineName="Twinrix"/>
+    
+  <vaccine vaccineIds="-145" vaccineName="Assume Comp"/>
+    
+  <schedule dose="1" indication="BIRTH" label="1st" scheduleName="P1">
+        
+    <pos column="1" row="1"/>
+        
+    <valid age="12 months" grace="4 days" interval=""/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="12 months" grace="" interval=""/>
+        
+    <overdue age="24 months" grace="" interval="6 months"/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <assumeComplete age="18 years" reason="Adult assumed to have completed Hep A series. "/>
+        
+    <indicate age="19 years" reason="" schedule="P2" vaccineName="Child"/>
+        
+    <indicate age="" reason="" schedule="INVALID" vaccineName="Child"/>
+        
+    <indicate age="18 years" reason="" schedule="INVALID" vaccineName="Twinrix"/>
+        
+    <indicate age="" reason="Switching to Twinrix 3 dose schedule." schedule="A2" vaccineName="Twinrix"/>
+        
+    <indicate age="18 years" reason="Adult dose given, but will be accepted" schedule="P2" vaccineName="Adult"/>
+        
+    <indicate age="" reason="" schedule="P2" vaccineName="Adult"/>
+        
+    <indicate age="" reason="Assuming adult received full Hep A series." schedule="COMPLETE" vaccineName="Assume Comp"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="booster" scheduleName="P2">
+        
+    <pos column="1" row="2"/>
+        
+    <valid age="" grace="4 days" interval="6 months"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="18 months" grace="" interval=""/>
+        
+    <overdue age="42 months" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="6 months" interval="6 months"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="19 years" reason="" schedule="COMPLETE" vaccineName="Child"/>
+        
+    <indicate age="" reason="" schedule="INVALID" vaccineName="Child"/>
+        
+    <indicate age="18 years" reason="" schedule="INVALID" vaccineName="Twinrix"/>
+        
+    <indicate age="" reason="Switching to Twinrix 3 dose schedule." schedule="A3" vaccineName="Twinrix"/>
+        
+    <indicate age="18 years" reason="" schedule="INVALID" vaccineName="Adult"/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Adult"/>
+        
+    <indicate age="" reason="Assuming adult received full Hep A series." schedule="COMPLETE" vaccineName="Assume Comp"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="2nd adult" scheduleName="A2">
+        
+    <pos column="2" row="2"/>
+        
+    <valid age="" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="" grace="" interval="1 month"/>
+        
+    <overdue age="" grace="" interval="2 months"/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="" schedule="INVALID" vaccineName="Child"/>
+        
+    <indicate age="" reason="" schedule="A3" vaccineName="Twinrix"/>
+        
+    <indicate age="" reason="" schedule="A3" vaccineName="Adult"/>
+        
+    <indicate age="" reason="Assuming adult received full Hep A series." schedule="COMPLETE" vaccineName="Assume Comp"/>
+      
+  </schedule>
+    
+  <schedule dose="3" indication="" label="3rd adult" scheduleName="A3">
+        
+    <pos column="3" row="2"/>
+        
+    <valid age="" grace="4 days" interval="5 months"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="" grace="" interval="6 months"/>
+        
+    <overdue age="" grace="" interval="7 months"/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Twinrix"/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Adult"/>
+        
+    <indicate age="" reason="Assuming adult received full Hep A series." schedule="COMPLETE" vaccineName="Assume Comp"/>
+      
+  </schedule>
+  
+</forecast>

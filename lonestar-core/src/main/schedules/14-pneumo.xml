@@ -1,0 +1,173 @@
+<forecast seriesName="Pneumo">
+    
+  <transition age="12 months -4 d" name="12 Months Old" vaccineId="-12"/>
+    
+  <vaccine vaccineIds="100, 109, 133" vaccineName="PCV"/>
+    
+  <vaccine vaccineIds="-12" vaccineName="12 Months Old"/>
+    
+  <schedule dose="1" indication="BIRTH" indicationEnd="19 years" label="2 months" scheduleName="P1">
+        
+    <pos column="1" row="1"/>
+        
+    <valid age="6 weeks" grace="4 days" interval=""/>
+        
+    <early age="6 weeks" grace="" interval=""/>
+        
+    <due age="2 months" grace="" interval=""/>
+        
+    <overdue age="3 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="P2" vaccineName="PCV"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="First valid dose not received by 12 months of age, only 2 doses needed now." schedule="C2" vaccineName="12 Months Old"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" indicationEnd="19 years" label="4 months" scheduleName="P2">
+        
+    <pos column="2" row="1"/>
+        
+    <valid age="10 weeks" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="4 months" grace="" interval=""/>
+        
+    <overdue age="5 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="7 months" historyOfVaccineName="" reason="" schedule="P3" vaccineName="PCV"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Second valid dose was given at or after 7 months of age." schedule="C3" vaccineName="PCV"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Second valid dose was not received by 12 months of age, only 2 more doses needed now." schedule="C2" vaccineName="12 Months Old"/>
+      
+  </schedule>
+    
+  <schedule dose="3" indication="" indicationEnd="19 years" label="6 months" scheduleName="P3">
+        
+    <pos column="3" row="1"/>
+        
+    <valid age="14 weeks" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="6 months" grace="" interval=""/>
+        
+    <overdue age="7 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="P4" vaccineName="PCV"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Third valid dose was not received by 12 months of age, the third and final dose should be given as soon as possible." schedule="C3" vaccineName="12 Months Old"/>
+      
+  </schedule>
+    
+  <schedule dose="B" indication="" indicationEnd="19 years" label="booster" scheduleName="P4">
+        
+    <pos column="4" row="1"/>
+        
+    <valid age="12 months" grace="4 days" interval="8 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="12 months" grace="" interval=""/>
+        
+    <overdue age="16 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="8 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="COMPLETE" vaccineName="PCV"/>
+      
+  </schedule>
+    
+  <schedule dose="*" indication="" indicationEnd="19 years" label="2nd dose 12 month catchup" scheduleName="C2">
+        
+    <pos column="2" row="2"/>
+        
+    <valid age="12 months" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="12 months" grace="" interval="4 weeks"/>
+        
+    <overdue age="12 months" grace="" interval="4 weeks"/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="24 months -4 d" historyOfVaccineName="" reason="" schedule="C4" vaccineName="PCV"/>
+        
+    <indicate age="" historyOfVaccineName="" reason="Second valid dose received after 24 months of age, no more doses needed." schedule="COMPLETE" vaccineName="PCV"/>
+      
+  </schedule>
+    
+  <schedule dose="3" indication="" indicationEnd="19 years" label="3rd dose 12 month catchup" scheduleName="C3">
+        
+    <pos column="1" row=""/>
+        
+    <valid age="12 months" grace="4 days" interval="8 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="12 months" grace="" interval=""/>
+        
+    <overdue age="12 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="8 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="COMPLETE" vaccineName="PCV"/>
+      
+  </schedule>
+    
+  <schedule dose="B" indication="" indicationEnd="19 years" label="booster" scheduleName="C4">
+        
+    <pos column="3" row=""/>
+        
+    <valid age="12 months" grace="4 days" interval="8 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="12 months" grace="" interval=""/>
+        
+    <overdue age="12 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="8 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" historyOfVaccineName="" reason="" schedule="COMPLETE" vaccineName="PCV"/>
+      
+  </schedule>
+  
+</forecast>

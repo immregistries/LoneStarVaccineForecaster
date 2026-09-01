@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diphtheria schedule</title>
+<style>body{font-family:system-ui,sans-serif;margin:2rem;max-width:1100px}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #bbb;padding:.45rem;text-align:left;vertical-align:top}th{background:#e8f0ef}img{max-width:100%;border:1px solid #bbb}code{white-space:pre-wrap}</style></head><body>
+<h1>Diphtheria schedule</h1>
+<img src="diphtheria.svg" alt="Diphtheria transition graph">
+<h2>Vaccine groups</h2><table><thead><tr><th>Name</th><th>CVX IDs</th></tr></thead><tbody>
+<tr><td>Child</td><td>28, 20, 110, 50, 120, 130, 22, 01, 102, 120, 132, 107, 106, 198</td></tr>
+<tr><td>Adult</td><td>09, 113, 115</td></tr>
+<tr><td>Td</td><td>09, 113</td></tr>
+<tr><td>Tdap</td><td>20, 110, 50, 120, 130, 22, 01, 120, 132, 115</td></tr>
+<tr><td>Assume Comp</td><td>-110</td></tr>
+<tr><td>12 Months Old</td><td>-12</td></tr>
+<tr><td>4 Years Old</td><td>-4</td></tr>
+<tr><td>7 Years Old</td><td>-7</td></tr>
+</tbody></table><h2>Schedule nodes</h2><table><thead><tr><th>Node</th><th>Dose</th><th>Label</th><th>Timing</th><th>Transitions</th></tr></thead><tbody>
+<tr><td>P1</td><td>1</td><td>2 months</td><td>valid=6 weeks;  | early=6 weeks;  | due=2 months;  | overdue=3 months;  | finished=150 years; </td><td>12 Months Old -&gt; P1a | Child -&gt; P2 | Adult -&gt; INVALID</td></tr>
+<tr><td>P2</td><td>2</td><td>4 months</td><td>valid=10 weeks; 4 weeks | early=;  | due=4 months;  | overdue=5 months;  | finished=150 years; </td><td>7 Years Old -&gt; A1 | Child -&gt; P3 | Adult -&gt; INVALID</td></tr>
+<tr><td>P3</td><td>3</td><td>6 months</td><td>valid=14 weeks; 4 weeks | early=;  | due=6 months;  | overdue=7 months;  | finished=150 years; </td><td>7 Years Old -&gt; A2 | Child -&gt; P4 | Child -&gt; K4 | Adult -&gt; INVALID</td></tr>
+<tr><td>P4</td><td>4</td><td>15-18 months</td><td>valid=15 months; 6 months | early=15 months;  | due=15 months;  | overdue=19 months;  | finished=150 years; </td><td>4 Years Old -&gt; K4 | Child -&gt; K5 | Adult -&gt; K5</td></tr>
+<tr><td>P1a</td><td>1</td><td>1st catchup</td><td>valid=6 weeks;  | early=6 weeks;  | due=2 months;  | overdue=3 months;  | finished=150 years; </td><td>7 Years Old -&gt; A1 | Child -&gt; P2a | Adult -&gt; INVALID</td></tr>
+<tr><td>P2a</td><td>2</td><td>2nd catchup</td><td>valid=; 4 weeks | early=;  | due=; 4 weeks | overdue=; 4 weeks | finished=150 years; </td><td>7 Years Old -&gt; A2 | Child -&gt; P3a | Adult -&gt; INVALID</td></tr>
+<tr><td>P3a</td><td>3</td><td>3rd catchup</td><td>valid=; 4 weeks | early=;  | due=; 4 weeks | overdue=; 4 weeks | finished=150 years; </td><td>7 Years Old -&gt; A3 | Child -&gt; P4 | Child -&gt; K4 | Adult -&gt; INVALID</td></tr>
+<tr><td>K4</td><td>B</td><td>catchup kindegarten booster</td><td>valid=4 years; 6 months | early=;  | due=4 years;  | overdue=4 years;  | finished=150 years; </td><td>7 Years Old -&gt; A3 | Child -&gt; T1 | Adult -&gt; T1</td></tr>
+<tr><td>K5</td><td>B</td><td>kindegarten booster</td><td>valid=4 years; 6 months | early=;  | due=4 years;  | overdue=7 years;  | finished=150 years; </td><td>7 Years Old -&gt; A3 | Child -&gt; T1 | Adult -&gt; T1</td></tr>
+<tr><td>B10</td><td>B</td><td>10-year booster</td><td>valid=; 5 years | early=;  | due=; 10 years | overdue=; 11 years | finished=150 years; </td><td>Child -&gt; B10 | Adult -&gt; B10</td></tr>
+<tr><td>A1</td><td>1</td><td>1st adult</td><td>valid=7 years;  | early=;  | due=7 years;  | overdue=7 years;  | finished=150 years; </td><td>Child -&gt; A2 | Adult -&gt; A2 | Assume Comp -&gt; B10 | Assume Comp -&gt; TN</td></tr>
+<tr><td>A2</td><td>2</td><td>2nd adult</td><td>valid=; 4 weeks | early=;  | due=; 4 weeks | overdue=; 4 weeks | finished=150 years; </td><td>Child -&gt; A3 | Adult -&gt; A3 | Assume Comp -&gt; B10 | Assume Comp -&gt; TN</td></tr>
+<tr><td>A3</td><td>3</td><td>3rd adult</td><td>valid=7 years; 6 months | early=;  | due=; 6 months | overdue=; 6 months | finished=150 years; </td><td>Child -&gt; B10 | Adult -&gt; B10 | Tdap -&gt; B10 | Assume Comp -&gt; B10 | Child -&gt; TN | Adult -&gt; TN | Assume Comp -&gt; TN</td></tr>
+<tr><td>TN</td><td>B</td><td>Tdap Now</td><td>valid=7 years; 0 days | early=;  | due=7 years;  | overdue=7 years;  | finished=150 years; </td><td>Adult -&gt; B10 | Tdap -&gt; B10 | Child -&gt; TN | Adult -&gt; TN</td></tr>
+<tr><td>T1</td><td>B</td><td>First Tdap</td><td>valid=7 years; 0 days | early=;  | due=11 years;  | overdue=13 years;  | finished=150 years; </td><td>Adult -&gt; B10 | Tdap -&gt; B10 | Child -&gt; T1 | Adult -&gt; T1 | Child -&gt; TN | Adult -&gt; TN</td></tr>
+</tbody></table></body></html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Covid schedule</title>
+<style>body{font-family:system-ui,sans-serif;margin:2rem;max-width:1100px}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #bbb;padding:.45rem;text-align:left;vertical-align:top}th{background:#e8f0ef}img{max-width:100%;border:1px solid #bbb}code{white-space:pre-wrap}</style></head><body>
+<h1>Covid schedule</h1>
+<img src="covid.svg" alt="Covid transition graph">
+<h2>Vaccine groups</h2><table><thead><tr><th>Name</th><th>CVX IDs</th></tr></thead><tbody>
+<tr><td>Pfizer</td><td>208</td></tr>
+<tr><td>Moderna</td><td>207</td></tr>
+<tr><td>Covid</td><td>213, 208, 207</td></tr>
+</tbody></table><h2>Schedule nodes</h2><table><thead><tr><th>Node</th><th>Dose</th><th>Label</th><th>Timing</th><th>Transitions</th></tr></thead><tbody>
+<tr><td>P1</td><td>1</td><td>1st</td><td>valid=16 years;  | early=;  | due=16 years;  | overdue=120 years;  | finished=120 years; </td><td>Moderna -&gt; P1 | Moderna -&gt; M2 | Covid -&gt; P2</td></tr>
+<tr><td>P2</td><td>2</td><td>2nd</td><td>valid=16 years; 21 days | early=;  | due=; 21 days | overdue=120 years;  | finished=120 years; </td><td>Moderna -&gt; P2 | Covid -&gt; COMPLETE</td></tr>
+<tr><td>M2</td><td>2</td><td>2nd Moderna</td><td>valid=18 years; 28 days | early=;  | due=; 28 days | overdue=120 years;  | finished=120 years; </td><td>Covid -&gt; COMPLETE</td></tr>
+</tbody></table></body></html>

@@ -1,0 +1,257 @@
+<forecast seriesName="Hib">
+    
+  <vaccine vaccineIds="51, 49" vaccineName="PRP-OMP"/>
+    
+  <vaccine vaccineIds="120, 17, 47, 49, 48, 51, 22, 46, 132, 148" vaccineName="Series Dose"/>
+    
+  <vaccine vaccineIds="50, 120, 17, 47, 49, 48, 51, 22, 46, 148" vaccineName="Booster Dose"/>
+    
+  <vaccine vaccineIds="50" vaccineName="TriHIBit"/>
+    
+  <vaccine vaccineIds="-7" vaccineName="7 Months Old"/>
+    
+  <vaccine vaccineIds="-12" vaccineName="12 Months Old"/>
+    
+  <vaccine vaccineIds="-15" vaccineName="15 Months Old"/>
+    
+  <transition age="7 months -4 d" name="7 Months Old" vaccineId="-7"/>
+    
+  <transition age="12 months -4 d" name="12 Months Old" vaccineId="-12"/>
+    
+  <transition age="15 months -4 d" name="15 Months Old" vaccineId="-15"/>
+    
+  <schedule dose="1" indication="BIRTH" label="2 months" scheduleName="P1">
+        
+    <pos column="1" row="1"/>
+        
+    <valid age="6 weeks" grace="4 days" interval=""/>
+        
+    <early age="6 weeks" grace="" interval=""/>
+        
+    <due age="2 months" grace="" interval=""/>
+        
+    <overdue age="3 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="Did not receive first dose before 7 months of age, switching to 3 dose schedule." schedule="C1" vaccineName="7 Months Old"/>
+        
+    <indicate age="" reason="Switching to 3 dose PRP-OMP schedule." schedule="R2" vaccineName="PRP-OMP"/>
+        
+    <indicate age="" reason="" schedule="P2" vaccineName="Series Dose"/>
+        
+    <indicate age="" reason="TriHIBit invalid as first dose." schedule="INVALID" vaccineName="TriHIBit"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="4 months" scheduleName="P2">
+        
+    <pos column="2" row="1"/>
+        
+    <valid age="10 weeks" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="4 months" grace="" interval=""/>
+        
+    <overdue age="5 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="" schedule="D1" vaccineName="12 Months Old"/>
+        
+    <indicate age="" reason="" schedule="P3" vaccineName="Series Dose"/>
+        
+    <indicate age="" reason="" schedule="INVALID" vaccineName="Booster Dose"/>
+      
+  </schedule>
+    
+  <schedule dose="3" indication="" label="6 months" scheduleName="P3">
+        
+    <pos column="3" row="1"/>
+        
+    <valid age="14 weeks" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="6 months" grace="" interval=""/>
+        
+    <overdue age="7 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="Did not receive third dose before 12 months of age, now only one more dose needed." schedule="CB" vaccineName="12 Months Old"/>
+        
+    <indicate age="" reason="" schedule="P4" vaccineName="Series Dose"/>
+        
+    <indicate age="12 months" reason="Booster dose should not be given before 12 months of age." schedule="INVALID" vaccineName="Booster Dose"/>
+        
+    <indicate age="" reason="" schedule="P4" vaccineName="Booster Dose"/>
+      
+  </schedule>
+    
+  <schedule dose="B" indication="" label="12 months" scheduleName="P4">
+        
+    <pos column="4" row="1"/>
+        
+    <valid age="12 months" grace="4 days" interval="8 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="12 months" grace="" interval=""/>
+        
+    <overdue age="16 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="8 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Booster Dose"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="4 month PRP-OMP" scheduleName="R2">
+        
+    <pos column="2" row="4"/>
+        
+    <valid age="10 weeks" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="4 months" grace="" interval=""/>
+        
+    <overdue age="5 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="Second dose of PRP-OMP not given by 12 months, switching to 3 dose catch-up schedule." schedule="D1" vaccineName="12 Months Old"/>
+        
+    <indicate age="" reason="" schedule="P4" vaccineName="PRP-OMP"/>
+        
+    <indicate age="" reason="Did not receive second dose of PMP-OMP, switching back to standard 4 dose schedule." schedule="P3" vaccineName="Series Dose"/>
+        
+    <indicate age="" reason="Booster dose should not be given before 12 months of age." schedule="INVALID" vaccineName="Booster Dose"/>
+      
+  </schedule>
+    
+  <schedule dose="1" indication="" label="first 7-11 month catch-up" scheduleName="C1">
+        
+    <pos column="1" row="2"/>
+        
+    <valid age="6 weeks" grace="4 days" interval=""/>
+        
+    <early age="6 weeks" grace="" interval=""/>
+        
+    <due age="2 months" grace="" interval=""/>
+        
+    <overdue age="3 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="Did not receive first dose before 12 months of age, switching to 2 dose schedule." schedule="D1" vaccineName="12 Months Old"/>
+        
+    <indicate age="" reason="" schedule="C2" vaccineName="Series Dose"/>
+        
+    <indicate age="" reason="TriHIBit invalid as first dose." schedule="INVALID" vaccineName="TriHIBit"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="second 7-11 month catch-up" scheduleName="C2">
+        
+    <pos column="2" row="2"/>
+        
+    <valid age="10 weeks" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="" grace="" interval="4 weeks"/>
+        
+    <overdue age="" grace="" interval="4 weeks"/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="Did not receive second dose by 12 months of age, next dose due immediately." schedule="D1" vaccineName="12 Months Old"/>
+        
+    <indicate age="" reason="Received 2nd dose at 15 months of age or older, one more dose needed." schedule="CB" vaccineName="Series Dose"/>
+        
+    <indicate age="12 months" reason="Booster dose should not be given before 12 months of age." schedule="INVALID" vaccineName="Booster Dose"/>
+      
+  </schedule>
+    
+  <schedule dose="*" indication="" label="12-14 month catch-up" scheduleName="D1">
+        
+    <pos column="3" row="2"/>
+        
+    <valid age="12 months" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="12 months" grace="" interval=""/>
+        
+    <overdue age="12 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="Did not receive first or next dose before 15 months, final dose due immediately." schedule="CB" vaccineName="15 Months Old"/>
+        
+    <indicate age="" reason="" schedule="CB" vaccineName="Series Dose"/>
+        
+    <indicate age="" reason="TriHIBit invalid as first dose." schedule="INVALID" vaccineName="TriHIBit"/>
+        
+    <indicate age="12 months" reason="Booster dose should not be given before 12 months of age." schedule="INVALID" vaccineName="Booster Dose"/>
+      
+  </schedule>
+    
+  <schedule dose="B" indication="" label="catch-up booster" scheduleName="CB">
+        
+    <pos column="3" row="2"/>
+        
+    <valid age="12 months" grace="4 days" interval="8 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="12 months" grace="" interval=""/>
+        
+    <overdue age="12 months" grace="" interval=""/>
+        
+    <finished age="5 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="8 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Booster Dose"/>
+      
+  </schedule>
+  
+</forecast>

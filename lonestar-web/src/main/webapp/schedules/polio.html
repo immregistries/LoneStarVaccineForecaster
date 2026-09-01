@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polio schedule</title>
+<style>body{font-family:system-ui,sans-serif;margin:2rem;max-width:1100px}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #bbb;padding:.45rem;text-align:left;vertical-align:top}th{background:#e8f0ef}img{max-width:100%;border:1px solid #bbb}code{white-space:pre-wrap}</style></head><body>
+<h1>Polio schedule</h1>
+<img src="polio.svg" alt="Polio transition graph">
+<h2>Vaccine groups</h2><table><thead><tr><th>Name</th><th>CVX IDs</th></tr></thead><tbody>
+<tr><td>IPV</td><td>110, 120, 170, 10, 89, 130, 132</td></tr>
+<tr><td>OPV</td><td>02</td></tr>
+<tr><td>Any</td><td>110, 120, 170, 10, 02, 89, 130, 132</td></tr>
+<tr><td>4 Years Old</td><td>-4</td></tr>
+</tbody></table><h2>Schedule nodes</h2><table><thead><tr><th>Node</th><th>Dose</th><th>Label</th><th>Timing</th><th>Transitions</th></tr></thead><tbody>
+<tr><td>P1</td><td>1</td><td>2 months</td><td>valid=6 weeks;  | early=6 weeks;  | due=2 months;  | overdue=3 months;  | finished=18 years; </td><td>IPV -&gt; P2 | OPV -&gt; R2</td></tr>
+<tr><td>P2</td><td>2</td><td>4 months</td><td>valid=10 weeks; 4 weeks | early=;  | due=4 months;  | overdue=5 months;  | finished=18 years; </td><td>IPV -&gt; P3 | IPV -&gt; CB | OPV -&gt; R3</td></tr>
+<tr><td>P3</td><td>3</td><td>6-18 months</td><td>valid=14 weeks; 4 weeks | early=;  | due=6 months;  | overdue=19 months;  | finished=18 years; </td><td>4 Years Old -&gt; CB | Any -&gt; P4</td></tr>
+<tr><td>P4</td><td>B</td><td>4-6 years</td><td>valid=4 years; 6 months | early=;  | due=4 years;  | overdue=7 years;  | finished=18 years; </td><td>Any -&gt; COMPLETE</td></tr>
+<tr><td>R2</td><td>2</td><td>4 months OPV</td><td>valid=10 weeks; 4 weeks | early=;  | due=4 months;  | overdue=5 months;  | finished=18 years; </td><td>Any -&gt; R3</td></tr>
+<tr><td>R3</td><td>3</td><td>6-18 months OPV</td><td>valid=14 weeks; 4 weeks | early=;  | due=6 months;  | overdue=19 months;  | finished=18 years; </td><td>Any -&gt; P4</td></tr>
+<tr><td>CB</td><td>B</td><td>catch-up booster</td><td>valid=4 years; 6 months | early=;  | due=4 years;  | overdue=4 years;  | finished=18 years; </td><td>Any -&gt; COMPLETE</td></tr>
+</tbody></table></body></html>

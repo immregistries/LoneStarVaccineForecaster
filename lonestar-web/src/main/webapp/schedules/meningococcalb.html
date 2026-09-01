@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MeningococcalB schedule</title>
+<style>body{font-family:system-ui,sans-serif;margin:2rem;max-width:1100px}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #bbb;padding:.45rem;text-align:left;vertical-align:top}th{background:#e8f0ef}img{max-width:100%;border:1px solid #bbb}code{white-space:pre-wrap}</style></head><body>
+<h1>MeningococcalB schedule</h1>
+<img src="meningococcalb.svg" alt="MeningococcalB transition graph">
+<h2>Vaccine groups</h2><table><thead><tr><th>Name</th><th>CVX IDs</th></tr></thead><tbody>
+<tr><td>Bexsero</td><td>163</td></tr>
+<tr><td>Trumenba</td><td>162</td></tr>
+<tr><td>Men B</td><td>163, 162, 164</td></tr>
+</tbody></table><h2>Schedule nodes</h2><table><thead><tr><th>Node</th><th>Dose</th><th>Label</th><th>Timing</th><th>Transitions</th></tr></thead><tbody>
+<tr><td>P1</td><td>1</td><td>1st</td><td>valid=10 years;  | early=;  | due=16 years;  | overdue=19 years;  | finished=24 years; </td><td>Bexsero -&gt; B2 | Trumenba -&gt; T2</td></tr>
+<tr><td>T2</td><td>2</td><td>2nd</td><td>valid=; 6 months | early=;  | due=; 6 months | overdue=; 7 months | finished=24 years; </td><td>Bexsero -&gt; B2a | Trumenba -&gt; DL Trumenba A</td></tr>
+<tr><td>B2</td><td>2</td><td>2nd</td><td>valid=; 4 weeks | early=;  | due=; 4 weeks | overdue=; 2 months | finished=24 years; </td><td>Trumenba -&gt; T2a | Bexsero -&gt; COMPLETE</td></tr>
+<tr><td>T3</td><td>3</td><td>3rd</td><td>valid=; 4 weeks | early=;  | due=; 4 weeks | overdue=; 2 months | finished=24 years; </td><td>Bexsero -&gt; B2b | Trumenba -&gt; COMPLETE</td></tr>
+<tr><td>B2a</td><td>2</td><td>2nd</td><td>valid=; 4 weeks | early=;  | due=; 4 weeks | overdue=; 2 months | finished=24 years; </td><td>Trumenba -&gt; DL Trumenba B | Bexsero -&gt; COMPLETE</td></tr>
+<tr><td>T3a</td><td>3</td><td>3rd</td><td>valid=; 4 weeks | early=;  | due=; 4 weeks | overdue=; 2 months | finished=24 years; </td><td>Bexsero -&gt; COMPLETE | Trumenba -&gt; COMPLETE</td></tr>
+<tr><td>B2b</td><td>2</td><td>2nd</td><td>valid=; 4 weeks | early=;  | due=; 4 weeks | overdue=; 2 months | finished=24 years; </td><td>Trumenba -&gt; COMPLETE | Bexsero -&gt; COMPLETE</td></tr>
+<tr><td>T2a</td><td>2</td><td>2nd</td><td>valid=; 6 months | early=;  | due=; 6 months | overdue=; 7 months | finished=24 years; </td><td>Bexsero -&gt; COMPLETE | Trumenba -&gt; DL Trumenba C</td></tr>
+<tr><td>T3b</td><td>3</td><td>3rd</td><td>valid=; 4 weeks | early=;  | due=; 4 weeks | overdue=; 2 months | finished=24 years; </td><td>Bexsero -&gt; COMPLETE | Trumenba -&gt; COMPLETE</td></tr>
+</tbody></table><h2>Decision logic</h2><ul><li>DL Trumenba A</li><li>DL Trumenba B</li><li>DL Trumenba C</li></ul></body></html>

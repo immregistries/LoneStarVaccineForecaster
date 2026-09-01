@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Influenza schedule</title>
+<style>body{font-family:system-ui,sans-serif;margin:2rem;max-width:1100px}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #bbb;padding:.45rem;text-align:left;vertical-align:top}th{background:#e8f0ef}img{max-width:100%;border:1px solid #bbb}code{white-space:pre-wrap}</style></head><body>
+<h1>Influenza schedule</h1>
+<img src="influenza.svg" alt="Influenza transition graph">
+<h2>Vaccine groups</h2><table><thead><tr><th>Name</th><th>CVX IDs</th></tr></thead><tbody>
+<tr><td>Flu</td><td>111, 15, 88, 140, 141, 135, 158, 161, 149, 144, 166, 168, 171, 151, 185, 186, 155, 153</td></tr>
+<tr><td>Nasal</td><td>111, 149</td></tr>
+<tr><td>Live</td><td>111, 125, 161, 149, 151</td></tr>
+<tr><td>H1N1</td><td>128, 125, 126, 127</td></tr>
+<tr><td>Season Start</td><td>-503</td></tr>
+</tbody></table><h2>Schedule nodes</h2><table><thead><tr><th>Node</th><th>Dose</th><th>Label</th><th>Timing</th><th>Transitions</th></tr></thead><tbody>
+<tr><td>P1</td><td>1</td><td>season</td><td>valid=6 months; 4 weeks | early=;  | due=6 months;  | overdue=150 years;  | finished=150 years; </td><td>Nasal -&gt; INVALID | Flu -&gt; P1 | H1N1 -&gt; P1 | Season Start -&gt; S1</td></tr>
+<tr><td>S1</td><td>1</td><td>current season</td><td>valid=6 months; 4 weeks | early=;  | due=6 months;  | overdue=150 years;  | finished=150 years; </td><td>Nasal -&gt; INVALID | Flu -&gt; DL FLU 2015</td></tr>
+<tr><td>S2</td><td>2</td><td>2nd seasonal</td><td>valid=; 4 weeks | early=;  | due=; 1 month | overdue=; 2 months | finished=150 years; </td><td>Nasal -&gt; INVALID | Flu -&gt; COMPLETE</td></tr>
+</tbody></table><h2>Decision logic</h2><ul><li>DL FLU 2015</li></ul></body></html>

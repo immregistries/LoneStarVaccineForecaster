@@ -1,0 +1,109 @@
+<forecast seriesName="Influenza">
+    
+  <vaccine vaccineIds="111, 15, 88, 140, 141, 135, 158, 161, 149, 144, 166, 168, 171, 151, 185, 186, 155, 153" vaccineName="Flu"/>
+    
+  <vaccine vaccineIds="111, 149" vaccineName="Nasal"/>
+    
+  <vaccine vaccineIds="111, 125, 161, 149, 151" vaccineName="Live"/>
+    
+  <vaccine vaccineIds="128, 125, 126, 127" vaccineName="H1N1"/>
+    
+  <vaccine vaccineIds="-503" vaccineName="Season Start"/>
+    
+  <seasonal due="1 month" end="6 months" overdue="5 months"/>
+    
+  <transition age="" name="Influenza injectable MDCK quadrivalent" vaccineId=""/>
+    
+  <schedule dose="1" indication="BIRTH" label="season" scheduleName="P1">
+        
+    <pos column="1" row="1"/>
+        
+    <valid age="6 months" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="6 months" grace="" interval=""/>
+        
+    <overdue age="150 years" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <contraindicate afterInterval="4 weeks" against="Nasal" age="" allowed="Influenza IIV" contra="Influenza LAIV" reason="" vaccineName="Live"/>
+        
+    <indicate age="2 years" reason="" schedule="INVALID" seasonCompleted="" vaccineName="Nasal"/>
+        
+    <indicate age="" reason="" schedule="P1" seasonCompleted="" vaccineName="Flu"/>
+        
+    <indicate age="" reason="" schedule="P1" seasonCompleted="" vaccineName="H1N1"/>
+        
+    <indicate age="" reason="" schedule="S1" seasonCompleted="" vaccineName="Season Start"/>
+      
+  </schedule>
+    
+  <schedule dose="1" indication="" label="current season" scheduleName="S1">
+        
+    <pos column="3" row="1"/>
+        
+    <valid age="6 months" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="6 months" grace="" interval=""/>
+        
+    <overdue age="150 years" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <contraindicate afterInterval="4 weeks" against="Nasal" age="" allowed="Influenza IIV" contra="Influenza LAIV" reason="" vaccineName="Live"/>
+        
+    <indicate age="2 years" reason="" schedule="INVALID" seasonCompleted="" vaccineName="Nasal"/>
+        
+    <indicate age="" reason="" schedule="DL FLU 2015" seasonCompleted="Yes" vaccineName="Flu"/>
+      
+  </schedule>
+    
+  <decisionLogic name="DL FLU 2015">
+        
+    <constant name="Valid Vaccine" value="Flu"/>
+        
+    <transition name="Second Dose Needed" value="S2"/>
+        
+    <transition name="No More Doses Needed" value="COMPLETE"/>
+      
+  </decisionLogic>
+    
+  <schedule dose="2" indication="" label="2nd seasonal" scheduleName="S2">
+        
+    <pos column="2" row="1"/>
+        
+    <valid age="" grace="" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="" grace="" interval="1 month"/>
+        
+    <overdue age="" grace="" interval="2 months"/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <contraindicate afterInterval="4 weeks" against="Nasal" age="" allowed="Influenza IIV" contra="Influenza LAIV" reason="" vaccineName="Live"/>
+        
+    <indicate age="2 years" minInterval="" reason="" schedule="INVALID" seasonCompleted="" vaccineName="Nasal"/>
+        
+    <indicate age="" minInterval="" reason="" schedule="COMPLETE" seasonCompleted="" vaccineName="Flu"/>
+      
+  </schedule>
+  
+</forecast>

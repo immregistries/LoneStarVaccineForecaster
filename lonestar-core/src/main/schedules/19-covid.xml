@@ -1,0 +1,81 @@
+<forecast seriesName="Covid">
+    
+  <vaccine vaccineIds="208" vaccineName="Pfizer"/>
+    
+  <vaccine vaccineIds="207" vaccineName="Moderna"/>
+    
+  <vaccine vaccineIds="213, 208, 207" vaccineName="Covid"/>
+    
+  <schedule dose="1" indication="BIRTH" label="1st" scheduleName="P1">
+        
+    <pos column="1" row="1"/>
+        
+    <valid age="16 years" grace="4 days" interval=""/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="16 years" grace="" interval=""/>
+        
+    <overdue age="120 years" grace="" interval=""/>
+        
+    <finished age="120 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="18 years" reason="Moderna is not licensed for less than 16 years" schedule="P1" vaccineName="Moderna"/>
+        
+    <indicate age="" reason="" schedule="M2" vaccineName="Moderna"/>
+        
+    <indicate age="" reason="" schedule="P2" vaccineName="Covid"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="2nd" scheduleName="P2">
+        
+    <pos column="2" row="1"/>
+        
+    <valid age="16 years" grace="4 days" interval="21 days"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="" grace="" interval="21 days"/>
+        
+    <overdue age="120 years" grace="" interval=""/>
+        
+    <finished age="120 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="18 years" reason="Moderna is not licenses for less than 16 years" schedule="P2" vaccineName="Moderna"/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Covid"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="2nd Moderna" scheduleName="M2">
+        
+    <pos column="2" row="2"/>
+        
+    <valid age="18 years" grace="4 days" interval="28 days"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="" grace="" interval="28 days"/>
+        
+    <overdue age="120 years" grace="" interval=""/>
+        
+    <finished age="120 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Covid"/>
+      
+  </schedule>
+  
+</forecast>

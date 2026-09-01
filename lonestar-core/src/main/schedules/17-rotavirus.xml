@@ -1,0 +1,107 @@
+<forecast seriesName="Rotavirus">
+    
+  <vaccine vaccineIds="116" vaccineName="RotaTeq"/>
+    
+  <vaccine vaccineIds="119" vaccineName="Rotarix"/>
+    
+  <vaccine vaccineIds="116, 119, 74, 122" vaccineName="Rotavirus"/>
+    
+  <schedule dose="1" indication="BIRTH" label="2 months" scheduleName="P1">
+        
+    <pos column="1" row="1"/>
+        
+    <valid age="6 weeks" grace="4 days" interval=""/>
+        
+    <early age="6 weeks" grace="" interval=""/>
+        
+    <due age="2 months" grace="" interval=""/>
+        
+    <overdue age="3 months" grace="" interval=""/>
+        
+    <finished age="15 weeks" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="8 months" reason="" schedule="R2" vaccineName="Rotarix"/>
+        
+    <indicate age="8 months" reason="" schedule="P2" vaccineName="Rotavirus"/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Rotavirus"/>
+      
+  </schedule>
+    
+  <schedule dose="3" indication="" label="6 months" scheduleName="P3">
+        
+    <pos column="3" row="1"/>
+        
+    <valid age="14 weeks" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="6 months" grace="" interval=""/>
+        
+    <overdue age="7 months" grace="" interval=""/>
+        
+    <finished age="8 months" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Rotavirus"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="4 months" scheduleName="P2">
+        
+    <pos column="2" row="1"/>
+        
+    <valid age="10 weeks" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="4 months" grace="" interval=""/>
+        
+    <overdue age="5 months" grace="" interval=""/>
+        
+    <finished age="8 months" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="8 months" reason="" schedule="P3" vaccineName="Rotavirus"/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Rotavirus"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="4 months" scheduleName="R2">
+        
+    <pos column="2" row="2"/>
+        
+    <valid age="10 weeks" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="4 months" grace="" interval=""/>
+        
+    <overdue age="5 months" grace="" interval=""/>
+        
+    <finished age="8 months" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Rotarix"/>
+        
+    <indicate age="8 months" reason="" schedule="P3" vaccineName="Rotavirus"/>
+        
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="Rotavirus"/>
+      
+  </schedule>
+  
+</forecast>

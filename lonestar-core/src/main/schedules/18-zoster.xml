@@ -1,0 +1,117 @@
+<forecast seriesName="Zoster">
+      
+  <vaccine vaccineIds="121" vaccineName="Live Zoster"/>
+      
+  <vaccine vaccineIds="187" vaccineName="RZV"/>
+      
+  <vaccine vaccineIds="21" vaccineName="Varicella"/>
+      
+  <vaccine vaccineIds="03" vaccineName="Live"/>
+      
+  <schedule dose="1" indication="BIRTH" label="P1 / Start" scheduleName="P1">
+          
+    <pos column="1" row="1"/>
+          
+    <valid age="50 years" grace="32 years 4 days" interval=""/>
+          
+    <early age="" grace="" interval=""/>
+          
+    <due age="50 years" grace="" interval=""/>
+          
+    <overdue age="51 years" grace="" interval=""/>
+          
+    <finished age="120 years" grace="" interval=""/>
+          
+    <after-invalid grace="4 weeks" interval="8 weeks"/>
+          
+    <before-previous interval=""/>
+          
+    <contraindicate afterInterval="8 weeks" age="" grace="8 weeks" reason="" vaccineName="Varicella"/>
+          
+    <contraindicate afterInterval="8 weeks" age="" grace="4 weeks" reason="" vaccineName="Live"/>
+          
+    <indicate age="" reason="" schedule="P1a" vaccineName="Live Zoster"/>
+          
+    <indicate age="" reason="" schedule="P2" vaccineName="RZV"/>
+        
+  </schedule>
+      
+  <schedule dose="2" indication="" label="P2 / 2nd RZV" scheduleName="P2">
+          
+    <pos column="2" row="1"/>
+          
+    <valid age="50 years" grace="4 days" interval="4 weeks"/>
+          
+    <early age="" grace="" interval=""/>
+          
+    <due age="" grace="" interval="8 weeks"/>
+          
+    <overdue age="" grace="" interval="7 months"/>
+          
+    <finished age="120 years" grace="" interval=""/>
+          
+    <after-invalid grace="4 weeks" interval="8 weeks"/>
+          
+    <before-previous interval=""/>
+          
+    <contraindicate afterInterval="8 weeks" age="" grace="8 weeks" reason="" vaccineName="Varicella"/>
+          
+    <indicate age="" reason="" schedule="P2a" vaccineName="Live Zoster"/>
+          
+    <indicate age="" reason="" schedule="COMPLETE" vaccineName="RZV"/>
+        
+  </schedule>
+      
+  <schedule dose="1" indication="" label="P1a / 1st  RZV (post-ZVL)" scheduleName="P1a">
+          
+    <pos column="3" row="1"/>
+          
+    <valid age="50 years" grace="8 weeks" interval="8 weeks"/>
+          
+    <early age="" grace="" interval=""/>
+          
+    <due age="" grace="" interval="5 years"/>
+          
+    <overdue age="" grace="" interval="6 years"/>
+          
+    <finished age="120 years" grace="" interval=""/>
+          
+    <after-invalid grace="" interval=""/>
+          
+    <before-previous interval=""/>
+          
+    <contraindicate afterInterval="8 weeks" age="" grace="8 weeks" reason="" vaccineName="Varicella"/>
+          
+    <indicate age="" reason="" schedule="P1a" vaccineName="Live Zoster"/>
+          
+    <indicate age="" reason="" schedule="P2" vaccineName="RZV"/>
+        
+  </schedule>
+      
+  <schedule dose="2" indication="" label="P2a / 2nd RZV (post-ZVL)" scheduleName="P2a">
+          
+    <pos column="4" row="1"/>
+          
+    <valid age="50 years" grace="" interval="8 weeks" intervalGrace="8 weeks"/>
+          
+    <early age="" grace="" interval=""/>
+          
+    <due age="" grace="" interval="8 weeks"/>
+          
+    <overdue age="" grace="" interval="7 months"/>
+          
+    <finished age="120 years" grace="" interval=""/>
+          
+    <after-invalid grace="" interval=""/>
+          
+    <before-previous interval=""/>
+          
+    <contraindicate afterInterval="8 weeks" age="" grace="8 weeks" reason="" vaccineName="Varicella"/>
+          
+    <indicate age="" reason="" schedule="P2a" vaccineName="Live Zoster"/>
+          
+    <indicate age="" reason="" schedule="Complete" vaccineName="RZV"/>
+        
+  </schedule>
+    
+</forecast>

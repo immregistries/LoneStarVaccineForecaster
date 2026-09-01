@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HepB schedule</title>
+<style>body{font-family:system-ui,sans-serif;margin:2rem;max-width:1100px}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #bbb;padding:.45rem;text-align:left;vertical-align:top}th{background:#e8f0ef}img{max-width:100%;border:1px solid #bbb}code{white-space:pre-wrap}</style></head><body>
+<h1>HepB schedule</h1>
+<img src="hepb.svg" alt="HepB transition graph">
+<h2>Vaccine groups</h2><table><thead><tr><th>Name</th><th>CVX IDs</th></tr></thead><tbody>
+<tr><td>Series</td><td>102,104,43,44,37,37,51,146,45,110,08,42</td></tr>
+<tr><td>Assume Comp</td><td>-137</td></tr>
+</tbody></table><h2>Schedule nodes</h2><table><thead><tr><th>Node</th><th>Dose</th><th>Label</th><th>Timing</th><th>Transitions</th></tr></thead><tbody>
+<tr><td>P1</td><td>1</td><td>birth</td><td>valid=0 days;  | early=;  | due=0 days;  | overdue=4 weeks;  | finished=200 years; </td><td>Series -&gt; P2 | Assume Comp -&gt; COMPLETE</td></tr>
+<tr><td>P2</td><td>2</td><td>1-2 months</td><td>valid=4 weeks; 4 weeks | early=;  | due=4 weeks;  | overdue=3 months;  | finished=200 years; </td><td>Series -&gt; P3 | Assume Comp -&gt; COMPLETE</td></tr>
+<tr><td>P3</td><td>3</td><td>6-18 months</td><td>valid=24 weeks; 8 weeks | early=;  | due=6 months;  | overdue=19 months;  | finished=200 years; </td><td>Series -&gt; COMPLETE | Assume Comp -&gt; COMPLETE</td></tr>
+</tbody></table></body></html>

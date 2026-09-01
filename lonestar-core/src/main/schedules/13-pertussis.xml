@@ -1,0 +1,49 @@
+<forecast seriesName="Pertussis">
+    
+  <vaccine vaccineIds="115" vaccineName="Pertussis"/>
+    
+  <schedule dose="1" indication="BIRTH" label="first" scheduleName="P1">
+        
+    <pos column="1" row="1"/>
+        
+    <valid age="6 weeks" grace="4 days" interval=""/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="2 months" grace="" interval=""/>
+        
+    <overdue age="3 months" grace="" interval=""/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="0 days"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="" schedule="P2" vaccineName="Pertussis"/>
+      
+  </schedule>
+    
+  <schedule dose="P" indication="" label="additional" scheduleName="P2">
+        
+    <pos column="2" row="1"/>
+        
+    <valid age="" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="" grace="" interval="10 years"/>
+        
+    <overdue age="" grace="" interval="11 years"/>
+        
+    <finished age="150 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <indicate age="" reason="" schedule="P2" vaccineName="Pertussis"/>
+      
+  </schedule>
+  
+</forecast>

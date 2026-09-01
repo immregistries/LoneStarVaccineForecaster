@@ -1,0 +1,87 @@
+<forecast seriesName="Mumps">
+    
+  <vaccine vaccineIds="94, 03, 04, 05" vaccineName="Measles"/>
+    
+  <vaccine vaccineIds="94, 03, 04, 07" vaccineName="Mumps"/>
+    
+  <vaccine vaccineIds="94, 03, 04, 06" vaccineName="Rubella"/>
+    
+  <vaccine vaccineIds="94" vaccineName="MMRV"/>
+    
+  <vaccine vaccineIds="04, 05, 06, 21" vaccineName="Same Live"/>
+    
+  <vaccine vaccineIds="111, 149, 37, 80, 18" vaccineName="Other Live"/>
+    
+  <vaccine vaccineIds="-158" vaccineName="Assume Comp"/>
+    
+  <schedule dose="1" indication="BIRTH" label="1 year" scheduleName="P1">
+        
+    <pos column="1" row="1"/>
+        
+    <valid age="1 year" grace="4 days" interval=""/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="12 months" grace="" interval=""/>
+        
+    <overdue age="16 months" grace="" interval=""/>
+        
+    <finished age="50 years" grace="" interval=""/>
+        
+    <after-invalid grace="" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <contraindicate afterInterval="4 weeks" age="" grace="" reason="" vaccineName="Same Live"/>
+        
+    <contraindicate afterInterval="4 weeks" age="" grace="" reason="" vaccineName="Other Live"/>
+        
+    <indicate age="13 years" reason="" schedule="P2" vaccineName="MMRV"/>
+        
+    <indicate age="" reason="MMRV should not be administered to persons 13 years of age or older." schedule="P2" vaccineName="MMRV"/>
+        
+    <indicate age="" reason="" schedule="P2" vaccineName="Mumps"/>
+        
+    <indicate age="" reason="Assuming adult received full MMR series as a child." schedule="COMPLETE" vaccineName="Assume Comp"/>
+      
+  </schedule>
+    
+  <schedule dose="2" indication="" label="4-6 years" scheduleName="P2">
+        
+    <pos column="2" row="1"/>
+        
+    <valid age="13 months" grace="4 days" interval="4 weeks"/>
+        
+    <early age="" grace="" interval=""/>
+        
+    <due age="4 years" grace="" interval=""/>
+        
+    <overdue age="7 years" grace="" interval=""/>
+        
+    <finished age="50 years" grace="" interval=""/>
+        
+    <after-invalid grace="4 days" interval="4 weeks"/>
+        
+    <before-previous interval=""/>
+        
+    <contraindicate afterInterval="4 weeks" age="" grace="" reason="" vaccineName="Same Live"/>
+        
+    <contraindicate afterInterval="4 weeks" age="" grace="" reason="" vaccineName="Other Live"/>
+        
+    <indicate age="13 years" minInterval="4 weeks" previousVaccineName="MMRV" reason="" schedule="COMPLETE" vaccineName="MMRV"/>
+        
+    <indicate age="" minInterval="4 weeks" previousVaccineName="MMRV" reason="MMRV should not be administered to persons 13 years of age or older." schedule="COMPLETE" vaccineName="MMRV"/>
+        
+    <indicate age="" minInterval="" previousVaccineName="MMRV" reason="MMRV must be administered no sooner than 4 weeks after previous MMRV." schedule="INVALID" vaccineName="MMRV"/>
+        
+    <indicate age="13 years" minInterval="" previousVaccineName="" reason="" schedule="COMPLETE" vaccineName="MMRV"/>
+        
+    <indicate age="" minInterval="" previousVaccineName="" reason="MMRV should not be administered to persons 13 years of age or older." schedule="COMPLETE" vaccineName="MMRV"/>
+        
+    <indicate age="" minInterval="" previousVaccineName="" reason="" schedule="COMPLETE" vaccineName="Mumps"/>
+        
+    <indicate age="" minInterval="" previousVaccineName="" reason="Assuming adult received full MMR series as a child." schedule="COMPLETE" vaccineName="Assume Comp"/>
+      
+  </schedule>
+  
+</forecast>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Varicella schedule</title>
+<style>body{font-family:system-ui,sans-serif;margin:2rem;max-width:1100px}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #bbb;padding:.45rem;text-align:left;vertical-align:top}th{background:#e8f0ef}img{max-width:100%;border:1px solid #bbb}code{white-space:pre-wrap}</style></head><body>
+<h1>Varicella schedule</h1>
+<img src="varicella.svg" alt="Varicella transition graph">
+<h2>Vaccine groups</h2><table><thead><tr><th>Name</th><th>CVX IDs</th></tr></thead><tbody>
+<tr><td>Single</td><td>21</td></tr>
+<tr><td>MMRV</td><td>94</td></tr>
+<tr><td>Same Live</td><td>04, 05, 05, 07, 06, 38, 111, 149, 37, 80, 02</td></tr>
+<tr><td>Other Live</td><td>18</td></tr>
+<tr><td>Assume Comp</td><td>-178</td></tr>
+</tbody></table><h2>Schedule nodes</h2><table><thead><tr><th>Node</th><th>Dose</th><th>Label</th><th>Timing</th><th>Transitions</th></tr></thead><tbody>
+<tr><td>P1</td><td>1</td><td>1 year</td><td>valid=12 months;  | early=;  | due=12 months;  | overdue=16 months;  | finished=19 years; </td><td>Single -&gt; P2 | Single -&gt; A2 | MMRV -&gt; P2 | MMRV -&gt; A2 | Assume Comp -&gt; COMPLETE</td></tr>
+<tr><td>P2</td><td>2</td><td>4 years</td><td>valid=; 12 weeks | early=;  | due=4 years;  | overdue=7 years;  | finished=65 years; </td><td>Single -&gt; COMPLETE | MMRV -&gt; COMPLETE | MMRV -&gt; COMPLETE | Assume Comp -&gt; COMPLETE</td></tr>
+<tr><td>A2</td><td>2</td><td>13 years +</td><td>valid=; 4 weeks | early=;  | due=13 years;  | overdue=13 years;  | finished=65 years; </td><td>Single -&gt; COMPLETE | MMRV -&gt; COMPLETE | Assume Comp -&gt; COMPLETE</td></tr>
+</tbody></table></body></html>
