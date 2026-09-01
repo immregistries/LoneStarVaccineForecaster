@@ -8,6 +8,36 @@ Before comparing LoneStar schedules to a new CDSi release, refresh the external 
 - Update `lonestar-core/src/main/resources/Compiled.xml` from the current source project that maintains the complete CVX/code mapping resource.
 - Confirm both inputs are current before running the CDSi-to-LoneStar comparison tooling or FITS regression suite. Schedule XML changes should be judged against current CDSi logic and current CVX/code resources together.
 
+## Refreshing Compiled.xml
+
+`Compiled.xml` should be refreshed as a deliberate release-prep step, not downloaded silently during every Maven build. It is a large reference artifact, and normal builds should remain offline and reproducible from checked-in files.
+
+Manual refresh command:
+
+```powershell
+Invoke-WebRequest `
+  -Uri https://raw.githubusercontent.com/immregistries/codebase/master/base/Compiled.xml `
+  -OutFile lonestar-core\src\main\resources\Compiled.xml
+```
+
+After downloading, run:
+
+```powershell
+[xml](Get-Content -LiteralPath lonestar-core\src\main\resources\Compiled.xml -Raw) | Out-Null
+mvn -pl lonestar-core test
+git diff --stat -- lonestar-core\src\main\resources\Compiled.xml
+```
+
+Commit the updated resource only after the XML parses and core tests pass. Upstream whitespace in this copied artifact should be left intact unless the source project changes its formatting.
+
+Recommended future automation:
+
+- Add a `lonestar-test-support` command such as `CodebaseRefreshTool`.
+- Have it download the raw GitHub file to a temporary path, parse it as XML, compare it to the checked-in copy, and print a summary.
+- Support `--check-only` for release readiness checks and `--update` for writing `lonestar-core/src/main/resources/Compiled.xml`.
+- Have `--check-only` fail when GitHub has a newer/different file, so release preparation can catch stale code maps without making ordinary Maven builds network-dependent.
+- Keep the final commit human-reviewed because CVX/code changes can affect forecast interpretation even when schedule XML does not change.
+
 Run the following from the repository root after changing a series file:
 
 ```powershell

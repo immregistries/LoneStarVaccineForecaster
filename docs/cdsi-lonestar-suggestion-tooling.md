@@ -18,6 +18,8 @@ The expected maintenance flow is:
 6. Regenerate `ForecastSchedule.xml`, HTML, and SVG schedule views.
 7. Run FITS and core regression tests.
 
+`Compiled.xml` should be refreshed by a release-prep command, not by normal Maven test/package execution. Ordinary builds should use the checked-in copy so the project remains reproducible offline.
+
 ## Reference Inputs
 
 The comparison tool should treat these as explicit inputs:
@@ -136,6 +138,7 @@ The first mapping can be incomplete. Incomplete mappings are still useful becaus
 
 Recommended classes in `lonestar-test-support`:
 
+- `CodebaseRefreshTool`: checks or updates `Compiled.xml` from `https://raw.githubusercontent.com/immregistries/codebase/master/base/Compiled.xml`.
 - `CdsiSuggestionTool`: command-line entry point.
 - `CdsiReferenceLoader`: reads normalized CDSi JSON and release diff JSON.
 - `LoneStarScheduleSnapshot`: normalized view of LoneStar per-series XML.
@@ -148,6 +151,8 @@ The first command can look like:
 
 ```powershell
 mvn -pl lonestar-test-support -am compile
+java -cp lonestar-test-support/target/classes org.immregistries.lonestar.codebase.CodebaseRefreshTool --check-only
+java -cp lonestar-test-support/target/classes org.immregistries.lonestar.codebase.CodebaseRefreshTool --update
 java -cp lonestar-test-support/target/classes org.immregistries.lonestar.cdsi.CdsiSuggestionTool `
   --cdsi-reference C:\dev\cdsi\StepIntoCDSI\cdsi-reference `
   --from 4.64 `
