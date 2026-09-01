@@ -3,10 +3,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.immregistries</groupId>
-	<artifactId>lonestar</artifactId>
-	<version>4.4.2</version>
-	<packaging>war</packaging>
-	<name>Lone Star Vaccine Forecaster</name>
+	<artifactId>lonestar-parent</artifactId>
+	<version>5.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Lone Star Vaccine Forecaster Parent</name>
+	<modules>
+		<module>lonestar-core</module>
+		<module>lonestar-test-support</module>
+		<module>lonestar-web</module>
+	</modules>
 	<properties>
 		<hapi.version>5.0.0</hapi.version>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -15,6 +20,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<junit.jupiter.version>5.10.2</junit.jupiter.version>
 	</properties>
+	<dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -75,7 +81,9 @@
 		</dependency>
 
 	</dependencies>
+	</dependencyManagement>
 	<build>
+		<pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -109,22 +117,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.3.0</version>
-				<executions>
-					<execution>
-						<id>make-a-jar-package</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<classifier>client</classifier>
-							<includes>
-								<include>**</include>
-							</includes>
-						</configuration>
-					</execution>
-
-				</executions>
 			</plugin>
 
 			<!-- Rename the WAR file -->
@@ -181,5 +173,6 @@
 
 			<!-- Wait for 10 seconds -->
 		</plugins>
+		</pluginManagement>
 	</build>
 </project>
