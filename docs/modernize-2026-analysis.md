@@ -37,15 +37,21 @@ The current Maven module mixes three roles:
 Recommended target structure:
 
 - `lonestar-parent`: aggregator POM and shared plugin/dependency management.
-- `lonestar-core`: JAR. Contains forecasting model, schedule parser, decision logic, schedule XML resources, code maps, and public Java API.
-- `lonestar-test-support`: JAR. Contains CDC/NIST FITS fixture models, fixture loader/downloader, LoneStar engine adapter, result comparison utilities, and reusable test assertions.
-- `lonestar-web`: WAR. Contains servlets, web assets, FHIR endpoint integration, and depends on `lonestar-core`.
+- `lonestar-core`: deployable/embeddable JAR. Contains forecasting model, schedule parser, decision logic, schedule XML resources, code maps, and public Java API.
+- `lonestar-test-support`: non-deployed test-support JAR. Contains CDC/NIST FITS fixture models, fixture loader/downloader, LoneStar engine adapter, result comparison utilities, and reusable test assertions. This module exists so agents and maintainers can edit schedule XML, run FITS tests, and see whether the changes improve or regress behavior.
+- `lonestar-web`: deployable WAR. Contains testing access, classic forecast endpoints, FHIR endpoint integration, static/generated schedule views, and depends on `lonestar-core`.
+
+Only two artifacts are intended for real downstream use: the core JAR and the web WAR. The test-support JAR is useful as a Maven artifact inside this repository, but it is not intended to be published or deployed as an integration dependency.
 
 Likely package moves:
 
 - Keep `org.immregistries.lonestar.core`, `.core.logic`, `.core.decisionLogic`, `.core.model`, and `.core.api` in `lonestar-core`.
 - Move `ForecastServlet`, `StepServlet`, `ListCodesServlet`, `CaretServlet`, `FhirServlet`, `FhirTestServlet`, `ForecastManagerSingleton`, and `org.immregistries.lonestar.fhir` to `lonestar-web`.
-- Review `org.immregistries.lonestar.core.server`: `ForecastReportPrinter` may be shared by web and CLI/testing, while `ForecastServer`, `ForecastRunner`, `ForecastHandler`, `CaretForecaster`, and `CaretForecasterTester` look more like tooling/test-support candidates.
+- Review `org.immregistries.lonestar.core.server`: there are no current external integrations, so these classes can be reshaped. Preserve useful behavior, but move socket/CLI/testing/reporting classes to the module where they naturally belong.
+
+Compatibility note:
+
+- Existing artifact coordinates and classifier names can change. This project has not been maintained for about a decade and is not currently in production use, so the modernization should optimize for the ideal future layout rather than preserving legacy coordinates.
 
 ## Schedule Source Modernization
 
@@ -67,11 +73,11 @@ The XML already contains enough structural information to be a better source of 
 Recommended target schedule pipeline:
 
 - Treat XML as definitive source.
-- Split the monolithic `ForecastSchedule.xml` into per-antigen XML source files under a source directory such as `lonestar-core/src/main/schedules/`.
-- Add a build-time assembler that validates and combines per-antigen schedule files into the bundled `ForecastSchedule.xml`.
+- Split the monolithic `ForecastSchedule.xml` into per-series XML source files under a source directory such as `lonestar-core/src/main/schedules/`. These should match the current Excel/PDF/PNG series assets one-for-one.
+- Add a build-time assembler that validates and combines per-series schedule files into the bundled `ForecastSchedule.xml`.
 - Add a renderer that reads the same schedule model and produces viewable artifacts:
-  - HTML is the best first target because it is searchable, accessible, diffable, and can be hosted directly in the web app.
-  - SVG can be added after HTML if fixed-layout diagrams are still needed.
+  - HTML is required as the replacement for served PDF/PNG schedule views.
+  - SVG is desirable for the high-level transition graphic at the top of each HTML page, but this is the most design-sensitive piece. The first version should support attaching or preserving curated images while the generated graph renderer matures.
 - Add validation gates:
   - XML schema or model validation.
   - Schedule graph validation: all `indicate/@schedule` targets either exist or are terminal states (`COMPLETE`, `INVALID`, `CONTRA`, `FINISHED`).
@@ -80,9 +86,14 @@ Recommended target schedule pipeline:
 
 Suggested generated output:
 
-- `lonestar-core/src/main/resources/ForecastSchedule.xml`: generated combined runtime schedule.
-- `lonestar-web/src/main/webapp/schedules/*.html`: generated human-readable schedule views.
-- Optional `lonestar-web/src/main/webapp/schedules/*.svg`: generated diagram assets if HTML is not sufficient.
+- `lonestar-core/src/main/resources/ForecastSchedule.xml`: generated combined runtime schedule. Keeping this single file is desirable because it is a compact, self-contained way to configure one complete forecaster behavior, and it leaves room for multiple complete schedule versions later.
+- `lonestar-web/src/main/webapp/schedules/*.html`: generated human-readable schedule views available at runtime.
+- Optional `lonestar-web/src/main/webapp/schedules/*.svg`: generated or curated transition graphics used by the HTML views.
+- Archived Excel files should remain in source control for a while in case they are needed to regenerate or verify XML, but they should be moved out of the served webapp path.
+
+Open design point:
+
+- The transition diagram may require a hybrid approach. A generated SVG can provide a good baseline from schedule graph data, but some schedules may still need hand-curated layout hints or attached images because the existing diagrams encode human judgment about how to explain the schedule.
 
 ## FITS Testing Direction
 
@@ -97,7 +108,7 @@ The StepIntoCDSI `cdsi-fits-tests` project uses a strong pattern worth copying:
 Recommended LoneStar version:
 
 - Put fixture model, JSON loader, CVX equivalence, date parsing, NIST download tooling, and comparison helpers in `lonestar-test-support`.
-- Put actual regression tests in a test module or in `lonestar-core/src/test`, depending on how large the fixture set becomes.
+- Put actual regression tests where they can be run by a normal Maven build, likely in `lonestar-test-support` or a dedicated test module that depends on `lonestar-core`.
 - Write a LoneStar adapter that maps FITS patient, sex, assessment date, vaccination CVX/MVX/date, and dose condition into:
   - `PatientRecordDataBean`
   - `Immunization`
@@ -108,8 +119,10 @@ Recommended LoneStar version:
   - series status
   - earliest/valid date
   - due/recommended date
-  - optional overdue and evaluation status if FITS exposes enough expected data.
-- Start with a small fixture subset, then expand to the full CDC suite once status/date mappings are agreed.
+  - evaluation status and invalid-dose assessment where FITS exposes enough expected data.
+- Support refreshing fixtures from a live NIST FITS account, then checking the frozen JSON into the project for repeatable work over several days.
+- Use best-effort status/date mapping initially. Failures from the first real suite run should inform whether mappings need refinement or whether LoneStar statuses should evolve to better match CDC/NIST expectations.
+- Start with a small fixture subset only to validate the harness, then move quickly to a refreshed NIST fixture set checked into the project.
 
 Important gap:
 
@@ -137,7 +150,13 @@ Recommended migration path:
 6. Update `web.xml` to a Jakarta-compatible descriptor, or move to annotation-based servlet registration if preferred.
 7. Update HAPI FHIR to a Jakarta-compatible version and verify the FHIR endpoint separately from the basic forecast servlet.
 8. Replace Log4j 1.x.
-9. Verify deploy on Tomcat 10.1 or later with a simple `/forecast` request and FHIR operation smoke test.
+9. Verify deploy on the local Tomcat 10.1 installation at `C:\Program Files\Apache Software Foundation\Tomcat 10.1` with a simple `/forecast` request and FHIR operation smoke test.
+
+Scope decision:
+
+- The modernization should be Maven-build focused first. No CI environment is assumed for the first pass.
+- Module split should happen before the Java 17/Tomcat 10 upgrade.
+- FHIR should migrate as part of the Tomcat 10 pass, not be deferred past the first complete modernization.
 
 ## Proposed Phased Plan
 
@@ -154,23 +173,25 @@ Phase 1: Split Maven modules
 - Create `lonestar-core`, `lonestar-test-support`, and `lonestar-web`.
 - Move Java sources/resources into modules with package names initially unchanged.
 - Make `lonestar-web` depend on `lonestar-core`.
-- Ensure `mvn test` and `mvn package` produce a core JAR and web WAR.
+- Ensure `mvn test` and `mvn package` produce the two real deployable artifacts: a core JAR and web WAR. The test-support JAR can be built as an internal module artifact.
 
 Phase 2: XML source pipeline
 
 - Define `src/main/schedules` source layout.
 - Create schedule assembler and validator.
-- Move each `<forecast>` section into per-antigen files.
+- Move each `<forecast>` section into per-series files.
 - Generate combined runtime `ForecastSchedule.xml`.
-- Generate HTML schedule views from the same parsed model.
-- Remove generated Excel/PDF/PNG from the authoritative path after stakeholders accept the HTML/SVG output.
+- Generate HTML schedule views from the same parsed model and serve them from the web app.
+- Generate or attach transition graphics at the top of each series page.
+- Move Excel files to an archive location and stop serving them from the app after the XML source workflow is stable.
 
 Phase 3: FITS testing
 
 - Port the StepIntoCDSI fixture model/loader/downloader pattern.
 - Write LoneStar-specific FITS adapter and comparison layer.
-- Add a small committed sample fixture set.
-- Add full CDC fixture runs once expected status/date mappings are confirmed.
+- Add a fixture refresh process that downloads a fresh FITS set from NIST and writes deterministic JSON fixtures.
+- Check downloaded fixtures into the project so schedule work can run against a stable set for several days.
+- Compare recommendations and evaluations, using best-effort mapping first.
 - Produce a failure report that groups mismatches by antigen/test UID.
 
 Phase 4: Java 17/Tomcat 10
@@ -179,25 +200,35 @@ Phase 4: Java 17/Tomcat 10
 - Move servlet dependencies and imports to Jakarta.
 - Update web descriptor and HAPI FHIR.
 - Replace Log4j 1.x.
-- Run core tests, FITS tests, package build, and Tomcat 10 smoke tests.
+- Run core tests, FITS tests, package build, and Tomcat 10.1 smoke tests including FHIR.
 
-## Clarifying Questions
+## Resolved Decisions
 
-1. Should the final published artifacts be exactly three deployable Maven artifacts (`core` JAR, `test-support` JAR, `web` WAR), or should there also be a parent-only aggregator and possibly a separate CLI/tool module?
-2. Is `org.immregistries.lonestar.core.server` still used by any external integration, or can its socket/CLI/reporting pieces move freely into test support or tools?
-3. Do downstream users currently depend on the attached `lonestar-*-client.jar` classifier artifact name, or can artifact coordinates change as part of modernization?
-4. Should `ForecastSchedule.xml` remain a generated checked-in file for review, or should it be generated only during the build from per-antigen XML sources?
-5. Do you want the XML split by antigen only, or also split shared concepts such as CVX groups, transitions, and decision logic?
-6. Is HTML acceptable as the first schedule viewer target, with SVG added later only where diagrams are needed?
-7. Should generated schedule views live in the WAR as static files, in `docs`, or both?
-8. Are the Excel/PDF/PNG files allowed to be removed from source control after the XML renderer is validated, or should they remain as archived historical references?
-9. Which CDC/NIST FITS fixture set should LoneStar target first: a small curated subset, all fixtures currently frozen in StepIntoCDSI, or a freshly downloaded set from NIST?
-10. How should LoneStar statuses map to FITS statuses when LoneStar has concepts like valid/due/overdue/finished, sub-potent, forced valid, assumptions, and contraindications?
-11. Do FITS results need to compare only recommendation dates/statuses, or should evaluation status and invalid-dose reasons also be enforced?
-12. Should Java 17/Tomcat 10 be done after the module split, or is servlet container compatibility the immediate priority?
-13. Which Tomcat 10 line should be targeted: Tomcat 10.1.x, or a locally installed version you already use?
-14. Should FHIR support stay in the first Tomcat 10 migration, or can basic forecast endpoints move first and FHIR follow in a separate compatibility pass?
-15. Is there a CI environment to update, or should the first modernization target be local Maven builds only?
+- The real deployable artifacts are a core embeddable JAR and a web WAR.
+- `lonestar-test-support` may build a JAR, but it is for internal schedule development and test execution, not external deployment.
+- There are no current external integrations to preserve, so package layout, artifact coordinates, and helper APIs can change.
+- Keep a generated combined `ForecastSchedule.xml` as the complete runtime schedule bundle.
+- Split schedule XML by series, matching the existing Excel/PDF/PNG series assets.
+- HTML is required as the schedule view replacement and should be served by the runtime app.
+- Transition graphics are desired at the top of the HTML schedule pages, with generated SVG preferred if practical and curated/attached images acceptable where needed.
+- Excel files should be retained temporarily, likely in an archive folder, but no longer served from the web app.
+- FITS fixtures should be refreshable from NIST and then checked in for stable repeatable testing during schedule work.
+- FITS comparison should include both recommendations and evaluations.
+- Use best-effort FITS status mapping first, then improve mappings or LoneStar statuses based on observed failures.
+- Do the Maven module split before the Java 17/Tomcat 10 upgrade.
+- Target the local Tomcat 10.1 install at `C:\Program Files\Apache Software Foundation\Tomcat 10.1`.
+- Migrate FHIR as part of the Tomcat 10 modernization.
+- First modernization target is local Maven builds, not CI.
+
+## Remaining Questions
+
+1. Should the generated combined `ForecastSchedule.xml` be checked into source control, or generated only into `target/classes` during the build?
+2. Should the per-series XML files wrap each `<forecast>` in a small metadata envelope, or should each source file contain exactly one raw `<forecast seriesName="...">` element?
+3. Where should archived Excel files live: `docs/archive/schedules`, `schedule-archive`, or another non-webapp location?
+4. Should generated HTML/SVG schedule views be checked into source control, generated only into the WAR, or both?
+5. For transition graphics, should the first pass implement generated SVG with optional manual layout hints, or preserve/attach existing PNGs while generating the rest of the HTML view?
+6. Should the FITS fixture downloader live in `lonestar-test-support` as a main-class tool, or in a separate `lonestar-tools` module to keep test-support focused on offline execution?
+7. Should the legacy socket/CLI behavior be preserved as a supported local tool, or is it enough to preserve equivalent functionality through Maven test/tool entry points?
 
 ## Initial Recommendation
 
