@@ -18,9 +18,18 @@ public final class FitsFixtures {
         if (resource == null || !"file".equals(resource.getProtocol())) {
             return Collections.emptyList();
         }
+        return loadAll(Paths.get(resource.toURI()));
+    }
+
+    public static List<FitsTestCase> loadAll(Path directory) throws Exception {
+        if (!Files.isDirectory(directory)) {
+            return Collections.emptyList();
+        }
         List<Path> files = new ArrayList<Path>();
-        try (java.util.stream.Stream<Path> paths = Files.walk(Paths.get(resource.toURI()))) {
-            paths.filter(path -> path.toString().endsWith(".json")).forEach(files::add);
+        try (java.util.stream.Stream<Path> paths = Files.walk(directory)) {
+            paths.filter(path -> path.toString().endsWith(".json"))
+                    .filter(path -> !"pass-baseline.json".equals(path.getFileName().toString()))
+                    .forEach(files::add);
         }
         Collections.sort(files);
         Gson gson = new Gson();

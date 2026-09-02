@@ -1,0 +1,52 @@
+{
+  "mappings": [
+    {
+      "cdsiAntigen": "HepA",
+      "cdsiSeries": "HepA 2-dose series",
+      "loneStarSeries": "HepA",
+      "scheduleFile": "08-hepa.xml",
+      "doses": { "Dose 1": "P1", "Dose 2": "P2" },
+      "notes": "Default pediatric healthy-patient path only."
+    },
+    {
+      "cdsiAntigen": "HepB",
+      "cdsiSeries": "HepB 3-dose series",
+      "loneStarSeries": "HepB",
+      "scheduleFile": "07-hepb.xml",
+      "doses": { "Dose 1": "P1", "Dose 2": "P2", "Dose 3": "P3" },
+      "notes": "Default healthy-patient path only."
+    },
+    {
+      "cdsiAntigen": "HPV",
+      "cdsiSeries": "HPV 2-dose series",
+      "loneStarSeries": "HPV",
+      "scheduleFile": "06-hpv.xml",
+      "doses": { "Dose 1": "P1", "Dose 2": "P2" },
+      "notes": "Default healthy-patient path only."
+    },
+    {
+      "cdsiAntigen": "HPV",
+      "cdsiSeries": "HPV 3-dose series",
+      "loneStarSeries": "HPV",
+      "scheduleFile": "06-hpv.xml",
+      "doses": { "Dose 1": "P1", "Dose 2": "P2", "Dose 3": "P3" },
+      "notes": "Default healthy-patient path only."
+    },
+    {
+      "cdsiAntigen": "Polio",
+      "cdsiSeries": "Polio 4-dose series",
+      "loneStarSeries": "Polio",
+      "scheduleFile": "16-polio.xml",
+      "doses": { "Dose 1": "P1", "Dose 2": "P2", "Dose 3": "P3", "Dose 4": "P4" },
+      "notes": "Default healthy-patient path only."
+    },
+    {
+      "cdsiAntigen": "Rotavirus",
+      "cdsiSeries": "Rotavirus 3-dose series",
+      "loneStarSeries": "Rotavirus",
+      "scheduleFile": "17-rotavirus.xml",
+      "doses": { "Dose 1": "P1", "Dose 2": "P2", "Dose 3": "P3" },
+      "notes": "Default healthy-patient path only."
+    }
+  ]
+}
